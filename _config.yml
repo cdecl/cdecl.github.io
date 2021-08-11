@@ -14,7 +14,7 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 title: cdeclog
-email:
+email: cdeclare@gmail.com
 description: 
 github_username: cdecl
 minimal_mistakes_skin: dark
