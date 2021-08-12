@@ -36,13 +36,13 @@ target_compile_options(main PRIVATE -Wall -O2)
 
 ### Windows 
 
-```cmd
+```sh
 $ mkdir build && cd build 
 
-REM Generate
+# Generate
 $ cmake -G "Visual Studio 16 2019" -A x64 ..
 
-REM Build 
+# Build 
 $ cmake --build . --config Release
 ```
 
@@ -50,16 +50,16 @@ $ cmake --build . --config Release
 - `choco install winlibs -y`
   - mingw 패키지에 비해 버전 및 안정성 좋음
 
-```cmd
+```sh
 $ mkdir build && cd build 
 
-REM Generate
+# Generate
 $ cmake -G "MSYS Makefiles" ..
 
-REM Build 1
+# Build  1
 $ cmake --build .
 
-REM Build 2
+# Build  2
 $ make
 ```
 
