@@ -1,6 +1,9 @@
 ---
 title: Github Actions 101
 
+toc: true
+toc_sticky: true
+
 categories:
   - devops
 tags:

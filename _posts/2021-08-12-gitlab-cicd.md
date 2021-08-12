@@ -1,6 +1,9 @@
 ---
 title: Gitlab CI/CD
 
+toc: true
+toc_sticky: true
+
 categories:
   - devops
 tags:
