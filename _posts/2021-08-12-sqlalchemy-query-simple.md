@@ -15,9 +15,10 @@ tags:
 
 Flask 에서 SQLAlchemy 사용시 Query 팁 
 
-## Configure 
+## 설정
 
 ### Connection
+기본 DBMS 연결 정보 
 
 ```py
 # MySQL
@@ -27,7 +28,7 @@ db.init_app(app)
 ```
 
 ### Bind 추가 
-추가적인 DB 정보 추가 
+기본 DBMS 이외, 추가적인 DB 정보 추가 
 
 ```py
 app.config['SQLALCHEMY_BINDS'] = { 
@@ -46,7 +47,7 @@ class Network(db.Model):
 ```
 
 ### AlchemyEncoder
-SQLAlchemy Json Encoder
+SQLAlchemy JSON Encoder
 
 ```py
 class AlchemyEncoder(json.JSONEncoder):
@@ -82,10 +83,10 @@ def api_network():
 ### DB Model Generate
 
 ```sh
-# All
+# 해당 DB 전체 Table 대상 
 $ ./venv/bin/flask-sqlacodegen 'mysql+pymysql://user:passwd@address2:3306/db_name' --flask
 
-# 테이블 지정
+# 해당 DB 테이블 지정
 $ ./venv/bin/flask-sqlacodegen 'mysql+pymysql://user:passwd@address2:3306/db_name' --flask --table network,other_table
 ```
 
