@@ -95,8 +95,8 @@ naver_site_verification  :
 analytics:
   provider               : "google"   # false (default), "google", "google-universal", "google-gtag", "custom"
   google:
-    tracking_id          : "G-RZQV08ES82"
-    anonymize_ip         : # true, false (default)
+    tracking_id          : "G-V4PNHJ2YTF"
+    anonymize_ip         : false # true, false (default)
 
 
 # Site Author
