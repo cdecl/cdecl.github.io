@@ -2,7 +2,7 @@
 title: Github Actions 101
 
 categories:
-  - blog
+  - devops
 tags:
   - github
   - workflow

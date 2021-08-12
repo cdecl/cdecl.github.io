@@ -2,7 +2,7 @@
 title: Gitlab CI/CD
 
 categories:
-  - blog
+  - devops
 tags:
   - gitlab
   - workflow
