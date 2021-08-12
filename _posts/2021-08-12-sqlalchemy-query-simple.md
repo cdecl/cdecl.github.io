@@ -21,7 +21,7 @@ Flask 에서 SQLAlchemy 사용시 Query 팁
 
 ```py
 # MySQL
-app.config['SQLALCHEMY_DATABASE_URI'] = r'mysql+pymysql://user:{0}@dbms_address:3306/db_name?charset=UTF8MB4'.format(os.getenv("DB_PASSWORD"))
+app.config['SQLALCHEMY_DATABASE_URI'] = r'mysql+pymysql://user:passwd@address:3306/db_name?charset=UTF8MB4'
 db = SQLAlchemy()
 db.init_app(app)
 ```
@@ -31,8 +31,8 @@ db.init_app(app)
 
 ```py
 app.config['SQLALCHEMY_BINDS'] = { 
-    'dbms1': r'mysql+pymysql://user:{0}@dbms_address1:3306/db_name?charset=UTF8MB4'.format(os.getenv("DB_PASSWORD")),
-    'dbms2': r'mysql+pymysql://user:{0}@dbms_address2:3306/db_name?charset=UTF8MB4'.format(os.getenv("DB_PASSWORD"))
+    'dbms1': r'mysql+pymysql://user:passwd@address1:3306/db_name?charset=UTF8MB4',
+    'dbms2': r'mysql+pymysql://user:passwd@address2:3306/db_name?charset=UTF8MB4'
 }
 
 # Model Example
@@ -77,6 +77,16 @@ class AlchemyEncoder(json.JSONEncoder):
 def api_network():
     cur = db.session.query(Network)
     return json.dumps({ 'data': cur.all() }, cls=AlchemyEncoder)
+```
+
+### DB Model Generate
+
+```sh
+# All
+$ ./venv/bin/flask-sqlacodegen 'mysql+pymysql://user:passwd@address2:3306/db_name' --flask
+
+# 테이블 지정
+$ ./venv/bin/flask-sqlacodegen 'mysql+pymysql://user:passwd@address2:3306/db_name' --flask --table network,other_table
 ```
 
 ## Query Sample 
@@ -124,7 +134,6 @@ cur = db.session.query(Network) \
 
 # Self Join, Table Alias  
 NetworkAlias = aliased(Network)
-
 cur = db.session.query(Network, NetworkAlias) \
         .filter(Network.ip == NetworkAlias.ip, Network.switch == NetworkAlias.switch)
 ```
