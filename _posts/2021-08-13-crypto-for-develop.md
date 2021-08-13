@@ -9,6 +9,9 @@ categories:
 tags:
   - crypto
   - aes
+  - ecb
+  - cbc
+  - pkcs_padding
 ---
 
 
