@@ -1,0 +1,16 @@
+version: "3"
+services:
+  jekyll:
+    image: jekyll/jekyll
+    ports:
+      - 4000:4000
+    command: jekyll serve
+    volumes:
+      - ./:/srv/jekyll
+    environment:
+      - LANG=ko_KR.UTF-8
+      - LANGUAGE=ko_KR
+      - TZ=Asia/Seoul
+      - LC_ALL=ko_KR.UTF-8
+    restart: unless-stopped
+
