@@ -93,10 +93,9 @@ naver_site_verification  :
 
 # Analytics
 analytics:
-  provider               : "google-gtag"   # false (default), "google", "google-universal", "google-gtag", "custom"
+  provider               : "custom"   # false (default), "google", "google-universal", "google-gtag", "custom"
   google:
-    tracking_id          : "UA-71024349-2"
-    measurement_id       : "G-2SCX1SXQRB"
+    tracking_id          : ""
     anonymize_ip         : false # true, false (default)
 
 
