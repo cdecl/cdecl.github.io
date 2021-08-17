@@ -109,5 +109,6 @@ $ mysqlsh --mysqlx user@mysql-server:3360/dbname -p<PASSWD> \
 	--import result_t.json --collection=data_table 
 ```
 
-![](/images/2021-08-17-09-42-43.png)
+![](/images/2021-08-17-09-42-43.png)  
+
 ![](/images/2021-08-17-09-41-38.png)
