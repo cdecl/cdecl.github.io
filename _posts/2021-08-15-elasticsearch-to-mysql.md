@@ -97,6 +97,8 @@ $ cat result_t.json | jq .
 ```
 
 ### MySQL JSON Import `mysql-shell`
+- 테이블내 `doc json` 필드 생성 및 JSON 데이터 Row 단위 적재 
+
 ```sh
 # truncate table
 $ mysqlsh --sql user@mysql-server:3360/dbname -p<PASSWD> \
