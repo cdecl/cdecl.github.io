@@ -9,7 +9,8 @@ categories:
 tags:
   - c++
   - cpprestsdk
-  - vcpck
+  - vcpkg
+  - cmake
 ---
 
 
