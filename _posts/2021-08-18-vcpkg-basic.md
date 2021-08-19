@@ -22,6 +22,7 @@ Vcpkg helps you manage C and C++ libraries on Windows, Linux and MacOS. This too
 
 ### Vcpkg install
 - Git 이 필요하고, bootstrap-vcpkg 실행으로 필요한 툴을 다운로드(빌드)하는 작업을 수행
+  - `vcpkg.exe` 생성 
 
 ```sh
 $ git clone https://github.com/microsoft/vcpkg
@@ -35,17 +36,25 @@ $ ./bootstrap-vcpkg.sh
 ```
 
 ### Package search & install
-- `triplet` : target configuration set
+- `triplet` : Target configuration set
 - 설치시 `triplet` 을 지정하지 않으면 설치되어 있는 기본 C++ Toolset 으로 지정 
-  - Windows의 경우 x86 이 Default
+  - Windows의 경우 `x86-windows` default
 
   
 #### 주요 Triplet list
+- `vcpkg help triplet`
 
-```
+```sh
+$ vcpkg help triplet
+Available architecture triplets
+VCPKG built-in triplets:
+...
   x64-windows-static
   x64-windows
   x86-windows
+...
+VCPKG community triplets:
+...
   x64-windows-static-md
   x86-windows-static-md
   x86-windows-static
@@ -54,19 +63,21 @@ $ ./bootstrap-vcpkg.sh
   x86-mingw-dynamic
   x86-mingw-static  
   x64-linux
-  ...
+...
 ```
 
 #### Search 
+- `vcpkg search` 
 
 ```sh
 # Package search 
 $ vcpkg search fmt
-fmt                      7.1.3#5          Formatting library for C++. It can be used as a safe alternative to printf...
+fmt                      7.1.3#5          Formatting library for C++. ...
 The search result may be outdated. Run `git pull` to get the latest results. 
 ```
 
 #### Install
+- `vcpkg install` 
 - `vcpkg search` 에서 찾은 패키지를 triplet 을 지정하여 설치
 - 설치가 완료되면 프로젝트 CMakeLists.txt 넣을 find_package 문 표시 
 
@@ -75,7 +86,7 @@ The search result may be outdated. Run `git pull` to get the latest results.
 $ vcpkg.exe install fmt:x64-windows-static nlohmann-json:x64-windows-static
 
 # triplet 공통 지정 
-$ vcpkg.exe install fmt nlohmann-json --triplet=x64-mingw-static
+$ vcpkg.exe install fmt nlohmann-json --triplet=x64-windows-static
 ...
 The package fmt provides CMake targets:
 
@@ -92,7 +103,8 @@ The package nlohmann-json:x64-windows-static provides CMake targets:
     target_link_libraries(main PRIVATE nlohmann_json nlohmann_json::nlohmann_json)
 ```
 
-- 설치된 리스트 
+#### 설치된 리스트 
+- `vcpkg list` 
 
 ```sh
 # Package installed list 
@@ -112,6 +124,59 @@ vcpkg-cmake:x64-windows                            2021-07-30
 zlib:x64-mingw-static                              1.2.11#11        A compression library
 zlib:x64-windows-static                            1.2.11#11        A compression library
 ```
+
+### Integrate install
+- `vcpkg integrate install`
+- Windows Visual Studio에서 vcpkg 라이브러리를 별도 설정 없이 바로 사용
+
+```sh
+$ vcpkg integrate install
+Applied user-wide integration for this vcpkg root.
+
+All MSBuild C++ projects can now #include any installed libraries.
+Linking will be handled automatically.
+Installing new libraries will make them instantly available.
+
+CMake projects should use: "-DCMAKE_TOOLCHAIN_FILE=D:/Lib/vcpkg/scripts/buildsystems/vcpkg.cmake"
+```
+
+### vcpkg 명령어 
+
+```sh
+# Vcpkg package management program version 2021-08-12-85ab112d5ee102bc6eac8cdbbfdd173a71374e04
+$ vcpkg help
+Commands:
+  vcpkg search [pat]              Search for packages available to be built
+  vcpkg install <pkg>...          Install a package
+  vcpkg remove <pkg>...           Uninstall a package
+  vcpkg remove --outdated         Uninstall all out-of-date packages
+  vcpkg list                      List installed packages
+  vcpkg update                    Display list of packages for updating
+  vcpkg upgrade                   Rebuild all outdated packages
+  vcpkg x-history <pkg>           (Experimental) Shows the history of CONTROL versions of a package
+  vcpkg hash <file> [alg]         Hash a file by specific algorithm, default SHA512
+  vcpkg help topics               Display the list of help topics
+  vcpkg help <topic>              Display help for a specific topic
+
+  vcpkg integrate install         Make installed packages available user-wide. Requires admin
+                                  privileges on first use
+  vcpkg integrate remove          Remove user-wide integration
+  vcpkg integrate project         Generate a referencing nuget package for individual VS project use
+  vcpkg integrate powershell      Enable PowerShell tab-completion
+
+  vcpkg export <pkg>... [opt]...  Exports a package
+  vcpkg edit <pkg>                Open up a port for editing (uses %EDITOR%, default 'code')
+  vcpkg create <pkg> <url> [archivename]
+                                  Create a new package
+  vcpkg x-init-registry <path>    Initializes a registry in the directory <path>
+  vcpkg owns <pat>                Search for files in installed packages
+  vcpkg depend-info <pkg>...      Display a list of dependencies for packages
+  vcpkg env                       Creates a clean shell environment for development or compiling
+  vcpkg version                   Display version information
+  vcpkg contact                   Display contact information to send feedback
+...
+```
+
 
 ---
 
