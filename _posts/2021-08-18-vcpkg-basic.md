@@ -8,9 +8,9 @@ categories:
   - dev
 tags:
   - c++
-  - httplib
-  - cpp-httplib
+  - vcpkg
   - cmake
+  - triplet
 ---
 
 <https://vcpkg.io/>{:target="_blank"}   
