@@ -135,7 +135,7 @@ $ Release\main.exe
     "X-Amzn-Trace-Id": "Root=1-611cbc68-27731b2a1cd55cbd682c517e",
     "X-Bluecoat-Via": "ce2cfae06b3f12b4"
   },
-  "origin": "180.70.97.80",
+  "origin": "xx.xx.xx.xx",
   "url": "http://httpbin.org/get"
 }
 
@@ -150,11 +150,11 @@ content-type : application/json
     "X-Amzn-Trace-Id": "Root=1-611cbc68-27731b2a1cd55cbd682c517e",
     "X-Bluecoat-Via": "ce2cfae06b3f12b4"
   },
-  "origin": "180.70.97.80",
+  "origin": "xx.xx.xx.xx",
   "url": "http://httpbin.org/get"
 }
 
 200 : async request json
 content-type : application/json
-{"args":{},"headers":{"Cache-Control":"max-stale=0","Host":"httpbin.org","User-Agent":"cpprestsdk/2.10.18","X-Amzn-Trace-Id":"Root=1-611cbc68-27731b2a1cd55cbd682c517e","X-Bluecoat-Via":"ce2cfae06b3f12b4"},"origin":"180.70.97.80","url":"http://httpbin.org/get"}
+{"args":{},"headers":{"Cache-Control":"max-stale=0","Host":"httpbin.org","User-Agent":"cpprestsdk/2.10.18","X-Amzn-Trace-Id":"Root=1-611cbc68-27731b2a1cd55cbd682c517e","X-Bluecoat-Via":"ce2cfae06b3f12b4"},"origin":"180.xx.xx.xx","url":"http://httpbin.org/get"}
 ```
