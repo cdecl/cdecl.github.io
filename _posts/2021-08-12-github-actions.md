@@ -17,24 +17,6 @@ tags:
 - Actions 탭을 통해서 Template을 선택하고 Yaml 파일로 Task 내용을 기술
 	- .github/workflows 디렉토리 밑에 위치 
 
-## Contents
-<!-- TOC -->
-
-- [Github Actions 101](#github-actions-101)
-	- [Contents](#contents)
-	- [Runner 종류](#runner-%EC%A2%85%EB%A5%98)
-	- [Actions Basic](#actions-basic)
-		- [Workflow](#workflow)
-	- [Actions 예제](#actions-%EC%98%88%EC%A0%9C)
-		- [Docker Build & Registry Push](#docker-build--registry-push)
-		- [MSBuild & Nuget](#msbuild--nuget)
-		- [Container Image 활용](#container-image-%ED%99%9C%EC%9A%A9)
-		- [Go build 및 Docker image registry](#go-build-%EB%B0%8F-docker-image-registry)
-		- [Persisting workflow data using artifacts](#persisting-workflow-data-using-artifacts)
-		- [Create release, upload asset file](#create-release-upload-asset-file)
-
-<!-- /TOC -->
-
 ## Runner 종류 
 - GitHub-hosted Runner : MS Azure 가상머신에서 실행 
 	- Public Repository : 무료
