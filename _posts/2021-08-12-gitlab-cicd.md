@@ -18,25 +18,6 @@ tags:
 - Setup CI/CD 를 통해 세팅 
   - .gitlab-ci.yml 파일에 기술 
 
-## Contents
-<!-- TOC -->
-
-- [Gitlab CI/CD 101](#gitlab-cicd-101)
-	- [Contents](#contents)
-	- [Gitlab-Runner](#gitlab-runner)
-	- [Gitlab-Runner 세팅 Self hosting](#gitlab-runner-%EC%84%B8%ED%8C%85-self-hosting)
-		- [Installing the Runner](#installing-the-runner)
-		- [Registering Runners](#registering-runners)
-	- [Pipeline Configuration Basic](#pipeline-configuration-basic)
-	- [Pipeline 예제](#pipeline-%EC%98%88%EC%A0%9C)
-		- [Docker Build & Registry Push](#docker-build--registry-push)
-		- [Custome Image 사용](#custome-image-%EC%82%AC%EC%9A%A9)
-		- [Go build 및 Docker image registry artifacts](#go-build-%EB%B0%8F-docker-image-registry-artifacts)
-			- [Runner 정보](#runner-%EC%A0%95%EB%B3%B4)
-		- [Git Commit/Push](#git-commitpush)
-
-<!-- /TOC -->
-
 ## Gitlab-Runner 
 - gitlab-runner : .gitlab-ci.yml 기반 파이프 라인 구성 
   - Shared Runners : gitlab.com 에서 hosting 해주는 Runner
