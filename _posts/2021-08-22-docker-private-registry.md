@@ -83,7 +83,7 @@ $ curl -s http://localhost:5000/v2/cdecl/alpine/tags/list
 {"name":"cdecl/alpine","tags":["latest","3.13"]}
 ```
 
-### Image pull
+### Image Pull
 
 ```
 $ docker pull localhost:5000/cdecl/alpine
@@ -94,7 +94,7 @@ Status: Downloaded newer image for localhost:5000/cdecl/alpine:latest
 localhost:5000/cdecl/alpine:latest
 ```
 
-### Image delete
+### Image Delete
 - Tag 확인 -> Manifests 확인 ->  Manifests 이미지 삭제
 
 ```sh
