@@ -31,6 +31,9 @@ services:
     volumes:
       - registry:/var/lib/registry
       - ./config.yml:/etc/docker/registry/config.yml
+
+volumes:
+  registry:
 ```
 
 ```sh
@@ -39,6 +42,31 @@ $ docker-compose up -d
 
 $ curl -s http://localhost:5000/v2/_catalog
 {"repositories":[]}
+```
+
+- SSL 적용 
+
+```yaml
+version: '3'
+
+services:
+  registry:
+    image: registry
+    container_name: private_registry
+    restart: always
+    ports:
+      - 5000:5000
+    environment:
+      REGISTRY_HTTP_ADDR: 0.0.0.0:5000
+      REGISTRY_HTTP_TLS_CERTIFICATE: /certs/domain-pem.pem
+      REGISTRY_HTTP_TLS_KEY: /certs/domain-pem.key
+    volumes:
+      - registry:/var/lib/registry
+      - ./config.yml:/etc/docker/registry/config.yml
+      - ./certs:/certs
+
+volumes:
+  registry:
 ```
 
 ### Image Push 
