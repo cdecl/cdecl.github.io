@@ -188,33 +188,36 @@ NAME="$2"
 TAG="$3"
 
 if [[ -z "$URI" ]]; then
-	echo "Usage: $0 <URI> <NAME> [<TAG>]"
-	exit -1
+        echo "Usage: $0 <URI> <NAME> [<TAG>]"
+        exit -1
 fi
 
 if [[ -z "$NAME" ]]; then
-	echo "Usage: $0 $URI <NAME> [<TAG>]"
-	curl -sS $URI/v2/_catalog | jq -r '.repositories[]'
-	echo
-	exit -1
+        echo "Usage: $0 $URI <NAME> [<TAG>]"
+        echo
+        curl -sS $URI/v2/_catalog | jq -r '.repositories[]'
+        echo
+        exit -1
 fi
 
 if [[ -z "$TAG" ]]; then
-	echo "Usage: $0 $URI $NAME [<TAG>]"
-	curl -sS $URI/v2/$NAME/tags/list | jq -r '.tags[]'
-	echo
-	exit -1
+        echo "Usage: $0 $URI $NAME [<TAG>]"
+        echo
+        curl -sS $URI/v2/$NAME/tags/list | jq -r '.tags[]'
+        echo
+        exit -1
 fi
 
 MANIFESTS=$(curl -sS -I -H "Accept: application/vnd.docker.distribution.manifest.v2+json" \
-	$URI/v2/$NAME/manifests/$TAG | grep -i Docker-Content-Digest | awk '{print $2}')
+        $URI/v2/$NAME/manifests/$TAG | grep -i Docker-Content-Digest | awk '{print $2}')
 
 if [[ -z "$MANIFESTS" ]]; then
-	echo "No manifest found for $NAME:$TAG"
-	exit -1
+        echo "No manifest found for $NAME:$TAG"
+        exit -1
 fi
 
 echo $MANIFESTS
+echo
 echo curl -sS -XDELETE $URI/v2/$NAME/manifests/$MANIFESTS
 echo
 ```
