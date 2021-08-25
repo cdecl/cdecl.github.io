@@ -197,31 +197,26 @@ $ g++ -dynamic -fPIC -o libprint.so -c libprint.cpp
 
 $ cd ..
 $ go build
-# Mac : DYLD_LIBRARY_PATH=./native ./main 
-$ LD_LIBRARY_PATH=./native ./main
+# Mac : export DYLD_LIBRARY_PATH=$(pwd)/native 
+$ export LD_LIBRARY_PATH=/root/cgo/native 
+$ ./main
 cpp println
 golang println
-
-$ tree
-tree
-├── go.mod
-├── main.go
-└── native
-    ├── libprint.so
-    ├── print.cpp
-    ├── print.h
 ```
 
 #### 의존성 확인 
 - Linux 
 
 ``` 
-$ ldd ./main
-	linux-vdso.so.1 (0x0000ffffa5b44000)
-	libprint.so => not found
-	libpthread.so.0 => /lib/aarch64-linux-gnu/libpthread.so.0 (0x0000ffffa5ae3000)
-	libc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x0000ffffa596d000)
-	/lib/ld-linux-aarch64.so.1 (0x0000ffffa5b14000)
+$  ldd ./main
+	linux-vdso.so.1 (0x0000ffff9446a000)
+	libprint.so => /root/cgo/native/libprint.so (0x0000ffff94428000)
+	libpthread.so.0 => /lib/aarch64-linux-gnu/libpthread.so.0 (0x0000ffff943f7000)
+	libc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x0000ffff94281000)
+	libstdc++.so.6 => /usr/lib/aarch64-linux-gnu/libstdc++.so.6 (0x0000ffff940a9000)
+	/lib/ld-linux-aarch64.so.1 (0x0000ffff9443a000)
+	libm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x0000ffff93ffe000)
+	libgcc_s.so.1 => /lib/aarch64-linux-gnu/libgcc_s.so.1 (0x0000ffff93fda000)
 ```
 
 - Mac
