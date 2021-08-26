@@ -229,3 +229,42 @@ $ otool -L ./main
 	/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation (compatibility version 150.0.0, current version 1775.118.101)
 	/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1292.100.5)
 ```
+
+---
+
+### 예제 : `char *` 다루기
+
+```md
+- string → *C.char : C.CString(string)  // C.free(unsafe.Pointer(*C.char)) 메모리 해제 필수
+- *C.char → string : C.GoString(*C.char)
+- []C.char' : byte slice → *C.char  // buff := make([]byte, 128), (*C.char)(unsafe.Pointer(&buff[0]))
+- *C.char, C.int → string : C.GoStringN(*C.char, C.int)
+```	
+
+```go 
+package main
+/*
+#include <stdlib.h>
+#include <string.h>
+*/
+import "C"
+import (
+	"fmt"
+	"unsafe"
+)
+
+func getptr(buff []byte) *C.char {
+	return (*C.char)(unsafe.Pointer(&buff[0]))
+}
+
+func main() {
+	buff := make([]byte, 128)
+
+	s := C.CString("Hello")
+	defer C.free(unsafe.Pointer(s))
+
+	C.strcpy(getptr(buff), s)
+
+	fmt.Println(string(buff))
+}
+```
