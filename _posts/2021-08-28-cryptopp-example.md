@@ -143,3 +143,9 @@ int main()
 	return 0;
 }
 ```
+
+```sh
+$ ./main
+Plain Text -> MtiafY0csWZJZzsRNfE8cA==
+MtiafY0csWZJZzsRNfE8cA== -> Plain Text
+```
