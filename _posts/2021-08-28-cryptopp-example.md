@@ -10,6 +10,7 @@ tags:
   - cryptopp
   - crypto++
   - aes
+  - cbc
   - crypto
 ---
 
