@@ -12,6 +12,9 @@ tags:
   - cicd
 ---
 
+
+{% raw %}
+
 # Gitlab CI/CD 101 
 - Gitlab 에서 제공하는 CI/CD 목적의 Workflow 툴 
 - Auto DevOps or gitlab-runner 에서 실행 
@@ -254,3 +257,6 @@ build_stage:
     - git push https://${GITLAB_USER_ID}:${TOKEN}@gitlab.com/cdeclare/ci-test.git HEAD:$CI_COMMIT_REF_NAME 
   
 ```
+
+
+{% endraw %}
