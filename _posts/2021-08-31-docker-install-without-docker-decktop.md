@@ -1,5 +1,5 @@
 ---
-title: Docker install without docker desktop
+title: Docker install without docker desktop (WSL)
 
 toc: true
 toc_sticky: true
