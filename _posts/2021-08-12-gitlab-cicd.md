@@ -29,10 +29,10 @@ tags:
 ## Gitlab-Runner 세팅 (Self hosting)
 
 ### Installing the Runner
-- https://docs.gitlab.com/runner/install/linux-repository.html
+- <https://docs.gitlab.com/runner/install/linux-repository.html>{:target="_blank"}
 
 ### Registering Runners
-- https://docs.gitlab.com/runner/register/index.html
+- <https://docs.gitlab.com/runner/register/index.html>{:target="_blank"}
 - Interactive register runner 
 
 ```sh
@@ -82,7 +82,7 @@ sudo gitlab-runner register \
 
 ## Pipeline Configuration Basic
 - GitLab CI/CD Pipeline Configuration Reference
-  - https://docs.gitlab.com/ee/ci/yaml/ 
+  - <https://docs.gitlab.com/ee/ci/yaml/>{:target="_blank"}
 - Pipeline
   - 기본적으로 git checkout 실행 
 - Github Action 과 다르게 매뉴얼 실행 버튼 존재 
@@ -185,7 +185,7 @@ build_stage:
 ### Go build 및 Docker image registry (artifacts)
 - golang 이미지에서 소스 빌드 후, docker build-push
 - `artifacts` 를 활용, stage간 디렉토리 공유 
-  - https://docs.gitlab.com/ee/ci/pipelines/job_artifacts.html
+  - <https://docs.gitlab.com/ee/ci/pipelines/job_artifacts.html>{:target="_blank"}
 
 ```yaml
 image: docker 

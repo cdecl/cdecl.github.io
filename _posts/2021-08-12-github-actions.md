@@ -24,24 +24,24 @@ tags:
 	- Public Repository : 무료
 	- Private Repository : 2000분/월 무료 
 - Self-Hosted Runner : 자체 머신을 통해 Runner Hosting 
-	- https://help.github.com/en/actions/hosting-your-own-runners/adding-self-hosted-runners
+	- <https://help.github.com/en/actions/hosting-your-own-runners/adding-self-hosted-runners>{:target="_blank"}
 
 
 ## Actions Basic
 - Actions Tab
 - Workflow syntax for GitHub Actions 
-  - https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions
+  - <https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions>{:target="_blank"}
 - awesome-actions 
-  - https://github.com/sdras/awesome-actions		
+  - <https://github.com/sdras/awesome-actions>{:target="_blank"}
 
 ![](/images/2020-05-18-16-31-11.png)
 
 ### Workflow
 - runs-on: Virtual machine
   - ubuntu, macos, windows server 제공 
-  - 기본 Package or apps 가 등록되어 있음 : https://github.com/actions/virtual-environments
-    - Ubuntu : https://github.com/actions/virtual-environments/blob/master/images/linux/Ubuntu1804-README.md
-    - Windows Server : https://github.com/actions/virtual-environments/blob/master/images/win/Windows2019-Readme.md
+  - 기본 Package or apps 가 등록되어 있음 : <https://github.com/actions/virtual-environments>{:target="_blank"}
+    - Ubuntu : <https://github.com/actions/virtual-environments/blob/master/images/linux/Ubuntu1804-README.md>{:target="_blank"}
+    - Windows Server : <https://github.com/actions/virtual-environments/blob/master/images/win/Windows2019-Readme.md>{:target="_blank"}
 - steps : 
   - uses: 예약된 Actions 실행이나 Apps 통합을 통해 Apps 사용 환경 구성 
     - ex> uses: actions/checkout@v2 : git checkout 실행 
@@ -263,7 +263,7 @@ jobs:
 - path 파일이 변경되면 trigger : .github/workflows/ccpp.yml
 - create release : actions/create-release@v1
 - upload asset : actions/upload-release-asset@v1
-- 참고 : https://github.com/cdecl/asb/blob/master/.github/workflows/ccpp.yml
+- 참고 : <https://github.com/cdecl/asb/blob/master/.github/workflows/ccpp.yml>{:target="_blank"}
 
 ```yaml
 name: C/C++ CI
