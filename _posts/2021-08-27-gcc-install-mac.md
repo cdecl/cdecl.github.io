@@ -1,5 +1,5 @@
 ---
-title: GCC 설치 
+title: GCC 설치 (`macOS`, `Windows`)
 
 toc: true
 toc_sticky: true
