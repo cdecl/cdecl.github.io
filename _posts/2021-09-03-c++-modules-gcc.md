@@ -11,6 +11,8 @@ tags:
   - modules
   - c++20
   - g++
+  - -fmodules-ts
+  - -xc++-system-header
 ---
 
 {% raw %}
