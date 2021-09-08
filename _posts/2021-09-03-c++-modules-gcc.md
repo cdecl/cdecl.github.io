@@ -1,5 +1,5 @@
 ---
-title: C++ Modules Test (`g++`)
+title: C++20 Modules Test (`g++`)
 
 toc: true
 toc_sticky: true
@@ -17,7 +17,7 @@ tags:
 
 C++ Modules Test Example (g++)
 
-## C++ Modules
+## C++20 Modules
 C++20 에 추가된 모듈 `Modules` 기능은 기존의 header files 의 `#include` 로 인한 컴파일 시간 증가 이슈 및 
 필요한 로직(함수, 심볼)만을 내보내기(export)를 통해서 타 언어의 단위 모듈 처럼 효율적인 라이브러리 관리 목적
 
