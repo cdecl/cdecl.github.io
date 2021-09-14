@@ -55,7 +55,7 @@ $ pip3 install -r requirements.txt
 
 ---
 
-## 설치 : `inventory_builder`
+## 설치 방법 1 : `inventory_builder`
 
 > `inventory_builder` Python script 활용 inventory 구성 및 설치
 
@@ -248,7 +248,7 @@ $ curl -s node1:30010
 
 ---
 
-## 설치 : inventory 직접 수정 
+## 설치 방법 2 : inventory 직접 수정 
 
 > inventory.ini 수정 및 설치
 
