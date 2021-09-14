@@ -197,8 +197,6 @@ metadata:
   name: mvcapp
 spec:
   type: NodePort
-  #type: LoadBalancer
-  #loadBalancerIP: 192.168.0.10
   selector:
     app: mvcapp
   ports:
