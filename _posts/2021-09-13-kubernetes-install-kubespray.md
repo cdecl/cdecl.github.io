@@ -258,7 +258,7 @@ $ cp -rfp inventory/sample inventory/glass
 ```
 
 - inventory/glass/inventory.ini 
-  - `kube_control_plane` 1개만 설정 `node1`
+  - `kube_control_plane` 1개만 설정 :  `node1`
 
 ```ini
 # ## Configure 'ip' variable to bind kubernetes services on a
