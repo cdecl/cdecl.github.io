@@ -347,6 +347,70 @@ mvcapp-5c56c55f76-xvlbp   1/1     Running   0          48s   10.233.92.1   node3
 
 ---
 
+## 클러스터 고가용성 구조
+- <https://github.com/kubernetes-sigs/kubespray/blob/master/docs/ha-mode.md>{:target="_blank"}
+
+### Etcd 클러스터 구성
+
+### Kube-apiserver
+- kubeadm 고가용성 구조의 경우 `kube-apiserver` 서버접근을 위한 HA (loadbalancer) 가 필요 
+- kubespray 의 경우 `nginx-based` 기반 `reverse proxy` 각 node 에 내장되어 있어서 별도 LB 구성이 필요 없음
+  - `local internal loadbalancer` 를 사용하지 않은 경우 별도 HA 구성 가능 
+
+![](https://raw.githubusercontent.com/kubernetes-sigs/kubespray/master/docs/figures/loadbalancer_localhost.png)
+
+
+---
+
+## Node 추가 및 Cluster 변경
+- <https://github.com/kubernetes-sigs/kubespray/blob/master/docs/nodes.md>{:target="_blank"}
+
+#### 1) Control-plane 변경 
+- Change order of current control planes
+- Upgrade the cluster
+
+> inventory 수정 후, cluster.yml 실행 
+
+```sh
+$ ansible-playbook -i inventory/glass/hosts.yaml cluster.yml
+```
+
+#### 2) Adding/replacing a worker node
+
+> inventory 수정 후, scale.yml 실행 
+
+```sh
+# 전체 갱신 
+$ ansible-playbook -i inventory/glass/hosts.yaml scale.yml
+
+# 추가된 node3 만 갱신 
+$ ansible-playbook -i inventory/glass/hosts.yaml scale.yml --limit=node3
+```
+
+#### 3) Remove a worker node
+
+```sh
+$ ansible-playbook -i inventory/glass/hosts.yaml remove-node.yml -e node=node3
+...
+
+$ kubectl get node
+NAME    STATUS                        ROLES                  AGE   VERSION
+node1   Ready                         control-plane,master   86m   v1.18.6
+node2   Ready                         control-plane,master   85m   v1.18.6
+node3   NotReady,SchedulingDisabled   <none>                 19m   v1.18.6
+
+
+$ kubectl delete node node3
+node "node3" deleted
+
+$ kubectl get node
+NAME    STATUS   ROLES                  AGE   VERSION
+node1   Ready    control-plane,master   88m   v1.18.6
+node2   Ready    control-plane,master   87m   v1.18.6
+```
+
+---
+
 ## 초기화 : 클러스터 삭제 
 
 ```sh
