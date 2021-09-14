@@ -411,7 +411,7 @@ node2   Ready    control-plane,master   87m   v1.18.6
 
 ---
 
-## 초기화 : 클러스터 삭제 
+### 초기화 : 클러스터 삭제 
 
 ```sh
 $ ansible-playbook -i inventory/glass/hosts.yaml  --become --become-user=root reset.yml
