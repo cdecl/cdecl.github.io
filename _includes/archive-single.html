@@ -24,9 +24,14 @@
         <a href="{{ post.url | relative_url }}" rel="permalink">{{ title }}</a>
       {% endif %}
     </h2>
+
     <!-- {% include page__meta.html type=include.type %} -->
     {% if post.date %}
-      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> {{ post.date | date: "%Y.%m.%d" }}</p>
+      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> {{ post.date | date: "%Y.%m.%d" }}
+        {% if post.categories[0] != null %}
+          <i class="far fa-clock" aria-hidden="true"></i> &nbsp; <i class="far fa-folder-open"></i> {{ post.categories }}
+        {% endif %}
+      </p>
     {% endif %}    
     {% if post.excerpt %}<p class="archive__item-excerpt" itemprop="description">{{ post.excerpt | markdownify | strip_html | truncate: 160 }}</p>{% endif %}
   </article>
