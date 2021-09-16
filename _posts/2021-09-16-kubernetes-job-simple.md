@@ -155,7 +155,7 @@ wrk-g7jtv
 wrk-lx9rf
 
 # 각 Pod 의 로그확인
-$ kubectl get pod --selector=job-name=wrk -o=json | jq -r '.items[].metadata.name' | xargs -i sudo kubectl logs {}
+$ kubectl get pod --selector=job-name=wrk -o=json | jq -r '.items[].metadata.name' | xargs -i kubectl logs {}
 Running 5s test @ http://httpbin.org/get
   2 threads and 10 connections
   Thread Stats   Avg      Stdev     Max   +/- Stdev
