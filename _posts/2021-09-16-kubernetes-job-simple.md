@@ -22,7 +22,7 @@ Kubernetes Job 을 활용한 동시작업
 
 > Pod 를 생성하고, Pod를 통해 성공적으로 종료할떄까지의 일련의 작업실행   
 
-### Job 
+### Job : 단일 Job 테스트 
 `alpine` pod 실행 및 `ip` 명령어로 IP 확인
 
 - `command` : 명령어 (배열)
@@ -78,7 +78,7 @@ $ kubectl logs ip-5x8qm
 
 ---
 
-### Job (Parallel)
+### Job : Parallel 동시작업
 - wrk 를 활용 http 퍼포먼스 테스트 : <https://github.com/wg/wrk>{:target="_blank"}
 - Image : [cdecl/asb](https://hub.docker.com/r/cdecl/asb/){:target="_blank"}
 
