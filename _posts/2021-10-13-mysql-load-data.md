@@ -58,7 +58,7 @@ LOAD DATA INFILE '/path/data.txt' INTO TABLE data_table IGNORE 1 LINES
 ### LOAD DATA 기본 설정 
 
 ```sql
-LOAD DATA '/path/data.txt' IGNORE INTO TABLE data_table 
+LOAD DATA INFILE '/path/data.txt' IGNORE INTO TABLE data_table 
 FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' ESCAPED BY '"'
 LINES TERMINATED BY '\n' 
 (filed1, filed2, filed3 )
@@ -79,7 +79,7 @@ LINES TERMINATED BY '\n'
 - `@변수` 명으로 받아서 가공후 필드에 지정할 수 있음
   
 ```sql
-LOAD DATA '/path/data.txt' IGNORE INTO TABLE data_table 
+LOAD DATA INFILE '/path/data.txt' IGNORE INTO TABLE data_table 
 FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' 
 (filed1, @dummy, filed3, @var1, filed5 )
 SET filed2 = CURRENT_TIMESTAMP, filed4 = @var1 * 2;
