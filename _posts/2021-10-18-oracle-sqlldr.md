@@ -35,23 +35,24 @@ TRAILING NULLCOLS
 ```
 
 ##### OPTIONS DIRECT
-- ERRORS : 허용하는 에러수, `default 50`
-- DIRECT=TRUE : Direct Path, 쿼리를 실행하지 않고 메모리에 블록을 만들어 테이블에 저장 
+- `ERRORS` : 허용하는 에러수, `default 50`
+- `DIRECT=TRUE` : Direct Path, 쿼리를 실행하지 않고 메모리에 블록을 만들어 테이블에 저장 
 
 ##### LOAD DATA  
-- INFILE : 데이터 파일, 다수의 파일 등록 가능
+- `INFILE` : 데이터 파일, 다수의 파일 등록 가능
 
-##### INSERT/APPEND/REPLACE/TRUNCATE INTO TABLE 
-- INSERT : 신규 데이터, 데이터 존재하면 에러 
-- APPEND : 중복되지 않은 데이터 추가
-- REPLACE, TRUNCATE: 모든 행을 지우고 추가
+##### `TRUNCATE` INTO TABLE 
+- `INSERT` : 신규 데이터, 데이터 존재하면 에러 
+- `APPEND` : 중복되지 않은 데이터 추가
+- `REPLACE`, `TRUNCATE`: 모든 행을 지우고 추가
 
 ##### FIELDS TERMINATED
-- FIELDS TERMINATED : 필드 구분자
-- ENCLOSED BY " " : 텍스트 한정자
+- `FIELDS TERMINATED` : 필드 구분자
+- `ENCLOSED BY " "` : 텍스트 한정자
 
-##### ${CTL_TABLE_COLS} 
+##### ( ${CTL_TABLE_COLS} )
 - 테이블 컬럼 리스트 
+- `DATE` `TIMESTAMP` 이나 `NULL` 처리 등의 가공이 필요 할 수 있음
 
 ---
 
@@ -76,9 +77,7 @@ TRAILING NULLCOLS
 ( IP "NVL(:IP, ' ')" , SERVERNAME "NVL(:SERVERNAME, ' ')" , ETC "NVL(:ETC, ' ')"  )
 ```
 
---- 
-
-### SQLLDR
+#### SQLLDR 실행
 - Control File 설정으로 SQL*Loader 실행 
   
 ```sh
@@ -86,7 +85,10 @@ $ sqlldr 'dev/<PASSWD>@<SERVER>:1521/<SID>' control=ctl/IPMAN.ctl log=log/IPMAN.
 ```
 
 ---
-### Control File 자동 생성 SCRIPT 
+
+### Control File 자동 생성 스크립트 
+- `ctl.sh` : 테이블 이름으로 스키마를 쿼리하여 Control File 생성 및 sqlldr 명령어 출력
+- `ctl.template` : Control File 템플릿, `envsubst` 명령으로 내용 치환
 
 ##### ctl.sh
 ```sh
@@ -140,23 +142,28 @@ TRAILING NULLCOLS
 ( ${CTL_TABLE_COLS} )
 ```
 
-##### 실행 
+#### 실행 예시
 
+##### `CTL_CONN` DB 연결 환경변수 세팅
 ```sh
-# infile : 데이터 
-# ctl : Control File 
-# log : log
+# infile : Data Directory / ctl : Control File / log : Log
 $ mkdir -p infile ctl log
 
 # DB 연결 변수 
 $ export CTL_CONN='dev/<PASSWD>@<SERVER>:1521/<SID>'
 ```
 
+##### 테이블 명으로 Control File 생성 및 `sqlldr` 명령어 출력
 ```sh
 $ ./ctl.sh IPMAN
 TABLE NAME:  IPMAN
 sqlldr ${CTL_CONN} control=ctl/IPMAN.ctl log=log/IPMAN.log bad=log/IPMAN.bad
 ```
+
+##### `sqlldr` 명령 실행 
+- infile path : `infile/테이블명.csv` 
+- `log=` : 실행 로그 
+- `bad=` : 실패 데이터 
 
 ```sh
 $ sqlldr ${CTL_CONN} control=ctl/IPMAN.ctl log=log/IPMAN.log bad=log/IPMAN.bad
