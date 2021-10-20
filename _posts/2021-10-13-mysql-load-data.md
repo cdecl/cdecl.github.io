@@ -68,10 +68,11 @@ LINES TERMINATED BY '\n'
 - `IGNORE` : unique key 값이 있으면 새로운 행은 버려짐 `default`
 - `REPLACE` : unique key 값 기준으로 새로운 행으로 변경
 
-##### 필드 지정 
-- 필드를 지정하지 않으면 파일의 순서 기준으로 필드와 매치됨 
-- 파일의 필드가 많으면 : 버려짐 
-- 테이블의 필드가 많으면 : 나머지 필드는 Default 값이나 NULL 처리 (NULL 허용시)
+##### 필드 개수, 순서 
+- 기본적으로 파일의 구분자 기준 순서와 필드와 1:1 매치됨 
+- 필드 지정을 통해 순서 조정 가능 
+  - 파일의 구분자 필드가 많으면 : 버려짐 
+  - 테이블의 필드가 많으면 : 나머지 필드는 Default 값이나 NULL 처리 (NULL 허용시)
 
 ##### Input Preprocessing
 - 테이블의 중간 필드를 무시 (Default 값 or NULL 처리) 하려면 `@dummy` 키워드로 필드 지정 
@@ -91,10 +92,10 @@ SET filed2 = CURRENT_TIMESTAMP, filed4 = @var1 * 2;
 
 ---
 
-### 로컬(클라이언트) 데이터 원격 INSERT 
+#### 로컬(클라이언트) 데이터 원격 INSERT 
 - <https://dev.mysql.com/doc/refman/8.0/en/load-data-local-security.html>{:target="_blank"}
 
-#### 사전 준비 : local_infile 설정 (server and client)
+##### 사전 준비 : local_infile 설정 (server and client)
 - server : `local_infile` 의 설정값이 ON(1) 로 수정해야 함
 - client : 접속시 `--local-infile` 옵션 추가 
 
@@ -104,7 +105,7 @@ SET GLOBAL local_infile = 1 ;
 SHOW VARIABLES LIKE 'local_infile' ; -- ON
 ```
 
-### LOCAL PATH 지정 
+##### LOCAL PATH 지정 
 - `LOAD DATA LOCAL INFILE ...`
 
 ```sql
