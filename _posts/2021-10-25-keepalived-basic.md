@@ -128,7 +128,7 @@ $ ip a
        valid_lft forever preferred_lft forever
 ```
 
-#### 서비스 확인 : VRRP Packer Capture
+#### 서비스 확인 : VRRP Packet Capture
 - `virtual_router_id(vrid) 51` 에 대해서 `192.168.137.201` 서버로 할당 `ARP Request`
 
 ```sh 
