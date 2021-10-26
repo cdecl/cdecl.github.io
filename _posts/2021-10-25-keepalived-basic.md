@@ -110,8 +110,10 @@ vrrp_instance VI_1 {
 
 ---
 
-#### 서비스 확인 : `ip a`
-- `eth0` 인터페이스에 2개의 IP가 보임 `inet 192.168.137.201/24`  `inet 192.168.137.200/32`
+#### 서비스 확인 : IP 할당 확인
+- `eth0` 인터페이스에 2개의 IP가 보임 
+  - `Host` : `inet 192.168.137.201/24`  
+  - `VIP` : `inet 192.168.137.200/32`
 
 ```sh
 $ ip a
@@ -126,8 +128,8 @@ $ ip a
        valid_lft forever preferred_lft forever
 ```
 
-#### 서비스 확인 : `tcpdump`
-- `vrid 51` 에 대해서 `192.168.137.201` 서버로 할당 
+#### 서비스 확인 : VRRP Packer Capture
+- `virtual_router_id(vrid) 51` 에 대해서 `192.168.137.201` 서버로 할당 `ARP Request`
 
 ```sh 
 $ sudo tcpdump -n vrrp
