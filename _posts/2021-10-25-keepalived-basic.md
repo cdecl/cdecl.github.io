@@ -56,7 +56,7 @@ $ sudo systemctl status keepalived
 Hint: Some lines were ellipsized, use -l to show in full.
 ```
 
-### 설정
+### 기본 설정 
 - <https://www.redhat.com/sysadmin/keepalived-basics>{:target="_blank"}
 - <https://www.redhat.com/sysadmin/advanced-keepalived>{:target="_blank"}
 
