@@ -138,8 +138,13 @@ $ ip a
        valid_lft forever preferred_lft forever
 ```
 
+<<<<<<< HEAD
 #### (2) 서비스 확인 방법 : VRRP Packet Capture
 - `192.168.137.201` 서버에 `virtual_router_id(vrid) 51` 에 대해 할당
+=======
+#### 서비스 확인 : VRRP Packet Capture
+- `virtual_router_id(vrid) 51` 에 대해서 `192.168.137.201` 서버로 할당 `ARP Request`
+>>>>>>> dccda0f498480c5dc5aae4617de4048c744fd7a7
 
 ```sh 
 $ sudo tcpdump -n vrrp
