@@ -139,7 +139,7 @@ $ ip a
 ```
 
 #### (2) 서비스 확인 방법 : VRRP Packet Capture
-- `192.168.137.201` 서버에 `virtual_router_id(vrid) 51` 할당
+- `192.168.137.201` 서버에 `virtual_router_id(vrid) 51` (`192.168.137.200`)  할당
 
 ```sh 
 $ sudo tcpdump -n vrrp
