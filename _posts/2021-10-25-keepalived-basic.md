@@ -74,7 +74,7 @@ Hint: Some lines were ellipsized, use -l to show in full.
 - `vrrp_instance` : 인터페이스에서 실행되는 프로토콜의 개별 인스턴스 정의
 - `state` : 인스턴스에서 시작해야 하는 초기 상태
 - `interface` : 네트워크 인터페이스 
-- `virtual_router_id` : : 네트워크 가상 ID
+- `virtual_router_id` : 네트워크 가상 ID
 - `priority` : 우선 순위
 - `advert_int` : `VRRP` 패킷 송신 간격 (sec)
 - `authentication` : 서로 서버간, 인증 계정 정보 
