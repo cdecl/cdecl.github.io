@@ -15,12 +15,14 @@ tags:
 
 {% raw %}
 
-Loadbalancing & High-Availability 를 위한 Keepalived 설정 및 간단 테스트 
+Loadbalancing & High-Availability 를 위한 Keepalived 설정 및 테스트 
 
 ## Keepalived 
+- <https://www.keepalived.org/>{:target="_blank"}
 - VRRP 를 활용 가상IP (VIP) 기반 서버 다중화 도구 
 
-> VRRP 는 여러 대의 라우터를 그룹으로 묶어 하나의 가상 IP 어드레스를 부여, 마스터로 지정된 라우터 장애시 VRRP 그룹 내의 백업 라우터가 마스터로 자동 전환되는 프로토콜입니다.
+> VRRP 는 여러 대의 라우터를 그룹으로 묶어 하나의 가상 IP 어드레스를 부여,   
+> 마스터로 지정된 라우터 장애시 VRRP 그룹 내의 백업 라우터가 마스터로 자동 전환되는 프로토콜입니다.
 
 ### Install
 ```sh
@@ -56,9 +58,17 @@ $ sudo systemctl status keepalived
 Hint: Some lines were ellipsized, use -l to show in full.
 ```
 
+--- 
+
 ### 기본 설정 
 - <https://www.redhat.com/sysadmin/keepalived-basics>{:target="_blank"}
 - <https://www.redhat.com/sysadmin/advanced-keepalived>{:target="_blank"}
+
+#### 테스트 환경 
+- CentOS 7 (`Hyper-v`)
+  - `node1` (`MASTER`) : `192.168.137.201`
+  - `node2` (`BACKUP`) : `192.168.137.202`
+- `VIP` : `192.168.137.200`
 
 ####  `/etc/keepalived/keepalived.conf`
 - `vrrp_instance` : 인터페이스에서 실행되는 프로토콜의 개별 인스턴스 정의
@@ -110,7 +120,7 @@ vrrp_instance VI_1 {
 
 ---
 
-#### 서비스 확인 : IP 할당 확인
+#### (1) 서비스 확인 방법 : IP 할당 확인
 - `eth0` 인터페이스에 2개의 IP가 보임 
   - `Host` : `inet 192.168.137.201/24`  
   - `VIP` : `inet 192.168.137.200/32`
@@ -128,8 +138,8 @@ $ ip a
        valid_lft forever preferred_lft forever
 ```
 
-#### 서비스 확인 : VRRP Packer Capture
-- `virtual_router_id(vrid) 51` 에 대해서 `192.168.137.201` 서버로 할당 `ARP Request`
+#### (2) 서비스 확인 방법 : VRRP Packet Capture
+- `192.168.137.201` 서버에 `virtual_router_id(vrid) 51` 에 대해 할당
 
 ```sh 
 $ sudo tcpdump -n vrrp
@@ -140,7 +150,9 @@ listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes
 ...
 ```
 
-#### Failover Test
+---
+
+### Failover Test
 - `192.168.137.201` 서버에서 `keepalived` 서비스 중지 → `192.168.137.202` 로 `Failover`
 
 ```sh 
@@ -168,7 +180,7 @@ listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes
 
 ---
 
-### 서비스 상태를 확인하기 위한 방법 
+### 서비스 상태 (Failover 조건) 확인하기 위한 방법 
 - `Failover` 조건으로서 호스트의 프로세스나 파일, 스크립트 등으로 판단
   
 ##### Tracking processes : 프로세스 명으로 추적
@@ -243,7 +255,7 @@ vrrp_instance VI_1 {
 
 ---
 
-### VRRP 마스터가 실패하면 마스터가 되지 않도록 방지
+### VRRP 마스터가 실패하고 다시 자동으로 마스터가 되지 않도록 방지
 - <https://serverfault.com/questions/44122/prevent-vrrp-master-from-becoming-master-once-it-has-failed>{:target="_blank"}
 - `nopreempt` 플래그 추가
 
