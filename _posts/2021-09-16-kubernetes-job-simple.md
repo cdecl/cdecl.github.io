@@ -13,9 +13,9 @@ tags:
   - jq
 ---
 
-{% raw %}
-
 Kubernetes Job 을 활용한 동시작업
+
+{% raw %}
 
 ## Kubernetes Job
 - <https://kubernetes.io/ko/docs/concepts/workloads/controllers/job/>{:target="_blank"}

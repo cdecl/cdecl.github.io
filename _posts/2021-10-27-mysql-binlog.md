@@ -11,9 +11,9 @@ tags:
   - binlog
 ---
 
-{% raw %}
-
 MySQL BinLog (Binary Log) 설정 및 확인
+
+{% raw %}
 
 ## MySQL Binlog
 - <https://dev.mysql.com/doc/internals/en/binary-log-overview.html>{:target="_blank"}

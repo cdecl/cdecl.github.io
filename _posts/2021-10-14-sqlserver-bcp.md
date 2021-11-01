@@ -13,9 +13,9 @@ tags:
   - bulk
 ---
 
-{% raw %}
-
 SQL Server 대량 복사 프로그램 유틸리티(**b** ulk **c** opy **p** rogram utility, `bcp`)
+
+{% raw %}
 
 ## BCP
 - <https://docs.microsoft.com/ko-kr/sql/tools/bcp-utility>{:target="_blank"}

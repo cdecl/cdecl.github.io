@@ -13,9 +13,9 @@ tags:
   - SQL*Loader
 ---
 
-{% raw %}
-
 Oracle 대량 Bulk Insert Tool
+
+{% raw %}
 
 ## 구성요소 
 - Control File : `sqlldr` 명령행을 실행하기 위한 제어, 설정 파일 

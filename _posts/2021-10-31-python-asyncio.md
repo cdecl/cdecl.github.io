@@ -14,9 +14,9 @@ tags:
   - coroutine
 ---
 
-{% raw %}
-
 `asyncio`는 `async`/`await` 구문을 사용하여 동시성 코드를 작성하는 라이브러리 
+
+{% raw %}
 
 ## asyncio : asynchronous io 처리 
 - <https://docs.python.org/ko/3/library/asyncio.html>{:target="_blank"}

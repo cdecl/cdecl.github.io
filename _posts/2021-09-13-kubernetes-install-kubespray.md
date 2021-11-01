@@ -14,9 +14,9 @@ tags:
   - baremetal
 ---
 
-{% raw %}
-
 Kubespray 를 이용한 Kubernetes 설치 (Baremetal)
+
+{% raw %}
 
 ## 사전준비  
 

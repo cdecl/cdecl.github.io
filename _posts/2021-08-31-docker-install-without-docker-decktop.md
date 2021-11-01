@@ -12,9 +12,11 @@ tags:
   - wsl2
 ---
 
-{% raw %}
+
 
 WSL2 에 Docker 설치 (without Docker Desktop)
+
+{% raw %}
 
 ## Docker Desktop 
 - [Docker Desktop 유료화](https://www.docker.com/blog/updating-product-subscriptions/){:target="_blank"}

@@ -12,9 +12,9 @@ tags:
   - load data
 ---
 
-{% raw %}
-
 MySQL 테이블에 Text 파일을 빠르게 Insert 하는 방벙
+
+{% raw %}
 
 ## MySQL LOAD DATA
 - <https://dev.mysql.com/doc/refman/8.0/en/load-data.html>{:target="_blank"}

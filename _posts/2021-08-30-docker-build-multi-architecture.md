@@ -16,9 +16,9 @@ tags:
   - arm64
 ---
 
-{% raw %}
-
 Docker image multi architecture (Platform) 대응 
+
+{% raw %}
 
 ## Docker build
 Docker build 시, build 하는 머신의 Platform 에 맞춰 기본으로 빌드 됨 
