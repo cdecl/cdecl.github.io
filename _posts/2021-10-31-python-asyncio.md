@@ -85,15 +85,18 @@ async def async_sleep():
 async def async_execute():
     time_log('start')
 
+    # Event loop에 의한 실행 예약 
     asleep1 = asyncio.create_task(async_sleep())
     asleep2 = asyncio.create_task(async_sleep())
 
+    # 실행 완료 대기 
     await asleep1
     await asleep2
 
     time_log('end')
 
 def main():
+    # asyncio event loop 생성 및 실행 객체 관리 
     asyncio.run(async_execute())
 
     # asyncio.run 대신 저수준 함수 사용 예 : run_until_complete
@@ -134,6 +137,7 @@ async def async_execute():
         t = asyncio.create_task(async_sleep())
         tasks.append(t)
 
+    # task 의 배열, 모두 실행 완료대기 
     await asyncio.gather(*tasks)
 
     time_log('end')
@@ -177,6 +181,7 @@ async def async_execute():
         t = asyncio.create_task(async_sleep())
         tasks.append(t)
 
+    # Future 및 Task 객체 대기 및 리턴값 수집
     fut = await asyncio.gather(*tasks)
     [ print(f) for f in fut ]
 
@@ -217,7 +222,7 @@ def time_log(step):
     print(datetime.now().strftime('%H:%M:%S'), step)
     
 def sync_sleep(name):
-    time.sleep(2)
+    time.sleep(2) # blocking
     return datetime.now().strftime('%H:%M:%S') + ' ' + name
 
 async def async_execute():
@@ -228,9 +233,11 @@ async def async_execute():
     futures = []
     for i in range(5):
         # executor가 `None` 이면 기본 실행기
+        # run_in_executor 저수준 함수를 통해 동기 함수 등록
         t = loop.run_in_executor(None, sync_sleep, str(i))
         futures.append(t)
 
+    # Future 객체 대기 
     fut = await asyncio.gather(*futures)
     [ print(f) for f in fut ]
 
