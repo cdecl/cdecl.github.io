@@ -158,9 +158,9 @@ resources: {}
 # ... 생략
 ```
 
-##### `/templates/service.yaml` 수정
+##### `templates/service.yaml` 수정
 - `nodePort` 를 적용하기 위해 template 수정 
-- `spec.ports.nodePort: {{ .Values.service.nodePort }}`
+- `spec.ports.nodePort: {{ .Values.service.nodePort }}` 추가
 
 ```yaml
 apiVersion: v1
