@@ -14,7 +14,7 @@ tags:
   - k3s
 ---
 
-`Kubernetes` 패키지 매니저 도구인 `helm`을 통해 `chart` 생성 및 배포
+`Kubernetes` 패키지 매니저 도구인 `helm`을 통해 `chart` 생성 및 `Kubernetes` 배포
 
 {% raw %}
 
@@ -23,14 +23,15 @@ tags:
 ## Helm
 - <https://helm.sh/>{:target="_blank"}
 - Kubernetes 배포를 위한 패키지 매니저 툴 (e.g `yum`, `choco`)
-- `chart` : `yaml` 파일 기반의 템플릿 엔진으로 구성된 패키지 
-  - `Deployment`, `Service`, `Ingress` 등의 서비스등의 template 생성 및 설치 
+- `chart` 라는 `yaml` 파일 기반의 템플릿 파일을 통해 패키지화 및 `Kubernetes` 설치 관리
+  - `Deployment`, `Service`, `Ingress` 등 `Kubernetes` 서비스의 manifest 생성 및 설치 
 - Helm Repository 를 통해 패키지 등록 및 다른 패키지 설치 가능 
 
 --- 
 
 ### Helm Install 
-- `Homebrew`, `Chocolatey` 등의 패키지로 설치 가능 
+- 바이너리 직접 설치 및 설치 Script 활용 
+- `Homebrew`, `Chocolatey` 등의 패키지로도 설치 가능 
 
 ##### 바이너리 다운로드 
 - https://github.com/helm/helm/releases
@@ -69,10 +70,10 @@ Creating mvcapp
 ```
 
 ##### Chart directory 구조 
-- `Chart.yaml` : Chart 설명 및 버전
-- `charts/`  : chart 의존성 파일
+- `Chart.yaml` : Chart 버전, 이미지버전, 설명등을 기술하는 파일
+- `values.yaml` : manifest template 파일 기반, 기준 값을 세팅하는 파일
 - `templates/` : kubernetes manifest template 파일
-- `values.yaml` : manifest template 파일의 값을 세팅하는 파일
+- `charts/`  : chart 의존성 파일
 
 ```sh
 $ tree mvcapp
@@ -93,6 +94,7 @@ mvcapp
 ```
 
 ##### `Chart.yaml` 수정
+- `version` : Chart 버전 
 - `appVersion` : Deploy 되는 image 버전 
   
 ```yaml
@@ -108,19 +110,19 @@ appVersion: "0.6"  # appVersion: "1.16.0"
 ```
 
 ##### `values.yaml` 수정
-- `replicaCount` : replica 개수 
-- `image.repository` : docker image 이름 
-- `service.type` : `NodePort` `(On-Premise)`
+- `replicaCount` : Pod 의 replica 개수, 2개로 수정
+- `image.repository` : docker image 이름, `cdecl/mvcapp` 로 수정
+- `service.type` : `On-Premise`에서 테스트 목적, `NodePort`로 수정 
 
 ```yaml
 # Default values for mvcapp.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-replicaCount: 1
+replicaCount: 2
 
 image:
-  repository: nginx
+  repository: cdecl/mvcapp
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
@@ -154,7 +156,7 @@ resources: {}
 # ... 생략
 ```
 
-##### `helm lint` : chart 검사  
+##### `helm lint` : chart 파일 검사  
 - <https://helm.sh/docs/helm/helm_lint/>{:target="_blank"}
 
 ```sh
