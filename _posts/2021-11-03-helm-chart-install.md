@@ -113,6 +113,7 @@ appVersion: "0.6"  # appVersion: "1.16.0"
 - `replicaCount` : Pod 의 replica 개수, 2개로 수정
 - `image.repository` : docker image 이름, `cdecl/mvcapp` 로 수정
 - `service.type` : `On-Premise`에서 테스트 목적, `NodePort`로 수정 
+- `service.nodePort` : `nodePort`를 적용하기 위해 신규 추가 
 
 ```yaml
 # Default values for mvcapp.
@@ -136,6 +137,7 @@ fullnameOverride: ""
 service:
   type: NodePort   # ClusterIP
   port: 80
+  nodePort: 30010
 
 ingress:
 
@@ -154,6 +156,29 @@ resources: {}
   #   memory: 128Mi
 
 # ... 생략
+```
+
+##### `/templates/service.yaml` 수정
+- `nodePort` 를 적용하기 위해 template 수정 
+- `spec.ports.nodePort: {{ .Values.service.nodePort }}`
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "mvcapp.fullname" . }}
+  labels:
+    {{- include "mvcapp.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+      nodePort: {{ .Values.service.nodePort }}
+  selector:
+    {{- include "mvcapp.selectorLabels" . | nindent 4 }}
 ```
 
 ##### `helm lint` : chart 파일 검사  
