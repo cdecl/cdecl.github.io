@@ -463,4 +463,43 @@ NOTES:
 ```
 
 
+---
+
+#### ConfigMap 적용
+- `templates/` 경로에 ConfigMap yaml 파일 생성 
+  - `templates/configmap.yaml`
+- 내부에 `.Files.Get "PATH"` 로 정의된 PATH 파일을 패키지 디렉토리에 위치 
+
+```sh
+$ cat mvcapp/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-configmap
+data:
+  config.json: |-
+{{ .Files.Get "config.json" | indent 4}}
+
+$ cat mvcapp/config.json
+{ "url": "https://cdecl.github.io/" }
+```
+
+```sh
+$ helm template mvcapp
+---
+# ... 생략 
+---
+# Source: mvcapp/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: RELEASE-NAME-configmap
+data:
+  config.json: |-
+    { "url": "https://cdecl.github.io/" }
+---
+# ... 생략 
+```
+
+
 {% endraw %}
