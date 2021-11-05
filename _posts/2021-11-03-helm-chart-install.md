@@ -447,6 +447,19 @@ github  https://cdecl.github.io/chart-repo/
 $ helm search repo mvcapp
 NAME            CHART VERSION   APP VERSION     DESCRIPTION
 github/mvcapp   0.1.0           0.6             A Helm chart for Kubernetes
+
+# install from repository
+$ helm install mvcapp-svc github/mvcapp
+NAME: mvcapp-svc
+LAST DEPLOYED: Fri Nov  5 15:46:24 2021
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+NOTES:
+1. Get the application URL by running these commands:
+  export NODE_PORT=$(kubectl get --namespace default -o jsonpath="{.spec.ports[0].nodePort}" services mvcapp-svc)
+  export NODE_IP=$(kubectl get nodes --namespace default -o jsonpath="{.items[0].status.addresses[0].address}")
+  echo http://$NODE_IP:$NODE_PORT
 ```
 
 
