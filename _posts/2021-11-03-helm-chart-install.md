@@ -447,6 +447,58 @@ github  https://cdecl.github.io/chart-repo/
 $ helm search repo mvcapp
 NAME            CHART VERSION   APP VERSION     DESCRIPTION
 github/mvcapp   0.1.0           0.6             A Helm chart for Kubernetes
+
+# install from repository
+$ helm install mvcapp-svc github/mvcapp
+NAME: mvcapp-svc
+LAST DEPLOYED: Fri Nov  5 15:46:24 2021
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+NOTES:
+1. Get the application URL by running these commands:
+  export NODE_PORT=$(kubectl get --namespace default -o jsonpath="{.spec.ports[0].nodePort}" services mvcapp-svc)
+  export NODE_IP=$(kubectl get nodes --namespace default -o jsonpath="{.items[0].status.addresses[0].address}")
+  echo http://$NODE_IP:$NODE_PORT
+```
+
+
+---
+
+#### ConfigMap 적용
+- `templates/` 경로에 ConfigMap yaml 파일 생성 
+  - `templates/configmap.yaml`
+- 내부에 `.Files.Get "PATH"` 로 정의된 PATH 파일을 패키지 디렉토리에 위치 
+
+```sh
+$ cat mvcapp/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-configmap
+data:
+  config.json: |-
+{{ .Files.Get "config.json" | indent 4}}
+
+$ cat mvcapp/config.json
+{ "url": "https://cdecl.github.io/" }
+```
+
+```sh
+$ helm template mvcapp
+---
+# ... 생략 
+---
+# Source: mvcapp/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: RELEASE-NAME-configmap
+data:
+  config.json: |-
+    { "url": "https://cdecl.github.io/" }
+---
+# ... 생략 
 ```
 
 
