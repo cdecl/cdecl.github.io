@@ -27,9 +27,7 @@ tags:
 - 별도의 툴 설치가 필요 없으면 ssh 명령어를 통해 설정
 
 
-### 실행 
-
-#### 서비스 실행 
+### 서비스 실행 
 
 ```sh
 $ docker run -d -p 8000:80 cdecl/mvcapp
@@ -47,7 +45,7 @@ $ curl localhost:8000
     * User-Agent        : curl/7.64.1
 ```
 
-#### 터널링 
+### 터널링 
 - `ssh -R 서비스포트:로컬주소:로컬포트 localhost.run`
   - `서비스포트` : `80` / `443`
 
@@ -81,7 +79,7 @@ https://localhost.run/docs/
 6d2ca825416732.lhr.domains tunneled with tls termination, https://6d2ca825416732.lhr.domains
 ```
 
-#### 테스트 
+### 테스트 
 
 ```sh
 # 실행 
@@ -105,23 +103,23 @@ $ https://6d2ca825416732.lhr.domains/
 - `localhost.run` 보다는 직관적이고 기능이 많음 
 - `무료`/`유료` 버전 
 
-### 실행 
-
-#### 설치 
+### 설치 
 - <https://ngrok.com/download>{:target="_blank"}  
   - `platform` 에 맞는 바이너리 다운로드 
   - `brew`, `choco` 등 패키지 매니저 지원 
 
-#### 터널링 
-- Session Expires 시간이 기본 2시간 
+### 터널링 
+- `Request`를 확인할 수 있는 `Web Interface` 제공 : `http://127.0.0.1:4040`
+- `Session Expires` : 세션 만료 시간 기본 2시간 
   - 해당 제한을 없애기 위해서는 로그인 후 `token` 생성 및 등록 과정 필요 
-  - `ngrok authtoken <your_auth_token>`
-- Request를 확인할 수 있는 Web I/F 제공 
-  - `Web Interface                 http://127.0.0.1:4040`
+
+```sh
+$ ngrok authtoken <your_auth_token>
+```
 
 ```sh
 $ ngrok http 8000
-ngrok by @inconshreveable                                                                                           (Ctrl+C to quit)
+ngrok by @inconshreveable                                               (Ctrl+C to quit)
 
 Session Status                online
 Session Expires               1 hour, 59 minutes
@@ -135,7 +133,7 @@ Connections                   ttl     opn     rt1     rt5     p50     p90
                               0       0       0.00    0.00    0.00    0.00
 ```
 
-#### 테스트
+### 테스트
 
 ```sh
 $ curl http://e6fc-1-227-62-113.ngrok.io
