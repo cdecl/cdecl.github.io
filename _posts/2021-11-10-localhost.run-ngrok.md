@@ -18,6 +18,8 @@ tags:
 
 {% raw %}
 
+> 개발용도의 로컬 개발의 서비스를 노출 할때 유용 (Product 으로 부적합)
+
 
 ## localhost.run
 - <https://localhost.run/>{:target="_blank"}
@@ -27,7 +29,7 @@ tags:
 
 ### 실행 
 
-##### 서비스 실행 
+#### 서비스 실행 
 
 ```sh
 $ docker run -d -p 8000:80 cdecl/mvcapp
@@ -45,9 +47,9 @@ $ curl localhost:8000
     * User-Agent        : curl/7.64.1
 ```
 
-##### 터널링 
+#### 터널링 
 - `ssh -R 서비스포트:로컬주소:로컬포트 localhost.run`
-  - 서비스포트 : `80` / `443`
+  - `서비스포트` : `80` / `443`
 
 ```sh
 # ssh reverse 모드로 실행 
@@ -79,6 +81,8 @@ https://localhost.run/docs/
 6d2ca825416732.lhr.domains tunneled with tls termination, https://6d2ca825416732.lhr.domains
 ```
 
+#### 테스트 
+
 ```sh
 # 실행 
 $ https://6d2ca825416732.lhr.domains/
@@ -93,22 +97,24 @@ $ https://6d2ca825416732.lhr.domains/
     * User-Agent        : curl/7.64.1
 ```
 
+---
 
 ## Ngrok
 - <https://ngrok.com/>{:target="_blank"}
-- `http`, `https` 를 지원하는 터널링 도구 
-
+- `http`, `https`, `tcp`, `tls` 프로토콜을 지원하는 터널링 도구 
+- `localhost.run` 보다는 직관적이고 기능이 많음 
+- `무료`/`유료` 버전 
 
 ### 실행 
 
-##### 설치 
+#### 설치 
 - <https://ngrok.com/download>{:target="_blank"}  
   - `platform` 에 맞는 바이너리 다운로드 
   - `brew`, `choco` 등 패키지 매니저 지원 
 
-##### 터널링 
+#### 터널링 
 - Session Expires 시간이 기본 2시간 
-  - 해당 제한을 없애기 위해서는 로그인 후 `token` 생성 및 등록  
+  - 해당 제한을 없애기 위해서는 로그인 후 `token` 생성 및 등록 과정 필요 
   - `ngrok authtoken <your_auth_token>`
 - Request를 확인할 수 있는 Web I/F 제공 
   - `Web Interface                 http://127.0.0.1:4040`
@@ -128,6 +134,8 @@ Forwarding                    https://e6fc-1-227-62-113.ngrok.io -> http://local
 Connections                   ttl     opn     rt1     rt5     p50     p90
                               0       0       0.00    0.00    0.00    0.00
 ```
+
+#### 테스트
 
 ```sh
 $ curl http://e6fc-1-227-62-113.ngrok.io
