@@ -86,10 +86,9 @@ Total: 3 (3 usable), will use epoll.
 ##### /etc/haproxy/haproxy.cfg 
 - `global` : 전역 설정 
 - `defaults` : 디폴트 설정 
-- `frontend` : `client` 로 부터 접속 받는 정보, 5000 Port 대기
+- `frontend` : `client`로 부터 접속 정보, 5000 Port 대기
 - `backend` : 요청을 수행하는 서버로 전달, 3대의 서버로 전달
-- `listen` : `frontend` + `backend` 설정을 한꺼번에 정리할 수 있는 섹션
-  - Stats Monitoring UI 설정 
+- `listen` : `frontend` + `backend` 한꺼번에 정리할 수 있는 섹션, Stats Monitoring UI 설정 
 
 ```config
 global
@@ -162,6 +161,8 @@ backend
 #### 기타 
 - SSL 설정 : <https://www.haproxy.com/blog/haproxy-ssl-termination/>{:target="_blank"}
 - 통계 Web UI : <https://www.haproxy.com/blog/exploring-the-haproxy-stats-page/>{:target="_blank"}
+
+![](/images/2021-11-23-14-46-19.png)
 
 ---
 
