@@ -18,7 +18,7 @@ tags:
 
 
 ## HAProxy Basic
-공식 블로그인 만큼 가장 깔끔하게 정리된 글로 설명을 대체
+공식 블로그인 만큼 가장 깔끔하게 정리된 링크로 상세 설명 대체
 
 #### Basic Configuration 
 - <https://www.haproxy.com/blog/haproxy-configuration-basics-load-balance-your-servers/>{:target="_blank"}
