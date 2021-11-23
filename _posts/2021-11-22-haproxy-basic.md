@@ -84,7 +84,8 @@ Total: 3 (3 usable), will use epoll.
 ```
 
 ##### /etc/haproxy/haproxy.cfg 
-- `global`, `defaults` 는 디폴트 값
+- `global` : 전역 설정 
+- `defaults` : 디폴트 설정 
 - `frontend` : `client` 로 부터 접속 받는 정보, 5000 Port 대기
 - `backend` : 요청을 수행하는 서버로 전달, 3대의 서버로 전달
 - `listen` : `frontend` + `backend` 설정을 한꺼번에 정리할 수 있는 섹션
