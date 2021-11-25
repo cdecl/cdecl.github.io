@@ -20,7 +20,7 @@ Snapshots 기능을 제공하는 modern backup program
 
 ## restic
 - <https://restic.net/>{:target="_blank"}
-- Go 만들어진 백업 프로그램 
+- Go로 만들어진 백업 프로그램, 크로스프랫폼 지원
 
 ```
 - from Linux, BSD, Mac and Windows
@@ -91,12 +91,12 @@ Available Commands:
 ---
 
 ### Backup & Restore 
-- <https://restic.readthedocs.io/en/stable/030_preparing_a_new_repo.html>{:target="_blank"}
 
 ##### Backup Repository 생성
 
 ```sh
 # Repository 접근을 위한 패드워스 필요, 일단 1111
+# -r, --repo repository repository to backup to or restore from (default: $RESTIC_REPOSITORY)
 $ restic init -r repo
 enter password for new repository:
 enter password again:
@@ -115,6 +115,7 @@ $ echo 1111 > passwd
 ```sh
 # Backup 
 # restic -r <repository> -p <passwd file> backup <Source>
+# -p, --password-file file  file to read the repository password from (default: $RESTIC_PASSWORD_FILE)
 $ restic -r repo -p passwd backup /home/cdecl/temp/mvcapp
 repository e4ccc49d opened successfully, password is correct
 no parent snapshot found, will read all files
@@ -156,7 +157,7 @@ f4b94d9b  2021-11-25 15:22:24  centos1                 /home/cdecl/temp/mvcapp
 2 snapshots
 ```
 
-- snapshots 비교
+- Snapshots 비교
   
 ```sh
 $ restic -r repo -p passwd diff 9aff8447 f4b94d9b
@@ -174,7 +175,7 @@ Tree Blobs:      5 new,     5 removed
   Removed: 7.456 KiB
 ```
 
-##### Restore : snapshots 에서 복원
+##### Restore : Snapshots 에서 복원
 
 ```sh
 # restic -r <repository> -p <passwd file> restore <snapshots id> -t <Target>
@@ -185,6 +186,13 @@ restoring <Snapshot 9aff8447 of [/home/cdecl/temp/mvcapp] at 2021-11-25 15:17:52
 ```
 
 ### MinIO & RClone Backend 지원
+- <https://restic.readthedocs.io/en/stable/030_preparing_a_new_repo.html>{:target="_blank"}
+
+```
+Local, SFTP, REST Server, Amazon S3, Minio Server, Microsoft Azure Blob Storage, 
+Google Cloud Storage, Other Services via rclone 등 지원
+```
+
 
 ##### MinIO Repository 만들기 
 
@@ -214,8 +222,6 @@ ID        Time                 Host        Tags        Paths
 ------------------------------------------------------------------------------
 1 snapshots
 ```
-
-
 
 ##### RClone Backend 로 사용 
 
@@ -371,4 +377,3 @@ eb1e56c7  2021-11-25 15:44:54  centos1                 /home/cdecl/temp/mvcapp
 
 
 {% endraw %}
-
