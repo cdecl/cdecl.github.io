@@ -22,6 +22,8 @@ Golang GC (가비지 컬렉터)
 - 유효하지 않는 메모리(Danling Object)를 주기적으로 해제하는 기법
   - Java의 `Parallel GC`, `G1GC` 와 같은
 - Tri-Color Algorithm 사용
+- CMS (Concurrent Mark and Sweep) 방식 운영
+  - Java 와 같은 Generation GC 기법이나 Compaction은 지원하지 않음
 - Compaction (압축, 재배치) 가 없음 
   - 재배치를 하지 않는 대신 `TCMalloc`를 통한 메모리 할당 관리
   - [멀티쓰레드 최적화 힙 메모리 할당기 - tcmalloc. jemalloc](https://cdecl.net/304){:target="_blank"}
@@ -91,12 +93,12 @@ func main() {
 ```
 
 ```sh
+# 프로젝트 초기화
 $ go mod init gctest
-go: creating new go.mod: module gctest
-go: to add module requirements and sums:
-        go mod tidy
-
 $ go mod tidy
+
+# build
+$ go build
 ```
 
 ##### 실행 테스트
