@@ -1,5 +1,5 @@
 ---
-title: restic Basic
+title: Restic Basic
 
 toc: true
 toc_sticky: true
