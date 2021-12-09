@@ -259,6 +259,22 @@ jobs:
         type output\release.txt
 ```
 
+### Manual trigger
+- Events that trigger workflows 
+  - <https://docs.github.com/en/actions/learn-github-actions/events-that-trigger-workflows>{:target="_blank"}
+- 특정 이벤트에 의한 실행이 아닌 매뉴얼로 버튼을 눌러 수행 
+  - `workflow_dispatch`
+  
+```yaml
+on: 
+  workflow_dispatch:
+    inputs:
+      name:
+        description: 'workflow start'
+```
+
+![](/images/2021-12-09-09-11-43.png)
+
 ### Create release, upload asset file 
 - path 파일이 변경되면 trigger : .github/workflows/ccpp.yml
 - create release : actions/create-release@v1
