@@ -14,7 +14,7 @@ tags:
   - gctrace
 ---
 
-Golang GC (가비지 컬렉터)
+Golang GC (가비지 컬렉터) 주요 내용
 
 {% raw %}
 
