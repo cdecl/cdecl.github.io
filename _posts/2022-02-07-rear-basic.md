@@ -17,6 +17,7 @@ ReaR(Relax & Recover), Linux 재해 복구 도구
 
 ## ReaR
 - <https://relax-and-recover.org/>{:target="_blank"}  
+- Manual Page : <https://github.com/rear/rear/blob/master/doc/rear.8.adoc>{:target="_blank"}  
 - OS의 부팅 가능한 복구 시스템 구성, 시스템 파일 백업 및 복구 지원 
 
 ---
@@ -138,6 +139,36 @@ $ tree /storage
 # 수동 복구의 경우 별도 인터렉티브한 환경에서 수행 
 $ rear -v recover 
 ```
+
+---
+
+### 기타 
+- FAQ : <http://relax-and-recover.org/documentation/faq>{:target="_blank"}
+- Manual Recover : <https://github.com/rear/rear/issues/847>{:target="_blank"}
+
+#### 백업시 복원 IP 세팅
+- 백업전에 `/etc/rear/mappings/ip_addresses` 파일 생성
+
+```sh
+$ cat /etc/rear/mappings/ip_addresses
+eth0 192.268.1.100/24
+```
+
+#### 복원시 IP 변경 
+- 복구 이미지 부팅시, 커널 파라미터로 아래와 같이 지정 
+
+> 부팅시 아래 메뉴의 e (edit)를 눌러 편집
+
+![](/images/2022-02-09-13-34-20.png)
+
+> 파라미터에 아래 내용 추가
+
+```sh
+ip=192.168.100.2 nm=255.255.255.0 netdev=eth0 gw=192.168.100.1
+```
+
+![](/images/2022-02-09-13-44-25.png)
+
 
 
 {% endraw %}
