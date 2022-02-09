@@ -1,5 +1,5 @@
 ---
-title: ReaR Basic 
+title: ReaR (Relax & Recover) Basic 
 
 toc: true
 toc_sticky: true
