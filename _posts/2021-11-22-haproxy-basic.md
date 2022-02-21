@@ -46,8 +46,8 @@ $ sudo systemctl status haproxy
 ...
 ```
 
-- 버전 확인, 지원 모듈, 지원 polling 시스템 확인 
-  - `epoll` 사용
+##### 버전 확인, 지원 모듈, 지원 polling 시스템 확인 
+- `epoll` 사용
 
 ```sh
 $ haproxy -vv
@@ -83,7 +83,7 @@ Available polling systems :
 Total: 3 (3 usable), will use epoll.
 ```
 
-##### /etc/haproxy/haproxy.cfg 
+##### 기본설정 : /etc/haproxy/haproxy.cfg 
 - `global` : 전역 설정 
 - `defaults` : 디폴트 설정 
 - `frontend` : `client`로 부터 접속 정보, 5000 Port 대기
@@ -128,17 +128,46 @@ listen stats
     stats uri /monitor
     stats refresh 5s
 
-frontend  main
+frontend  front_main
     bind :5000 
+    option      forwardfor
     default_backend   app
 
 backend app
     balance     roundrobin
-    option      forwardfor
     server  app1 192.168.28.15:30010 check
     server  app2 192.168.28.16:30010 check
     server  app3 192.168.28.17:30010 check
 ```
+
+---
+### SSL 인터페이스
+- <https://serverfault.com/questions/738045/haproxy-to-terminate-ssl-also-send-ssl-to-backend-server>{:target="_blank"}
+
+##### Frontend SSL Bind 
+
+```config 
+...
+frontend  front_main
+    bind :5443  ssl crt /cert/path/domain_keypem.pem
+    option      forwardfor
+    default_backend   app
+...
+```
+
+##### Backend SSL 호출
+
+```config 
+...
+backend app
+    balance     roundrobin
+    mode http 
+    server  app1 192.168.28.15:30443 ssl verify none
+    server  app2 192.168.28.16:30443 ssl verify none
+...
+```
+
+---
 
 #### Four Essential Sections
 - <https://www.haproxy.com/blog/the-four-essential-sections-of-an-haproxy-configuration/>{:target="_blank"}
@@ -158,6 +187,8 @@ backend
     # servers that fulfill the requests
 ```
 
+---
+
 #### 기타 
 - SSL 설정 : <https://www.haproxy.com/blog/haproxy-ssl-termination/>{:target="_blank"}
 - 통계 Web UI : <https://www.haproxy.com/blog/exploring-the-haproxy-stats-page/>{:target="_blank"}
@@ -166,7 +197,7 @@ backend
 
 ---
 
-### 튜닝 : Tuning your Linux kernel and HAProxy instance for high loads
+#### 튜닝 : Tuning your Linux kernel and HAProxy instance for high loads
 - <https://medium.com/@pawilon/tuning-your-linux-kernel-and-haproxy-instance-for-high-loads-1a2105ea553e>{:target="_blank"}
 - haproxy 설정 및 linux kernel tweaks 설정
 
