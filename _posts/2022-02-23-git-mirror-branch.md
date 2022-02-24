@@ -1,5 +1,5 @@
 ---
-title: Git Mirror, Branch 동기화 관리 
+title: Git Repository 복제, Branch 동기화 관리 
 
 toc: true
 toc_sticky: true
