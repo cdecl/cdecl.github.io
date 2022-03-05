@@ -102,7 +102,12 @@ X-Real-Ip: 172.18.0.1
 ---
 
 ### Yaml 파일 분리 
-- Docker network 생성 후, 서비스 시작 
+- Docker network 생성 후, 같은 Network 에서 서비스 시작 
+- `whoami` 서비스에 replicas 적용 테스트 
+  
+> 같은 Docker network 에 있어야 호출이 가능함  
+
+> Port가 Expose만 되어도 호출이 가능하므로, 여러개의 인스턴스를 실행 할 수 있음
 
 ```sh
 $ docker network create traefik_network
@@ -142,7 +147,6 @@ networks:
 ```
 
 #### whoami
-- replicas 적용 테스트 
 
 ```yaml
 version: '3'
