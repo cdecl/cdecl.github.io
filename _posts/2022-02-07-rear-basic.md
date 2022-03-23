@@ -91,8 +91,9 @@ BACKUP_URL=nfs://192.168.137.100/storage/rear
 - `mkrescue` : create rescue media only
 
 ```sh
-## debug mode, verbose mode
-$ sudo rear -d -v mkbackup
+## verbose mode
+# -d : debug mode 의 경우 /tmp 밑에 파일을 지우지 않음
+$ sudo rear -v mkbackup
 ```
 
 - Backup 데이터 확인 
