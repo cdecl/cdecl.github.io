@@ -78,9 +78,13 @@ $ sudo yum install grub2-efi-x64-modules
 # /etc/rear/local.conf
 
 OUTPUT=ISO
-# OUTPUT_URL=nfs://192.168.137.100/storage/rear
+OUTPUT_URL=nfs://192.168.137.100/storage/rear
 BACKUP=NETFS
 BACKUP_URL=nfs://192.168.137.100/storage/rear
+
+# BACKUP_TYPE=incremental
+# FULLBACKUPDAY=Sun
+# BACKUP_PROG_EXCLUDE=('/syslogs/logs/*' '/var/log/*')
 ```
 
 ---
