@@ -78,9 +78,13 @@ $ sudo yum install grub2-efi-x64-modules
 # /etc/rear/local.conf
 
 OUTPUT=ISO
-# OUTPUT_URL=nfs://192.168.137.100/storage/rear
+OUTPUT_URL=nfs://192.168.137.100/storage/rear
 BACKUP=NETFS
 BACKUP_URL=nfs://192.168.137.100/storage/rear
+
+# BACKUP_TYPE=incremental
+# FULLBACKUPDAY=Sun
+# BACKUP_PROG_EXCLUDE=('/syslogs/logs/*' '/var/log/*')
 ```
 
 ---
@@ -91,8 +95,9 @@ BACKUP_URL=nfs://192.168.137.100/storage/rear
 - `mkrescue` : create rescue media only
 
 ```sh
-## debug mode, verbose mode
-$ sudo rear -d -v mkbackup
+## verbose mode
+# -d : debug mode 의 경우 /tmp 밑에 파일을 지우지 않음
+$ sudo rear -v mkbackup
 ```
 
 - Backup 데이터 확인 
