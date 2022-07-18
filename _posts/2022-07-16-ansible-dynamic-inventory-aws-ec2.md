@@ -120,6 +120,8 @@ regions:
 filters:
   # tag 정보가 AutoDelete:False 인 인스턴스 
   tag:AutoDelete: "False"
+  # running 상태 인스턴스
+  instance-state-name: 'running'
 
 keyed_groups:
   # tag 를 기준으로 그룹화, "prefix_key_value" 형식의 그룹이름 
@@ -200,8 +202,7 @@ $ ansible-inventory -i aws_ec2.yaml -i aws.host --vars --list
 #### `ansible-inventory --list` 옵션으로 hosts 파일 형식 구성 
 
 ```sh
-$ ansible-inventory -i aws_ec2.yaml --list | jq -r '._meta.hostvars[] | "\(.private_ip_ad
-dress) \(.tags.Name) "'
+$ ansible-inventory -i aws_ec2.yaml --list | jq -r '._meta.hostvars[] | "\(.private_ip_address) \(.tags.Name) "'
 10.211.20.159 kube02
 10.211.20.229 kube03
 10.211.20.45 kube01
