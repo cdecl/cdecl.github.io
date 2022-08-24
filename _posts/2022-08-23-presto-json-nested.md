@@ -9,8 +9,8 @@ categories:
 tags:
   - presto
   - trino
-  - minio
-  - docker
+  - json
+  - ddl
 ---
  
 trino(presto) nested json 를 처리하기 위한 table schema 예제
