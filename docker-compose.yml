@@ -5,7 +5,7 @@ services:
     container_name: blog
     ports:
       - 4000:4000
-    command: jekyll serve --force_polling
+    command: bash -c "bundle add webrick && jekyll serve --force_polling"
     volumes:
       - ./:/srv/jekyll
     environment:
