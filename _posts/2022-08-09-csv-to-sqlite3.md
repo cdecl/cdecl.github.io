@@ -40,8 +40,9 @@ $ bat cities.csv
 
 ### CSV Import
 - `sqlite> .mode csv` : csv 모드로 전환
-- `sqlite> .header on` : header 있음
 - `sqlite> .import ./cities.csv ci` : `./cities.csv` 파일을 ci 테이블로 Import 
+   - `sqlite> .import --skip 1 ./cities.csv ci` : `./cities.csv`  테이블이 존재 할때 header 제외 
+   - `sqlite> .import --csv ./cities.csv ci` : `./cities.csv`  csv 모드 inline 옵션 
 
 ```sh
 # ci.db 생성 및 인터랙티브 모드
@@ -49,7 +50,6 @@ $ sqlite3 ci.db
 SQLite version 3.37.0 2021-12-09 01:34:53
 Enter ".help" for usage hints.
 sqlite> .mode csv
-sqlite> .header on
 sqlite> .import ./cities.csv ci
 sqlite> .tables
 ci
@@ -57,6 +57,7 @@ sqlite> select count(*) from ci;
 count(*)
 129
 sqlite> .mode list
+sqlite> .header on
 sqlite> select * from ci limit 10;
 LatD| "LatM"| "LatS"| "NS"| "LonD"| "LonM"| "LonS"| "EW"| "City"| "State"
    41|    5|   59| "N"|     80|   39|    0| "W"| "Youngstown"| OH
