@@ -39,10 +39,10 @@ $ bat cities.csv
 ![](/images/2022-08-10-02-18-58.png)
 
 ### CSV Import
-- `sqlite> .mode csv` : csv 모드로 전환
-- `sqlite> .import ./cities.csv ci` : `./cities.csv` 파일을 ci 테이블로 Import 
-   - `sqlite> .import --skip 1 ./cities.csv ci` : `./cities.csv`  테이블이 존재 할때 header 제외 
-   - `sqlite> .import --csv ./cities.csv ci` : `./cities.csv`  csv 모드 inline 옵션 
+- `.mode csv` : csv 모드로 전환
+- `.import ./cities.csv ci` : `./cities.csv` 파일을 ci 테이블로 Import 
+   - `.import --skip 1 ./cities.csv ci` : `./cities.csv`  테이블이 존재 할때 header 제외 
+   - `.import --csv ./cities.csv ci` : `./cities.csv`  csv 모드 inline 옵션 
 
 ```sh
 # ci.db 생성 및 인터랙티브 모드
@@ -75,18 +75,18 @@ LatD| "LatM"| "LatS"| "NS"| "LonD"| "LonM"| "LonS"| "EW"| "City"| "State"
 #### Inline command 
 
 ```sh
-$ echo 'select * from ci limit 10;' | sqlite3 -csv -header -cmd '.import ./cities.csv ci' -list
-LatD, "LatM", "LatS", "NS", "LonD", "LonM", "LonS", "EW", "City", "State"
-   41,    5,   59, "N",     80,   39,    0, "W", "Youngstown", OH
-   42,   52,   48, "N",     97,   23,   23, "W", "Yankton", SD
-   46,   35,   59, "N",    120,   30,   36, "W", "Yakima", WA
-   42,   16,   12, "N",     71,   48,    0, "W", "Worcester", MA
-   43,   37,   48, "N",     89,   46,   11, "W", "Wisconsin Dells", WI
-   36,    5,   59, "N",     80,   15,    0, "W", "Winston-Salem", NC
-   49,   52,   48, "N",     97,    9,    0, "W", "Winnipeg", MB
-   39,   11,   23, "N",     78,    9,   36, "W", "Winchester", VA
-   34,   14,   24, "N",     77,   55,   11, "W", "Wilmington", NC
-   39,   45,    0, "N",     75,   33,    0, "W", "Wilmington", DE
+$ sqlite3 /tmp/t.db ".import -csv ./cities.csv ci" "select * from ci" -header
+LatD| "LatM"| "LatS"| "NS"| "LonD"| "LonM"| "LonS"| "EW"| "City"| "State"
+   41|    5|   59| "N"|     80|   39|    0| "W"| "Youngstown"| OH
+   42|   52|   48| "N"|     97|   23|   23| "W"| "Yankton"| SD
+   46|   35|   59| "N"|    120|   30|   36| "W"| "Yakima"| WA
+   42|   16|   12| "N"|     71|   48|    0| "W"| "Worcester"| MA
+   43|   37|   48| "N"|     89|   46|   11| "W"| "Wisconsin Dells"| WI
+   36|    5|   59| "N"|     80|   15|    0| "W"| "Winston-Salem"| NC
+   49|   52|   48| "N"|     97|    9|    0| "W"| "Winnipeg"| MB
+   39|   11|   23| "N"|     78|    9|   36| "W"| "Winchester"| VA
+   34|   14|   24| "N"|     77|   55|   11| "W"| "Wilmington"| NC
+   39|   45|    0| "N"|     75|   33|    0| "W"| "Wilmington"| DE
 ```
 
 {% endraw %}
