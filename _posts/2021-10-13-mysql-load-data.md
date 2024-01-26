@@ -55,7 +55,7 @@ LINES TERMINATED BY '\n' STARTING BY ''
 LOAD DATA INFILE '/path/data.txt' INTO TABLE data_table IGNORE 1 LINES
 ```
 
-### LOAD DATA 기본 설정 
+### LOAD DATA 기본 설정 (CSV)
 
 ```sql
 LOAD DATA INFILE '/path/data.txt' IGNORE INTO TABLE data_table 
