@@ -92,7 +92,7 @@ Ollama is running%
 
 #### 실행(`run`) 및 CLI 질의 테스트
  
-> !! 로컬 랩탑에서 질의하면 아주 느리게 실행 됨
+> ❗️ 로컬 질의하면 랩탑이 전체적으로 프리징 현상 → 느려짐
 
 ```sh 
 $ ollama run mistral
