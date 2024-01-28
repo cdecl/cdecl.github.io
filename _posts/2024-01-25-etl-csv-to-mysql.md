@@ -7,9 +7,10 @@ toc_sticky: true
 categories:
   - devops
 tags:
-  - github
-  - actions
-  - cicd
+  - duckdb
+  - etl
+  - mysql
+  - sqlite3
 ---
  
 DuckDB를 ETL 도구로 활용 : CSV 데이터 → MySQL 
