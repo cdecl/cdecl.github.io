@@ -1,5 +1,5 @@
 ---
-title: ollama, ollama-webui, mistral  
+title: Ollama를 이용한 Mistral 로컬 실행 가이드 
 
 toc: true
 toc_sticky: true
