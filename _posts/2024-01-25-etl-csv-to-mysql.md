@@ -1,5 +1,5 @@
 ---
-title: DuckDB, ETL 도구로 활용 
+title: DuckDB, CSV에서 MySQL로의 ETL
 
 toc: true
 toc_sticky: true
