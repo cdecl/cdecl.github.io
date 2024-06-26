@@ -14,11 +14,11 @@ tags:
   - macos
 ---
  
-Docker Macvlan 네트워크 소개, 활용 및 MacOS 에서의 사용
+Docker Macvlan 네트워크 소개, 활용 및 이슈 
 
 {% raw %}
 
-## 1. Macvlan 네트워크란?
+## 1. Docker Macvlan 네트워크?
 Macvlan 네트워크는 컨테이너에 독립적인 네트워크 인터페이스를 제공하여 물리적 네트워크와 직접 상호작용 가능  
 이는 각 컨테이너가 고유한 MAC 주소를 가지므로 네트워크 수준에서 완전히 독립된 호스트처럼 동작 가능
 
