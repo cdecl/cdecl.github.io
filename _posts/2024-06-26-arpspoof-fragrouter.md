@@ -110,6 +110,18 @@ sudo fragrouter -B1  # 가장 기본적인 모드
 -	-B4: 모든 패킷을 최대 크기로 나누어 재조립을 어렵게 합니다.
 
 
+### IPv4 포워딩 설정
+ARP 스푸핑을 성공적으로 수행하려면, 스푸핑 머신이 중간자(Man-in-the-Middle) 역할을 할 수 있도록 IPv4 포워딩을 활성화해야 함    
+
+#### IPv4 포워딩 활성화 방법:
+```bash
+# 일시적으로 IPv4 포워딩 활성화
+sudo sysctl -w net.ipv4.ip_forward=1
+
+# 영구적으로 IPv4 포워딩 활성화
+echo "net.ipv4.ip_forward = 1" | sudo tee -a /etc/sysctl.conf
+sudo sysctl -p
+```
 
 ## 4. 테스트 예제: arpspoof 및 fragrouter 사용
 
@@ -120,18 +132,24 @@ sudo fragrouter -B1  # 가장 기본적인 모드
 
 ### arpspoof 사용 예제
 호스트 머신의 트래픽을 가로채기 위해, 스푸핑 머신에서 다음 명령어를 실행   
-198.19.249.2(타겟)에게 게이트웨이 198.19.249.1의 MAC 주소를 공격자의 MAC 주소로 속이는 ARP 패킷을 보냄
 
 ```bash
+# 198.19.249.2(타겟)에게 게이트웨이 198.19.249.1의 MAC 주소를 공격자의 MAC 주소로 속이는 ARP 패킷을 보냄
 sudo arpspoof -i eth0 -t 198.19.249.2 198.19.249.1
-```
 
-동시에, 스푸핑 머신에서 게이트웨이에도 ARP 스푸핑을 수행  
-게이트웨이 198.19.249.1에게 호스트 머신 198.19.249.2의 MAC 주소를 공격자의 MAC 주소로 속이는 ARP 패킷을 보냄
-
-```bash
+# 동시에, 스푸핑 머신에서 게이트웨이에도 ARP 스푸핑을 수행
+# 게이트웨이 198.19.249.1에게 호스트 머신 198.19.249.2의 MAC 주소를 공격자의 MAC 주소로 속이는 ARP 패킷을 보냄
 sudo arpspoof -i eth0 -t 198.19.249.1 198.19.249.2
 ```
+
+또는 단일 명령어로 양방향 스푸핑을 수행할 수 있음.
+
+```bash
+sudo arpspoof -i eth0 198.19.249.2 -r 198.19.249.1
+```
+
+> `-r` 옵션을 사용하면 arpspoof는 목표 IP 주소와 게이트웨이 IP 주소 간의 ARP 스푸핑을 동시에 수행할 수 있음.  
+> 이는 네트워크에서 게이트웨이 역할을 하는 장치로부터 목표 호스트로 가는 모든 트래픽을 가로챌 수 있게 해줍니다.
 
 
 ### fragrouter 사용 예제
@@ -226,6 +244,16 @@ $ sudo tcpdump -i 1 -n host httpbin.org and tcp port 80 -w capture.pcap
 ```
 
 ![](/images/2024-06-27-18-08-23.png)
+
+---
+
+
+## 기타 
+
+### Docker 환경에서의 테스트 이슈 
+- Docker의 기본 브리지 네트워크 설정에서 외부 네트워크와의 통신이 올바르게 설정되지 않았을 수 있습니다.
+  - Docker 브리지 네트워크에서 외부 네트워크로 나가는 패킷은 NAT를 통해 변환되는데, 이 과정에서 문제가 발생할 수 있습니다.
+- docker macvlan 네트워크 모드에서는 테스트 가능 : [Docker 네트워크 - Macvlan](/devops/docker-macvlan/){:target="_blank"}
 
 {% endraw %}
  
