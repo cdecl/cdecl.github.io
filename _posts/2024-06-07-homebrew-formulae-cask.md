@@ -19,7 +19,7 @@ Homebrew는 macOS와 Linux에서 소프트웨어를 쉽게 설치하고 관리�
 {% raw %}
 
 ## Homebrew
-- [brew.sh](https://brew.sh/)
+- <https://brew.sh/>{:target="_blank"}
 - Homebrew는 macOS와 Linux에서 소프트웨어 패키지를 간편하게 설치하고 관리할 수 있는 패키지 관리자   
 - Homebrew에는 두 가지 주요 설치 방법인 `Formulae`와 `Cask`가 있습니다. 
 - Formulae와 Cask의 차이점과 동일한 애플리케이션이 두 가지 방법으로 제공되는 예시를 설명
