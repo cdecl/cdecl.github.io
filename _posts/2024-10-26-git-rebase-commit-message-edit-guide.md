@@ -8,7 +8,6 @@ categories:
   - dev
 
 tags:
-tags:
   - git
   - git rebase
   - git rebase
