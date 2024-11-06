@@ -1,11 +1,10 @@
-version: "3"
 services:
   jekyll:
-    image: jekyll/jekyll
+    image: minimal-mistakes:latest
     container_name: blog
     ports:
       - 4000:4000
-    command: bash -c "bundle add webrick && jekyll serve --force_polling"
+    command: bash -c "bundle install && jekyll serve --force_polling --host 0.0.0.0"
     volumes:
       - ./:/srv/jekyll
     environment:
@@ -14,4 +13,3 @@ services:
       - TZ=Asia/Seoul
       - LC_ALL=ko_KR.UTF-8
     restart: unless-stopped
-
