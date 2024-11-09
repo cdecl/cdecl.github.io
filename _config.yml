@@ -103,7 +103,7 @@ analytics:
 author:
   name             : "Byung Kyu KIM"
   avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
-  bio              : "Bright size life"
+  bio              : "Bright size life <br/>- 생각나는대로 기록하기"
   location         : "Seoul"
   email            :
   links:
