@@ -1,6 +1,6 @@
 ---
 title: 암호화 지식 (개발자를 위한 가이드)
-date: 2024-11-16
+last_modified_at: 2024-11-16
 toc: true
 toc_sticky: true
 
