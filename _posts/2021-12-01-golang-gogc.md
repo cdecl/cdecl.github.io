@@ -1,6 +1,6 @@
 ---
 title: Golang GC
-
+last_modified_at: 2024-11-15
 toc: true
 toc_sticky: true
 
@@ -19,46 +19,72 @@ Golang GC (가비지 컬렉터) 주요 내용
 {% raw %}
 
 ## Golang GC : `GOGC`
-- 유효하지 않는 메모리(Danling Object)를 주기적으로 해제하는 기법
-  - Java의 `Parallel GC`, `G1GC` 와 같은
+- 유효하지 않는 메모리(Dangling Object)를 주기적으로 해제하는 기법
+  - Java의 `Parallel GC`, `G1GC` 와 유사하나 구현 방식에서 차이가 있음
+  - Stop-the-World 시간을 최소화하도록 설계됨
 - Tri-Color Algorithm 사용
+  - 동시성을 고려한 효율적인 메모리 관리 알고리즘
 - CMS (Concurrent Mark and Sweep) 방식 운영
   - Java 와 같은 Generation GC 기법이나 Compaction은 지원하지 않음
+  - 대신 더 효율적인 메모리 할당 전략을 사용
 - Compaction (압축, 재배치) 가 없음 
   - 재배치를 하지 않는 대신 `TCMalloc`를 통한 메모리 할당 관리
+  - 메모리 단편화를 최소화하고 빠른 할당을 지원
   - [멀티쓰레드 최적화 힙 메모리 할당기 - tcmalloc. jemalloc](https://cdecl.net/304){:target="_blank"}
 
-#### Tri-Color Algorithm 사용
-`white`, `black`, `grey` 상태를 통한 메모리 관리 
+### Tri-Color Algorithm 동작 원리
+`white`, `black`, `grey` 세 가지 상태를 통한 메모리 관리 
 
-- 초기 모든 메모리 상태를 `white` 로 set
-- `GC Root` 부터 연결되어 있는 주소를 `grey`로 표시
-- `grey` 상태에서 연결 되어 있는 주소를 `grey`로 표시, 자기는 `black`로 표시
-- 위 내용 반복 후, 남은 `white` 상태 memory free (unreachable) 
+1. 초기 단계
+   - 모든 메모리 객체를 `white` 상태로 설정
+   - 이는 잠재적으로 수집 가능한 상태를 의미
 
-![](/images/2021-12-02-10-43-45.png)
+2. 마킹 단계
+   - `GC Root`에서 직접 참조하는 객체들을 `grey`로 표시
+   - `grey` 객체들은 검사가 필요한 상태를 의미
 
-#### TCMalloc
-- <https://github.com/google/tcmalloc>{:target="_blank"}
-- 구글이 만든 Multi Thread 환경에서 최적화된 메모리 할당기
-- malloc 으로 대표되는 할당자의 경우 멀티쓰레드의 최적화 및 단편화가 고려되지 않음
-- Multi Thread 환경에서의 Memory Pooling, 단편화 관리에 최적화된 메모리 할당기
+3. 스캐닝 단계
+   - `grey` 상태 객체가 참조하는 다른 객체들을 `grey`로 표시
+   - 검사가 완료된 객체는 `black`으로 변경
+   - 이 과정을 grey 객체가 없을 때까지 반복
 
+4. 수집 단계
+   - 남아있는 `white` 상태의 객체들을 메모리에서 해제
+   - 이 객체들은 더 이상 접근할 수 없는(unreachable) 상태
 
-#### GOGC 옵션
-가비지 수집 대상 백분율.  
-이전 수집 후 남은 라이브 데이터에 대한 새로 할당된 데이터의 비율
+![Tri-Color Mark and Sweep](/images/2021-12-02-10-43-45.png)
 
-- `GOGC=100` : default, 100% 비율
-- `GOGC=off` : GC를 사용하지 않음 
+### TCMalloc (Thread-Caching Malloc)
+- Google이 개발한 고성능 메모리 할당기
+- 특징:
+  - Thread 별 캐시를 통한 빠른 메모리 할당
+  - 크기별로 최적화된 할당 전략 사용
+  - 메모리 단편화 최소화
+  - Lock contention 감소로 인한 성능 향상
 
----
+- 장점:
+  - 멀티스레드 환경에서 우수한 성능
+  - 메모리 재사용 최적화
+  - 캐시 지역성 향상
+  - 할당/해제 오버헤드 감소
 
-### GC Trace 
-`gctrace` 옵션을 통한 gc 로깅
+### GOGC 옵션
+가비지 컬렉션 대상 백분율 설정  
+이전 수집 후 남은 라이브 데이터에 대한 새로 할당된 데이터의 비율을 조정
 
-##### 예제코드 
-  
+- `GOGC=100` : 기본값, 100% 비율
+  - 힙이 라이브 메모리의 100%만큼 증가하면 GC 트리거
+- `GOGC=50` : GC를 더 자주 실행
+  - 메모리 사용량은 줄지만 CPU 사용량 증가
+- `GOGC=200` : GC를 덜 자주 실행
+  - CPU 사용량은 줄지만 메모리 사용량 증가
+- `GOGC=off` : GC를 사용하지 않음
+  - 특수한 경우에만 사용 (벤치마크, 테스트 등)
+
+### GC Trace 활용
+`gctrace` 옵션을 통한 가비지 컬렉션 모니터링
+
+#### 예제 코드
 ```go
 package main
 
@@ -92,6 +118,7 @@ func main() {
 }
 ```
 
+#### 실행 및 모니터링
 ```sh
 # 프로젝트 초기화
 $ go mod init gctest
@@ -106,6 +133,10 @@ $ go build
 ```sh
 # GODEBUG=gctrace=1 : gctrace 활성화
 $ GODEBUG=gctrace=1 ./gctest
+```
+
+#### 트레이스 출력 분석
+```
 gc 1 @0.010s 9%: 0.058+2.6+0.083 ms clock, 0.46+6.6/2.9/0+0.66 ms cpu, 4->5->4 MB, 5 MB goal, 8 P
 gc 2 @0.015s 19%: 0.093+4.7+0.17 ms clock, 0.74+14/6.1/0+1.4 ms cpu, 6->7->6 MB, 8 MB goal, 8 P
 gc 3 @0.027s 25%: 0.15+5.7+0.34 ms clock, 1.2+22/9.0/0+2.7 ms cpu, 10->13->11 MB, 13 MB goal, 8 P
@@ -118,4 +149,12 @@ gc 9 @0.605s 35%: 0.11+109+0.087 ms clock, 0.88+624/216/0+0.70 ms cpu, 252->261-
 gc 10 @1.033s 35%: 0.077+206+1.0 ms clock, 0.61+1021/397/0.93+8.1 ms cpu, 430->437->403 MB, 484 MB goal, 8 P
 ```
 
+#### 출력 항목 설명:
+- `gc 1`: GC 실행 번호
+- `@0.010s`: 프로그램 시작 후 경과 시간
+- `9%`: GC에 사용된 CPU 시간 비율
+- `0.058+2.6+0.083 ms`: 각 GC 단계별 소요 시간
+- `4->5->4 MB`: GC 전후의 힙 크기 변화
+- `5 MB goal`: 목표 힙 크기
+- `8 P`: 사용된 프로세서 수
 {% endraw %}
