@@ -1,5 +1,6 @@
 ---
-title: Docker build multi-architecture
+title: Docker Multi-Architecture Build Guide
+last_modified_at: 2024-11-15
 
 toc: true
 toc_sticky: true
@@ -16,14 +17,16 @@ tags:
   - arm64
 ---
 
-Docker image multi architecture (Platform) 대응 
+# Docker 이미지 다중 아키텍처(Multi-Architecture) 빌드 가이드
 
 {% raw %}
 
 ## Docker build
-Docker build 시, build 하는 머신의 Platform 에 맞춰 기본으로 빌드 됨 
+Docker 이미지를 빌드할 때는 기본적으로 빌드하는 머신의 CPU 아키텍처(Platform)에 맞춰 빌드됩니다. 이는 Docker의 기본 동작이며, 호스트 시스템의 아키텍처와 일치하는 이미지를 생성합니다.
 
-- `macOS` `arm64`
+> **아키텍처의 중요성**: 컨테이너는 호스트 OS의 커널을 공유하지만, CPU 아키텍처에 맞는 바이너리가 필요합니다. 예를 들어, ARM64용으로 빌드된 이미지는 AMD64 시스템에서 직접 실행할 수 없습니다.
+
+- `macOS` `arm64` 테스트
 
 ```sh
 $ uname -a
@@ -34,7 +37,7 @@ root:xnu-7195.141.2~5/RELEASE_ARM64_T8101 arm64
 ```dockerfile
 # Dockerfile
 FROM alpine
-uname -a 
+RUN uname -a 
 ```
 
 ```sh
@@ -52,7 +55,13 @@ arm64
 ```
 
 ### Platform 변경하여 이미지 빌드 
-- `amd64` (x86_64) 빌드 : `--platform=linux/amd64`
+Docker는 `--platform` 플래그를 통해 타겟 아키텍처를 지정할 수 있습니다. QEMU를 통한 에뮬레이션으로 크로스 플랫폼 빌드가 가능합니다.
+
+지원되는 주요 플랫폼:
+- `linux/amd64`: x86_64 아키텍처 (Intel, AMD)
+- `linux/arm64`: 64비트 ARM 아키텍처 (Apple Silicon, AWS Graviton)
+- `linux/arm/v7`: 32비트 ARM v7 아키텍처 (라즈베리파이 등)
+- `linux/386`: 32비트 x86 아키텍처
 
 ```sh
 # amd64 로 플랫폼 지정 빌드 
@@ -68,15 +77,21 @@ $ docker image inspect cdecl/alpine -f '{{.Architecture}}'
 amd64
 ```
 
-> `이미지:태그`는 마지막 빌드한 Platform 환경으로 결정  
+> **주의사항**: 같은 `이미지:태그`에 대해 다른 플랫폼으로 빌드하면 이전 이미지를 덮어쓰게 됩니다. 이는 단일 태그가 하나의 이미지만 참조할 수 있기 때문입니다.
 
 ## Multi-architecture docker images build
-- <https://docs.docker.com/desktop/multi-arch/>{:target="_blank"}
-- 같은 `이미지:태그`에 Multi-architecture 이미지 적용  
-- `docker buildx` 명령 사용 
+Docker BuildX는 Docker의 실험적 기능으로, 다중 아키텍처 이미지를 효율적으로 빌드하고 관리할 수 있게 해줍니다.
+
+주요 특징:
+- 하나의 매니페스트로 여러 아키텍처 이미지 관리
+- 동시에 여러 플랫폼용 이미지 빌드
+- 효율적인 캐시 관리와 병렬 빌드 지원
+- OCI(Open Container Initiative) 표준 준수
+
+참고 문서: https://docs.docker.com/desktop/multi-arch/
 
 ### Builder 환경 확인
-- `docker buildx ls`  
+BuildX는 여러 빌더 인스턴스를 관리할 수 있으며, 각 빌더는 서로 다른 기능과 설정을 가질 수 있습니다.
 
 ```sh
 # command to list the existing builder
@@ -89,15 +104,20 @@ default *       docker
 ```
 
 ### Custom Builder 만들기 
-- Create and use : `docker buildx create --name cdeclx --use`
-- `docker buildx build` 를 위한 Container 환경 구성 : `moby/buildkit:buildx-stable-1`
+BuildX 빌더는 이미지 빌드를 위한 독립된 환경을 제공합니다. 커스텀 빌더를 사용하면 특정 요구사항에 맞는 빌드 환경을 구성할 수 있습니다.
+
+빌더 특징:
+- 격리된 빌드 환경 제공
+- 커스텀 캐시 설정 가능
+- 특정 플랫폼에 최적화된 빌드 가능
+- 동시 빌드 작업 처리
 
 ```sh
 # Create a new builder
 $ docker buildx create --name cdeclx
 cdeclx
 
-# Switch to the new builder : cdeclx 빌더 사용
+# Switch to the new builder
 $ docker buildx use cdeclx
 
 # builder 확인 
@@ -112,9 +132,13 @@ default         docker
 ```
 
 ### Multi-architecture image build 
-- `docker buildx build` 명령어 사용 
-  - `--platform=<platform>` : `--platform=linux/arm64,linux/amd64`
-  - `bootstrap` 준비과정 생략 가능 : `docker buildx inspect --bootstrap`
+BuildX를 사용한 다중 아키텍처 이미지 빌드는 하나의 명령으로 여러 플랫폼용 이미지를 생성할 수 있게 해줍니다.
+
+빌드 옵션:
+- `--platform`: 빌드할 대상 플랫폼 지정
+- `--push`: 빌드 완료 후 레지스트리에 자동 푸시
+- `--load`: 로컬 Docker 데몬에 이미지 로드 (단일 플랫폼만 가능)
+- `--cache-from`, `--cache-to`: 원격 캐시 설정
 
 ```sh
 $ docker buildx build . -t cdecl/alpine --platform=linux/arm64,linux/amd64
@@ -125,11 +149,10 @@ WARN[0000] No output specified for docker-container driver. Build result will on
 ...
 ```
 
-> WARN[0000] 도커 컨테이너 드라이버에 대해 지정된 출력이 없습니다. 빌드 결과는 빌드 캐시에만 남습니다.  
-> 결과 이미지를 레지스트리에 푸시하려면 –push를 사용하거나 이미지를 도커에 로드하려면 –load를 사용하세요.
+> **중요**: BuildX 빌드 결과를 사용하기 위해서는 `--push` 또는 `--load` 옵션이 필요합니다. 기본적으로는 빌드 캐시에만 저장됩니다.
 
 ```sh
-# --push
+# --push 옵션으로 레지스트리에 직접 푸시
 $ docker buildx build . -t cdecl/alpine --platform=linux/arm64,linux/amd64 --push
 [+] Building 6.2s (11/11) FINISHED
  ...
@@ -137,5 +160,7 @@ $ docker buildx build . -t cdecl/alpine --platform=linux/arm64,linux/amd64 --pus
 ```
 
 ![](/images/2021-08-31-16-15-41.png)
+
+빌드된 이미지는 Docker Hub나 프라이빗 레지스트리에서 매니페스트 리스트로 관리되며, 클라이언트의 아키텍처에 맞는 이미지가 자동으로 선택되어 다운로드됩니다.
 
 {% endraw %}
