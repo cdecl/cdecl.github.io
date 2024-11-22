@@ -17,6 +17,8 @@ tags:
 
 `asyncio`는 `async`/`await` 구문을 사용하여 동시성 코드를 작성하는 라이브러리입니다. 특히 I/O 작업이 많은 애플리케이션에서 높은 성능을 발휘합니다.
 
+{% raw %}
+
 ## asyncio : asynchronous io 처리 
 - <https://docs.python.org/ko/3/library/asyncio.html>{:target="_blank"}
 - `Threading` 동시성 제어는 `GIL (Global interpreter lock)` 제약에 의해 느리고, 복잡도는 그대로 가지고 있음
