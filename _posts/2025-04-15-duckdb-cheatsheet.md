@@ -51,7 +51,7 @@ DuckDB는 파일 직접 작업과 전통적인 데이터베이스 관리를 모�
 
 ### 3. 파일 포맷 작업
 
-DuckDB는 `read_csv_auto`, `read_parquet`, `read_json_auto`, 그리고 `spatial` 확장을 통해 CSV, Parquet, JSON, Excel 파일을 지원합니다. 각 포맷에 대한 주요 명령어는 아래와 같습니다.
+DuckDB는 `read_csv_auto`, `read_parquet`, `read_json_auto`, 그리고 `excel` 확장을 통해 CSV, Parquet, JSON, Excel 파일을 지원합니다. 각 포맷에 대한 주요 명령어는 아래와 같습니다.
 
 #### 3.1 CSV 파일
 - **가져오기**:
@@ -164,39 +164,52 @@ DuckDB는 `read_csv_auto`, `read_parquet`, `read_json_auto`, 그리고 `spatial`
 
 #### 3.4 Excel 파일
 - **설정**:
-  - Excel 파일 처리는 `spatial` 확장이 필요.
+  - Excel 파일 처리는 `excel` 확장이 필요.
   - 설치 및 로드:
     ```sql
-    INSTALL spatial;
-    LOAD spatial;
+    INSTALL excel;
+    LOAD excel;
     ```
 
 - **가져오기**:
   - CLI:
     ```bash
-    duckdb -c "CREATE TABLE mytable AS SELECT * FROM st_read('file.xlsx');"
+    duckdb -c "CREATE TABLE mytable AS SELECT * FROM read_excel('file.xlsx');"
     ```
   - SQL:
     ```sql
-    SELECT * FROM st_read('file.xlsx');
-    CREATE TABLE mytable AS SELECT * FROM st_read('file.xlsx');
+    SELECT * FROM read_excel('file.xlsx');
+    CREATE TABLE mytable AS SELECT * FROM read_excel('file.xlsx');
     ```
   - 특정 시트 지정:
     ```sql
-    SELECT * FROM st_read('file.xlsx', layer='Sheet1');
+    SELECT * FROM read_excel('file.xlsx', sheet='Sheet1');
+    ```
+  - 특정 셀 범위 지정:
+    ```sql
+    SELECT * FROM read_excel('file.xlsx', sheet='Sheet1', range='A1:C10');
     ```
 
 - **내보내기**:
-  - 현재 DuckDB는 Excel 파일로 직접 내보내기를 지원하지 않음. 대신 CSV나 Parquet으로 내보낸 후 외부 도구로 변환 가능.
-  - 예: CSV로 내보내기 후 변환:
+  - CLI:
+    ```bash
+    duckdb -c "COPY mytable TO 'output.xlsx' WITH (FORMAT EXCEL);"
+    ```
+  - SQL:
     ```sql
-    COPY mytable TO 'output.csv' (DELIMITER ',', HEADER);
+    COPY mytable TO 'output.xlsx' WITH (FORMAT EXCEL, SHEET 'Sheet1');
+    ```
+  - 여러 시트로 내보내기:
+    ```sql
+    COPY mytable TO 'output.xlsx' WITH (FORMAT EXCEL, SHEET 'DataSheet');
     ```
 
 - **참고**:
-  - `spatial` 확장은 `.xlsx`, `.xls` 파일을 읽을 수 있으나, 복잡한 서식은 지원하지 않을 수 있음.
+  - `read_excel`은 `.xlsx`, `.xls` 파일을 지원하며, `sheet` 또는 `range` 옵션으로 데이터 범위를 지정할 수 있음.
+  - `COPY ... WITH (FORMAT EXCEL)`을 사용해 Excel 파일로 내보내기 가능.
+  - 복잡한 서식(예: 차트, 매크로)은 지원하지 않음.
   - 원격 Excel 파일은 HTTP/S3를 통해 접근 가능 (아래 섹션 참조).
-  - Excel 파일은 메모리 사용량이 많을 수 있으므로 대규모 데이터는 Parquet으로 변환 권장.
+  - 대규모 데이터는 Parquet으로 변환 권장.
 
 ### 4. 데이터베이스 작업 및 Attach
 
@@ -277,11 +290,17 @@ DuckDB의 `httpfs` 확장은 HTTP 또는 S3를 통해 원격 파일에 접근할
     ```sql
     SELECT * FROM read_csv_auto('https://example.com/data.csv');
     SELECT * FROM read_parquet('https://example.com/file.parquet');
-    SELECT * FROM st_read('https://example.com/file.xlsx');  # Excel 파일
+    SELECT * FROM read_excel('https://example.com/file.xlsx', sheet='Sheet1');
     ```
   - CLI:
     ```bash
-    duckdb -c "SELECT * FROM 'https://example.com/data.csv';"
+    duckdb -c "SELECT * FROM read_excel('https://example.com/file.xlsx');"
+    ```
+
+- **내보내기**:
+  - SQL:
+    ```sql
+    COPY mytable TO 'https://example.com/output.xlsx' WITH (FORMAT EXCEL, SHEET 'Sheet1');
     ```
 
 #### 5.3 S3 접근
@@ -291,22 +310,24 @@ DuckDB의 `httpfs` 확장은 HTTP 또는 S3를 통해 원격 파일에 접근할
     SET s3_access_key_id = 'your_access_key';
     SET s3_secret_access_key = 'your_secret_key';
     SELECT * FROM read_parquet('s3://bucket/file.parquet');
-    SELECT * FROM st_read('s3://bucket/file.xlsx');  # Excel 파일
+    SELECT * FROM read_excel('s3://bucket/file.xlsx', sheet='Sheet1');
     ```
   - 익명 접근:
     ```sql
     SELECT * FROM read_parquet('s3://bucket/public/file.parquet');
+    SELECT * FROM read_excel('s3://bucket/public/file.xlsx');
     ```
 
 - **내보내기**:
   - SQL:
     ```sql
-    COPY mytable TO 's3://bucket/output.parquet' (FORMAT PARQUET);
+    COPY mytable TO 's3://bucket/output.xlsx' WITH (FORMAT EXCEL, SHEET 'Sheet1');
     ```
 
 - **참고**:
   - S3 리전 설정: `SET s3_region = 'us-east-1';`.
   - `httpfs`는 HTTP와 S3 프로토콜 모두 지원.
+  - Excel 파일의 원격 내보내기는 `httpfs` 확장과 함께 작동.
 
 ### 6. CLI 유틸리티
 
@@ -346,13 +367,13 @@ DuckDB의 CLI는 출력 형식과 실행 옵션을 통해 생산성을 높입니
 # CLI로 DuckDB 실행 및 확장 로드
 duckdb
 > INSTALL httpfs; LOAD httpfs;
-> INSTALL spatial; LOAD spatial;
+> INSTALL excel; LOAD excel;
 
 # 로컬 CSV에서 테이블 생성 (헤더 포함)
 > CREATE TABLE users AS SELECT * FROM read_csv_auto('users.csv', header=TRUE);
 
 # 로컬 Excel 파일에서 데이터 가져오기
-> CREATE TABLE sales AS SELECT * FROM st_read('sales.xlsx', layer='Sheet1');
+> CREATE TABLE sales AS SELECT * FROM read_excel('sales.xlsx', sheet='Sheet1');
 
 # 원격 Parquet 데이터 쿼리
 > SELECT * FROM read_parquet('s3://bucket/data.parquet') LIMIT 5;
@@ -365,11 +386,11 @@ duckdb
 > ATTACH DATABASE 'db2.db' AS db2;
 > SELECT u.name FROM mydb.users u JOIN db2.orders o ON u.id = o.user_id;
 
-# 결과 내보내기 (헤더 포함 CSV)
-> COPY users TO 'output.csv' (DELIMITER ',', HEADER TRUE);
+# 결과 내보내기 (Excel 파일)
+> COPY users TO 'output.xlsx' WITH (FORMAT EXCEL, SHEET 'Users');
 ```
 
-이 워크플로우는 로컬 및 원격 데이터를 통합하고, 다중 데이터베이스 쿼리를 실행하며, 결과를 다양한 포맷으로 내보내는 과정을 보여줍니다.
+이 워크플로우는 로컬 및 원격 데이터를 통합하고, 다중 데이터베이스 쿼리를 실행하며, 결과를 다양한 포맷(특히 Excel)으로 내보내는 과정을 보여줍니다.
 
 ### 8. 추가 팁
 
@@ -385,12 +406,13 @@ duckdb
   UNION ALL
   SELECT * FROM read_parquet('file.parquet')
   UNION ALL
-  SELECT * FROM st_read('file.xlsx');
+  SELECT * FROM read_excel('file.xlsx', sheet='Sheet1');
   ```
 
 - **로컬 및 원격 혼합**:
   ```sql
   SELECT * FROM read_csv_auto('https://example.com/data.csv')
   UNION ALL
-  SELECT * FROM 'local_file.csv';
+  SELECT * FROM read_excel('https://example.com/file.xlsx', sheet='Sheet1');
   ```
+
