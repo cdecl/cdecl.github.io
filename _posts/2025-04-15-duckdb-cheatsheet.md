@@ -174,39 +174,39 @@ DuckDB는 `read_csv_auto`, `read_parquet`, `read_json_auto`, 그리고 `excel` �
 - **가져오기**:
   - CLI:
     ```bash
-    duckdb -c "CREATE TABLE mytable AS SELECT * FROM read_excel('file.xlsx');"
+    duckdb -c "CREATE TABLE mytable AS SELECT * FROM read_xlsx('file.xlsx');"
     ```
   - SQL:
     ```sql
-    SELECT * FROM read_excel('file.xlsx');
-    CREATE TABLE mytable AS SELECT * FROM read_excel('file.xlsx');
+    SELECT * FROM read_xlsx('file.xlsx');
+    CREATE TABLE mytable AS SELECT * FROM read_xlsx('file.xlsx');
     ```
   - 특정 시트 지정:
     ```sql
-    SELECT * FROM read_excel('file.xlsx', sheet='Sheet1');
+    SELECT * FROM read_xlsx('file.xlsx', sheet='Sheet1');
     ```
   - 특정 셀 범위 지정:
     ```sql
-    SELECT * FROM read_excel('file.xlsx', sheet='Sheet1', range='A1:C10');
+    SELECT * FROM read_xlsx('file.xlsx', sheet='Sheet1', range='A1:C10');
     ```
 
 - **내보내기**:
   - CLI:
     ```bash
-    duckdb -c "COPY mytable TO 'output.xlsx' WITH (FORMAT EXCEL);"
+    duckdb -c "COPY mytable TO 'output.xlsx' WITH (FORMAT xlsx);"
     ```
   - SQL:
     ```sql
-    COPY mytable TO 'output.xlsx' WITH (FORMAT EXCEL, SHEET 'Sheet1');
+    COPY mytable TO 'output.xlsx' WITH (FORMAT xlsx, SHEET 'Sheet1');
     ```
   - 여러 시트로 내보내기:
     ```sql
-    COPY mytable TO 'output.xlsx' WITH (FORMAT EXCEL, SHEET 'DataSheet');
+    COPY mytable TO 'output.xlsx' WITH (FORMAT xlsx, SHEET 'DataSheet');
     ```
 
 - **참고**:
-  - `read_excel`은 `.xlsx`, `.xls` 파일을 지원하며, `sheet` 또는 `range` 옵션으로 데이터 범위를 지정할 수 있음.
-  - `COPY ... WITH (FORMAT EXCEL)`을 사용해 Excel 파일로 내보내기 가능.
+  - `read_xlsx`은 `.xlsx`, `.xls` 파일을 지원하며, `sheet` 또는 `range` 옵션으로 데이터 범위를 지정할 수 있음.
+  - `COPY ... WITH (FORMAT xlsx)`을 사용해 Excel 파일로 내보내기 가능.
   - 복잡한 서식(예: 차트, 매크로)은 지원하지 않음.
   - 원격 Excel 파일은 HTTP/S3를 통해 접근 가능 (아래 섹션 참조).
   - 대규모 데이터는 Parquet으로 변환 권장.
@@ -290,17 +290,17 @@ DuckDB의 `httpfs` 확장은 HTTP 또는 S3를 통해 원격 파일에 접근할
     ```sql
     SELECT * FROM read_csv_auto('https://example.com/data.csv');
     SELECT * FROM read_parquet('https://example.com/file.parquet');
-    SELECT * FROM read_excel('https://example.com/file.xlsx', sheet='Sheet1');
+    SELECT * FROM read_xlsx('https://example.com/file.xlsx', sheet='Sheet1');
     ```
   - CLI:
     ```bash
-    duckdb -c "SELECT * FROM read_excel('https://example.com/file.xlsx');"
+    duckdb -c "SELECT * FROM read_xlsx('https://example.com/file.xlsx');"
     ```
 
 - **내보내기**:
   - SQL:
     ```sql
-    COPY mytable TO 'https://example.com/output.xlsx' WITH (FORMAT EXCEL, SHEET 'Sheet1');
+    COPY mytable TO 'https://example.com/output.xlsx' WITH (FORMAT xlsx, SHEET 'Sheet1');
     ```
 
 #### 5.3 S3 접근
@@ -310,18 +310,18 @@ DuckDB의 `httpfs` 확장은 HTTP 또는 S3를 통해 원격 파일에 접근할
     SET s3_access_key_id = 'your_access_key';
     SET s3_secret_access_key = 'your_secret_key';
     SELECT * FROM read_parquet('s3://bucket/file.parquet');
-    SELECT * FROM read_excel('s3://bucket/file.xlsx', sheet='Sheet1');
+    SELECT * FROM read_xlsx('s3://bucket/file.xlsx', sheet='Sheet1');
     ```
   - 익명 접근:
     ```sql
     SELECT * FROM read_parquet('s3://bucket/public/file.parquet');
-    SELECT * FROM read_excel('s3://bucket/public/file.xlsx');
+    SELECT * FROM read_xlsx('s3://bucket/public/file.xlsx');
     ```
 
 - **내보내기**:
   - SQL:
     ```sql
-    COPY mytable TO 's3://bucket/output.xlsx' WITH (FORMAT EXCEL, SHEET 'Sheet1');
+    COPY mytable TO 's3://bucket/output.xlsx' WITH (FORMAT xlsx, SHEET 'Sheet1');
     ```
 
 - **참고**:
@@ -373,7 +373,7 @@ duckdb
 > CREATE TABLE users AS SELECT * FROM read_csv_auto('users.csv', header=TRUE);
 
 # 로컬 Excel 파일에서 데이터 가져오기
-> CREATE TABLE sales AS SELECT * FROM read_excel('sales.xlsx', sheet='Sheet1');
+> CREATE TABLE sales AS SELECT * FROM read_xlsx('sales.xlsx', sheet='Sheet1');
 
 # 원격 Parquet 데이터 쿼리
 > SELECT * FROM read_parquet('s3://bucket/data.parquet') LIMIT 5;
@@ -387,7 +387,7 @@ duckdb
 > SELECT u.name FROM mydb.users u JOIN db2.orders o ON u.id = o.user_id;
 
 # 결과 내보내기 (Excel 파일)
-> COPY users TO 'output.xlsx' WITH (FORMAT EXCEL, SHEET 'Users');
+> COPY users TO 'output.xlsx' WITH (FORMAT xlsx, SHEET 'Users');
 ```
 
 이 워크플로우는 로컬 및 원격 데이터를 통합하고, 다중 데이터베이스 쿼리를 실행하며, 결과를 다양한 포맷(특히 Excel)으로 내보내는 과정을 보여줍니다.
@@ -406,13 +406,13 @@ duckdb
   UNION ALL
   SELECT * FROM read_parquet('file.parquet')
   UNION ALL
-  SELECT * FROM read_excel('file.xlsx', sheet='Sheet1');
+  SELECT * FROM read_xlsx('file.xlsx', sheet='Sheet1');
   ```
 
 - **로컬 및 원격 혼합**:
   ```sql
   SELECT * FROM read_csv_auto('https://example.com/data.csv')
   UNION ALL
-  SELECT * FROM read_excel('https://example.com/file.xlsx', sheet='Sheet1');
+  SELECT * FROM read_xlsx('https://example.com/file.xlsx', sheet='Sheet1');
   ```
 
