@@ -5,7 +5,7 @@ toc: true
 toc_sticky: true  
 
 categories:  
-  - 데이터-엔지니어링  
+  - devops
 
 tags:  
   - duckdb  
