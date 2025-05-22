@@ -22,7 +22,10 @@ tags:
 
 ## 1. 정규 표현식이란?
 
-정규 표현식(Regular Expression, Regex)은 텍스트 패턴을 검색, 치환, 검증하는 데 사용되는 강력한 도구입니다. POSIX 기반의 BRE(Basic Regular Expressions), ERE(Extended Regular Expressions), 그리고 Perl 호환 PCRE(Perl-Compatible Regular Expressions)는 각각 다른 기능과 지원 범위를 제공합니다. 이 글에서는 각 정규 표현식 유형의 특징과 `grep`, `egrep`, `sed`, `ripgrep`, `awk` 같은 도구에서의 지원 옵션을 정리합니다.
+정규 표현식(Regular Expression, Regex)은 텍스트 패턴을 검색, 치환, 검증하는 데 사용되는 강력한 도구입니다.  
+POSIX 기반의 BRE(Basic Regular Expressions), ERE(Extended Regular Expressions), 그리고 Perl 호환 PCRE(Perl-Compatible Regular Expressions)는 각각 다른 기능과 지원 범위를 제공합니다.  
+
+이 글에서는 각 정규 표현식 유형의 특징과 `grep`, `egrep`, `sed`, `ripgrep`, `awk` 같은 도구에서의 지원 옵션을 정리합니다.
 
 ## 2. 정규 표현식 유형별 기능
 
@@ -33,9 +36,9 @@ tags:
 | **그룹화**             | `\(\)`                              | `()`                                | `()`, 이름 붙은 그룹 지원            |
 | **백레퍼런스**          | `\1`, `\2`                          | `\1`, `\2`                          | `\1`, `\2`, 이름 참조 가능           |
 | **반복**               | `*`, `\{n,m\}`                      | `*`, `+`, `?`, `{n,m}`              | `*`, `+`, `?`, `{n,m}`, `*?`, `+?`   |
-| **고급 기능**           | 없음                                | 없음                                | 전방 탐색(`(?=...)`), 후방 탐색(`(?<=...)`), 유니코드 지원 |
+| **고급 기능**           | 없음                                | 없음                                | 전방 탐색(`(?=...)`), 후방 탐색(`(?<=...)`) |
 | **예시**               | `a\(b*\)c` → `abbbc`               | `a(b+|c)d` → `abbd`, `acd`          | `a(?=b)c` → `abc`에서 `ac`           |
-| **제한점**             | `+`, `?`, `\|`는 이스케이프 필요     | 비탐욕적 매칭, 전방/후방 탐색 미지원 | POSIX 도구에서 제한적 지원           |
+| **제한점**             | `+`, `?`, `\|`는 이스케이프 필요 　　   | 비탐욕적 매칭, 전방/후방 탐색 미지원   | POSIX 도구에서 제한적 지원           |
 
 
 ### 2.1 기본 정규 표현식 (BRE)
@@ -68,41 +71,28 @@ tags:
 
 ## 4. 모범 사례
 
-- **POSIX 우선**:
-  - 이식성을 위해 BRE/ERE 사용.
+- **POSIX 우선**: 이식성을 위해 BRE/ERE 사용.
   
   ```bash
   grep -E 'a(b+|c)d' file.txt
   ```
 
-- **PCRE 활용**:
-  - 복잡한 패턴은 `ripgrep` 또는 GNU grep의 `-P` 사용.
+- **PCRE 활용**: 복잡한 패턴은 `ripgrep` 또는 GNU grep의 `-P` 사용.
   
   ```bash
   rg 'a(?=b)c' file.txt
   ```
 
-- **명시적 옵션**:
-  - 정규 표현식 유형 명시.
+- **명시적 옵션**: 정규 표현식 유형 명시.
   
   ```bash
   sed -E 's/a(b+|c)d/x\1y/' file.txt
   ```
 
-- **플랫폼 테스트**:
-  - GNU/Linux와 BSD/macOS에서 호환성 확인.
+- **플랫폼 테스트**: GNU/Linux와 BSD/macOS에서 호환성 확인.
   
   ```bash
   echo "abbc" | rg 'a(b+|c)d'
-  ```
-
-- **문서화**:
-  - 사용된 정규 표현식 유형과 도구를 문서화.
-  
-  ```markdown
-  # 정규 표현식 가이드
-  - 도구: grep, ripgrep
-  - 지원: ERE (`-E`), PCRE (rg 기본)
   ```
 
 ## 5. 결론
