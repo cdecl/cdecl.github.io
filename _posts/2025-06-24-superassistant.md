@@ -31,16 +31,13 @@ tags:
 
 MCP-SuperAssistant는 다음과 같은 기능을 제공합니다:
 
-| 기능 | 설명 |
-|------|------|
-| **다양한 AI 플랫폼 지원** | ChatGPT, Perplexity, Google Gemini, Grok, Google AI Studio, OpenRouter, DeepSeek, Kagi, T3 Chat, Mistral, GitHub Copilot 등에서 MCP 도구 실행 가능 |
-| **MCP 도구 실행 및 결과 삽입** | AI 대화 내 도구 호출을 감지해 실행하고 결과를 대화에 삽입 |
-| **실시간 데이터 연결** | MCP를 통해 콘텐츠 저장소, 비즈니스 앱, 개발 환경 등과 안전하게 연결 |
-| **자동/수동 모드** | 자동 모드(도구 실행 및 결과 제출 자동화)와 수동 모드(사용자 제어) 지원 |
-| **확장성과 모듈성** | 플러그인 기반 아키텍처로 새로운 플랫폼 및 도구 추가 가능, WebSocket 및 SSE 지원 |
-| **보안 및 접근성** | 복잡한 API 키 설정 없이 기존 AI 구독 활용, 최소 설정으로 사용 가능 |
-| **6000+ MCP 서버 지원** | 다양한 MCP 서버와 통합해 AI 워크플로우 강화 |
-
+- **다양한 AI 플랫폼 지원**: ChatGPT, Perplexity, Google Gemini, Grok, Google AI Studio, OpenRouter, DeepSeek 등에서 MCP 도구 실행 가능
+- **MCP 도구 실행 및 결과 삽입**: AI 대화 내 도구 호출을 감지해 실행하고 결과를 대화에 삽입
+- **실시간 데이터 연결**: MCP를 통해 콘텐츠 저장소, 비즈니스 앱, 개발 환경 등과 안전하게 연결
+- **자동/수동 모드**: 자동 모드(도구 실행 및 결과 제출 자동화)와 수동 모드(사용자 제어) 지원
+- **확장성과 모듈성**: 플러그인 기반 아키텍처로 새로운 플랫폼 및 도구 추가 가능, WebSocket 및 SSE 지원
+- **보안 및 접근성**: 복잡한 API 키 설정 없이 기존 AI 구독 활용, 최소 설정으로 사용 가능
+- **6000+ MCP 서버 지원**: 다양한 MCP 서버와 통합해 AI 워크플로우 강화
 - **특징**: 확장 프로그램은 간단한 설치로 즉시 사용 가능하며, 샌드박스 환경에서 실행되어 보안성을 유지합니다.
 - **제약사항**: 일부 복잡한 도구 호출은 MCP 서버 설정이 필요하며, AI 모델의 프롬프트 이해도에 따라 결과 정확도가 달라질 수 있습니다.
 
@@ -60,45 +57,46 @@ MCP-SuperAssistant를 사용하려면 크롬 확장 프로그램 설치와 MCP �
 MCP-SuperAssistant는 로컬 프록시 서버를 통해 MCP 서버와 통신합니다. 설정 방법은 다음과 같습니다:
 
 #### 1. **프록시 서버 실행**:
-   - 터미널 또는 명령 프롬프트를 열고 다음 명령어를 실행하여 MCP SuperAssistant Proxy를 실행합니다:
-     ```bash
-     npx @srbhptl39/mcp-superassistant-proxy@latest --config ./mcpconfig.json
-     ```
-   - 이 명령은 `mcpconfig.json` 파일을 참조하여 프록시 서버를 시작하며, 기본적으로 `http://localhost:3006`에서 실행됩니다.[](https://www.npmjs.com/package/%40srbhptl39/mcp-superassistant-proxy)
+- 터미널 또는 명령 프롬프트를 열고 다음 명령어를 실행하여 MCP SuperAssistant Proxy를 실행합니다:
+```bash
+npx @srbhptl39/mcp-superassistant-proxy@latest --config ./mcpconfig.json
+```
+
+- 이 명령은 `mcpconfig.json` 파일을 참조하여 프록시 서버를 시작하며, 기본적으로 `http://localhost:3006`에서 실행됩니다.[](https://www.npmjs.com/package/%40srbhptl39/mcp-superassistant-proxy)
 
 #### 2. **mcpconfig.json 예시**:
-   - `mcpconfig.json` 파일을 생성하고 연결할 MCP 서버 정보를 입력합니다. 예시 구성은 다음과 같습니다:
-     ```json
-     {
-       "mcpServers": {
-         "notion": {
-           "command": "npx",
-           "args": ["-y", "@suekou/mcp-notion-server"],
-           "env": {
-             "NOTION_API_TOKEN": "<your_notion_token_here>"
-           }
-         },
-         "gmail": {
-           "url": "https://mcp.composio.dev/gmail/xxxx"
-         },
-         "youtube-subtitle-downloader": {
-           "command": "bun",
-           "args": ["run", "/path/to/mcp-youtube/src/index.ts"]
-         },
-         "desktop-commander": {
-           "command": "npx",
-           "args": ["-y", "@wonderwhy-er/desktop-commander"]
-         }
-       }
-     }
-     ```
+- `mcpconfig.json` 파일을 생성하고 연결할 MCP 서버 정보를 입력합니다. 예시 구성은 다음과 같습니다:
+```json
+{
+  "mcpServers": {
+    "notion": {
+      "command": "npx",
+      "args": ["-y", "@suekou/mcp-notion-server"],
+      "env": {
+        "NOTION_API_TOKEN": "<your_notion_token_here>"
+      }
+    },
+    "gmail": {
+      "url": "https://mcp.composio.dev/gmail/xxxx"
+    },
+    "youtube-subtitle-downloader": {
+      "command": "bun",
+      "args": ["run", "/path/to/mcp-youtube/src/index.ts"]
+    },
+    "desktop-commander": {
+      "command": "npx",
+      "args": ["-y", "@wonderwhy-er/desktop-commander"]
+    }
+  }
+}
+```
 
-   - **설명**:
-     - `mcpServers`: 각 서버는 고유한 키(예: `notion`, `gmail`)로 정의됩니다.
-     - `command` 및 `args`: stdio 기반 서버의 실행 명령어와 인수(예: `npx`, `bun`).
-     - `url`: SSE 기반 서버의 URL.
-     - `env`: API 키와 같은 환경 변수.
-     - 예시에는 Notion, Gmail, YouTube 자막 다운로더, 데스크톱 명령 서버를 포함했습니다.[](https://socket.dev/npm/package/%40srbhptl39/mcp-superassistant-proxy)
+- **설명**:
+  - `mcpServers`: 각 서버는 고유한 키(예: `notion`, `gmail`)로 정의됩니다.
+  - `command` 및 `args`: stdio 기반 서버의 실행 명령어와 인수(예: `npx`, `bun`).
+  - `url`: SSE 기반 서버의 URL.
+  - `env`: API 키와 같은 환경 변수.
+  - 예시에는 Notion, Gmail, YouTube 자막 다운로더, 데스크톱 명령 서버를 포함했습니다.[](https://socket.dev/npm/package/%40srbhptl39/mcp-superassistant-proxy)
 
 #### 3. **mcpconfig.json 구성**: obsidian, filesystem
 
@@ -126,7 +124,7 @@ MCP-SuperAssistant는 로컬 프록시 서버를 통해 MCP 서버와 통신합�
     ```
 
 #### 4. **프록시 서버 실행 확인**:
-   - 명령어 실행 후 서버가 `http://localhost:3006`에서 정상적으로 작동하는지 확인합니다. MCP-SuperAssistant 사이드바에서 "Connected" 상태를 확인할 수 있습니다.
+- 명령어 실행 후 서버가 `http://localhost:3006`에서 정상적으로 작동하는지 확인합니다. MCP-SuperAssistant 사이드바에서 "Connected" 상태를 확인할 수 있습니다.
 
 ### 3. AI 플랫폼에서 확장 프로그램 연결
 1. **지원되는 AI 플랫폼 접속**:
@@ -145,6 +143,17 @@ MCP-SuperAssistant는 로컬 프록시 서버를 통해 MCP 서버와 통신합�
   - 확장 프로그램이 작동하지 않을 경우: `chrome://extensions/`에서 활성화 확인, 네트워크 연결 확인.
   - 사이드바가 표시되지 않을 경우: 브라우저 새로고침 또는 확장 프로그램 재시작.
   - 프록시 서버 연결 실패 시: `mcpconfig.json` 파일의 형식을 확인하고, 터미널에서 `npx` 명령이 올바르게 실행되는지 점검하세요.
+
+- **자동 모드**:
+  - 자동 실행 (Auto Execute): MCP SuperAssistant가 도구 호출을 감지하면 자동으로 도구를 실행합니다.
+  - 자동 삽입 (Auto Insert): 도구 실행 결과가 자동으로 대화에 삽입됩니다.
+  - 자동 제출 (Auto Submit): 결과가 AI에 자동으로 제출되어 추가 처리됩니다. 때때로 MCP가 실행을 완료하는 데 시간이 필요하기 때문에 자동 제출에 약간의 대기 시간을 설정해야 할 수도 있습니다.
+
+- **Push Content 모드**
+  - Push Content Mode는 MCP SuperAssistant의 기능 중 하나로, 페이지 콘텐츠를 오버레이 대신 챗으로 푸시하는 옵션을 제공합니다. 즉, AI가 현재 페이지의 콘텐츠를 분석하고 활용할 수 있도록 해당 콘텐츠를 AI 챗 인터페이스로 직접 보낼 수 있습니다.
+    
+        
+
 
 ## AI 모델에서 MCP 인식 과정 및 MCP (Tools) 호출 예시
 
