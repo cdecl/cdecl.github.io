@@ -1,11 +1,11 @@
 ---
-title: 정규식의 멀티라인 expressions 활용 Guide
+title: 정규식의 멀티라인 expressions 활용
 
 toc: true  
 toc_sticky: true
 
 categories:
-  - dev
+  - devops
 
 tags:
   - regex
@@ -13,8 +13,9 @@ tags:
   - multiline
   - programming
   - text-processing
-
 ---
+
+멀티라인 표현식의 활용법, **Dotall (Single Line) 모드**, **Multi Line 모드**, **Non-Dotall 모드**의 차이점, 여러 줄을 처리하는 방법
 
 ## 정규식의 멀티라인 표현식이란?
 
