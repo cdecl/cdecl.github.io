@@ -5,7 +5,6 @@ toc: true
 toc_sticky: true
 
 categories:
-  - networking
   - devops
 
 tags:
@@ -14,6 +13,7 @@ tags:
   - mesh-vpn
   - security
   - remote-access
+  - wireguard
 
 ---
 
