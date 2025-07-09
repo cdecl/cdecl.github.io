@@ -1,5 +1,5 @@
 ---
-title: Cline 사용 가이드
+title: 오픈소스 AI 코딩 어시스턴트, Cline 사용 가이드
 
 toc: true  
 toc_sticky: true
