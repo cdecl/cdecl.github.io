@@ -112,11 +112,11 @@ Gemini CLI는 간단한 절차를 통해 설치하고 바로 사용할 수 있�
      ```
   2. 설치가 완료되면 API 키를 설정합니다.
      ```bash
-     gemini-cli config set api_key YOUR_GOOGLE_API_KEY
+     gemini config set api_key YOUR_GOOGLE_API_KEY
      ```
   3. (선택) 선호하는 Gemini 모델을 기본값으로 설정할 수 있습니다.
      ```bash
-     gemini-cli config set model gemini-1.5-pro-latest
+     gemini config set model gemini-1.5-pro-latest
      ```
 
 ### 2. 기본 사용
