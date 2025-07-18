@@ -2,10 +2,9 @@
 title: Obsidian Text Generator 플러그인 가이드 (selected_text, context)
 toc: true
 toc_sticky: true
+
 categories:
-  - obsidian
-  - plugins
-  - ai
+  - devops 
 
 tags:
   - obsidian
@@ -14,6 +13,8 @@ tags:
   - gemini
   - productivity
   - markdown
+  - selected_text
+  - context
 ---
 
 이 글에서는 Obsidian Text Generator 플러그인의 개념부터 기능, 설정 방법, 명령어, 예약어 사용법, 그리고 유용한 추가 기능까지 상세히 알아보겠습니다.
@@ -72,7 +73,7 @@ Text Generator 플러그인은 커맨드 팔레트(Ctrl/Cmd + P)를 통해 다�
 *   **Stop Generation**: 현재 진행 중인 텍스트 생성을 중단합니다.
 *   **Get Models**: 사용 가능한 AI 모델 목록을 가져옵니다.
 
-### 4. 예약어: `{{selected_text}}`와 `{{context}}`
+### 4. Generate Text 예약어: `{{selected_text}}`와 `{{context}}`
 
 Text Generator 플러그인에서 `{{selected_text}}`와 `{{context}}`는 프롬프트에서 사용하는 핵심 예약어입니다.
 
