@@ -75,7 +75,7 @@ uv venv
 
 ### `pyproject.toml` 최소 설정
 
-`src` 레이아웃을 사용하려면 `pyproject.toml` 파일에 패키지의 소스가 어디에 있는지 `uv`에게 알려주어야 합니다.
+`src` 레이아웃을 사용하려면 `pyproject.toml` 파일에 패키지의 소스가 어디에 있는지 `uv`에게 알려주어야 합니다. 또한, 패키지를 실행 가능한 커맨드 라인 도구로 만들려면 `[project.scripts]`를 설정할 수 있습니다.
 
 ```toml
 [project]
@@ -85,11 +85,15 @@ dependencies = [
     "requests",
 ]
 
+[project.scripts]
+my-cli = "my_package.main:main"
+
 [tool.uv.sources]
 my_package = "src"
 ```
 
-- `[tool.uv.sources]` 테이블은 `my_package`라는 패키지의 소스 코드가 `src` 디렉토리에 있음을 `uv`에 명시합니다.
+- **`[project.scripts]`**: 이 섹션은 패키지를 설치할 때 생성될 실행 가능한 스크립트를 정의합니다. 예를 들어, `my-cli = "my_package.main:main"`은 `my-cli`라는 명령어를 실행하면 `my_package/main.py` 파일의 `main` 함수를 호출하도록 합니다.
+- **`[tool.uv.sources]`**: 이 테이블은 `my_package`라는 패키지의 소스 코드가 `src` 디렉토리에 있음을 `uv`에 명시합니다.
 
 ## `src` 레이아웃 vs. Flat 레이아웃
 
@@ -132,6 +136,19 @@ my-project/
 `tests` 디렉토리를 `src` 외부에 두면, **설치된 패키지**를 기준으로 테스트하게 됩니다. 만약 `tests`가 `src` 내부에 있다면, 로컬 소스 파일을 직접 임포트하여 테스트하게 되어 실제 사용자가 패키지를 설치했을 때와 다른 환경에서 테스트가 진행될 수 있습니다.
 
 `pytest`와 같은 테스트 프레임워크는 프로젝트 루트에서 `tests` 디렉토리를 자동으로 찾아 실행하므로 이 구조와 잘 맞습니다.
+
+### `pyproject.toml`에 테스트 경로 설정
+
+`pytest`가 `src` 디렉토리 내의 패키지를 찾을 수 있도록 `pyproject.toml`에 `pytest`의 `pythonpath`를 설정해주는 것이 좋습니다. 이렇게 하면 `import my_package`와 같은 구문을 테스트 코드에서 바로 사용할 수 있습니다.
+
+```toml
+[tool.pytest.ini_options]
+pythonpath = [
+  "src"
+]
+```
+
+이 설정을 추가하면 `pytest`를 실행할 때 `src` 디렉토리가 `sys.path`에 포함되어, `my_package`를 모듈로 인식할 수 있게 됩니다.
 
 ## `uvx`를 활용한 원격 도구 실행
 
