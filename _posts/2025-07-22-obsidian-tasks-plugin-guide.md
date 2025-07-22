@@ -101,27 +101,53 @@ not done
   ```
   ````
 
-## 외부 연동: Todoist와 연동하기
+## 외부 연동: Todoist와 동기화하기
 
-Obsidian Tasks를 Todoist와 연동하여 양쪽 앱에서 할 일을 동기화할 수 있습니다. 이를 위해 `Todoist Sync Plugin`과 같은 커뮤니티 플러그인을 활용할 수 있습니다.
+Obsidian을 Todoist와 연동하면 강력한 시너지를 낼 수 있습니다. 모바일에서는 Todoist로 빠르게 할 일을 입력하고, 데스크톱에서는 Obsidian에서 관련 노트와 함께 할 일을 관리하는 워크플로우를 구축할 수 있습니다. 이를 위한 대표적인 커뮤니티 플러그인 두 가지를 비교해 보겠습니다.
 
-1.  **Todoist Sync 플러그인 설치:** Obsidian의 `커뮤니티 플러그인` 마켓에서 "Todoist"를 검색하여 설치하고 활성화합니다.
-2.  **API 토큰 설정:**
-    *   Todoist 웹사이트에 로그인한 후, **설정 > 통합 > 개발자** 메뉴로 이동합니다.
-    *   API 토큰을 복사하여 Obsidian의 Todoist Sync 플러그인 설정에 붙여넣습니다.
-3.  **동기화 설정:** 플러그인 설정에서 어떤 프로젝트를 동기화할지, 어떤 형식으로 작업을 가져올지 등을 설정합니다.
+### 1. Todoist Sync Plugin (단방향: Todoist → Obsidian)
 
-이제 Obsidian에서 특정 형식으로 작성한 할 일이 Todoist에 자동으로 추가되거나, Todoist에서 생성한 작업이 Obsidian 노트에 나타나게 할 수 있습니다.
+이 플러그인은 주로 **Todoist의 작업을 Obsidian으로 가져오는 단방향 동기화**에 초점을 맞춥니다.
 
-**Example: Obsidian에서 Todoist로 작업 보내기**
+*   **작동 방식:** Todoist API를 사용하여 필터링된 작업 목록(예: '오늘 마감', '프로젝트 A')을 Obsidian 노트에 마크다운 형식으로 렌더링합니다. `todoist` 코드 블록을 사용합니다.
+*   **설정:**
+    1.  `커뮤니티 플러그인`에서 "Todoist Sync"를 설치하고 활성화합니다.
+    2.  Todoist 설정에서 API 토큰을 발급받아 플러그인 설정에 입력합니다.
+*   **사용 예시:**
+    ````markdown
+    ```todoist
+    {
+      "name": "오늘 할 일",
+      "filter": "today | overdue"
+    }
+    ```
+    ````
+    위와 같이 작성하면 오늘 마감이거나 기한이 지난 Todoist 작업 목록이 해당 위치에 표시됩니다.
+*   **장점:** Obsidian에서 노트를 작성하면서 Todoist 작업 목록을 함께 확인하고 싶을 때 유용합니다. Obsidian 내에서 Todoist 작업을 완료 처리하는 것도 가능합니다.
 
-```markdown
-- [ ] #Todoist/Inbox 회의록 정리하기 @중요 📅 2025-07-25
-```
+### 2. Ultimate Todoist Sync (양방향)
 
-위와 같이 작성하면 Todoist의 'Inbox' 프로젝트에 '회의록 정리하기'라는 작업이 '중요' 태그와 함께 7월 25일 마감일로 생성됩니다.
+이름처럼 더 강력한 **양방향(Two-way) 동기화** 기능을 제공하는 플러그인입니다.
 
-이 연동을 통해 모바일에서는 Todoist로 빠르게 할 일을 캡처하고, PC에서는 Obsidian에서 노트와 함께 할 일을 관리하는 효율적인 워크플로우를 구축할 수 있습니다.
+*   **작동 방식:**
+    *   **Todoist → Obsidian (가져오기):** Todoist에서 생성/수정한 작업이 설정된 규칙에 따라 Obsidian의 특정 노트로 동기화됩니다.
+    *   **Obsidian → Todoist (내보내기):** Obsidian의 동기화된 노트에서 작업을 수정/완료하면, 변경사항이 다시 Todoist에 반영됩니다.
+*   **설정:**
+    1.  `커뮤니티 플러그인`에서 "Ultimate Todoist Sync"를 설치하고 활성화합니다.
+    2.  마찬가지로 Todoist API 토큰을 플러그인 설정에 입력합니다.
+    3.  동기화할 Todoist 프로젝트나 필터, 그리고 동기화 내용을 저장할 Obsidian 노트를 지정하는 등 조금 더 상세한 설정이 필요합니다.
+*   **장점:** 두 앱의 데이터를 항상 최신 상태로 유지할 수 있어, 양쪽 앱을 모두 활발하게 사용하는 사용자에게 적합합니다.
+
+### 어떤 플러그인을 선택할까?
+
+| 기능 | Todoist Sync Plugin | Ultimate Todoist Sync |
+| --- | --- | --- |
+| **동기화 방향** | 단방향 (Todoist → Obsidian) | 양방향 (Obsidian ↔ Todoist) |
+| **주요 용도** | Todoist 작업을 Obsidian에서 보기 | 양쪽 앱의 할 일을 완전히 동기화하기 |
+| **설정 복잡도** | 간단함 | 다소 복잡함 |
+| **추천 사용자** | Todoist를 메인으로 사용하며 Obsidian에서 작업을 확인하고 싶을 때 | Obsidian과 Todoist를 모두 적극적으로 사용하는 경우 |
+
+자신의 작업 스타일에 맞는 플러그인을 선택하여 두 앱의 장점을 최대한 활용하는 효율적인 할 일 관리 시스템을 만들어 보세요.
 
 ## 추가 팁
 
