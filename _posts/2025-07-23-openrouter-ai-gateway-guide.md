@@ -20,7 +20,7 @@ tags:
 
 ## OpenRouter란?
 
-OpenRouter는 GPT-4, Claude 3.5 Sonnet, Gemini 2.5 Flash, Llama 3.1 등 여러 제공업체의 최신 AI 모델들을 하나의 표준화된 API 엔드포인트로 묶어 제공하는 서비스입니다. 개발자는 더 이상 각 모델의 API 문서를 따로 학습하거나, 여러 결제 시스템을 관리할 필요 없이 OpenRouter를 통해 원하는 모델을 손쉽게 테스트하고 실제 프로덕션에 적용할 수 있습니다.
+OpenRouter([https://openrouter.ai/](https://openrouter.ai/))는 GPT-4, Claude 3.5 Sonnet, Gemini 2.5 Flash, Llama 3.1 등 여러 제공업체의 최신 AI 모델들을 하나의 표준화된 API 엔드포인트로 묶어 제공하는 서비스입니다. 개발자는 더 이상 각 모델의 API 문서를 따로 학습하거나, 여러 결제 시스템을 관리할 필요 없이 OpenRouter를 통해 원하는 모델을 손쉽게 테스트하고 실제 프로덕션에 적용할 수 있습니다.
 
 ## OpenRouter의 주요 기능
 
