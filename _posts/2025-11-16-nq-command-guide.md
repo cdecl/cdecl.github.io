@@ -4,8 +4,8 @@ date: 2025-11-16 00:00:00 +0900
 toc: true
 toc_sticky: true
 categories:
-  - cli
   - devops
+
 tags:
   - nq
   - cli
