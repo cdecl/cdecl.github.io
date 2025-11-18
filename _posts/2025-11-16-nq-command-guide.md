@@ -1,8 +1,9 @@
 ---
 title: "nq: 가볍고 단순한 커맨드 라인 잡 큐(Job Queue) 시스템"
-date: 2025-11-16 00:00:00 +0900
+
 toc: true
 toc_sticky: true
+
 categories:
   - devops
 
