@@ -67,6 +67,7 @@ GNU Parallel은 단일 Perl 스크립트로 구현되어 있습니다. 이는 �
 *   `--pipe`: 표준 입력을 덩어리(Block)로 나누어 여러 작업으로 분산 처리합니다. (대용량 파일 처리에 필수)
 *   `--block N`: `--pipe` 사용 시 나눌 블록의 크기를 지정합니다. (예: `10M`, `1G`)
 *   `--tag`: 각 출력 라인의 앞에 인자를 태그로 붙여서 어떤 작업의 결과인지 식별하게 해줍니다.
+*   `--colsep regexp`: 입력 라인을 정규표현식 구분자로 나누어 `{1}`, `{2}`, ... 로 사용할 수 있게 합니다. (예: `--colsep ','` - CSV 처리)
 
 ## 🆚 xargs와의 비교
 
@@ -167,6 +168,16 @@ seq 100 | parallel --bar --joblog my_jobs.log sleep {}
 cat urls.txt | parallel --retries 3 wget {}
 ```
 *   `--retries 3`: 작업이 실패(Exit code != 0)할 경우, 최대 3번까지 재시도합니다.
+
+### 11. CSV/TSV 데이터 처리 (Column Separation)
+CSV나 TSV 같은 구분자가 있는 데이터를 처리할 때 `--colsep`을 사용하면 각 컬럼을 개별 인자로 사용할 수 있습니다.
+```bash
+# data.csv: name,age,email
+# Alice,30,alice@example.com
+cat data.csv | parallel --colsep ',' echo "Name: {1}, Age: {2}, Email: {3}"
+```
+*   `--colsep ','`: 쉼표(`,`)를 구분자로 사용하여 입력 라인을 분리합니다.
+*   분리된 각 컬럼은 `{1}`, `{2}`, `{3}`... 순서대로 접근할 수 있습니다. 탭 구분자 파일(TSV)의 경우 `--colsep '\t'`를 사용합니다.
 
 ## 📝 결론
 
