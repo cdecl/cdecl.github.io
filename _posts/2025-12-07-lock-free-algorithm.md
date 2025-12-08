@@ -1,5 +1,9 @@
 ---
 title: 락프리(Lock-Free) 알고리즘 이해하기
+
+toc: true
+toc_sticky: true
+
 categories:
   - dev
 
