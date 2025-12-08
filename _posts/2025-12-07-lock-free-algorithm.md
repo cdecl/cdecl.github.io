@@ -5,6 +5,8 @@ categories:
 
 tags:
   - lock-free
+  - spinlock
+  - mutex
   - c++
   - performance
   - multithreading
@@ -52,13 +54,29 @@ CAS는 **"이 자리가 비어있으면 제가 앉을게요, 아니면 다시 �
 ```cpp
 // 가상의 CAS 함수 설명
 bool CAS(int* addr, int expected, int new_value) {
-    if (*addr == expected) { // 1. 값이 내가 알던거랑 똑같으면
-        *addr = new_value;   // 2. 새 값으로 바꿈
-        return true;         // 성공!
+    // *하드웨어적인 배제(Exclusion) 발생*
+    // CPU는 이 순간 메모리 버스를 잠그거나(Bus Lock), 
+    // 캐시 라인을 독점(Cache Lock/MESI 프로토콜)하여 
+    // 다른 코어가 접근하지 못하게 막습니다.
+    if (*addr == expected) { 
+        *addr = new_value;   
+        return true;        
     }
-    return false;            // 실패! (누가 그새 바꿨음)
+    return false;           
 }
 ```
+
+> **Q. `compare_exchange`도 내부적으로 락을 쓰나요?**  
+> 네, 맞습니다. 하지만 **적용 범위와 매커니즘**이 다릅니다.
+>
+> | 구분 | CAS (Atomic Op) | 스핀락 (Spinlock) | 뮤텍스 (Mutex) |
+> | :--- | :--- | :--- | :--- |
+> | **성격** | **하드웨어 락** (미시적) | **소프트웨어 락** (거시적) | **OS 관리 락** (거시적) |
+> | **잠금 대상** | 단일 메모리 주소 (변수 하나) | 코드 영역 (Critical Section) | 코드 영역 (Critical Section) |
+> | **동작 방식** | Bus Lock / Cache Lock | CAS 루프 (Busy Waiting) | Sleep / Wakeup (Context Switching) |
+> | **비용** | 극도로 낮음 | 낮음 (경합 없을 시) ~ 높음 (경합 시) | 높음 (시스템 콜 + 스케줄링) |
+>
+> 즉, CAS는 **"데이터 갱신 그 자체"**를 위한 미시적인 배제이고, 스핀락/뮤텍스는 이를 이용해 **"코드 영역"**을 보호하는 거시적인 배제입니다.
 
 락프리 알고리즘은 보통 다음과 같은 패턴을 따릅니다.
 1. 변경하려는 값을 읽어옵니다 (`expected`).
@@ -84,22 +102,13 @@ public:
     void push(int value) {
         Node* new_node = new Node{value, nullptr};
         
-        // 1. 현재 head 값을 읽어서 '다음 갈 곳'으로 지정합니다.
-        // [상황: 준비 단계]
-        // 새로만든노드(30) -> ?
-        // 현재스택: Head -> [20] -> [10]
+        // 1. 새 노드의 next가 현재 head를 가리키도록 설정
         new_node->next = head.load();
 
-        // 2 & 3. CAS 루프: "Head가 내가 방금 본 거랑 여전히 똑같니?"
-        // 맞다면 -> Head를 new_node로 바꿈 (성공)
-        // 틀리다면 -> 누군가 새 노드를 넣어서 Head가 변함 (실패 -> 다시 시도)
+        // 2. CAS: head가 여전히 new_node->next와 일치하면 new_node로 교체
+        // 실패 시: compare_exchange_weak가 new_node->next를 최신 head 값으로 자동 갱신 -> 재시도
         while (!head.compare_exchange_weak(new_node->next, new_node)) {
-             // [상황: 실패 (누가 먼저 선수침!)]
-             // Head가 [40]으로 변해 있었음!
-             // 현재스택: Head -> [40] -> [20] -> [10]
-             //
-             // 내 노드(30)의 다음 위치를 [40]으로 고쳐 잡고 다시 줄을 섭니다.
-             // new_node(30) -> [40] ... 재시도!
+             // (Empty Body: 실패 시 new_node->next가 자동으로 갱신됨)
         }
         
         // [상황: 성공]
@@ -108,25 +117,56 @@ public:
 };
 ```
 
-## 일반 락 알고리즘과 장단점 비교
+### 구현 예시: 스핀락 (Spinlock) (C++ std::atomic<int> 활용)
 
-| 구분 | 락 기반 (Lock-Based) | 락프리 (Lock-Free) |
-| :--- | :--- | :--- |
-| **구현 난이도** | 비교적 쉬움 | 매우 어려움 (ABA 문제, 메모리 관리 등 고려 필요) |
-| **데드락** | 발생 가능 | 구조적으로 발생하지 않음 |
-| **컨텍스트 스위칭** | 락 대기 시 발생 (Overhead 큼) | 없음 (또는 매우 적음) |
-| **경합 상황 성능** | 경합이 심하면 급격히 저하 | 경합이 심해도 전체 시스템 처리량은 유지될 가능성이 높음 |
-| **디버깅** | 어려움 | 매우 어려움 |
+락프리 자료구조는 아니지만, 락프리 구현에 쓰이는 원자적 연산을 이해하기 좋은 예제로 스핀락이 있습니다. `std::atomic<int>`를 사용하여 락을 획득할 때까지 계속 루프를 도는(Spinning) 방식입니다.
 
-## 각각의 알고리즘의 성능상 베스트 케이스와 최악의 상황
+```cpp
+class SpinLock {
+    std::atomic<int> flag = {0}; // 0: Unlocked, 1: Locked
 
-### 락프리 알고리즘 (Lock-Free)
-- **Best Case**: 경합이 전혀 없을 때. CAS 연산이 한 번에 성공하며, 락을 획득/해제하는 오버헤드 없이 매우 빠르게 동작합니다.
-- **Worst Case**: 경합이 극심할 때. 수많은 스레드가 동시에 CAS를 시도하면, 대부분 실패하고 `while` 루프를 계속 돌게 됩니다. 이 경우 CPU 자원만 소모하고 실제 작업 진행은 더딜 수 있습니다 (Live-lock과 유사한 상황).
+public:
+    void lock() {
+        int expected = 0;
+        // CAS: 0(Open)이면 1(Locked)로 변경 시도
+        // 실패 시 expected가 1로 바뀌므로, 0으로 다시 초기화 후 재시도
+        while (!flag.compare_exchange_weak(expected, 1)) {
+            expected = 0;
+        }
+    }
 
-### 락 기반 알고리즘 (Lock-Based)
-- **Best Case**: 경합이 없을 때. 뮤텍스 획득/해제가 빠르게 이루어지지만, 락프리의 원자적 연산보다는 약간의 오버헤드가 더 있을 수 있습니다.
-- **Worst Case**: 경합이 많고, 락을 보유한 스레드가 컨텍스트 스위칭으로 쫓겨날 때(Preemption). 락을 기다리는 모든 스레드가 멈추고(Blocking), 운영체제의 스케줄러가 개입하여 컨텍스트 스위칭 비용이 크게 발생합니다.
+    void unlock() {
+        flag.store(0); // 락 반납
+    }
+};
+```
+
+
+## 알고리즘별 비교: 락프리 vs 일반 락(Wait Lock) vs 스핀락(Spinlock)
+
+락을 사용하는 방식도 대기 흐름에 따라 **Wait Lock**과 **Spinlock**으로 나뉩니다. 이들과 **락프리**를 한눈에 비교해 봅시다.
+
+| 구분 | 일반 락 (Wait Lock, Mutex) | 스핀락 (Spinlock) | 락프리 (Lock-Free) |
+| :--- | :--- | :--- | :--- |
+| **대기 방식** | **Sleep** (대기 상태로 전환, CPU 양보) | **Spin** (루프 돌며 계속 확인, CPU 점유) | **Non-Blocking** (계속 작업 시도, 실패 시 즉시 재시도) |
+| **컨텍스트 스위칭** | 락 대기 시 발생 (비용 큼) | 발생하지 않음 (단, 타임슬라이스 소진 시 발생) | 발생하지 않음 |
+| **구현 난이도** | 쉬움 (OS/라이브러리 제공) | 중간 (직접 구현 시 주의 필요) | **매우 어려움** (ABA, 메모리 해제 등) |
+| **CPU 사용량** | 대기 중에는 거의 없음 | 대기 중에도 계속 소모 (Busy Waiting) | 경합 시 높음 (계속 CAS 시도) |
+| **적합한 상황** | 락 보유 시간이 길거나, 경합이 심할 때 | 락 보유 시간이 매우 짧고, 컨텍스트 스위칭 비용을 아끼고 싶을 때 | 매우 정밀한 성능이 필요하고, 데드락을 원천 차단하고 싶을 때 |
+
+## 베스트 케이스와 최악의 상황 (Performance Analysis)
+
+### 1. 일반 락 (Wait Lock / Mutex)
+- **Best Case**: 경합이 없을 때. 뮤텍스 획득/해제가 빠르지만, 시스템 콜 오버헤드가 약간 있을 수 있습니다.
+- **Worst Case**: **경합이 많을 때**. 스레드가 계속 잠들었다 깨어나는(Context Switching) 비용이 급증하여 성능이 급격히 저하됩니다. 또한 **Deadlock** 발생 위험이 있습니다.
+
+### 2. 스핀락 (Spinlock)
+- **Best Case**: **잠깐 기다려서 바로 락을 얻을 때**. 컨텍스트 스위칭 없이 즉시 자원을 쓰므로 대기 비용이 사실상 0에 가깝습니다.
+- **Worst Case**: **락 소유자가 오랫동안 락을 놓지 않을 때**. 기다리는 스레드는 의미 없이 무한 루프를 돌며 **CPU 100%**를 소모합니다. (전기세 낭비의 주범)
+
+### 3. 락프리 (Lock-Free)
+- **Best Case**: 경합이 적을 때. CAS 연산 한 번으로 끝나며, 어떤 락 매커니즘보다 빠릅니다.
+- **Worst Case**: **경합이 극심할 때**. 수많은 스레드가 동시에 CAS를 시도하고 실패하기를 반복합니다. 스핀락과 비슷하게 CPU를 많이 쓰지만, 적어도 시스템 전체가 멈추지 않고(Deadlock Free) 누군가는 계속 진행한다는 점에서 스핀락보다는 낫습니다.
 
 ---
 
