@@ -6,7 +6,6 @@ toc_sticky: true
 
 categories:
   - devops
-  - security
 
 tags:
   - bitwarden
