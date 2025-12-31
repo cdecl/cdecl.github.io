@@ -67,15 +67,29 @@ Bitwarden Secrets Manager CLI(`bws`)는 GitHub 릴리즈 페이지에서 직접 
 export BWS_ACCESS_TOKEN="0.uKV...oA.d7....=="
 ```
 
-이렇게 하면 `bws` 명령을 실행할 때마다 토큰을 입력할 필요가 없습니다.
+이렇게 하면 `bws` 명령을 실행할 때마다 토큰을 입력할 필요가 없습니다. CI/CD 환경에서는 이 환경 변수를 Secrets로 주입하는 것이 표준적인 방법입니다.
 
-### 2. 서버 구성 (Configuration)
+### 2. 구성 파일 (`~/.config/bws/config`)
 
-Bitwarden의 클라우드 서버(US/EU)가 아닌 자체 호스팅 서버를 사용하는 경우, 다음과 같이 API와 Identity URL을 구성할 수 있습니다.
+`bws`는 JSON 형식의 구성 파일을 사용하여 서버 URL이나 여러 프로필을 관리할 수 있습니다.
 
+-   **기본 경로:** `~/.config/bws/config`
+-   **관리 방법:** `bws config set` 명령어를 사용하면 파일이 자동으로 생성되거나 업데이트됩니다.
+
+**예시: 자체 호스팅 서버 구성**
 ```bash
 bws config set --api-url https://your.api.url --identity-url https://your.identity.url
 ```
+위 명령을 실행하면 `~/.config/bws/config` 파일에 다음과 같은 내용이 기록됩니다.
+```json
+{
+  "default": {
+    "api_url": "https://your.api.url",
+    "identity_url": "https://your.identity.url"
+  }
+}
+```
+**참고:** 보안을 위해, Access Token은 이 구성 파일에 직접 저장하는 것보다 `BWS_ACCESS_TOKEN` 환경 변수를 통해 관리하는 것이 강력히 권장됩니다.
 
 ## 핵심 명령어: 비밀 정보 관리
 
