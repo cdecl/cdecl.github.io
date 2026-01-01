@@ -351,6 +351,41 @@ Git은 강력하지만, 복잡한 상황에서는 개발자를 당황하게 만�
     git log a1b2c3d..f4e5d6c
     ```
 
+#### 사례 22: 모든 변경 사항 취소하기 (Tracked + Untracked)
+
+-   **문제 상황:** 작업하던 모든 변경 사항을 취소하고 현재 HEAD 상태로 깨끗하게 되돌리고 싶습니다. 이미 수정한 파일(tracked)과 새로 만든 파일(untracked)을 모두 삭제하고 싶습니다.
+-   **해결 방안:** 다음 명령들을 조합하여 사용합니다.
+
+    ```bash
+    # 1. Tracked 파일 모두 복원 (Working Directory + Staging Area 초기화)
+    git reset --hard HEAD
+
+    # 2. Untracked 파일 모두 삭제
+    git clean -fd
+    ```
+    > `git reset --hard HEAD`: Working Directory와 Staging Area를 마지막 커밋 상태로 되돌립니다. tracked 파일의 모든 변경 사항을 취소합니다. untracked 파일은 삭제하지 않습니다.
+    >
+    > `git clean -fd`: 추적하지 않는 파일(`-f`)과 디렉터리(`-d`)를 모두 삭제합니다. **주의: 영구적으로 삭제되므로 복구할 수 없습니다!**
+
+    **VSCode "Discard All Changes"와의 차이:**
+    VSCode의 "Discard All Changes" 버튼은 `git restore`와 `git clean -fd`를 사용합니다. 이 방식은 `git reset --hard`와 달리 Staging Area의 파일을 처리하지 않습니다. 따라서 명령줄에서 직접 모든 변경 사항을 취소할 때는 `git reset --hard HEAD && git clean -fd`를 사용하는 것이 더 확실합니다.
+
+    **참고:** 특정 파일만 취소하려면:
+    ```bash
+    # 특정 파일만 취소 (untracked 파일에 대해서는 동작하지 않음)
+    git restore <file>
+    # 또는
+    git checkout HEAD -- <file>
+    ```
+
+    **팁:** 삭제하기 전에 변경 사항을 저장하고 싶다면:
+    ```bash
+    # untracked 파일까지 포함하여 저장
+    git stash push -u
+    # 나중에 복원
+    git stash pop
+    ```
+
 ---
 
 Git 트러블 슈팅의 핵심은 "무엇을 하려 했는가"와 "실제로 무슨 일이 일어났는가"의 차이를 이해하는 것입니다. 이 글에서 소개된 사례들을 통해, 예상치 못한 상황에 더 자신감 있게 대처할 수 있기를 바랍니다.
