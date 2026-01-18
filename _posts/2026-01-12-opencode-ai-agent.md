@@ -60,20 +60,61 @@ opencode auth login
 ```
 이 과정을 통해 에이전트가 각 LLM 서비스에 안전하게 접근하고 작업을 수행할 수 있도록 설정됩니다.
 
-### 하위 에이전트의 종류와 특징
-하위 에이전트는 각자 전문 분야를 가진 에이전트들로, `@` 멘션을 통해 호출될 수 있습니다. 이들은 LSP, AST와 같은 도구를 공유하며 협업합니다.
-
-- **oracle**: 아키텍처 설계, 코드 리뷰 등 높은 수준의 추론이 필요한 작업을 담당합니다. (예: GPT-5.2)
-- **librarian**: 문서, 코드베이스 등 방대한 자료를 탐색하고 정보를 요약합니다. (예: Claude/Gemini)
-- **explore**: 대규모 코드베이스에서 특정 패턴이나 구현을 검색하는 데 특화되어 있습니다. (예: Grok/Gemini)
-- **frontend-ui-ux-engineer**: UI 프로토타이핑 및 구현을 담당합니다. (예: Gemini 3 Pro)
-- **document-writer**: 기술 문서나 보고서를 작성합니다.
-
 ### subagent 협의 과정
-1.  사용자가 Sisyphus에게 작업을 지시합니다. (예: "ultrawork 기능 구현")
-2. Sisyphus는 작업을 분석하여 계획을 세우고, 각 단계에 맞는 하위 에이전트에게 태스크를 분배합니다. (예: `@oracle`에게 설계 요청, `@librarian`에게 관련 문서 탐색 요청)
-3. 하위 에이전트들은 백그라운드에서 병렬로 작업을 실행합니다. 이때 컨텍스트가 자동으로 주입되어 효율적인 협업이 이루어집니다.
-4. Sisyphus는 하위 에이전트들의 작업 결과를 통합하고 검토합니다. 만약 추가 작업(TODO)이 발생하면, 다시 적절한 에이전트에게 분배하여 작업이 완료될 때까지 이 과정을 반복합니다.
+
+`oh-my-opencode`는 Sisyphus 오케스트레이터의 지휘 아래, 7개 이상의 전문 에이전트 팀을 운영합니다. `oh-my-opencode.json` 파일을 통해 각 에이전트가 사용할 모델이나 권한을 세밀하게 설정할 수 있습니다.
+
+| 에이전트 | 역할 | 최적 모델 예 | 호출 예 |
+|----------|------|--------------|---------|
+| @sisyphus | 오케스트레이터, 작업 계획 및 분배 | Claude 3 Opus | 자동 (사용자 직접 호출 불필요) |
+| @oracle | 아키텍처 설계 및 코드 디버깅 | GPT-4 | `@oracle` 버그 수정해줘 |
+| @librarian | 문서 및 코드 리서치 | Claude 3 Sonnet | `@librarian` API 문서 찾아줘 |
+| @explore | 코드베이스 탐색 및 이해 | Grok Code | `@explore` utils/ 디렉토리 분석해줘 |
+| @frontend-ui-ux-engineer | UI/UX 프로토타이핑 및 개발 | Gemini 1.5 Pro | 자동 (UI 관련 태스크 시) |
+| @document-writer | 기술 문서 및 주석 작성 | Gemini 1.5 Flash | 자동 |
+| @multimodal-looker | 이미지, PDF 등 시각 자료 분석 | Gemini 1.5 Flash | `@multimodal` diagram.png 설명해줘 |
+
+Sisyphus는 전체 작업의 계획을 수립하고, 각 작업에 적합한 하위 에이전트에게 태스크를 분배하며, 이들의 실행을 조율하는 오케스트레이터입니다. 하위 에이전트들은 백그라운드에서 병렬로 작업을 실행하고, Sisyphus는 이 결과를 통합하고 검토합니다. 만약 추가 작업(TODO)이 발생하면, 다시 적절한 에이전트에게 분배하여 작업이 완료될 때까지 이 과정을 반복합니다.
+
+## oh-my-opencode 기능: 명령어, 에이전트, 도구
+
+`oh-my-opencode` 설치 후 OpenCode의 전체 기능은 슬래시 명령어(`/`), 에이전트 호출(`@`), 도구 및 LSP, 그리고 Hook 시스템으로 구성됩니다. `ultrawork` 모드에서는 Sisyphus가 주도하는 병렬 에이전트 팀과 Ralph Loop가 핵심적인 역할을 합니다. 이러한 기능들은 TUI 팔레트(`/`)나 프롬프트에서 직접 접근할 수 있으며, `.opencode/` 디렉토리를 통해 프로젝트별로 커스터마이징이 가능합니다.
+
+### 슬래시 명령어 목록
+기본 명령어에 더해 `oh-my-opencode`는 확장된 명령어들을 제공합니다. `~/.opencode/commands/*.md` 파일을 통해 새로운 명령어를 추가하여 무한히 확장할 수 있습니다.
+
+| 명령어 | 기능 | 확장 여부 |
+|--------|------|-----------|
+| /init | 프로젝트 분석 및 `AGENTS.md` 생성 | 기본 |
+| /undo | 마지막 변경 사항 취소 | 기본 |
+| /redo | 취소된 변경 사항 재적용 | 기본 |
+| /review | 코드 리뷰 (LSP/ESLint 연동 강화) | 확장 강화 |
+| /share | 현재 세션 공유 링크 생성 | 기본 |
+| /model | 사용 중인 AI 모델 변경 | 기본 |
+| /clear | 대화 기록 지우기 | 기본 |
+| /tasks | 백그라운드에서 실행 중인 태스크 목록 표시 | 확장 |
+| /ralph-loop "작업" | 지정된 작업을 무한 반복 실행 (최대 100회, `/cancel-ralph`로 중지) | oh-my |
+| /cancel-ralph | `ralph-loop`로 실행 중인 작업 중지 | oh-my |
+| /summarize-diff | 변경된 내용 요약 | 커스텀 예 |
+| /suggest-tests | 코드에 대한 테스트 케이스 제안 | 커스텀 예 |
+
+### 도구 및 LSP
+20개 이상의 내장 도구와 LSP 기능은 TUI 팔레트나 `call_omo_agent` 함수를 통해 호출할 수 있으며, 실시간 코드 분석과 조작을 지원합니다.
+
+| 카테고리 | 주요 도구 | 기능 |
+|----------|-----------|------|
+| LSP (11개) | `lsp_hover`, `lsp_definition`, `lsp_references`, `lsp_rename`, `lsp_diagnostics` | 호버 정보, 정의 이동, 참조 찾기, 이름 변경, 실시간 진단 |
+| AST-Grep (2개) | `search`, `replace` | 25개 이상 언어에 대한 구조적 코드 검색 및 치환 |
+| Session (4개) | `session_list`, `read`, `search`, `info` | 세션 목록 확인, 읽기, 검색 등 세션 관리 |
+| 기타 | 코드 변경 모니터, `context_window_monitor` | 실시간 파일 변경 추적 및 컨텍스트 관리 |
+
+### Hook 시스템
+20개 이상의 Hook은 에이전트의 동작을 특정 상황에 맞춰 자동화하여 개발 워크플로우의 일관성과 코드 품질을 유지합니다.
+
+- **todo-continuation-enforcer**: TODO 리스트에 작업이 남아있으면 에이전트가 멈추지 않고 계속 실행하도록 강제합니다.
+- **comment-checker**: 코드 내 불필요한 주석을 검사하고 제거합니다.
+- **session-recovery**: 예기치 않게 세션이 종료되었을 때 복구를 돕습니다.
+- **기타**: `notification`, `context-monitor` 등 다양한 자동화 Hook이 있습니다.
 
 ## `ultrawork`와 `@mention`: Sisyphus 활용하기
 
@@ -135,15 +176,25 @@ opencode auth login
 - **GitHub**: [https://github.com/code-yeongyu/oh-my-opencode](https://github.com/code-yeongyu/oh-my-opencode)
 
 #### 설치 방법
-`bunx` 또는 `npx`를 사용하여 대화형 설치 프로그램을 실행합니다.
+`bunx`나 `npx`를 사용하는 것이 권장되지만, `npm`으로 직접 설치할 수도 있습니다.
 
-- **bunx:**
+- **bunx (권장):**
   ```bash
   bunx oh-my-opencode install
   ```
-- **npx:**
+- **npx (권장):**
   ```bash
   npx oh-my-opencode install
   ```
-설치 과정에서 Claude, ChatGPT, Gemini 구독 관련 설정을 진행하게 됩니다.
+- **npm:**
+  ```bash
+  npm i -g oh-my-opencode
+  ```
+  
+설치 과정에서 Claude, ChatGPT, Gemini 등 사용하고자 하는 LLM 구독 관련 설정을 진행하게 됩니다.
+
+#### 사용 팁
+- **전체 기능 활성화**: 프롬프트에 `ultrawork`나 `ulw` 키워드를 포함하거나, 설정 파일에서 `ralph_loop.enabled=true`로 설정하면 Sisyphus와 하위 에이전트 팀의 모든 기능을 활용할 수 있습니다.
+- **커스터마이징**: 프로젝트 루트의 `.opencode/` 디렉토리 내에 `agents/`, `commands/`, `skills/`, `hooks/` 디렉토리를 생성하여 자신만의 에이전트, 명령어, 스킬, 훅을 추가할 수 있습니다.
+- **모드 설정**: `opencode.json` 파일의 `modes` 설정을 통해 특정 작업을 제한할 수 있습니다. 예를 들어, `review` 모드를 만들어 읽기 전용으로 에이전트를 실행하는 것이 가능합니다.
 
