@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Rancher on cdeclog</title><link>https://cdecl.github.io/tags/rancher/</link><description>Recent content in Rancher on cdeclog</description><generator>Hugo -- 0.154.5</generator><language>ko-kr</language><lastBuildDate>Tue, 17 Aug 2021 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/rancher/index.xml" rel="self" type="application/rss+xml"/><item><title>K3S Overview</title><link>https://cdecl.github.io/devops/k3s-overview/</link><pubDate>Tue, 17 Aug 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/k3s-overview/</guid><description>&lt;p&gt;Lightweight Kubernetes : The certified Kubernetes distribution built for IoT &amp;amp; Edge computing&lt;/p&gt;
+&lt;h3 id="특징"&gt;특징&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://k3s.io/"&gt;https://k3s.io/&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;li&gt;Kubernetes의 경량화 버전으로 아래와 같은 특징
+&lt;ul&gt;
+&lt;li&gt;기본 설치만으로 바로 배포 테스트 가능&lt;/li&gt;
+&lt;li&gt;Overlay Netowrk(Flannel), Load balancer, Ingress(Traefik), CoreDNS 등이 기본 설치 됨
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://rancher.com/docs/k3s/latest/en/networking/"&gt;https://rancher.com/docs/k3s/latest/en/networking/&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;etcd 대신 sqlite 운영
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://rancher.com/docs/k3s/latest/en/installation/ha/"&gt;High Availability with an External DB&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://rancher.com/docs/k3s/latest/en/installation/ha-embedded/"&gt;High Availability with Embedded DB (Experimental)&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Master node schedulable
+&lt;ul&gt;
+&lt;li&gt;uncordon 제외 가능&lt;/li&gt;
+&lt;li&gt;Worker node 필요 없음 (필요시 추가 가능)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id="사용-목적"&gt;사용 목적&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Edge Computing&lt;/li&gt;
+&lt;li&gt;개발 테스트 및 스테이징 서버 구성&lt;/li&gt;
+&lt;li&gt;기타 어플리케이션 테스트 용&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="master-설치"&gt;Master 설치&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;설치 &lt;code&gt;curl -sfL https://get.k3s.io | sh -&lt;/code&gt; 실행으로 끝
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;systemd 관리 &lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;kubectl 설치 및 심볼릭 링크 설정 해줌
+&lt;ul&gt;
+&lt;li&gt;이미 kubectl 가 설치 되어 있는 경우는 심볼릭 링크 실패&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# alias 필요시 아래 참고 &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ alias kubectl&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#39;sudo k3s kubectl&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Install&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ curl -sfL https://get.k3s.io | sh -
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# master node&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ kubectl get node
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;NAME STATUS ROLES AGE VERSION
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;centos1 Ready control-plane,master 37s v1.21.3+k3s1
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ kubectl get pod -A
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;NAMESPACE NAME READY STATUS RESTARTS AGE
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;kube-system local-path-provisioner-5ff76fc89d-wh9cg 1/1 Running &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt; 2m35s
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;kube-system coredns-7448499f4d-2d7pb 1/1 Running &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt; 2m35s
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;kube-system metrics-server-86cbb8457f-x9l6n 1/1 Running &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt; 2m35s
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;kube-system helm-install-traefik-crd-w27q7 0/1 Completed &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt; 2m35s
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;kube-system helm-install-traefik-2zllj 0/1 Completed &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; 2m35s
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;kube-system svclb-traefik-55qfd 2/2 Running &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt; 113s
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;kube-system traefik-97b44b794-smzl9 1/1 Running &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt; 114s
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="k8s-서비스-테스트"&gt;K8S 서비스 테스트&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;서비스 타입 : &lt;code&gt;NodePort&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://kubernetes.github.io/ingress-nginx/deploy/baremetal/"&gt;https://kubernetes.github.io/ingress-nginx/deploy/baremetal/&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;apiVersion&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;apps/v1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;kind&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;Deployment&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;metadata&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;name&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;mvcapp&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;spec&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;selector&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;matchLabels&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;app&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;mvcapp&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;replicas&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;2&lt;/span&gt; &lt;span style="color:#75715e"&gt;# --replicas=2 옵션과 동일 &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;template&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;metadata&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;labels&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;app&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;mvcapp&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;spec&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;containers&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#f92672"&gt;name&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;mvcapp&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;image&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;cdecl/mvcapp:0.6&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;ports&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#f92672"&gt;containerPort&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;80&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;---
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;apiVersion&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;v1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;kind&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;Service&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;metadata&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;name&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;mvcapp&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;spec&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;type&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;NodePort&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;selector&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;app&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;mvcapp&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;ports&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#f92672"&gt;port&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;80&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;targetPort&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;80&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ kubectl apply -f mvcapp-deploy-service.yaml
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;deployment.apps/mvcapp created
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;service/mvcapp created
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ kubectl get pod -A
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;NAMESPACE NAME READY STATUS RESTARTS AGE
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;kube-system local-path-provisioner-5ff76fc89d-wh9cg 1/1 Running &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt; 9m29s
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;kube-system coredns-7448499f4d-2d7pb 1/1 Running &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt; 9m29s
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;kube-system metrics-server-86cbb8457f-x9l6n 1/1 Running &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt; 9m29s
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;kube-system helm-install-traefik-crd-w27q7 0/1 Completed &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt; 9m29s
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;kube-system helm-install-traefik-2zllj 0/1 Completed &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; 9m29s
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;kube-system svclb-traefik-55qfd 2/2 Running &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt; 8m47s
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;kube-system traefik-97b44b794-smzl9 1/1 Running &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt; 8m48s
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;default mvcapp-79874d888c-6htvq 1/1 Running &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt; 62s
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;default mvcapp-79874d888c-clslc 1/1 Running &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt; 62s
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ kubectl get svc
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;NAME TYPE CLUSTER-IP EXTERNAL-IP PORT&lt;span style="color:#f92672"&gt;(&lt;/span&gt;S&lt;span style="color:#f92672"&gt;)&lt;/span&gt; AGE
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;kubernetes ClusterIP 10.43.0.1 &amp;lt;none&amp;gt; 443/TCP 10m
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;mvcapp NodePort 10.43.36.139 &amp;lt;none&amp;gt; 80:32105/TCP 106s
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Nodeport IP&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ curl 10.43.36.139:80
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; * Project : Mvcapp
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; * Version : 0.5 / net5.0
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; * Hostname : mvcapp-79874d888c-6htvq
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; * RemoteAddr : 10.42.0.1
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; * X-Forwarded-For :
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; * Request Count : &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; * User-Agent : curl/7.29.0
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ curl localhost:32105
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; * Project : Mvcapp
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; * Version : 0.5 / net5.0
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; * Hostname : mvcapp-79874d888c-clslc
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; * RemoteAddr : 10.42.0.1
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; * X-Forwarded-For :
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; * Request Count : &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; * User-Agent : curl/7.29.0
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="agent-추가"&gt;Agent 추가&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Master Node만으로도 테스트 가능하나 Scale 테스트시 Agent(Worker Node) 추가 가능&lt;/li&gt;
+&lt;li&gt;환경변수 세팅 : 필요시 참고&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ sudo cat /var/lib/rancher/k3s/server/node-token &amp;gt; ~/.node-token
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ K3S_TOKEN&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;&amp;lt; ~/.node-token&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ HOST_IP&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;ip a | sed -rn &lt;span style="color:#e6db74"&gt;&amp;#39;s/.*inet ([0-9\.]+).*eth0/\1/p&amp;#39;&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id="agent-등록--원격실행-or-agent-머신에서-실행"&gt;Agent 등록 : 원격실행 OR Agent 머신에서 실행&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;HostIP, Token 정보 필요 (위 환경변수 세팅 참고)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Agent 머신에서 실행 &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ curl -sfL https://get.k3s.io | K3S_URL&lt;span style="color:#f92672"&gt;=&lt;/span&gt;https://$HOST_IP:6443 K3S_TOKEN&lt;span style="color:#f92672"&gt;=&lt;/span&gt;$K3S_TOKEN sh -
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Agent 추가 다른방법 &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ ansible node01 -m shell -a &lt;span style="color:#e6db74"&gt;&amp;#34;curl -sfL https://get.k3s.io | sh -s - agent --server https://&lt;/span&gt;$HOST_IP&lt;span style="color:#e6db74"&gt;:6443 --token &lt;/span&gt;$K3S_TOKEN&lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt; -v
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;hr&gt;
+&lt;h3 id="k3s-삭제"&gt;K3S 삭제&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ls /usr/local/bin/k3s-* | xargs -n1 sh -
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description></item></channel></rss>

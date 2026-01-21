@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Mysql on cdeclog</title><link>https://cdecl.github.io/tags/mysql/</link><description>Recent content in Mysql on cdeclog</description><generator>Hugo -- 0.154.5</generator><language>ko-kr</language><lastBuildDate>Thu, 25 Jan 2024 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/mysql/index.xml" rel="self" type="application/rss+xml"/><item><title>DuckDB, CSV에서 MySQL로의 ETL</title><link>https://cdecl.github.io/devops/etl-csv-to-mysql/</link><pubDate>Thu, 25 Jan 2024 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/etl-csv-to-mysql/</guid><description>&lt;p&gt;DuckDB를 ETL 도구로 활용 : CSV 데이터 → MySQL&lt;/p&gt;
+&lt;h2 id="duckdb를-통한-csv-데이터를-mysql로-etl-하는-방법"&gt;DuckDB를 통한 CSV 데이터를 MySQL로 ETL 하는 방법&lt;/h2&gt;
+&lt;h3 id="etl이란"&gt;ETL이란?&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;ETL이란 Extract, Transform, Load의 약자로, 데이터를 다양한 소스에서 추출하고 변환하고 적재하는 과정&lt;/li&gt;
+&lt;li&gt;ETL을 수행하기 위해서는 여러가지 툴을 사용할 수 있는데 그 중 하나 DuckDB 활용하는 안&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="duckdb"&gt;DuckDB&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;DuckDB는 분석 쿼리에 최적화된 임베디드 데이터베이스&lt;/li&gt;
+&lt;li&gt;DuckDB는 PostgreSQL과 호환되는 SQL 문법을 사용하고, 여러 DB와 연결하여 데이터를 효율적으로 가져와 로컬 DuckDB에서 데이터 처리 가능
+&lt;ul&gt;
+&lt;li&gt;Extensions : &lt;a href="https://duckdb.org/docs/extensions/overview"&gt;https://duckdb.org/docs/extensions/overview&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="etl-예제"&gt;ETL 예제&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;DuckDB에서 CSV 파일을 읽어와 테이블 생성&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://duckdb.org/docs/extensions/mysql"&gt;MySQL Extension&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sql" data-lang="sql"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;CREATE&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;TABLE&lt;/span&gt; csv_table &lt;span style="color:#66d9ef"&gt;AS&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;SELECT&lt;/span&gt; &lt;span style="color:#f92672"&gt;*&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;FROM&lt;/span&gt; read_csv_auto(&lt;span style="color:#e6db74"&gt;&amp;#39;your_csv_file&amp;#39;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;DuckDB에서 MySQL에 연결합니다. 다음과 같은 명령어를 사용할 수 있습니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sql" data-lang="sql"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;INSTALL MySQL;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;LOAD&lt;/span&gt; MySQL;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ATTACH &lt;span style="color:#e6db74"&gt;&amp;#39;host=localhost user=root port=0 database=etldb&amp;#39;&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;AS&lt;/span&gt; mysqldb (&lt;span style="color:#66d9ef"&gt;TYPE&lt;/span&gt; mysql)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;USE mysqldb;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;DuckDB에서 MySQL로 데이터를 적재합니다. 다음과 같은 명령어를 사용할 수 있습니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sql" data-lang="sql"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;CREATE&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;TABLE&lt;/span&gt; mysqldb.etldb.csvtbl &lt;span style="color:#66d9ef"&gt;AS&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;SELECT&lt;/span&gt; &lt;span style="color:#f92672"&gt;*&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;FROM&lt;/span&gt; csv_table;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="참고"&gt;참고&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://cdecl.github.io/devops/mysql-load-data/"&gt;MySQL LOAD DATA&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://cdecl.github.io/devops/csv-to-sqlite3/"&gt;CSV to SQLite3&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;/ul&gt;</description></item><item><title>MySQL BinLog</title><link>https://cdecl.github.io/devops/mysql-binlog/</link><pubDate>Wed, 27 Oct 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/mysql-binlog/</guid><description>&lt;p&gt;MySQL BinLog (Binary Log) 설정 및 확인&lt;/p&gt;
+&lt;h2 id="mysql-binlog"&gt;MySQL Binlog&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://dev.mysql.com/doc/internals/en/binary-log-overview.html"&gt;https://dev.mysql.com/doc/internals/en/binary-log-overview.html&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://dev.mysql.com/doc/refman/5.7/en/replication-options-binary-log.html"&gt;https://dev.mysql.com/doc/refman/5.7/en/replication-options-binary-log.html&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;데이터 수정에 대한 정보를 포함하는 로그 파일 세트&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id="binlog-를-사용하는-목적"&gt;Binlog 를 사용하는 목적&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;복제 : 마스터 복제 서버에서 슬레이브 서버로 보낼 명령문의 기록으로 사용&lt;/li&gt;
+&lt;li&gt;데이터 복구 : 백업 파일이 복원된, 특정 시점 이후의 데이터 복구를 위해 사용&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="binlog-기록하는-방법-binlog-format"&gt;Binlog 기록하는 방법 &lt;code&gt;binlog-format&lt;/code&gt;&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;STATEMENT&lt;/code&gt; : 이벤트에는 데이터 변경(삽입, 업데이트, 삭제)을 생성하는 SQL 문이 포함
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;MySQL 5.7.7&lt;/code&gt; 이전 버전까지 &lt;code&gt;Default&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ROW&lt;/code&gt; : 행 기반 로깅: 이벤트는 개별 행의 변경 사항을 설명합니다.
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;MySQL 5.7.7&lt;/code&gt; 버전 부터 &lt;code&gt;Default&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MIXED&lt;/code&gt; : 기본적으로 &lt;code&gt;STATEMENT&lt;/code&gt; 로깅, 필요에 따라 자동으로 &lt;code&gt;ROW&lt;/code&gt; 로깅으로 전환 &lt;code&gt;일관성&lt;/code&gt;
+&lt;ul&gt;
+&lt;li&gt;NDB Cluster 경우 &lt;code&gt;Default&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;code&gt;STATEMENT&lt;/code&gt; 경우 &lt;code&gt;ISOLATION LEVEL&lt;/code&gt;이 &lt;code&gt;READ-COMMITTED&lt;/code&gt; 경우 복구시, Dirty Read 에 의한 일관성이 문제가 될 수 있음&lt;/p&gt;</description></item><item><title>MySQL LOAD DATA</title><link>https://cdecl.github.io/devops/mysql-load-data/</link><pubDate>Wed, 13 Oct 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/mysql-load-data/</guid><description>&lt;p&gt;MySQL 테이블에 Text 파일을 빠르게 Insert 하는 방벙&lt;/p&gt;
+&lt;h2 id="mysql-load-data"&gt;MySQL LOAD DATA&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://dev.mysql.com/doc/refman/8.0/en/load-data.html"&gt;https://dev.mysql.com/doc/refman/8.0/en/load-data.html&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}
+&lt;ul&gt;
+&lt;li&gt;The LOAD DATA statement reads rows from a text file into a table at a very high speed&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="load-data-statement"&gt;LOAD DATA statement&lt;/h3&gt;
+&lt;h4 id="사전-준비--secure_file_priv"&gt;사전 준비 : secure_file_priv&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;secure_file_priv&lt;/code&gt; 의 설정값이 NULL 로 되어 있는데 빈문자열로 수정해야 함&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sql" data-lang="sql"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;SHOW&lt;/span&gt; VARIABLES &lt;span style="color:#66d9ef"&gt;LIKE&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;secure_file_priv&amp;#39;&lt;/span&gt; &lt;span style="color:#75715e"&gt;-- NULL
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;my.cnf 에서 수정 및 재시작 필요&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-ini" data-lang="ini"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;[mysqld]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;secure-file-priv&lt;/span&gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="load-data-최소-설정"&gt;LOAD DATA 최소 설정&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sql" data-lang="sql"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;LOAD&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;DATA&lt;/span&gt; INFILE &lt;span style="color:#e6db74"&gt;&amp;#39;/path/data.txt&amp;#39;&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;INTO&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;TABLE&lt;/span&gt; data_table
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h5 id="field-and-line-handling--default-설정"&gt;Field and Line Handling : Default 설정&lt;/h5&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sql" data-lang="sql"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;LOAD&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;DATA&lt;/span&gt; INFILE &lt;span style="color:#e6db74"&gt;&amp;#39;/path/data.txt&amp;#39;&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;INTO&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;TABLE&lt;/span&gt; data_table
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;FIELDS TERMINATED &lt;span style="color:#66d9ef"&gt;BY&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;\t&amp;#39;&lt;/span&gt; ENCLOSED &lt;span style="color:#66d9ef"&gt;BY&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;&amp;#39;&lt;/span&gt; ESCAPED &lt;span style="color:#66d9ef"&gt;BY&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;\\&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;LINES TERMINATED &lt;span style="color:#66d9ef"&gt;BY&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;\n&amp;#39;&lt;/span&gt; STARTING &lt;span style="color:#66d9ef"&gt;BY&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h5 id="헤더-라인-무시"&gt;헤더 라인 무시&lt;/h5&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sql" data-lang="sql"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;LOAD&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;DATA&lt;/span&gt; INFILE &lt;span style="color:#e6db74"&gt;&amp;#39;/path/data.txt&amp;#39;&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;INTO&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;TABLE&lt;/span&gt; data_table &lt;span style="color:#66d9ef"&gt;IGNORE&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; LINES
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="load-data-기본-설정-csv"&gt;LOAD DATA 기본 설정 (CSV)&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sql" data-lang="sql"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;LOAD&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;DATA&lt;/span&gt; INFILE &lt;span style="color:#e6db74"&gt;&amp;#39;/path/data.txt&amp;#39;&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;IGNORE&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;INTO&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;TABLE&lt;/span&gt; data_table
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;FIELDS TERMINATED &lt;span style="color:#66d9ef"&gt;BY&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;,&amp;#39;&lt;/span&gt; OPTIONALLY ENCLOSED &lt;span style="color:#66d9ef"&gt;BY&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;&amp;#34;&amp;#39;&lt;/span&gt; ESCAPED &lt;span style="color:#66d9ef"&gt;BY&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;&amp;#34;&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;LINES TERMINATED &lt;span style="color:#66d9ef"&gt;BY&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;\n&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(filed1, filed2, filed3 )
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h5 id="duplicate-key-and-error-handling"&gt;Duplicate-Key and Error Handling&lt;/h5&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;IGNORE&lt;/code&gt; : unique key 값이 있으면 새로운 행은 버려짐 &lt;code&gt;default&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;REPLACE&lt;/code&gt; : unique key 값 기준으로 새로운 행으로 변경&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h5 id="필드-개수-순서"&gt;필드 개수, 순서&lt;/h5&gt;
+&lt;ul&gt;
+&lt;li&gt;기본적으로 파일의 구분자 기준 순서와 필드와 1:1 매치됨&lt;/li&gt;
+&lt;li&gt;필드 지정을 통해 순서 조정 가능
+&lt;ul&gt;
+&lt;li&gt;파일의 구분자 필드가 많으면 : 버려짐&lt;/li&gt;
+&lt;li&gt;테이블의 필드가 많으면 : 나머지 필드는 Default 값이나 NULL 처리 (NULL 허용시)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h5 id="input-preprocessing"&gt;Input Preprocessing&lt;/h5&gt;
+&lt;ul&gt;
+&lt;li&gt;테이블의 중간 필드를 무시 (Default 값 or NULL 처리) 하려면 &lt;code&gt;@dummy&lt;/code&gt; 키워드로 필드 지정&lt;/li&gt;
+&lt;li&gt;필드 가공은 &lt;code&gt;SET&lt;/code&gt; 명령으로 처리&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;@변수&lt;/code&gt; 명으로 받아서 가공후 필드에 지정할 수 있음&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sql" data-lang="sql"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;LOAD&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;DATA&lt;/span&gt; INFILE &lt;span style="color:#e6db74"&gt;&amp;#39;/path/data.txt&amp;#39;&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;IGNORE&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;INTO&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;TABLE&lt;/span&gt; data_table
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;FIELDS TERMINATED &lt;span style="color:#66d9ef"&gt;BY&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;,&amp;#39;&lt;/span&gt; LINES TERMINATED &lt;span style="color:#66d9ef"&gt;BY&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;\n&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(filed1, &lt;span style="color:#f92672"&gt;@&lt;/span&gt;dummy, filed3, &lt;span style="color:#f92672"&gt;@&lt;/span&gt;var1, filed5 )
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;SET&lt;/span&gt; filed2 &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;CURRENT_TIMESTAMP&lt;/span&gt;, filed4 &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#f92672"&gt;@&lt;/span&gt;var1 &lt;span style="color:#f92672"&gt;*&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;2&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h5 id="index-handling--load-data-문의-성능향상을-위한-index-check-option"&gt;Index Handling : &lt;code&gt;LOAD DATA&lt;/code&gt; 문의 성능향상을 위한 Index check option&lt;/h5&gt;
+&lt;ul&gt;
+&lt;li&gt;unique index checks option : &lt;code&gt;SET unique_checks = 0&lt;/code&gt; &lt;code&gt;SET unique_checks = 1&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;foreign key check option : &lt;code&gt;SET foreign_key_checks = 0&lt;/code&gt; &lt;code&gt;SET foreign_key_checks = 1&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h4 id="로컬클라이언트-데이터-원격-insert"&gt;로컬(클라이언트) 데이터 원격 INSERT&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://dev.mysql.com/doc/refman/8.0/en/load-data-local-security.html"&gt;https://dev.mysql.com/doc/refman/8.0/en/load-data-local-security.html&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h5 id="사전-준비--local_infile-설정-server-and-client"&gt;사전 준비 : local_infile 설정 (server and client)&lt;/h5&gt;
+&lt;ul&gt;
+&lt;li&gt;server : &lt;code&gt;local_infile&lt;/code&gt; 의 설정값이 ON(1) 로 수정해야 함&lt;/li&gt;
+&lt;li&gt;client : 접속시 &lt;code&gt;--local-infile&lt;/code&gt; 옵션 추가&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sql" data-lang="sql"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;SHOW&lt;/span&gt; VARIABLES &lt;span style="color:#66d9ef"&gt;LIKE&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;local_infile&amp;#39;&lt;/span&gt; ; &lt;span style="color:#75715e"&gt;-- OFF
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;SET&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;GLOBAL&lt;/span&gt; local_infile &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; ;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;SHOW&lt;/span&gt; VARIABLES &lt;span style="color:#66d9ef"&gt;LIKE&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;local_infile&amp;#39;&lt;/span&gt; ; &lt;span style="color:#75715e"&gt;-- ON
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h5 id="local-path-지정"&gt;LOCAL PATH 지정&lt;/h5&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;LOAD DATA LOCAL INFILE ...&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sql" data-lang="sql"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;LOAD&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;DATA&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;LOCAL&lt;/span&gt; INFILE &lt;span style="color:#e6db74"&gt;&amp;#39;/path/data.txt&amp;#39;&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;INTO&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;TABLE&lt;/span&gt; data_table
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description></item><item><title>MySQL 8 Docker Basic, Json Type 지원</title><link>https://cdecl.github.io/devops/mysql8-docker/</link><pubDate>Mon, 16 Aug 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/mysql8-docker/</guid><description>&lt;p&gt;MySQL 8 Docker 실행 및 백업, 복원&lt;/p&gt;
+&lt;h2 id="mysql-docker-실행"&gt;MySQL Docker 실행&lt;/h2&gt;
+&lt;h3 id="docker-compose"&gt;docker-compose&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;data:/var/lib/mysql : Data 파일&lt;/li&gt;
+&lt;li&gt;conf.d:/etc/mysql/conf.d : my.cnf 등의 설정파일&lt;/li&gt;
+&lt;li&gt;root:/root : login-path 사용시&lt;/li&gt;
+&lt;li&gt;ports :
+&lt;ul&gt;
+&lt;li&gt;&amp;ldquo;3380:3306&amp;rdquo; : mysql port&lt;/li&gt;
+&lt;li&gt;&amp;ldquo;33800:33060&amp;rdquo; : mysql-shell port&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;version&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#39;3&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;services&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;db&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;image&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;mysql:8&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;container_name&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;mysql8&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;command&lt;/span&gt;: --&lt;span style="color:#ae81ff"&gt;default-authentication-plugin=mysql_native_password &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;restart&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;always&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;environment&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;MYSQL_ROOT_PASSWORD&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;passwd&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;TZ&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;Asia/Seoul&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;ports&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#e6db74"&gt;&amp;#34;3380:3306&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#e6db74"&gt;&amp;#34;33800:33060&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;volumes&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;data:/var/lib/mysql&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;conf.d:/etc/mysql/conf.d&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;root:/root&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;volumes&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;data&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;conf.d&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;root&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ docker-compose up -d
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Creating network &lt;span style="color:#e6db74"&gt;&amp;#34;mysql_default&amp;#34;&lt;/span&gt; with the default driver
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Creating volume &lt;span style="color:#e6db74"&gt;&amp;#34;mysql_data&amp;#34;&lt;/span&gt; with default driver
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Creating volume &lt;span style="color:#e6db74"&gt;&amp;#34;mysql_conf.d&amp;#34;&lt;/span&gt; with default driver
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Creating volume &lt;span style="color:#e6db74"&gt;&amp;#34;mysql_root&amp;#34;&lt;/span&gt; with default driver
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Pulling db &lt;span style="color:#f92672"&gt;(&lt;/span&gt;mysql:8&lt;span style="color:#f92672"&gt;)&lt;/span&gt;...
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;8: Pulling from library/mysql
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;e1acddbe380c: Pull complete
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;bed879327370: Pull complete
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;03285f80bafd: Pull complete
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ccc17412a00a: Pull complete
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;1f556ecc09d1: Pull complete
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;adc5528e468d: Pull complete
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;1afc286d5d53: Pull complete
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;6c724a59adff: Pull complete
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;0f2345f8b0a3: Pull complete
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;c8461a25b23b: Pull complete
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;3adb49279bed: Pull complete
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;77f22cd6c363: Pull complete
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Digest: sha256:d45561a65aba6edac77be36e0a53f0c1fba67b951cb728348522b671ad63f926
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Status: Downloaded newer image &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; mysql:8
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Creating mysql8 ... &lt;span style="color:#66d9ef"&gt;done&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="연결-테스트"&gt;연결 테스트&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;docker &lt;code&gt;-t&lt;/code&gt; 옵션 제외 : the input device is not a TTY&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# echo &amp;#39;select host, user from mysql.user&amp;#39; | docker exec -i mysql8 mysql -uroot -ppasswd&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ docker exec -i mysql8 mysql -uroot -ppasswd &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;select host, user from mysql.user&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;mysql: &lt;span style="color:#f92672"&gt;[&lt;/span&gt;Warning&lt;span style="color:#f92672"&gt;]&lt;/span&gt; Using a password on the command line interface can be insecure.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;host user
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;% root
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;localhost mysql.infoschema
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;localhost mysql.session
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;localhost mysql.sys
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;localhost root
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;blockquote&gt;
+&lt;p&gt;mysql: [Warning] Using a password on the command line interface can be insecure.&lt;/p&gt;</description></item><item><title>ElasticSearch to MySQL ETL</title><link>https://cdecl.github.io/devops/elasticsearch-to-mysql/</link><pubDate>Sun, 15 Aug 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/elasticsearch-to-mysql/</guid><description>&lt;p&gt;ElasticSearch to MySQL ETL&lt;/p&gt;
+&lt;h2 id="준비"&gt;준비&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;curl&lt;/code&gt; : Http 기반 ElasticSearch Query (SQL)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;jq&lt;/code&gt; : ElasticSearch 결과 JSON 변환 (NDJSON)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;mysql-shell&lt;/code&gt; : MySQL 데이터 Bulk Insert (Json 타입의 Table)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="elasticsearch-query--curl"&gt;ElasticSearch Query &lt;code&gt;curl&lt;/code&gt;&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;쿼리 후, 해당 내용 JSON 저장&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ curl -s -XPOST -H &lt;span style="color:#e6db74"&gt;&amp;#39;content-type: application/json&amp;#39;&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; -d &lt;span style="color:#e6db74"&gt;&amp;#39;{&amp;#34;query&amp;#34; : &amp;#34;select timestamp, activesession, loadavg, processor from \&amp;#34;mysql-perf-*\&amp;#34; limit 100&amp;#34;}&amp;#39;&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;http://elasticsearch-server:7200/_sql&amp;#39;&lt;/span&gt; &amp;gt; result.json
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ cat result.json | jq .
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;columns&amp;#34;&lt;/span&gt;: &lt;span style="color:#f92672"&gt;[&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;name&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;timestamp&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;datetime&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;}&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;name&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;activesession&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;long&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;}&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;name&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;loadavg&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;float&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;}&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;name&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;processor&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;float&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;]&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;rows&amp;#34;&lt;/span&gt;: &lt;span style="color:#f92672"&gt;[&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;[&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;2021-05-02T03:40:47.000Z&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; 2,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; 0.019999999552965164,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;]&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;[&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;2021-06-01T00:04:24.000Z&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; 4,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; 2.0399999618530273,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; 14.579999923706055
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;]&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ...
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="ndjson-형태로-변환-jq"&gt;NDJSON 형태로 변환 &lt;code&gt;jq&lt;/code&gt;&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;-c&lt;/code&gt; : compact instead of pretty-printed output&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ cat result.json | &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; jq -c &lt;span style="color:#e6db74"&gt;&amp;#39; { &amp;#34;col&amp;#34;: [.columns[] | .name], &amp;#34;row&amp;#34; : .rows[] }
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; | [.col, .row]
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; | transpose
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; | map({ (.[0]): .[1] })
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; | add &amp;#39;&lt;/span&gt; &amp;gt; result_t.json
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ cat result_t.json | jq .
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;timestamp&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;2021-05-02T03:40:47.000Z&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;activesession&amp;#34;&lt;/span&gt;: 2,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;loadavg&amp;#34;&lt;/span&gt;: 0.019999999552965164,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;processor&amp;#34;&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;timestamp&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;2021-06-22T05:25:24.000Z&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;activesession&amp;#34;&lt;/span&gt;: 3,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;loadavg&amp;#34;&lt;/span&gt;: 1.809999942779541,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;processor&amp;#34;&lt;/span&gt;: 4.599999904632568
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;timestamp&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;2021-07-01T00:04:21.000Z&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;activesession&amp;#34;&lt;/span&gt;: 1,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;loadavg&amp;#34;&lt;/span&gt;: 0.2800000011920929,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;processor&amp;#34;&lt;/span&gt;: 0.41999998688697815
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="mysql-json-import-mysql-shell"&gt;MySQL JSON Import &lt;code&gt;mysql-shell&lt;/code&gt;&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;테이블내 &lt;code&gt;doc json&lt;/code&gt; 필드 생성 및 JSON 데이터 Row 단위 적재&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# truncate table&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ mysqlsh --sql user@mysql-server:3360/dbname -p&amp;lt;PASSWD&amp;gt; &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --execute &lt;span style="color:#e6db74"&gt;&amp;#39;truncate table data_table ;&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# import &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ mysqlsh --mysqlx user@mysql-server:3360/dbname -p&amp;lt;PASSWD&amp;gt; &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --import result_t.json --collection&lt;span style="color:#f92672"&gt;=&lt;/span&gt;data_table
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;img loading="lazy" src="https://cdecl.github.io/images/2021-08-17-09-42-43.png"&gt;&lt;/p&gt;</description></item></channel></rss>

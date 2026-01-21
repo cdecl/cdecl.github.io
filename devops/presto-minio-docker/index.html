@@ -1,0 +1,299 @@
+<!doctype html><html lang=en dir=auto data-theme=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>trino(presto), minio docker 테스트 환경 | cdeclog</title><meta name=keywords content="presto,trino,minio,docker"><meta name=description content='trino(presto), minio docker 활용 테스트 환경
+trino (hive connector) to minio
+
+trino 의 hive connector 를 활용해서 minio 데이터 분석 환경
+
+Hive connector : https://trino.io/docs/current/connector/hive.html{:target="_blank"}
+
+
+참고 : https://github.com/cdecl/trino-minio-docker{:target="_blank"}
+
+docker-compose (trino, minio)
+version: &#39;3&#39;
+services:
+  trino:
+    image: trinodb/trino
+    container_name: trino
+    restart: always
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./etc:/etc/trino
+
+  minio:
+    image: minio/minio
+    restart: always
+    command: server /data --console-address ":9001"
+    container_name: minio
+    environment:
+      MINIO_ROOT_USER: minio
+      MINIO_ROOT_PASSWORD: minio1234
+    restart: always
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - ./minio-data:/data
+minio (hive) properties
+
+etc/catalog/hive.properties
+metastore 는 minio catalog 버킷에 저장  s3a://catalog/trino/
+minio 세팅 정보 : access-key, secret-key, endpoint
+
+connector.name=hive-hadoop2
+hive.metastore=file
+hive.metastore.catalog.dir=s3a://catalog/trino/
+
+hive.recursive-directories=true
+hive.non-managed-table-writes-enabled=true
+hive.allow-drop-table=true
+
+hive.s3.path-style-access=true
+hive.s3.ssl.enabled=false
+hive.s3select-pushdown.enabled=true
+
+hive.s3.aws-access-key=minio
+hive.s3.aws-secret-key=minio1234
+hive.s3.endpoint=http://minio:9000
+docker-compose 실행 및 초기값 세팅
+## 실행 
+$ docker-compose up -d 
+reating network "trino_default" with the default driver
+Creating minio ... done
+Creating trino ... done
+rclone 으로 minio 버킷 생성
+# rclone 설정
+$ cat local.conf
+[local]
+type = s3
+provider = Minio
+env_auth = false
+access_key_id = minio
+secret_access_key = minio1234
+endpoint = http://localhost:9000
+
+# create catalog, data directory 
+$ rclone --config local.conf mkdir local:catalog
+$ rclone --config local.conf mkdir local:data
+# sample json (ndjson) data)
+$ cat 1.json
+{"id":1,"name":"Alice"}
+{"id":2,"name":"Bob"}
+{"id":3,"name":"Carol"}
+
+# test data copy
+$ rclone --config local.conf copy 1.json local:data/sample/
+schema, table 생성
+
+default schema (db) 생성 및 external_location table 생성
+
+-- hive 의 schema(db) 생성 
+create schema hive.default;
+
+-- table 생성 
+create table hive.default.sample (
+  id varchar,
+  name varchar
+)
+with (
+  format = &#39;json&#39;,  
+  external_location = &#39;s3a://data/sample/&#39;
+);
+
+-- select 
+select * from sample;
+쿼리 테스트 (dbeaver)
+'><meta name=author content="Byung Kyu KIM"><link rel=canonical href=https://cdecl.github.io/devops/presto-minio-docker/><link crossorigin=anonymous href=/assets/css/stylesheet.d980bb9fb2cba61af0aead0606b5eb221d7e358748ac394b60233d95d626c563.css integrity="sha256-2YC7n7LLphrwrq0GBrXrIh1+NYdIrDlLYCM9ldYmxWM=" rel="preload stylesheet" as=style><link rel=icon href=https://cdecl.github.io/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://cdecl.github.io/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://cdecl.github.io/favicon-32x32.png><link rel=apple-touch-icon href=https://cdecl.github.io/apple-touch-icon.png><link rel=mask-icon href=https://cdecl.github.io/safari-pinned-tab.svg><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><link rel=alternate hreflang=en href=https://cdecl.github.io/devops/presto-minio-docker/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51);color-scheme:dark}.list{background:var(--theme)}.toc{background:var(--entry)}}@media(prefers-color-scheme:light){.list::-webkit-scrollbar-thumb{border-color:var(--code-bg)}}</style></noscript><script>localStorage.getItem("pref-theme")==="dark"?document.querySelector("html").dataset.theme="dark":localStorage.getItem("pref-theme")==="light"?document.querySelector("html").dataset.theme="light":window.matchMedia("(prefers-color-scheme: dark)").matches?document.querySelector("html").dataset.theme="dark":document.querySelector("html").dataset.theme="light"</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-VQQHHYPN7K"></script><script>var doNotTrack=!1,dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes";if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-VQQHHYPN7K")}</script><meta property="og:url" content="https://cdecl.github.io/devops/presto-minio-docker/"><meta property="og:site_name" content="cdeclog"><meta property="og:title" content="trino(presto), minio docker 테스트 환경"><meta property="og:description" content='trino(presto), minio docker 활용 테스트 환경
+trino (hive connector) to minio trino 의 hive connector 를 활용해서 minio 데이터 분석 환경 Hive connector : https://trino.io/docs/current/connector/hive.html{:target="_blank"} 참고 : https://github.com/cdecl/trino-minio-docker{:target="_blank"} docker-compose (trino, minio) version: &#39;3&#39; services: trino: image: trinodb/trino container_name: trino restart: always ports: - "8080:8080" volumes: - ./etc:/etc/trino minio: image: minio/minio restart: always command: server /data --console-address ":9001" container_name: minio environment: MINIO_ROOT_USER: minio MINIO_ROOT_PASSWORD: minio1234 restart: always ports: - "9000:9000" - "9001:9001" volumes: - ./minio-data:/data minio (hive) properties etc/catalog/hive.properties metastore 는 minio catalog 버킷에 저장 s3a://catalog/trino/ minio 세팅 정보 : access-key, secret-key, endpoint connector.name=hive-hadoop2 hive.metastore=file hive.metastore.catalog.dir=s3a://catalog/trino/ hive.recursive-directories=true hive.non-managed-table-writes-enabled=true hive.allow-drop-table=true hive.s3.path-style-access=true hive.s3.ssl.enabled=false hive.s3select-pushdown.enabled=true hive.s3.aws-access-key=minio hive.s3.aws-secret-key=minio1234 hive.s3.endpoint=http://minio:9000 docker-compose 실행 및 초기값 세팅 ## 실행 $ docker-compose up -d reating network "trino_default" with the default driver Creating minio ... done Creating trino ... done rclone 으로 minio 버킷 생성 # rclone 설정 $ cat local.conf [local] type = s3 provider = Minio env_auth = false access_key_id = minio secret_access_key = minio1234 endpoint = http://localhost:9000 # create catalog, data directory $ rclone --config local.conf mkdir local:catalog $ rclone --config local.conf mkdir local:data # sample json (ndjson) data) $ cat 1.json {"id":1,"name":"Alice"} {"id":2,"name":"Bob"} {"id":3,"name":"Carol"} # test data copy $ rclone --config local.conf copy 1.json local:data/sample/ schema, table 생성 default schema (db) 생성 및 external_location table 생성 -- hive 의 schema(db) 생성 create schema hive.default; -- table 생성 create table hive.default.sample ( id varchar, name varchar ) with ( format = &#39;json&#39;, external_location = &#39;s3a://data/sample/&#39; ); -- select select * from sample; 쿼리 테스트 (dbeaver) '><meta property="og:locale" content="ko-kr"><meta property="og:type" content="article"><meta property="article:section" content="devops"><meta property="article:published_time" content="2022-08-19T00:00:00+09:00"><meta property="article:modified_time" content="2022-08-19T00:00:00+09:00"><meta property="article:tag" content="Presto"><meta property="article:tag" content="Trino"><meta property="article:tag" content="Minio"><meta property="article:tag" content="Docker"><meta name=twitter:card content="summary"><meta name=twitter:title content="trino(presto), minio docker 테스트 환경"><meta name=twitter:description content='trino(presto), minio docker 활용 테스트 환경
+trino (hive connector) to minio
+
+trino 의 hive connector 를 활용해서 minio 데이터 분석 환경
+
+Hive connector : https://trino.io/docs/current/connector/hive.html{:target="_blank"}
+
+
+참고 : https://github.com/cdecl/trino-minio-docker{:target="_blank"}
+
+docker-compose (trino, minio)
+version: &#39;3&#39;
+services:
+  trino:
+    image: trinodb/trino
+    container_name: trino
+    restart: always
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./etc:/etc/trino
+
+  minio:
+    image: minio/minio
+    restart: always
+    command: server /data --console-address ":9001"
+    container_name: minio
+    environment:
+      MINIO_ROOT_USER: minio
+      MINIO_ROOT_PASSWORD: minio1234
+    restart: always
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - ./minio-data:/data
+minio (hive) properties
+
+etc/catalog/hive.properties
+metastore 는 minio catalog 버킷에 저장  s3a://catalog/trino/
+minio 세팅 정보 : access-key, secret-key, endpoint
+
+connector.name=hive-hadoop2
+hive.metastore=file
+hive.metastore.catalog.dir=s3a://catalog/trino/
+
+hive.recursive-directories=true
+hive.non-managed-table-writes-enabled=true
+hive.allow-drop-table=true
+
+hive.s3.path-style-access=true
+hive.s3.ssl.enabled=false
+hive.s3select-pushdown.enabled=true
+
+hive.s3.aws-access-key=minio
+hive.s3.aws-secret-key=minio1234
+hive.s3.endpoint=http://minio:9000
+docker-compose 실행 및 초기값 세팅
+## 실행 
+$ docker-compose up -d 
+reating network "trino_default" with the default driver
+Creating minio ... done
+Creating trino ... done
+rclone 으로 minio 버킷 생성
+# rclone 설정
+$ cat local.conf
+[local]
+type = s3
+provider = Minio
+env_auth = false
+access_key_id = minio
+secret_access_key = minio1234
+endpoint = http://localhost:9000
+
+# create catalog, data directory 
+$ rclone --config local.conf mkdir local:catalog
+$ rclone --config local.conf mkdir local:data
+# sample json (ndjson) data)
+$ cat 1.json
+{"id":1,"name":"Alice"}
+{"id":2,"name":"Bob"}
+{"id":3,"name":"Carol"}
+
+# test data copy
+$ rclone --config local.conf copy 1.json local:data/sample/
+schema, table 생성
+
+default schema (db) 생성 및 external_location table 생성
+
+-- hive 의 schema(db) 생성 
+create schema hive.default;
+
+-- table 생성 
+create table hive.default.sample (
+  id varchar,
+  name varchar
+)
+with (
+  format = &#39;json&#39;,  
+  external_location = &#39;s3a://data/sample/&#39;
+);
+
+-- select 
+select * from sample;
+쿼리 테스트 (dbeaver)
+'><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Devops","item":"https://cdecl.github.io/devops/"},{"@type":"ListItem","position":2,"name":"trino(presto), minio docker 테스트 환경","item":"https://cdecl.github.io/devops/presto-minio-docker/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"trino(presto), minio docker 테스트 환경","name":"trino(presto), minio docker 테스트 환경","description":"trino(presto), minio docker 활용 테스트 환경\ntrino (hive connector) to minio trino 의 hive connector 를 활용해서 minio 데이터 분석 환경 Hive connector : https://trino.io/docs/current/connector/hive.html{:target=\u0026quot;_blank\u0026quot;} 참고 : https://github.com/cdecl/trino-minio-docker{:target=\u0026quot;_blank\u0026quot;} docker-compose (trino, minio) version: \u0026#39;3\u0026#39; services: trino: image: trinodb/trino container_name: trino restart: always ports: - \u0026#34;8080:8080\u0026#34; volumes: - ./etc:/etc/trino minio: image: minio/minio restart: always command: server /data --console-address \u0026#34;:9001\u0026#34; container_name: minio environment: MINIO_ROOT_USER: minio MINIO_ROOT_PASSWORD: minio1234 restart: always ports: - \u0026#34;9000:9000\u0026#34; - \u0026#34;9001:9001\u0026#34; volumes: - ./minio-data:/data minio (hive) properties etc/catalog/hive.properties metastore 는 minio catalog 버킷에 저장 s3a://catalog/trino/ minio 세팅 정보 : access-key, secret-key, endpoint connector.name=hive-hadoop2 hive.metastore=file hive.metastore.catalog.dir=s3a://catalog/trino/ hive.recursive-directories=true hive.non-managed-table-writes-enabled=true hive.allow-drop-table=true hive.s3.path-style-access=true hive.s3.ssl.enabled=false hive.s3select-pushdown.enabled=true hive.s3.aws-access-key=minio hive.s3.aws-secret-key=minio1234 hive.s3.endpoint=http://minio:9000 docker-compose 실행 및 초기값 세팅 ## 실행 $ docker-compose up -d reating network \u0026#34;trino_default\u0026#34; with the default driver Creating minio ... done Creating trino ... done rclone 으로 minio 버킷 생성 # rclone 설정 $ cat local.conf [local] type = s3 provider = Minio env_auth = false access_key_id = minio secret_access_key = minio1234 endpoint = http://localhost:9000 # create catalog, data directory $ rclone --config local.conf mkdir local:catalog $ rclone --config local.conf mkdir local:data # sample json (ndjson) data) $ cat 1.json {\u0026#34;id\u0026#34;:1,\u0026#34;name\u0026#34;:\u0026#34;Alice\u0026#34;} {\u0026#34;id\u0026#34;:2,\u0026#34;name\u0026#34;:\u0026#34;Bob\u0026#34;} {\u0026#34;id\u0026#34;:3,\u0026#34;name\u0026#34;:\u0026#34;Carol\u0026#34;} # test data copy $ rclone --config local.conf copy 1.json local:data/sample/ schema, table 생성 default schema (db) 생성 및 external_location table 생성 -- hive 의 schema(db) 생성 create schema hive.default; -- table 생성 create table hive.default.sample ( id varchar, name varchar ) with ( format = \u0026#39;json\u0026#39;, external_location = \u0026#39;s3a://data/sample/\u0026#39; ); -- select select * from sample; 쿼리 테스트 (dbeaver) ","keywords":["presto","trino","minio","docker"],"articleBody":"trino(presto), minio docker 활용 테스트 환경\ntrino (hive connector) to minio trino 의 hive connector 를 활용해서 minio 데이터 분석 환경 Hive connector : https://trino.io/docs/current/connector/hive.html{:target=\"_blank\"} 참고 : https://github.com/cdecl/trino-minio-docker{:target=\"_blank\"} docker-compose (trino, minio) version: '3' services: trino: image: trinodb/trino container_name: trino restart: always ports: - \"8080:8080\" volumes: - ./etc:/etc/trino minio: image: minio/minio restart: always command: server /data --console-address \":9001\" container_name: minio environment: MINIO_ROOT_USER: minio MINIO_ROOT_PASSWORD: minio1234 restart: always ports: - \"9000:9000\" - \"9001:9001\" volumes: - ./minio-data:/data minio (hive) properties etc/catalog/hive.properties metastore 는 minio catalog 버킷에 저장 s3a://catalog/trino/ minio 세팅 정보 : access-key, secret-key, endpoint connector.name=hive-hadoop2 hive.metastore=file hive.metastore.catalog.dir=s3a://catalog/trino/ hive.recursive-directories=true hive.non-managed-table-writes-enabled=true hive.allow-drop-table=true hive.s3.path-style-access=true hive.s3.ssl.enabled=false hive.s3select-pushdown.enabled=true hive.s3.aws-access-key=minio hive.s3.aws-secret-key=minio1234 hive.s3.endpoint=http://minio:9000 docker-compose 실행 및 초기값 세팅 ## 실행 $ docker-compose up -d reating network \"trino_default\" with the default driver Creating minio ... done Creating trino ... done rclone 으로 minio 버킷 생성 # rclone 설정 $ cat local.conf [local] type = s3 provider = Minio env_auth = false access_key_id = minio secret_access_key = minio1234 endpoint = http://localhost:9000 # create catalog, data directory $ rclone --config local.conf mkdir local:catalog $ rclone --config local.conf mkdir local:data # sample json (ndjson) data) $ cat 1.json {\"id\":1,\"name\":\"Alice\"} {\"id\":2,\"name\":\"Bob\"} {\"id\":3,\"name\":\"Carol\"} # test data copy $ rclone --config local.conf copy 1.json local:data/sample/ schema, table 생성 default schema (db) 생성 및 external_location table 생성 -- hive 의 schema(db) 생성 create schema hive.default; -- table 생성 create table hive.default.sample ( id varchar, name varchar ) with ( format = 'json', external_location = 's3a://data/sample/' ); -- select select * from sample; 쿼리 테스트 (dbeaver) ","wordCount":"248","inLanguage":"en","datePublished":"2022-08-19T00:00:00+09:00","dateModified":"2022-08-19T00:00:00+09:00","author":{"@type":"Person","name":"Byung Kyu KIM"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://cdecl.github.io/devops/presto-minio-docker/"},"publisher":{"@type":"Organization","name":"cdeclog","logo":{"@type":"ImageObject","url":"https://cdecl.github.io/favicon.ico"}}}</script></head><body id=top><header class=header><nav class=nav><div class=logo><a href=https://cdecl.github.io/ accesskey=h title="cdeclog (Alt + H)">cdeclog</a><div class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)" aria-label="Toggle theme">
+<svg id="moon" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+<svg id="sun" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu><li><a href=https://cdecl.github.io/archives/ title=Archive><span>Archive</span></a></li><li><a href=https://cdecl.github.io/search/ title="Search (Alt + /)" accesskey=/><span>Search</span></a></li><li><a href=https://cdecl.github.io/tags/ title=Tags><span>Tags</span></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><h1 class="post-title entry-hint-parent">trino(presto), minio docker 테스트 환경</h1><div class=post-meta><span title='2022-08-19 00:00:00 +0900 KST'>August 19, 2022</span>&nbsp;·&nbsp;<span>Byung Kyu KIM</span></div></header><div class=toc><details open><summary accesskey=c title="(Alt + C)"><span class=details>Table of Contents</span></summary><div class=inner><ul><li><a href=#trino-hive-connector-to-minio aria-label="trino (hive connector) to minio">trino (hive connector) to minio</a><ul><li><a href=#docker-compose-trino-minio aria-label="docker-compose (trino, minio)">docker-compose (trino, minio)</a><ul><li><a href=#minio-hive-properties aria-label="minio (hive) properties">minio (hive) properties</a></li></ul></li><li><a href=#docker-compose-%ec%8b%a4%ed%96%89-%eb%b0%8f-%ec%b4%88%ea%b8%b0%ea%b0%92-%ec%84%b8%ed%8c%85 aria-label="docker-compose 실행 및 초기값 세팅">docker-compose 실행 및 초기값 세팅</a><ul><li><a href=#rclone-%ec%9c%bc%eb%a1%9c-minio-%eb%b2%84%ed%82%b7-%ec%83%9d%ec%84%b1 aria-label="rclone 으로 minio 버킷 생성">rclone 으로 minio 버킷 생성</a></li><li><a href=#schema-table-%ec%83%9d%ec%84%b1 aria-label="schema, table 생성">schema, table 생성</a></li><li><a href=#%ec%bf%bc%eb%a6%ac-%ed%85%8c%ec%8a%a4%ed%8a%b8-dbeaver aria-label="쿼리 테스트 (dbeaver)">쿼리 테스트 (dbeaver)</a></li></ul></li></ul></li></ul></div></details></div><div class=post-content><p>trino(presto), minio docker 활용 테스트 환경</p><h2 id=trino-hive-connector-to-minio>trino (hive connector) to minio<a hidden class=anchor aria-hidden=true href=#trino-hive-connector-to-minio>#</a></h2><ul><li>trino 의 hive connector 를 활용해서 minio 데이터 분석 환경<ul><li>Hive connector : <a href=https://trino.io/docs/current/connector/hive.html>https://trino.io/docs/current/connector/hive.html</a>{:target="_blank"}</li></ul></li><li>참고 : <a href=https://github.com/cdecl/trino-minio-docker>https://github.com/cdecl/trino-minio-docker</a>{:target="_blank"}</li></ul><h3 id=docker-compose-trino-minio>docker-compose (trino, minio)<a hidden class=anchor aria-hidden=true href=#docker-compose-trino-minio>#</a></h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#f92672>version</span>: <span style=color:#e6db74>&#39;3&#39;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>services</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>trino</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>image</span>: <span style=color:#ae81ff>trinodb/trino</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>container_name</span>: <span style=color:#ae81ff>trino</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>restart</span>: <span style=color:#ae81ff>always</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>ports</span>:
+</span></span><span style=display:flex><span>      - <span style=color:#e6db74>&#34;8080:8080&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>volumes</span>:
+</span></span><span style=display:flex><span>      - <span style=color:#ae81ff>./etc:/etc/trino</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>minio</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>image</span>: <span style=color:#ae81ff>minio/minio</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>restart</span>: <span style=color:#ae81ff>always</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>command</span>: <span style=color:#ae81ff>server /data --console-address &#34;:9001&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>container_name</span>: <span style=color:#ae81ff>minio</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>environment</span>:
+</span></span><span style=display:flex><span>      <span style=color:#f92672>MINIO_ROOT_USER</span>: <span style=color:#ae81ff>minio</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>MINIO_ROOT_PASSWORD</span>: <span style=color:#ae81ff>minio1234</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>restart</span>: <span style=color:#ae81ff>always</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>ports</span>:
+</span></span><span style=display:flex><span>      - <span style=color:#e6db74>&#34;9000:9000&#34;</span>
+</span></span><span style=display:flex><span>      - <span style=color:#e6db74>&#34;9001:9001&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>volumes</span>:
+</span></span><span style=display:flex><span>      - <span style=color:#ae81ff>./minio-data:/data</span>
+</span></span></code></pre></div><h4 id=minio-hive-properties>minio (hive) properties<a hidden class=anchor aria-hidden=true href=#minio-hive-properties>#</a></h4><ul><li><code>etc/catalog/hive.properties</code></li><li>metastore 는 minio catalog 버킷에 저장 <code>s3a://catalog/trino/</code></li><li>minio 세팅 정보 : <code>access-key</code>, <code>secret-key</code>, <code>endpoint</code></li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-properties data-lang=properties><span style=display:flex><span><span style=color:#a6e22e>connector.name</span><span style=color:#f92672>=</span><span style=color:#e6db74>hive-hadoop2</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>hive.metastore</span><span style=color:#f92672>=</span><span style=color:#e6db74>file</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>hive.metastore.catalog.dir</span><span style=color:#f92672>=</span><span style=color:#e6db74>s3a://catalog/trino/</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>hive.recursive-directories</span><span style=color:#f92672>=</span><span style=color:#e6db74>true</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>hive.non-managed-table-writes-enabled</span><span style=color:#f92672>=</span><span style=color:#e6db74>true</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>hive.allow-drop-table</span><span style=color:#f92672>=</span><span style=color:#e6db74>true</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>hive.s3.path-style-access</span><span style=color:#f92672>=</span><span style=color:#e6db74>true</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>hive.s3.ssl.enabled</span><span style=color:#f92672>=</span><span style=color:#e6db74>false</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>hive.s3select-pushdown.enabled</span><span style=color:#f92672>=</span><span style=color:#e6db74>true</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>hive.s3.aws-access-key</span><span style=color:#f92672>=</span><span style=color:#e6db74>minio</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>hive.s3.aws-secret-key</span><span style=color:#f92672>=</span><span style=color:#e6db74>minio1234</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>hive.s3.endpoint</span><span style=color:#f92672>=</span><span style=color:#e6db74>http://minio:9000</span>
+</span></span></code></pre></div><h3 id=docker-compose-실행-및-초기값-세팅>docker-compose 실행 및 초기값 세팅<a hidden class=anchor aria-hidden=true href=#docker-compose-실행-및-초기값-세팅>#</a></h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span><span style=color:#75715e>## 실행 </span>
+</span></span><span style=display:flex><span>$ docker-compose up -d 
+</span></span><span style=display:flex><span>reating network <span style=color:#e6db74>&#34;trino_default&#34;</span> with the default driver
+</span></span><span style=display:flex><span>Creating minio ... <span style=color:#66d9ef>done</span>
+</span></span><span style=display:flex><span>Creating trino ... <span style=color:#66d9ef>done</span>
+</span></span></code></pre></div><h4 id=rclone-으로-minio-버킷-생성>rclone 으로 minio 버킷 생성<a hidden class=anchor aria-hidden=true href=#rclone-으로-minio-버킷-생성>#</a></h4><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span><span style=color:#75715e># rclone 설정</span>
+</span></span><span style=display:flex><span>$ cat local.conf
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>local<span style=color:#f92672>]</span>
+</span></span><span style=display:flex><span>type <span style=color:#f92672>=</span> s3
+</span></span><span style=display:flex><span>provider <span style=color:#f92672>=</span> Minio
+</span></span><span style=display:flex><span>env_auth <span style=color:#f92672>=</span> false
+</span></span><span style=display:flex><span>access_key_id <span style=color:#f92672>=</span> minio
+</span></span><span style=display:flex><span>secret_access_key <span style=color:#f92672>=</span> minio1234
+</span></span><span style=display:flex><span>endpoint <span style=color:#f92672>=</span> http://localhost:9000
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># create catalog, data directory </span>
+</span></span><span style=display:flex><span>$ rclone --config local.conf mkdir local:catalog
+</span></span><span style=display:flex><span>$ rclone --config local.conf mkdir local:data
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span><span style=color:#75715e># sample json (ndjson) data)</span>
+</span></span><span style=display:flex><span>$ cat 1.json
+</span></span><span style=display:flex><span><span style=color:#f92672>{</span><span style=color:#e6db74>&#34;id&#34;</span>:1,<span style=color:#e6db74>&#34;name&#34;</span>:<span style=color:#e6db74>&#34;Alice&#34;</span><span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>{</span><span style=color:#e6db74>&#34;id&#34;</span>:2,<span style=color:#e6db74>&#34;name&#34;</span>:<span style=color:#e6db74>&#34;Bob&#34;</span><span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>{</span><span style=color:#e6db74>&#34;id&#34;</span>:3,<span style=color:#e6db74>&#34;name&#34;</span>:<span style=color:#e6db74>&#34;Carol&#34;</span><span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># test data copy</span>
+</span></span><span style=display:flex><span>$ rclone --config local.conf copy 1.json local:data/sample/
+</span></span></code></pre></div><h4 id=schema-table-생성>schema, table 생성<a hidden class=anchor aria-hidden=true href=#schema-table-생성>#</a></h4><ul><li><code>default</code> schema (db) 생성 및 external_location table 생성</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#75715e>-- hive 의 schema(db) 생성 
+</span></span></span><span style=display:flex><span><span style=color:#66d9ef>create</span> <span style=color:#66d9ef>schema</span> hive.<span style=color:#66d9ef>default</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>-- table 생성 
+</span></span></span><span style=display:flex><span><span style=color:#66d9ef>create</span> <span style=color:#66d9ef>table</span> hive.<span style=color:#66d9ef>default</span>.sample (
+</span></span><span style=display:flex><span>  id varchar,
+</span></span><span style=display:flex><span>  name varchar
+</span></span><span style=display:flex><span>)
+</span></span><span style=display:flex><span><span style=color:#66d9ef>with</span> (
+</span></span><span style=display:flex><span>  format <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;json&#39;</span>,  
+</span></span><span style=display:flex><span>  external_location <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;s3a://data/sample/&#39;</span>
+</span></span><span style=display:flex><span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>-- select 
+</span></span></span><span style=display:flex><span><span style=color:#66d9ef>select</span> <span style=color:#f92672>*</span> <span style=color:#66d9ef>from</span> sample;
+</span></span></code></pre></div><h4 id=쿼리-테스트-dbeaver>쿼리 테스트 (dbeaver)<a hidden class=anchor aria-hidden=true href=#쿼리-테스트-dbeaver>#</a></h4><p><img loading=lazy src=/images/2022-08-20-13-38-49.png></p></div><footer class=post-footer><ul class=post-tags><li><a href=https://cdecl.github.io/tags/presto/>Presto</a></li><li><a href=https://cdecl.github.io/tags/trino/>Trino</a></li><li><a href=https://cdecl.github.io/tags/minio/>Minio</a></li><li><a href=https://cdecl.github.io/tags/docker/>Docker</a></li></ul></footer></article></main><footer class=footer><span>&copy; 2026 <a href=https://cdecl.github.io/>cdeclog</a></span> ·
+<span>Powered by
+<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
+<a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg viewBox="0 0 12 6" fill="currentColor"><path d="M12 6H0l6-6z"/></svg>
+</a><script>let menu=document.getElementById("menu");if(menu){const e=localStorage.getItem("menu-scroll-position");e&&(menu.scrollLeft=parseInt(e,10)),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}}document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{const e=document.querySelector("html");e.dataset.theme==="dark"?(e.dataset.theme="light",localStorage.setItem("pref-theme","light")):(e.dataset.theme="dark",localStorage.setItem("pref-theme","dark"))})</script></body></html>

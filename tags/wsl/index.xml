@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Wsl on cdeclog</title><link>https://cdecl.github.io/tags/wsl/</link><description>Recent content in Wsl on cdeclog</description><generator>Hugo -- 0.154.5</generator><language>ko-kr</language><lastBuildDate>Sun, 22 Aug 2021 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/wsl/index.xml" rel="self" type="application/rss+xml"/><item><title>oh-my-zsh so slow (WSL)</title><link>https://cdecl.github.io/devops/wsl-ohmyzsh-soslow/</link><pubDate>Sun, 22 Aug 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/wsl-ohmyzsh-soslow/</guid><description>&lt;p&gt;oh-my-zsh 이 느린 경우 해결 방법 (특히 WSL)&lt;/p&gt;
+&lt;h2 id="oh-my-zsh-so-slow"&gt;oh-my-zsh so slow&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Theme 가 느린 경우는 Pass&lt;/li&gt;
+&lt;li&gt;git 관리 디렉토리 진입시 현저히 느려지는 경우&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ git config --global oh-my-zsh.hide-status &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ git config --global oh-my-zsh.hide-dirty &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ git config --global -l
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;oh-my-zsh.hide-status&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;oh-my-zsh.hide-dirty&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description></item></channel></rss>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>GitHub Actions on cdeclog</title><link>https://cdecl.github.io/tags/github-actions/</link><description>Recent content in GitHub Actions on cdeclog</description><generator>Hugo -- 0.154.5</generator><language>ko-kr</language><lastBuildDate>Fri, 23 May 2025 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/github-actions/index.xml" rel="self" type="application/rss+xml"/><item><title>GitHub Actions YAML 사용법</title><link>https://cdecl.github.io/dev/github-actions-yaml/</link><pubDate>Fri, 23 May 2025 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/github-actions-yaml/</guid><description>&lt;p&gt;GitHub Actions YAML: CI/CD 워크플로우의 핵심&lt;/p&gt;
+&lt;p&gt;GitHub Actions는 CI/CD 및 자동화 워크플로우를 정의하는 강력한 도구로, YAML 파일을 통해 설정됩니다. 이 포스트에서는 GitHub Actions YAML의 주요 사용법, 실행 환경, 쉘 스크립트 활용 방법, 그리고 실무에서 유용한 팁을 정리합니다.&lt;/p&gt;
+&lt;h2 id="왜-github-actions-yaml이-중요한가"&gt;왜 GitHub Actions YAML이 중요한가?&lt;/h2&gt;
+&lt;p&gt;GitHub Actions는 코드 푸시, 풀 리퀘스트, 스케줄링 등 다양한 이벤트를 기반으로 자동화된 워크플로우를 실행할 수 있습니다. YAML 파일은 이를 직관적이고 선언적으로 정의하며, 다음과 같은 장점을 제공합니다:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;가독성&lt;/strong&gt;: 명확한 구조로 워크플로우 정의.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;유연성&lt;/strong&gt;: 다양한 환경과 도구 지원.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;재사용성&lt;/strong&gt;: 액션과 워크플로우를 모듈화해 생산성 향상.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;2025년 기준&lt;/strong&gt;: GitHub Actions는 대부분의 주요 언어와 배포 환경을 지원하며, 커뮤니티 액션으로 확장 가능.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="1-github-actions-yaml-기본-구조"&gt;1. GitHub Actions YAML 기본 구조&lt;/h2&gt;
+&lt;p&gt;GitHub Actions 워크플로우는 &lt;code&gt;.github/workflows/&lt;/code&gt; 디렉토리에 &lt;code&gt;.yml&lt;/code&gt; 파일로 저장됩니다. 기본 구조는 다음과 같습니다:&lt;/p&gt;</description></item></channel></rss>

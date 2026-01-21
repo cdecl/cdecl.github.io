@@ -1,0 +1,908 @@
+<!doctype html><html lang=en dir=auto data-theme=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>Kubernetes 101 | cdeclog</title><meta name=keywords content="kubernetes,k8s,docker"><meta name=description content='Kubernetes 설치 및 운영 101
+사전 준비
+Kubernetes 설치 전 서버 구성 변경
+
+참고 : https://www.mirantis.com/blog/how-install-kubernetes-kubeadm/{:target="_blank"}
+Swap 영역을 비활성화
+
+# 일시적인 설정 
+$ sudo swapoff -a
+
+# 영구적인 설정, 아래 swap 파일 시스템을 주석처리 
+$ sudo vi /etc/fstab
+...
+# /dev/mapper/kube--master--vg-swap_1 none            swap    sw              0       0
+
+SELinux Disable
+
+# 임시 
+$ sudo setenforce 0
+
+# 영구
+$ sudo vi /etc/sysconfig/selinux
+...
+SELinux=disabled  
+
+방화벽 Disable
+
+$ sudo systemctl disable firewalld
+$ sudo systemctl stop firewalld
+
+브릿지 네트워크 할성화
+
+# Centos
+$ sudo vim /etc/sysctl.d/k8s.conf
+
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+# Ubuntu
+$ sudo vim /etc/ufw/sysctl.conf
+
+net/bridge/bridge-nf-call-ip6tables = 1
+net/bridge/bridge-nf-call-iptables = 1
+net/bridge/bridge-nf-call-arptables = 1
+Docker Install
+
+Centos Install : https://docs.docker.com/engine/install/centos/{:target="_blank"}
+
+Cgroup 드라이버 이슈
+
+최신 Kubernetes는 docker cgroup driver를 cgroupfs → systemd 변경 필요
+
+Master Init 및 Worker Join 시 WARNING 발생
+
+
+https://kubernetes.io/ko/docs/setup/production-environment/container-runtimes/{:target="_blank"}
+
+kubeadm init --pod-network-cidr 10.244.0.0/16
+...
+[init] Using Kubernetes version: v1.19.3
+[preflight] Running pre-flight checks
+	[WARNING IsDockerSystemdCheck]: detected "cgroupfs" as the Docker cgroup driver. 
+  The recommended driver is "systemd". ...
+...
+
+드라이버 변경 작업
+
+/etc/docker/daemon.json 파일 작성
+
+
+
+$ cat <<EOF | sudo tee /etc/docker/daemon.json
+{
+  "exec-opts": ["native.cgroupdriver=systemd"],
+  "log-driver": "json-file",
+  "log-opts": {
+    "max-size": "100m"
+  },
+  "storage-driver": "overlay2",
+  "storage-opts": [
+    "overlay2.override_kernel_check=true"
+  ]
+}
+EOF
+
+# 도커 재시작 
+$ sudo systemctl restart docker
+
+# 확인 
+$ sudo docker info | grep -i cgroup
+ Cgroup Driver: systemd
+
+Kubernetes (kubeadm, kubelet, kubectl) 설치
+
+참고 : https://kubernetes.io/docs/setup/independent/install-kubeadm/{:target="_blank"}
+
+Kubernetes 설치 : Centos7 기준
+
+Docker 설치
+
+sudo yum install -y docker
+sudo systemctl enable docker && systemctl start docker
+
+sudo usermod -aG docker $USER
+
+kubeadm, kubelet, kubectl : Repo 추가 및 패키지 설치
+
+$ cat <<EOF > /etc/yum.repos.d/kubernetes.repo
+[kubernetes]
+name=Kubernetes
+baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+EOF
+
+$ sudo yum install -y kubelet kubeadm kubectl
+
+$ sudo systemctl enable kubelet && systemctl start kubelet
+
+# 버전이 안맞을 경우 지정 
+# sudo yum install kubelet-[version] kubeadm-[version] kubectl-[version]
+
+kubectl 자동완성
+
+# sh
+source <(kubectl completion sh)
+echo "source <(kubectl completion sh)" >> ~/.shrc 
+
+# zsh
+source <(kubectl completion zsh) 
+echo "if [ $commands[kubectl] ]; then source <(kubectl completion zsh); fi" >> ~/.zshrc 
+Master Node Init 및 Worker Node Join
+Master Node 설정
+
+Master 초기화
+
+네트워크 클래스 대역을 설정 필요 : --pod-network-cidr 10.244.0.0/16
+
+
+
+sudo kubeadm init --pod-network-cidr 10.244.0.0/16
+
+Kubectl 사용 : To start using your cluster.. 아래 항목 3줄 실행
+
+[init] Using Kubernetes version: v1.10.5
+...
+To start using your cluster, you need to run the following as a regular user:
+
+  mkdir -p $HOME/.kube
+  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+...
+You can now join any number of machines by running the following on each node
+as root:
+  kubeadm join 192.168.28.15:6443 --token 1ovd36.ft4mefr909iotg0a --discovery-token-ca-cert-hash sha256:82953a3ed178aa8c511792d0e21d9d3283e7575f3d3350a00bea3e34c2b87d29 
+
+Pod 상태 확인
+
+coredns STATUS → Pending  (∵  Overlay network 미설치)
+
+
+
+$ kubectl get po -A
+NAMESPACE     NAME                            READY   STATUS    RESTARTS   AGE
+kube-system   coredns-66bff467f8-ktvsz        0/1     Pending   0          19s
+kube-system   coredns-66bff467f8-nvvjz        0/1     Pending   0          19s
+kube-system   etcd-node1                      1/1     Running   0          29s
+kube-system   kube-apiserver-node1            1/1     Running   0          29s
+kube-system   kube-controller-manager-node1   1/1     Running   0          29s
+kube-system   kube-proxy-s582x                1/1     Running   0          19s
+kube-system   kube-scheduler-node1            1/1     Running   0          29s
+Overlay network : Calico 설치
+
+Overlay network 종류
+
+https://kubernetes.io/docs/concepts/cluster-administration/networking/{:target="_blank"}
+
+
+Install Calico for on-premises deployments
+
+https://docs.projectcalico.org/getting-started/kubernetes/self-managed-onprem/onpremises{:target="_blank"}
+
+
+
+# Install Calico for on-premises deployments
+$ kubectl apply -f https://docs.projectcalico.org/manifests/calico-typha.yaml
+
+coredns 서비스가 정상적으로 Running
+
+$ kubectl get po -A
+NAMESPACE     NAME                                       READY   STATUS             RESTARTS   AGE
+kube-system   calico-kube-controllers-799fb94867-bcntz   0/1     CrashLoopBackOff   3          2m6s
+kube-system   calico-node-jtcmt                          0/1     Running            1          2m7s
+kube-system   calico-typha-6bc9dd6468-x2hjj              0/1     Pending            0          2m6s
+kube-system   coredns-66bff467f8-ktvsz                   0/1     Running            0          3m23s
+kube-system   coredns-66bff467f8-nvvjz                   0/1     Running            0          3m23s
+kube-system   etcd-node1                                 1/1     Running            0          3m33s
+kube-system   kube-apiserver-node1                       1/1     Running            0          3m33s
+kube-system   kube-controller-manager-node1              1/1     Running            0          3m33s
+kube-system   kube-proxy-s582x                           1/1     Running            0          3m23s
+kube-system   kube-scheduler-node1                       1/1     Running            0          3m33s
+Worker Node 추가 (Join)
+
+Worker Node 실행
+
+# Join 명령 가져오기 
+$ kubeadm token create --print-join-command
+kubeadm join 192.168.28.15:6443 --token 1ovd36.ft4mefr909iotg0a     --discovery-token-ca-cert-hash sha256:82953a3ed178aa8c511792d0e21d9d3283e7575f3d3350a00bea3e34c2b87d29 
+
+# Worker node 에서 실행 
+$ kubeadm join 192.168.28.15:6443 --token 1ovd36.ft4mefr909iotg0a --discovery-token-ca-cert-hash sha256:82953a3ed178aa8c511792d0e21d9d3283e7575f3d3350a00bea3e34c2b87d29 
+
+노드 상태 확인
+
+> kubectl get node
+NAME    STATUS   ROLES    AGE     VERSION
+node1   Ready    master   8m50s   v1.18.6
+node2   Ready    <none>   16s     v1.18.6
+node3   Ready    <none>   16s     v1.18.6
+
+서비스 배포 : 명령어(CLI) 기반
+'><meta name=author content="Byung Kyu KIM"><link rel=canonical href=https://cdecl.github.io/devops/kubernetes-101/><link crossorigin=anonymous href=/assets/css/stylesheet.d980bb9fb2cba61af0aead0606b5eb221d7e358748ac394b60233d95d626c563.css integrity="sha256-2YC7n7LLphrwrq0GBrXrIh1+NYdIrDlLYCM9ldYmxWM=" rel="preload stylesheet" as=style><link rel=icon href=https://cdecl.github.io/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://cdecl.github.io/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://cdecl.github.io/favicon-32x32.png><link rel=apple-touch-icon href=https://cdecl.github.io/apple-touch-icon.png><link rel=mask-icon href=https://cdecl.github.io/safari-pinned-tab.svg><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><link rel=alternate hreflang=en href=https://cdecl.github.io/devops/kubernetes-101/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51);color-scheme:dark}.list{background:var(--theme)}.toc{background:var(--entry)}}@media(prefers-color-scheme:light){.list::-webkit-scrollbar-thumb{border-color:var(--code-bg)}}</style></noscript><script>localStorage.getItem("pref-theme")==="dark"?document.querySelector("html").dataset.theme="dark":localStorage.getItem("pref-theme")==="light"?document.querySelector("html").dataset.theme="light":window.matchMedia("(prefers-color-scheme: dark)").matches?document.querySelector("html").dataset.theme="dark":document.querySelector("html").dataset.theme="light"</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-VQQHHYPN7K"></script><script>var doNotTrack=!1,dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes";if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-VQQHHYPN7K")}</script><meta property="og:url" content="https://cdecl.github.io/devops/kubernetes-101/"><meta property="og:site_name" content="cdeclog"><meta property="og:title" content="Kubernetes 101"><meta property="og:description" content='Kubernetes 설치 및 운영 101
+사전 준비 Kubernetes 설치 전 서버 구성 변경 참고 : https://www.mirantis.com/blog/how-install-kubernetes-kubeadm/{:target="_blank"} Swap 영역을 비활성화 # 일시적인 설정 $ sudo swapoff -a # 영구적인 설정, 아래 swap 파일 시스템을 주석처리 $ sudo vi /etc/fstab ... # /dev/mapper/kube--master--vg-swap_1 none swap sw 0 0 SELinux Disable # 임시 $ sudo setenforce 0 # 영구 $ sudo vi /etc/sysconfig/selinux ... SELinux=disabled 방화벽 Disable $ sudo systemctl disable firewalld $ sudo systemctl stop firewalld 브릿지 네트워크 할성화 # Centos $ sudo vim /etc/sysctl.d/k8s.conf net.bridge.bridge-nf-call-ip6tables = 1 net.bridge.bridge-nf-call-iptables = 1 # Ubuntu $ sudo vim /etc/ufw/sysctl.conf net/bridge/bridge-nf-call-ip6tables = 1 net/bridge/bridge-nf-call-iptables = 1 net/bridge/bridge-nf-call-arptables = 1 Docker Install Centos Install : https://docs.docker.com/engine/install/centos/{:target="_blank"} Cgroup 드라이버 이슈 최신 Kubernetes는 docker cgroup driver를 cgroupfs → systemd 변경 필요 Master Init 및 Worker Join 시 WARNING 발생 https://kubernetes.io/ko/docs/setup/production-environment/container-runtimes/{:target="_blank"} kubeadm init --pod-network-cidr 10.244.0.0/16 ... [init] Using Kubernetes version: v1.19.3 [preflight] Running pre-flight checks [WARNING IsDockerSystemdCheck]: detected "cgroupfs" as the Docker cgroup driver. The recommended driver is "systemd". ... ... 드라이버 변경 작업 /etc/docker/daemon.json 파일 작성 $ cat <<EOF | sudo tee /etc/docker/daemon.json { "exec-opts": ["native.cgroupdriver=systemd"], "log-driver": "json-file", "log-opts": { "max-size": "100m" }, "storage-driver": "overlay2", "storage-opts": [ "overlay2.override_kernel_check=true" ] } EOF # 도커 재시작 $ sudo systemctl restart docker # 확인 $ sudo docker info | grep -i cgroup Cgroup Driver: systemd Kubernetes (kubeadm, kubelet, kubectl) 설치 참고 : https://kubernetes.io/docs/setup/independent/install-kubeadm/{:target="_blank"} Kubernetes 설치 : Centos7 기준 Docker 설치 sudo yum install -y docker sudo systemctl enable docker && systemctl start docker sudo usermod -aG docker $USER kubeadm, kubelet, kubectl : Repo 추가 및 패키지 설치 $ cat <<EOF > /etc/yum.repos.d/kubernetes.repo [kubernetes] name=Kubernetes baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64 enabled=1 gpgcheck=1 repo_gpgcheck=1 gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg EOF $ sudo yum install -y kubelet kubeadm kubectl $ sudo systemctl enable kubelet && systemctl start kubelet # 버전이 안맞을 경우 지정 # sudo yum install kubelet-[version] kubeadm-[version] kubectl-[version] kubectl 자동완성 # sh source <(kubectl completion sh) echo "source <(kubectl completion sh)" >> ~/.shrc # zsh source <(kubectl completion zsh) echo "if [ $commands[kubectl] ]; then source <(kubectl completion zsh); fi" >> ~/.zshrc Master Node Init 및 Worker Node Join Master Node 설정 Master 초기화 네트워크 클래스 대역을 설정 필요 : --pod-network-cidr 10.244.0.0/16 sudo kubeadm init --pod-network-cidr 10.244.0.0/16 Kubectl 사용 : To start using your cluster.. 아래 항목 3줄 실행 [init] Using Kubernetes version: v1.10.5 ... To start using your cluster, you need to run the following as a regular user: mkdir -p $HOME/.kube sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config sudo chown $(id -u):$(id -g) $HOME/.kube/config ... You can now join any number of machines by running the following on each node as root: kubeadm join 192.168.28.15:6443 --token 1ovd36.ft4mefr909iotg0a --discovery-token-ca-cert-hash sha256:82953a3ed178aa8c511792d0e21d9d3283e7575f3d3350a00bea3e34c2b87d29 Pod 상태 확인 coredns STATUS → Pending (∵ Overlay network 미설치) $ kubectl get po -A NAMESPACE NAME READY STATUS RESTARTS AGE kube-system coredns-66bff467f8-ktvsz 0/1 Pending 0 19s kube-system coredns-66bff467f8-nvvjz 0/1 Pending 0 19s kube-system etcd-node1 1/1 Running 0 29s kube-system kube-apiserver-node1 1/1 Running 0 29s kube-system kube-controller-manager-node1 1/1 Running 0 29s kube-system kube-proxy-s582x 1/1 Running 0 19s kube-system kube-scheduler-node1 1/1 Running 0 29s Overlay network : Calico 설치 Overlay network 종류 https://kubernetes.io/docs/concepts/cluster-administration/networking/{:target="_blank"} Install Calico for on-premises deployments https://docs.projectcalico.org/getting-started/kubernetes/self-managed-onprem/onpremises{:target="_blank"} # Install Calico for on-premises deployments $ kubectl apply -f https://docs.projectcalico.org/manifests/calico-typha.yaml coredns 서비스가 정상적으로 Running $ kubectl get po -A NAMESPACE NAME READY STATUS RESTARTS AGE kube-system calico-kube-controllers-799fb94867-bcntz 0/1 CrashLoopBackOff 3 2m6s kube-system calico-node-jtcmt 0/1 Running 1 2m7s kube-system calico-typha-6bc9dd6468-x2hjj 0/1 Pending 0 2m6s kube-system coredns-66bff467f8-ktvsz 0/1 Running 0 3m23s kube-system coredns-66bff467f8-nvvjz 0/1 Running 0 3m23s kube-system etcd-node1 1/1 Running 0 3m33s kube-system kube-apiserver-node1 1/1 Running 0 3m33s kube-system kube-controller-manager-node1 1/1 Running 0 3m33s kube-system kube-proxy-s582x 1/1 Running 0 3m23s kube-system kube-scheduler-node1 1/1 Running 0 3m33s Worker Node 추가 (Join) Worker Node 실행 # Join 명령 가져오기 $ kubeadm token create --print-join-command kubeadm join 192.168.28.15:6443 --token 1ovd36.ft4mefr909iotg0a --discovery-token-ca-cert-hash sha256:82953a3ed178aa8c511792d0e21d9d3283e7575f3d3350a00bea3e34c2b87d29 # Worker node 에서 실행 $ kubeadm join 192.168.28.15:6443 --token 1ovd36.ft4mefr909iotg0a --discovery-token-ca-cert-hash sha256:82953a3ed178aa8c511792d0e21d9d3283e7575f3d3350a00bea3e34c2b87d29 노드 상태 확인 > kubectl get node NAME STATUS ROLES AGE VERSION node1 Ready master 8m50s v1.18.6 node2 Ready <none> 16s v1.18.6 node3 Ready <none> 16s v1.18.6 서비스 배포 : 명령어(CLI) 기반 '><meta property="og:locale" content="ko-kr"><meta property="og:type" content="article"><meta property="article:section" content="devops"><meta property="article:published_time" content="2021-08-12T00:00:00+09:00"><meta property="article:modified_time" content="2021-08-12T00:00:00+09:00"><meta property="article:tag" content="Kubernetes"><meta property="article:tag" content="K8s"><meta property="article:tag" content="Docker"><meta name=twitter:card content="summary"><meta name=twitter:title content="Kubernetes 101"><meta name=twitter:description content='Kubernetes 설치 및 운영 101
+사전 준비
+Kubernetes 설치 전 서버 구성 변경
+
+참고 : https://www.mirantis.com/blog/how-install-kubernetes-kubeadm/{:target="_blank"}
+Swap 영역을 비활성화
+
+# 일시적인 설정 
+$ sudo swapoff -a
+
+# 영구적인 설정, 아래 swap 파일 시스템을 주석처리 
+$ sudo vi /etc/fstab
+...
+# /dev/mapper/kube--master--vg-swap_1 none            swap    sw              0       0
+
+SELinux Disable
+
+# 임시 
+$ sudo setenforce 0
+
+# 영구
+$ sudo vi /etc/sysconfig/selinux
+...
+SELinux=disabled  
+
+방화벽 Disable
+
+$ sudo systemctl disable firewalld
+$ sudo systemctl stop firewalld
+
+브릿지 네트워크 할성화
+
+# Centos
+$ sudo vim /etc/sysctl.d/k8s.conf
+
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+# Ubuntu
+$ sudo vim /etc/ufw/sysctl.conf
+
+net/bridge/bridge-nf-call-ip6tables = 1
+net/bridge/bridge-nf-call-iptables = 1
+net/bridge/bridge-nf-call-arptables = 1
+Docker Install
+
+Centos Install : https://docs.docker.com/engine/install/centos/{:target="_blank"}
+
+Cgroup 드라이버 이슈
+
+최신 Kubernetes는 docker cgroup driver를 cgroupfs → systemd 변경 필요
+
+Master Init 및 Worker Join 시 WARNING 발생
+
+
+https://kubernetes.io/ko/docs/setup/production-environment/container-runtimes/{:target="_blank"}
+
+kubeadm init --pod-network-cidr 10.244.0.0/16
+...
+[init] Using Kubernetes version: v1.19.3
+[preflight] Running pre-flight checks
+	[WARNING IsDockerSystemdCheck]: detected "cgroupfs" as the Docker cgroup driver. 
+  The recommended driver is "systemd". ...
+...
+
+드라이버 변경 작업
+
+/etc/docker/daemon.json 파일 작성
+
+
+
+$ cat <<EOF | sudo tee /etc/docker/daemon.json
+{
+  "exec-opts": ["native.cgroupdriver=systemd"],
+  "log-driver": "json-file",
+  "log-opts": {
+    "max-size": "100m"
+  },
+  "storage-driver": "overlay2",
+  "storage-opts": [
+    "overlay2.override_kernel_check=true"
+  ]
+}
+EOF
+
+# 도커 재시작 
+$ sudo systemctl restart docker
+
+# 확인 
+$ sudo docker info | grep -i cgroup
+ Cgroup Driver: systemd
+
+Kubernetes (kubeadm, kubelet, kubectl) 설치
+
+참고 : https://kubernetes.io/docs/setup/independent/install-kubeadm/{:target="_blank"}
+
+Kubernetes 설치 : Centos7 기준
+
+Docker 설치
+
+sudo yum install -y docker
+sudo systemctl enable docker && systemctl start docker
+
+sudo usermod -aG docker $USER
+
+kubeadm, kubelet, kubectl : Repo 추가 및 패키지 설치
+
+$ cat <<EOF > /etc/yum.repos.d/kubernetes.repo
+[kubernetes]
+name=Kubernetes
+baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+EOF
+
+$ sudo yum install -y kubelet kubeadm kubectl
+
+$ sudo systemctl enable kubelet && systemctl start kubelet
+
+# 버전이 안맞을 경우 지정 
+# sudo yum install kubelet-[version] kubeadm-[version] kubectl-[version]
+
+kubectl 자동완성
+
+# sh
+source <(kubectl completion sh)
+echo "source <(kubectl completion sh)" >> ~/.shrc 
+
+# zsh
+source <(kubectl completion zsh) 
+echo "if [ $commands[kubectl] ]; then source <(kubectl completion zsh); fi" >> ~/.zshrc 
+Master Node Init 및 Worker Node Join
+Master Node 설정
+
+Master 초기화
+
+네트워크 클래스 대역을 설정 필요 : --pod-network-cidr 10.244.0.0/16
+
+
+
+sudo kubeadm init --pod-network-cidr 10.244.0.0/16
+
+Kubectl 사용 : To start using your cluster.. 아래 항목 3줄 실행
+
+[init] Using Kubernetes version: v1.10.5
+...
+To start using your cluster, you need to run the following as a regular user:
+
+  mkdir -p $HOME/.kube
+  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+...
+You can now join any number of machines by running the following on each node
+as root:
+  kubeadm join 192.168.28.15:6443 --token 1ovd36.ft4mefr909iotg0a --discovery-token-ca-cert-hash sha256:82953a3ed178aa8c511792d0e21d9d3283e7575f3d3350a00bea3e34c2b87d29 
+
+Pod 상태 확인
+
+coredns STATUS → Pending  (∵  Overlay network 미설치)
+
+
+
+$ kubectl get po -A
+NAMESPACE     NAME                            READY   STATUS    RESTARTS   AGE
+kube-system   coredns-66bff467f8-ktvsz        0/1     Pending   0          19s
+kube-system   coredns-66bff467f8-nvvjz        0/1     Pending   0          19s
+kube-system   etcd-node1                      1/1     Running   0          29s
+kube-system   kube-apiserver-node1            1/1     Running   0          29s
+kube-system   kube-controller-manager-node1   1/1     Running   0          29s
+kube-system   kube-proxy-s582x                1/1     Running   0          19s
+kube-system   kube-scheduler-node1            1/1     Running   0          29s
+Overlay network : Calico 설치
+
+Overlay network 종류
+
+https://kubernetes.io/docs/concepts/cluster-administration/networking/{:target="_blank"}
+
+
+Install Calico for on-premises deployments
+
+https://docs.projectcalico.org/getting-started/kubernetes/self-managed-onprem/onpremises{:target="_blank"}
+
+
+
+# Install Calico for on-premises deployments
+$ kubectl apply -f https://docs.projectcalico.org/manifests/calico-typha.yaml
+
+coredns 서비스가 정상적으로 Running
+
+$ kubectl get po -A
+NAMESPACE     NAME                                       READY   STATUS             RESTARTS   AGE
+kube-system   calico-kube-controllers-799fb94867-bcntz   0/1     CrashLoopBackOff   3          2m6s
+kube-system   calico-node-jtcmt                          0/1     Running            1          2m7s
+kube-system   calico-typha-6bc9dd6468-x2hjj              0/1     Pending            0          2m6s
+kube-system   coredns-66bff467f8-ktvsz                   0/1     Running            0          3m23s
+kube-system   coredns-66bff467f8-nvvjz                   0/1     Running            0          3m23s
+kube-system   etcd-node1                                 1/1     Running            0          3m33s
+kube-system   kube-apiserver-node1                       1/1     Running            0          3m33s
+kube-system   kube-controller-manager-node1              1/1     Running            0          3m33s
+kube-system   kube-proxy-s582x                           1/1     Running            0          3m23s
+kube-system   kube-scheduler-node1                       1/1     Running            0          3m33s
+Worker Node 추가 (Join)
+
+Worker Node 실행
+
+# Join 명령 가져오기 
+$ kubeadm token create --print-join-command
+kubeadm join 192.168.28.15:6443 --token 1ovd36.ft4mefr909iotg0a     --discovery-token-ca-cert-hash sha256:82953a3ed178aa8c511792d0e21d9d3283e7575f3d3350a00bea3e34c2b87d29 
+
+# Worker node 에서 실행 
+$ kubeadm join 192.168.28.15:6443 --token 1ovd36.ft4mefr909iotg0a --discovery-token-ca-cert-hash sha256:82953a3ed178aa8c511792d0e21d9d3283e7575f3d3350a00bea3e34c2b87d29 
+
+노드 상태 확인
+
+> kubectl get node
+NAME    STATUS   ROLES    AGE     VERSION
+node1   Ready    master   8m50s   v1.18.6
+node2   Ready    <none>   16s     v1.18.6
+node3   Ready    <none>   16s     v1.18.6
+
+서비스 배포 : 명령어(CLI) 기반
+'><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Devops","item":"https://cdecl.github.io/devops/"},{"@type":"ListItem","position":2,"name":"Kubernetes 101","item":"https://cdecl.github.io/devops/kubernetes-101/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"Kubernetes 101","name":"Kubernetes 101","description":"Kubernetes 설치 및 운영 101\n사전 준비 Kubernetes 설치 전 서버 구성 변경 참고 : https://www.mirantis.com/blog/how-install-kubernetes-kubeadm/{:target=\u0026quot;_blank\u0026quot;} Swap 영역을 비활성화 # 일시적인 설정 $ sudo swapoff -a # 영구적인 설정, 아래 swap 파일 시스템을 주석처리 $ sudo vi /etc/fstab ... # /dev/mapper/kube--master--vg-swap_1 none swap sw 0 0 SELinux Disable # 임시 $ sudo setenforce 0 # 영구 $ sudo vi /etc/sysconfig/selinux ... SELinux=disabled 방화벽 Disable $ sudo systemctl disable firewalld $ sudo systemctl stop firewalld 브릿지 네트워크 할성화 # Centos $ sudo vim /etc/sysctl.d/k8s.conf net.bridge.bridge-nf-call-ip6tables = 1 net.bridge.bridge-nf-call-iptables = 1 # Ubuntu $ sudo vim /etc/ufw/sysctl.conf net/bridge/bridge-nf-call-ip6tables = 1 net/bridge/bridge-nf-call-iptables = 1 net/bridge/bridge-nf-call-arptables = 1 Docker Install Centos Install : https://docs.docker.com/engine/install/centos/{:target=\u0026quot;_blank\u0026quot;} Cgroup 드라이버 이슈 최신 Kubernetes는 docker cgroup driver를 cgroupfs → systemd 변경 필요 Master Init 및 Worker Join 시 WARNING 발생 https://kubernetes.io/ko/docs/setup/production-environment/container-runtimes/{:target=\u0026quot;_blank\u0026quot;} kubeadm init --pod-network-cidr 10.244.0.0/16 ... [init] Using Kubernetes version: v1.19.3 [preflight] Running pre-flight checks [WARNING IsDockerSystemdCheck]: detected \u0026#34;cgroupfs\u0026#34; as the Docker cgroup driver. The recommended driver is \u0026#34;systemd\u0026#34;. ... ... 드라이버 변경 작업 /etc/docker/daemon.json 파일 작성 $ cat \u0026lt;\u0026lt;EOF | sudo tee /etc/docker/daemon.json { \u0026#34;exec-opts\u0026#34;: [\u0026#34;native.cgroupdriver=systemd\u0026#34;], \u0026#34;log-driver\u0026#34;: \u0026#34;json-file\u0026#34;, \u0026#34;log-opts\u0026#34;: { \u0026#34;max-size\u0026#34;: \u0026#34;100m\u0026#34; }, \u0026#34;storage-driver\u0026#34;: \u0026#34;overlay2\u0026#34;, \u0026#34;storage-opts\u0026#34;: [ \u0026#34;overlay2.override_kernel_check=true\u0026#34; ] } EOF # 도커 재시작 $ sudo systemctl restart docker # 확인 $ sudo docker info | grep -i cgroup Cgroup Driver: systemd Kubernetes (kubeadm, kubelet, kubectl) 설치 참고 : https://kubernetes.io/docs/setup/independent/install-kubeadm/{:target=\u0026quot;_blank\u0026quot;} Kubernetes 설치 : Centos7 기준 Docker 설치 sudo yum install -y docker sudo systemctl enable docker \u0026amp;\u0026amp; systemctl start docker sudo usermod -aG docker $USER kubeadm, kubelet, kubectl : Repo 추가 및 패키지 설치 $ cat \u0026lt;\u0026lt;EOF \u0026gt; /etc/yum.repos.d/kubernetes.repo [kubernetes] name=Kubernetes baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64 enabled=1 gpgcheck=1 repo_gpgcheck=1 gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg EOF $ sudo yum install -y kubelet kubeadm kubectl $ sudo systemctl enable kubelet \u0026amp;\u0026amp; systemctl start kubelet # 버전이 안맞을 경우 지정 # sudo yum install kubelet-[version] kubeadm-[version] kubectl-[version] kubectl 자동완성 # sh source \u0026lt;(kubectl completion sh) echo \u0026#34;source \u0026lt;(kubectl completion sh)\u0026#34; \u0026gt;\u0026gt; ~/.shrc # zsh source \u0026lt;(kubectl completion zsh) echo \u0026#34;if [ $commands[kubectl] ]; then source \u0026lt;(kubectl completion zsh); fi\u0026#34; \u0026gt;\u0026gt; ~/.zshrc Master Node Init 및 Worker Node Join Master Node 설정 Master 초기화 네트워크 클래스 대역을 설정 필요 : --pod-network-cidr 10.244.0.0/16 sudo kubeadm init --pod-network-cidr 10.244.0.0/16 Kubectl 사용 : To start using your cluster.. 아래 항목 3줄 실행 [init] Using Kubernetes version: v1.10.5 ... To start using your cluster, you need to run the following as a regular user: mkdir -p $HOME/.kube sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config sudo chown $(id -u):$(id -g) $HOME/.kube/config ... You can now join any number of machines by running the following on each node as root: kubeadm join 192.168.28.15:6443 --token 1ovd36.ft4mefr909iotg0a --discovery-token-ca-cert-hash sha256:82953a3ed178aa8c511792d0e21d9d3283e7575f3d3350a00bea3e34c2b87d29 Pod 상태 확인 coredns STATUS → Pending (∵ Overlay network 미설치) $ kubectl get po -A NAMESPACE NAME READY STATUS RESTARTS AGE kube-system coredns-66bff467f8-ktvsz 0/1 Pending 0 19s kube-system coredns-66bff467f8-nvvjz 0/1 Pending 0 19s kube-system etcd-node1 1/1 Running 0 29s kube-system kube-apiserver-node1 1/1 Running 0 29s kube-system kube-controller-manager-node1 1/1 Running 0 29s kube-system kube-proxy-s582x 1/1 Running 0 19s kube-system kube-scheduler-node1 1/1 Running 0 29s Overlay network : Calico 설치 Overlay network 종류 https://kubernetes.io/docs/concepts/cluster-administration/networking/{:target=\u0026quot;_blank\u0026quot;} Install Calico for on-premises deployments https://docs.projectcalico.org/getting-started/kubernetes/self-managed-onprem/onpremises{:target=\u0026quot;_blank\u0026quot;} # Install Calico for on-premises deployments $ kubectl apply -f https://docs.projectcalico.org/manifests/calico-typha.yaml coredns 서비스가 정상적으로 Running $ kubectl get po -A NAMESPACE NAME READY STATUS RESTARTS AGE kube-system calico-kube-controllers-799fb94867-bcntz 0/1 CrashLoopBackOff 3 2m6s kube-system calico-node-jtcmt 0/1 Running 1 2m7s kube-system calico-typha-6bc9dd6468-x2hjj 0/1 Pending 0 2m6s kube-system coredns-66bff467f8-ktvsz 0/1 Running 0 3m23s kube-system coredns-66bff467f8-nvvjz 0/1 Running 0 3m23s kube-system etcd-node1 1/1 Running 0 3m33s kube-system kube-apiserver-node1 1/1 Running 0 3m33s kube-system kube-controller-manager-node1 1/1 Running 0 3m33s kube-system kube-proxy-s582x 1/1 Running 0 3m23s kube-system kube-scheduler-node1 1/1 Running 0 3m33s Worker Node 추가 (Join) Worker Node 실행 # Join 명령 가져오기 $ kubeadm token create --print-join-command kubeadm join 192.168.28.15:6443 --token 1ovd36.ft4mefr909iotg0a --discovery-token-ca-cert-hash sha256:82953a3ed178aa8c511792d0e21d9d3283e7575f3d3350a00bea3e34c2b87d29 # Worker node 에서 실행 $ kubeadm join 192.168.28.15:6443 --token 1ovd36.ft4mefr909iotg0a --discovery-token-ca-cert-hash sha256:82953a3ed178aa8c511792d0e21d9d3283e7575f3d3350a00bea3e34c2b87d29 노드 상태 확인 \u0026gt; kubectl get node NAME STATUS ROLES AGE VERSION node1 Ready master 8m50s v1.18.6 node2 Ready \u0026lt;none\u0026gt; 16s v1.18.6 node3 Ready \u0026lt;none\u0026gt; 16s v1.18.6 서비스 배포 : 명령어(CLI) 기반 ","keywords":["kubernetes","k8s","docker"],"articleBody":"Kubernetes 설치 및 운영 101\n사전 준비 Kubernetes 설치 전 서버 구성 변경 참고 : https://www.mirantis.com/blog/how-install-kubernetes-kubeadm/{:target=\"_blank\"} Swap 영역을 비활성화 # 일시적인 설정 $ sudo swapoff -a # 영구적인 설정, 아래 swap 파일 시스템을 주석처리 $ sudo vi /etc/fstab ... # /dev/mapper/kube--master--vg-swap_1 none swap sw 0 0 SELinux Disable # 임시 $ sudo setenforce 0 # 영구 $ sudo vi /etc/sysconfig/selinux ... SELinux=disabled 방화벽 Disable $ sudo systemctl disable firewalld $ sudo systemctl stop firewalld 브릿지 네트워크 할성화 # Centos $ sudo vim /etc/sysctl.d/k8s.conf net.bridge.bridge-nf-call-ip6tables = 1 net.bridge.bridge-nf-call-iptables = 1 # Ubuntu $ sudo vim /etc/ufw/sysctl.conf net/bridge/bridge-nf-call-ip6tables = 1 net/bridge/bridge-nf-call-iptables = 1 net/bridge/bridge-nf-call-arptables = 1 Docker Install Centos Install : https://docs.docker.com/engine/install/centos/{:target=\"_blank\"} Cgroup 드라이버 이슈 최신 Kubernetes는 docker cgroup driver를 cgroupfs → systemd 변경 필요 Master Init 및 Worker Join 시 WARNING 발생 https://kubernetes.io/ko/docs/setup/production-environment/container-runtimes/{:target=\"_blank\"} kubeadm init --pod-network-cidr 10.244.0.0/16 ... [init] Using Kubernetes version: v1.19.3 [preflight] Running pre-flight checks [WARNING IsDockerSystemdCheck]: detected \"cgroupfs\" as the Docker cgroup driver. The recommended driver is \"systemd\". ... ... 드라이버 변경 작업 /etc/docker/daemon.json 파일 작성 $ cat \u003c","wordCount":"2348","inLanguage":"en","datePublished":"2021-08-12T00:00:00+09:00","dateModified":"2021-08-12T00:00:00+09:00","author":{"@type":"Person","name":"Byung Kyu KIM"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://cdecl.github.io/devops/kubernetes-101/"},"publisher":{"@type":"Organization","name":"cdeclog","logo":{"@type":"ImageObject","url":"https://cdecl.github.io/favicon.ico"}}}</script></head><body id=top><header class=header><nav class=nav><div class=logo><a href=https://cdecl.github.io/ accesskey=h title="cdeclog (Alt + H)">cdeclog</a><div class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)" aria-label="Toggle theme">
+<svg id="moon" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+<svg id="sun" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu><li><a href=https://cdecl.github.io/archives/ title=Archive><span>Archive</span></a></li><li><a href=https://cdecl.github.io/search/ title="Search (Alt + /)" accesskey=/><span>Search</span></a></li><li><a href=https://cdecl.github.io/tags/ title=Tags><span>Tags</span></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><h1 class="post-title entry-hint-parent">Kubernetes 101</h1><div class=post-meta><span title='2021-08-12 00:00:00 +0900 KST'>August 12, 2021</span>&nbsp;·&nbsp;<span>Byung Kyu KIM</span></div></header><div class=toc><details open><summary accesskey=c title="(Alt + C)"><span class=details>Table of Contents</span></summary><div class=inner><ul><li><a href=#%ec%82%ac%ec%a0%84-%ec%a4%80%eb%b9%84 aria-label="사전 준비">사전 준비</a><ul><li><a href=#kubernetes-%ec%84%a4%ec%b9%98-%ec%a0%84-%ec%84%9c%eb%b2%84-%ea%b5%ac%ec%84%b1-%eb%b3%80%ea%b2%bd aria-label="Kubernetes 설치 전 서버 구성 변경">Kubernetes 설치 전 서버 구성 변경</a></li><li><a href=#docker-install aria-label="Docker Install">Docker Install</a></li><li><a href=#cgroup-%eb%93%9c%eb%9d%bc%ec%9d%b4%eb%b2%84-%ec%9d%b4%ec%8a%88 aria-label="Cgroup 드라이버 이슈">Cgroup 드라이버 이슈</a></li></ul></li><li><a href=#kubernetes-kubeadm-kubelet-kubectl-%ec%84%a4%ec%b9%98 aria-label="Kubernetes (kubeadm, kubelet, kubectl) 설치">Kubernetes (kubeadm, kubelet, kubectl) 설치</a><ul><li><a href=#kubernetes-%ec%84%a4%ec%b9%98--centos7-%ea%b8%b0%ec%a4%80 aria-label="Kubernetes 설치 : Centos7 기준">Kubernetes 설치 : Centos7 기준</a></li></ul></li><li><a href=#master-node-init-%eb%b0%8f-worker-node-join aria-label="Master Node Init 및 Worker Node Join">Master Node Init 및 Worker Node Join</a><ul><li><a href=#master-node-%ec%84%a4%ec%a0%95 aria-label="Master Node 설정">Master Node 설정</a></li><li><a href=#overlay-network--calico-%ec%84%a4%ec%b9%98 aria-label="Overlay network : Calico 설치">Overlay network : Calico 설치</a></li><li><a href=#worker-node-%ec%b6%94%ea%b0%80-join aria-label="Worker Node 추가 (Join)">Worker Node 추가 (Join)</a></li></ul></li><li><a href=#%ec%84%9c%eb%b9%84%ec%8a%a4-%eb%b0%b0%ed%8f%ac--%eb%aa%85%eb%a0%b9%ec%96%b4cli-%ea%b8%b0%eb%b0%98 aria-label="서비스 배포 : 명령어(CLI) 기반">서비스 배포 : 명령어(CLI) 기반</a><ul><li><a href=#%eb%b0%b0%ed%8f%ac--%ec%84%9c%eb%b9%84%ec%8a%a4-%ec%b6%94%ea%b0%80-deploymentreplicaset aria-label="배포 / 서비스 추가 (Deployment/ReplicaSet)">배포 / 서비스 추가 (Deployment/ReplicaSet)</a></li><li><a href=#scale--%ec%9d%b4%eb%af%b8%ec%a7%80-%eb%b3%80%ea%b2%bd%eb%b0%b0%ed%8f%ac aria-label="Scale / 이미지 변경(배포)">Scale / 이미지 변경(배포)</a></li></ul></li><li><a href=#%ec%84%9c%eb%b9%84%ec%8a%a4-%eb%b0%b0%ed%8f%ac---yaml-%ed%8c%8c%ec%9d%bc-%ea%b8%b0%eb%b0%98 aria-label="서비스 배포 :  YAML 파일 기반">서비스 배포 : YAML 파일 기반</a><ul><li><a href=#%eb%b0%b0%ed%8f%ac--%ec%84%9c%eb%b9%84%ec%8a%a4-%ec%b6%94%ea%b0%80 aria-label="배포 / 서비스 추가">배포 / 서비스 추가</a></li></ul></li><li><a href=#%ec%84%9c%eb%b9%84%ec%8a%a4-%ec%9c%a0%ed%98%95--clusterip-vs-nodeport-vs-loadbalancer aria-label="서비스 유형 : ClusterIP vs NodePort vs LoadBalancer">서비스 유형 : ClusterIP vs NodePort vs LoadBalancer</a><ul><li><a href=#clusterip aria-label=ClusterIP>ClusterIP</a></li><li><a href=#nodeport aria-label=NodePort>NodePort</a></li><li><a href=#loadbalancer aria-label=LoadBalancer>LoadBalancer</a></li><li><a href=#ingress aria-label=Ingress>Ingress</a></li></ul></li><li><a href=#kubernetes-dns aria-label="Kubernetes DNS">Kubernetes DNS</a><ul><li><a href=#lookup-%ea%b7%9c%ec%b9%99 aria-label="Lookup 규칙">Lookup 규칙</a></li><li><a href=#pod-%eb%82%b4%eb%b6%80-%ec%84%b8%ed%8c%85--etcresolvconf aria-label="Pod 내부 세팅 : /etc/resolv.conf">Pod 내부 세팅 : /etc/resolv.conf</a></li></ul></li><li><a href=#%ec%84%9c%eb%b9%84%ec%8a%a4-%eb%85%b8%ec%b6%9c-aws aria-label="서비스 노출 (AWS)">서비스 노출 (AWS)</a><ul><li><a href=#aws aria-label=AWS>AWS</a><ul><li><a href=#aws-ingress aria-label="AWS Ingress">AWS Ingress</a></li></ul></li></ul></li><li><a href=#%ec%84%9c%eb%b9%84%ec%8a%a4-%eb%85%b8%ec%b6%9c-bare-metal aria-label="서비스 노출 (Bare Metal)">서비스 노출 (Bare Metal)</a><ul><li><a href=#metallb-%ed%99%9c%ec%9a%a9 aria-label="MetalLB 활용">MetalLB 활용</a></li><li><a href=#nodeport--over-a-nodeport-service aria-label="NodePort : Over a NodePort Service">NodePort : Over a NodePort Service</a></li><li><a href=#external-ips aria-label="External IPs">External IPs</a></li><li><a href=#ingress-controller aria-label="Ingress controller">Ingress controller</a></li></ul></li><li><a href=#%ea%b8%b0%ed%83%80-network-%eb%b6%84%ec%84%9d aria-label="기타 Network 분석">기타 Network 분석</a><ul><li><a href=#route aria-label=Route>Route</a></li><li><a href=#aws-eks-loadbalancer aria-label="AWS EKS LoadBalancer">AWS EKS LoadBalancer</a></li></ul></li><li><a href=#%ea%b3%a0%ea%b0%80%ec%9a%a9%ec%84%b1-%ed%86%a0%ed%8f%b4%eb%a1%9c%ec%a7%80-ha-%ea%b5%ac%ec%84%b1 aria-label="고가용성 토폴로지 (HA) 구성">고가용성 토폴로지 (HA) 구성</a><ul><li><a href=#%ec%a4%91%ec%b2%a9%eb%90%9c-etcd-%ed%86%a0%ed%94%8c%eb%a1%9c%ec%a7%80-stacked-etcd aria-label="중첩된 etcd 토플로지 (Stacked etcd)">중첩된 etcd 토플로지 (Stacked etcd)</a><ul><li><a href=#master-node-%ec%84%a4%ec%a0%95-1 aria-label="Master Node 설정">Master Node 설정</a></li><li><a href=#ha%ec%97%90%ec%84%9c-control-plane-%eb%85%b8%eb%93%9c-%ec%a0%9c%ea%b1%b0 aria-label="HA에서 control plane 노드 제거">HA에서 control plane 노드 제거</a></li><li><a href=#nginx-%ec%a0%95%eb%b3%b4-%ec%b0%b8%ea%b3%a0 aria-label="Nginx 정보 (참고)">Nginx 정보 (참고)</a></li></ul></li><li><a href=#%ec%99%b8%eb%b6%80-etcd-%ed%86%a0%ed%94%8c%eb%a1%9c%ec%a7%80-external-etcd aria-label="외부 etcd 토플로지 (External etcd)">외부 etcd 토플로지 (External etcd)</a></li></ul></li><li><a href=#kubernetes-%ec%b4%88%ea%b8%b0%ed%99%94 aria-label="Kubernetes 초기화">Kubernetes 초기화</a></li></ul></div></details></div><div class=post-content><p>Kubernetes 설치 및 운영 101</p><h2 id=사전-준비>사전 준비<a hidden class=anchor aria-hidden=true href=#사전-준비>#</a></h2><h3 id=kubernetes-설치-전-서버-구성-변경>Kubernetes 설치 전 서버 구성 변경<a hidden class=anchor aria-hidden=true href=#kubernetes-설치-전-서버-구성-변경>#</a></h3><ul><li>참고 : <a href=https://www.mirantis.com/blog/how-install-kubernetes-kubeadm/>https://www.mirantis.com/blog/how-install-kubernetes-kubeadm/</a>{:target="_blank"}</li><li>Swap 영역을 비활성화</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span><span style=color:#75715e># 일시적인 설정 </span>
+</span></span><span style=display:flex><span>$ sudo swapoff -a
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 영구적인 설정, 아래 swap 파일 시스템을 주석처리 </span>
+</span></span><span style=display:flex><span>$ sudo vi /etc/fstab
+</span></span><span style=display:flex><span>...
+</span></span><span style=display:flex><span><span style=color:#75715e># /dev/mapper/kube--master--vg-swap_1 none            swap    sw              0       0</span>
+</span></span></code></pre></div><ul><li>SELinux Disable</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span><span style=color:#75715e># 임시 </span>
+</span></span><span style=display:flex><span>$ sudo setenforce <span style=color:#ae81ff>0</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 영구</span>
+</span></span><span style=display:flex><span>$ sudo vi /etc/sysconfig/selinux
+</span></span><span style=display:flex><span>...
+</span></span><span style=display:flex><span>SELinux<span style=color:#f92672>=</span>disabled  
+</span></span></code></pre></div><ul><li>방화벽 Disable</li></ul><pre tabindex=0><code>$ sudo systemctl disable firewalld
+$ sudo systemctl stop firewalld
+</code></pre><ul><li>브릿지 네트워크 할성화</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span><span style=color:#75715e># Centos</span>
+</span></span><span style=display:flex><span>$ sudo vim /etc/sysctl.d/k8s.conf
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>net.bridge.bridge-nf-call-ip6tables <span style=color:#f92672>=</span> <span style=color:#ae81ff>1</span>
+</span></span><span style=display:flex><span>net.bridge.bridge-nf-call-iptables <span style=color:#f92672>=</span> <span style=color:#ae81ff>1</span>
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span><span style=color:#75715e># Ubuntu</span>
+</span></span><span style=display:flex><span>$ sudo vim /etc/ufw/sysctl.conf
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>net/bridge/bridge-nf-call-ip6tables <span style=color:#f92672>=</span> <span style=color:#ae81ff>1</span>
+</span></span><span style=display:flex><span>net/bridge/bridge-nf-call-iptables <span style=color:#f92672>=</span> <span style=color:#ae81ff>1</span>
+</span></span><span style=display:flex><span>net/bridge/bridge-nf-call-arptables <span style=color:#f92672>=</span> <span style=color:#ae81ff>1</span>
+</span></span></code></pre></div><h3 id=docker-install>Docker Install<a hidden class=anchor aria-hidden=true href=#docker-install>#</a></h3><ul><li>Centos Install : <a href=https://docs.docker.com/engine/install/centos/>https://docs.docker.com/engine/install/centos/</a>{:target="_blank"}</li></ul><h3 id=cgroup-드라이버-이슈>Cgroup 드라이버 이슈<a hidden class=anchor aria-hidden=true href=#cgroup-드라이버-이슈>#</a></h3><ul><li>최신 Kubernetes는 docker cgroup driver를 cgroupfs → systemd 변경 필요<ul><li>Master Init 및 Worker Join 시 WARNING 발생</li></ul></li><li><a href=https://kubernetes.io/ko/docs/setup/production-environment/container-runtimes/>https://kubernetes.io/ko/docs/setup/production-environment/container-runtimes/</a>{:target="_blank"}</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>kubeadm init --pod-network-cidr 10.244.0.0/16
+</span></span><span style=display:flex><span>...
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>init<span style=color:#f92672>]</span> Using Kubernetes version: v1.19.3
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>preflight<span style=color:#f92672>]</span> Running pre-flight checks
+</span></span><span style=display:flex><span>	<span style=color:#f92672>[</span>WARNING IsDockerSystemdCheck<span style=color:#f92672>]</span>: detected <span style=color:#e6db74>&#34;cgroupfs&#34;</span> as the Docker cgroup driver. 
+</span></span><span style=display:flex><span>  The recommended driver is <span style=color:#e6db74>&#34;systemd&#34;</span>. ...
+</span></span><span style=display:flex><span>...
+</span></span></code></pre></div><ul><li>드라이버 변경 작업<ul><li>/etc/docker/daemon.json 파일 작성</li></ul></li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>$ cat <span style=color:#e6db74>&lt;&lt;EOF | sudo tee /etc/docker/daemon.json
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>{
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>  &#34;exec-opts&#34;: [&#34;native.cgroupdriver=systemd&#34;],
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>  &#34;log-driver&#34;: &#34;json-file&#34;,
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>  &#34;log-opts&#34;: {
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    &#34;max-size&#34;: &#34;100m&#34;
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>  },
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>  &#34;storage-driver&#34;: &#34;overlay2&#34;,
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>  &#34;storage-opts&#34;: [
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    &#34;overlay2.override_kernel_check=true&#34;
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>  ]
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>}
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>EOF</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 도커 재시작 </span>
+</span></span><span style=display:flex><span>$ sudo systemctl restart docker
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 확인 </span>
+</span></span><span style=display:flex><span>$ sudo docker info | grep -i cgroup
+</span></span><span style=display:flex><span> Cgroup Driver: systemd
+</span></span></code></pre></div><hr><h2 id=kubernetes-kubeadm-kubelet-kubectl-설치>Kubernetes (kubeadm, kubelet, kubectl) 설치<a hidden class=anchor aria-hidden=true href=#kubernetes-kubeadm-kubelet-kubectl-설치>#</a></h2><ul><li>참고 : <a href=https://kubernetes.io/docs/setup/independent/install-kubeadm/>https://kubernetes.io/docs/setup/independent/install-kubeadm/</a>{:target="_blank"}</li></ul><h3 id=kubernetes-설치--centos7-기준>Kubernetes 설치 : Centos7 기준<a hidden class=anchor aria-hidden=true href=#kubernetes-설치--centos7-기준>#</a></h3><ul><li>Docker 설치</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>sudo yum install -y docker
+</span></span><span style=display:flex><span>sudo systemctl enable docker <span style=color:#f92672>&amp;&amp;</span> systemctl start docker
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>sudo usermod -aG docker $USER
+</span></span></code></pre></div><ul><li>kubeadm, kubelet, kubectl : Repo 추가 및 패키지 설치</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>$ cat <span style=color:#e6db74>&lt;&lt;EOF &gt; /etc/yum.repos.d/kubernetes.repo
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>[kubernetes]
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>name=Kubernetes
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>enabled=1
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>gpgcheck=1
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>repo_gpgcheck=1
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>EOF</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>$ sudo yum install -y kubelet kubeadm kubectl
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>$ sudo systemctl enable kubelet <span style=color:#f92672>&amp;&amp;</span> systemctl start kubelet
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 버전이 안맞을 경우 지정 </span>
+</span></span><span style=display:flex><span><span style=color:#75715e># sudo yum install kubelet-[version] kubeadm-[version] kubectl-[version]</span>
+</span></span></code></pre></div><ul><li>kubectl 자동완성</li></ul><pre tabindex=0><code># sh
+source &lt;(kubectl completion sh)
+echo &#34;source &lt;(kubectl completion sh)&#34; &gt;&gt; ~/.shrc 
+
+# zsh
+source &lt;(kubectl completion zsh) 
+echo &#34;if [ $commands[kubectl] ]; then source &lt;(kubectl completion zsh); fi&#34; &gt;&gt; ~/.zshrc 
+</code></pre><h2 id=master-node-init-및-worker-node-join>Master Node Init 및 Worker Node Join<a hidden class=anchor aria-hidden=true href=#master-node-init-및-worker-node-join>#</a></h2><h3 id=master-node-설정>Master Node 설정<a hidden class=anchor aria-hidden=true href=#master-node-설정>#</a></h3><ul><li>Master 초기화<ul><li>네트워크 클래스 대역을 설정 필요 : <code>--pod-network-cidr 10.244.0.0/16</code></li></ul></li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>sudo kubeadm init --pod-network-cidr 10.244.0.0/16
+</span></span></code></pre></div><ul><li>Kubectl 사용 : To start using your cluster.. 아래 항목 3줄 실행</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span><span style=color:#f92672>[</span>init<span style=color:#f92672>]</span> Using Kubernetes version: v1.10.5
+</span></span><span style=display:flex><span>...
+</span></span><span style=display:flex><span>To start using your cluster, you need to run the following as a regular user:
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  mkdir -p $HOME/.kube
+</span></span><span style=display:flex><span>  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+</span></span><span style=display:flex><span>  sudo chown <span style=color:#66d9ef>$(</span>id -u<span style=color:#66d9ef>)</span>:<span style=color:#66d9ef>$(</span>id -g<span style=color:#66d9ef>)</span> $HOME/.kube/config
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>...
+</span></span><span style=display:flex><span>You can now join any number of machines by running the following on each node
+</span></span><span style=display:flex><span>as root:
+</span></span><span style=display:flex><span>  kubeadm join 192.168.28.15:6443 --token 1ovd36.ft4mefr909iotg0a --discovery-token-ca-cert-hash sha256:82953a3ed178aa8c511792d0e21d9d3283e7575f3d3350a00bea3e34c2b87d29 
+</span></span></code></pre></div><ul><li>Pod 상태 확인<ul><li>coredns STATUS → Pending (∵ Overlay network 미설치)</li></ul></li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>$ kubectl get po -A
+</span></span><span style=display:flex><span>NAMESPACE     NAME                            READY   STATUS    RESTARTS   AGE
+</span></span><span style=display:flex><span>kube-system   coredns-66bff467f8-ktvsz        0/1     Pending   <span style=color:#ae81ff>0</span>          19s
+</span></span><span style=display:flex><span>kube-system   coredns-66bff467f8-nvvjz        0/1     Pending   <span style=color:#ae81ff>0</span>          19s
+</span></span><span style=display:flex><span>kube-system   etcd-node1                      1/1     Running   <span style=color:#ae81ff>0</span>          29s
+</span></span><span style=display:flex><span>kube-system   kube-apiserver-node1            1/1     Running   <span style=color:#ae81ff>0</span>          29s
+</span></span><span style=display:flex><span>kube-system   kube-controller-manager-node1   1/1     Running   <span style=color:#ae81ff>0</span>          29s
+</span></span><span style=display:flex><span>kube-system   kube-proxy-s582x                1/1     Running   <span style=color:#ae81ff>0</span>          19s
+</span></span><span style=display:flex><span>kube-system   kube-scheduler-node1            1/1     Running   <span style=color:#ae81ff>0</span>          29s
+</span></span></code></pre></div><h3 id=overlay-network--calico-설치>Overlay network : Calico 설치<a hidden class=anchor aria-hidden=true href=#overlay-network--calico-설치>#</a></h3><ul><li>Overlay network 종류<ul><li><a href=https://kubernetes.io/docs/concepts/cluster-administration/networking/>https://kubernetes.io/docs/concepts/cluster-administration/networking/</a>{:target="_blank"}</li></ul></li><li>Install Calico for on-premises deployments<ul><li><a href=https://docs.projectcalico.org/getting-started/kubernetes/self-managed-onprem/onpremises>https://docs.projectcalico.org/getting-started/kubernetes/self-managed-onprem/onpremises</a>{:target="_blank"}</li></ul></li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span><span style=color:#75715e># Install Calico for on-premises deployments</span>
+</span></span><span style=display:flex><span>$ kubectl apply -f https://docs.projectcalico.org/manifests/calico-typha.yaml
+</span></span></code></pre></div><ul><li>coredns 서비스가 정상적으로 Running</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>$ kubectl get po -A
+</span></span><span style=display:flex><span>NAMESPACE     NAME                                       READY   STATUS             RESTARTS   AGE
+</span></span><span style=display:flex><span>kube-system   calico-kube-controllers-799fb94867-bcntz   0/1     CrashLoopBackOff   <span style=color:#ae81ff>3</span>          2m6s
+</span></span><span style=display:flex><span>kube-system   calico-node-jtcmt                          0/1     Running            <span style=color:#ae81ff>1</span>          2m7s
+</span></span><span style=display:flex><span>kube-system   calico-typha-6bc9dd6468-x2hjj              0/1     Pending            <span style=color:#ae81ff>0</span>          2m6s
+</span></span><span style=display:flex><span>kube-system   coredns-66bff467f8-ktvsz                   0/1     Running            <span style=color:#ae81ff>0</span>          3m23s
+</span></span><span style=display:flex><span>kube-system   coredns-66bff467f8-nvvjz                   0/1     Running            <span style=color:#ae81ff>0</span>          3m23s
+</span></span><span style=display:flex><span>kube-system   etcd-node1                                 1/1     Running            <span style=color:#ae81ff>0</span>          3m33s
+</span></span><span style=display:flex><span>kube-system   kube-apiserver-node1                       1/1     Running            <span style=color:#ae81ff>0</span>          3m33s
+</span></span><span style=display:flex><span>kube-system   kube-controller-manager-node1              1/1     Running            <span style=color:#ae81ff>0</span>          3m33s
+</span></span><span style=display:flex><span>kube-system   kube-proxy-s582x                           1/1     Running            <span style=color:#ae81ff>0</span>          3m23s
+</span></span><span style=display:flex><span>kube-system   kube-scheduler-node1                       1/1     Running            <span style=color:#ae81ff>0</span>          3m33s
+</span></span></code></pre></div><h3 id=worker-node-추가-join>Worker Node 추가 (Join)<a hidden class=anchor aria-hidden=true href=#worker-node-추가-join>#</a></h3><ul><li>Worker Node 실행</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span><span style=color:#75715e># Join 명령 가져오기 </span>
+</span></span><span style=display:flex><span>$ kubeadm token create --print-join-command
+</span></span><span style=display:flex><span>kubeadm join 192.168.28.15:6443 --token 1ovd36.ft4mefr909iotg0a     --discovery-token-ca-cert-hash sha256:82953a3ed178aa8c511792d0e21d9d3283e7575f3d3350a00bea3e34c2b87d29 
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Worker node 에서 실행 </span>
+</span></span><span style=display:flex><span>$ kubeadm join 192.168.28.15:6443 --token 1ovd36.ft4mefr909iotg0a --discovery-token-ca-cert-hash sha256:82953a3ed178aa8c511792d0e21d9d3283e7575f3d3350a00bea3e34c2b87d29 
+</span></span></code></pre></div><ul><li>노드 상태 확인</li></ul><pre tabindex=0><code>&gt; kubectl get node
+NAME    STATUS   ROLES    AGE     VERSION
+node1   Ready    master   8m50s   v1.18.6
+node2   Ready    &lt;none&gt;   16s     v1.18.6
+node3   Ready    &lt;none&gt;   16s     v1.18.6
+</code></pre><hr><h2 id=서비스-배포--명령어cli-기반>서비스 배포 : 명령어(CLI) 기반<a hidden class=anchor aria-hidden=true href=#서비스-배포--명령어cli-기반>#</a></h2><p><img loading=lazy src=https://subicura.com/assets/article_images/2019-05-19-kubernetes-basic-1/workload.png></p><h3 id=배포--서비스-추가-deploymentreplicaset>배포 / 서비스 추가 (Deployment/ReplicaSet)<a hidden class=anchor aria-hidden=true href=#배포--서비스-추가-deploymentreplicaset>#</a></h3><ul><li>Docker 이미지를 빌드하여 Docker Hub에 업로드 : 서비스에는 Private Hub 구성 필요<ul><li>kubectl create deployment 명령으로 Pod, Deployment 생성</li><li>kubectl expose 명령으로 Deployment 기준으로 서비스 생성</li><li><a href=https://medium.com/google-cloud/kubernetes-nodeport-vs-loadbalancer-vs-ingress-when-should-i-use-what-922f010849e0>Kubernetes NodePort vs LoadBalancer vs Ingress? When should I use what?</a></li></ul></li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span><span style=color:#75715e># pod 및 배포(deployment) 생성 </span>
+</span></span><span style=display:flex><span>$ kubectl create deployment mvcapp --image<span style=color:#f92672>=</span>cdecl/mvcapp:0.3
+</span></span><span style=display:flex><span>deployment.apps/mvcapp created
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 서비스 생성 </span>
+</span></span><span style=display:flex><span>$ kubectl expose deploy/mvcapp --type<span style=color:#f92672>=</span>NodePort --port<span style=color:#f92672>=</span><span style=color:#ae81ff>80</span> --name<span style=color:#f92672>=</span>mvcapp --target-port<span style=color:#f92672>=</span><span style=color:#ae81ff>80</span>
+</span></span><span style=display:flex><span>service/mvcapp exposed
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>$ kubectl get deploy
+</span></span><span style=display:flex><span>NAME     READY   UP-TO-DATE   AVAILABLE   AGE
+</span></span><span style=display:flex><span>mvcapp   1/1     <span style=color:#ae81ff>1</span>            <span style=color:#ae81ff>1</span>           24s
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>$ kubectl get po
+</span></span><span style=display:flex><span>NAME                      READY   STATUS    RESTARTS   AGE
+</span></span><span style=display:flex><span>mvcapp-7b6b66bd55-g26wg   1/1     Running   <span style=color:#ae81ff>0</span>          34s
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>$ kubectl get svc
+</span></span><span style=display:flex><span>NAME         TYPE        CLUSTER-IP       EXTERNAL-IP   PORT<span style=color:#f92672>(</span>S<span style=color:#f92672>)</span>        AGE
+</span></span><span style=display:flex><span>mvcapp       NodePort    10.107.145.24   &lt;none&gt;        80:31521/TCP   20s
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 서비스 확인 - Nodeport </span>
+</span></span><span style=display:flex><span>$ curl localhost:31521
+</span></span><span style=display:flex><span>...
+</span></span><span style=display:flex><span>    &lt;div&gt;Project: Mvcapp&lt;/div&gt;
+</span></span><span style=display:flex><span>    &lt;div&gt;Hostname: mvcapp-7b6b66bd55-g26wg&lt;/div&gt;
+</span></span><span style=display:flex><span>    &lt;div&gt;Request Count : 1&lt;/div&gt;
+</span></span><span style=display:flex><span>    &lt;div&gt;Version: 0.3&lt;/div&gt;
+</span></span><span style=display:flex><span>...
+</span></span></code></pre></div><h3 id=scale--이미지-변경배포>Scale / 이미지 변경(배포)<a hidden class=anchor aria-hidden=true href=#scale--이미지-변경배포>#</a></h3><ul><li>Scale(노드개수) 조정</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>$ kubectl scale deployment/mvcapp --replicas<span style=color:#f92672>=</span><span style=color:#ae81ff>4</span>
+</span></span><span style=display:flex><span>deployment.apps/mvcapp scaled
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>$ kubectl get pod -o wide
+</span></span><span style=display:flex><span>NAME                      READY   STATUS    RESTARTS   AGE     IP             NODE    NOMINATED NODE   READINESS GATES
+</span></span><span style=display:flex><span>mvcapp-7b6b66bd55-4gppf   1/1     Running   <span style=color:#ae81ff>0</span>          78s     10.244.135.3   node3   &lt;none&gt;           &lt;none&gt;
+</span></span><span style=display:flex><span>mvcapp-7b6b66bd55-4gssq   1/1     Running   <span style=color:#ae81ff>0</span>          78s     10.244.104.4   node2   &lt;none&gt;           &lt;none&gt;
+</span></span><span style=display:flex><span>mvcapp-7b6b66bd55-4lqrt   1/1     Running   <span style=color:#ae81ff>0</span>          78s     10.244.135.2   node3   &lt;none&gt;           &lt;none&gt;
+</span></span><span style=display:flex><span>mvcapp-7b6b66bd55-g26wg   1/1     Running   <span style=color:#ae81ff>0</span>          7m14s   10.244.104.3   node2   &lt;none&gt;           &lt;none&gt;
+</span></span></code></pre></div><ul><li>이미지 변경 (버전업 배포) : 0.3 → 0.4</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>$ kubectl set image deployment/mvcapp mvcapp<span style=color:#f92672>=</span>cdecl/mvcapp:0.4
+</span></span><span style=display:flex><span>deployment.apps/mvcapp image updated
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>$  curl localhost:31521
+</span></span><span style=display:flex><span>...
+</span></span><span style=display:flex><span>    &lt;div&gt;Project: Mvcapp&lt;/div&gt;
+</span></span><span style=display:flex><span>    &lt;div&gt;Hostname: mvcapp-78bbf7db4b-5fkdz&lt;/div&gt;
+</span></span><span style=display:flex><span>    &lt;div&gt;RemoteAddr: 10.244.166.128&lt;/div&gt;
+</span></span><span style=display:flex><span>    &lt;div&gt;X-Forwarded-For: &lt;/div&gt;
+</span></span><span style=display:flex><span>    &lt;div&gt;Request Count : 1&lt;/div&gt;
+</span></span><span style=display:flex><span>    &lt;div&gt;Version: 0.4&lt;/div&gt;
+</span></span><span style=display:flex><span>...
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>$ kubectl rollout history deployment/mvcapp
+</span></span><span style=display:flex><span>deployment.apps/mvcapp 
+</span></span><span style=display:flex><span>REVISION  CHANGE-CAUSE
+</span></span><span style=display:flex><span><span style=color:#ae81ff>1</span>         &lt;none&gt;
+</span></span><span style=display:flex><span><span style=color:#ae81ff>2</span>         &lt;none&gt;
+</span></span></code></pre></div><ul><li>이전 버전으로 롤백</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>$ kubectl rollout undo deployment/mvcapp
+</span></span><span style=display:flex><span>deployment.apps/mvcapp rolled back
+</span></span></code></pre></div><hr><h2 id=서비스-배포---yaml-파일-기반>서비스 배포 : YAML 파일 기반<a hidden class=anchor aria-hidden=true href=#서비스-배포---yaml-파일-기반>#</a></h2><h3 id=배포--서비스-추가>배포 / 서비스 추가<a hidden class=anchor aria-hidden=true href=#배포--서비스-추가>#</a></h3><ul><li>정책을 정의한 yaml 기반 정의</li><li>NodePort 기반의 Deployment 및 서비스 정의</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#75715e># mvcapp-deploy-service.yaml</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>apps/v1</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>kind</span>: <span style=color:#ae81ff>Deployment</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>metadata</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>mvcapp</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>spec</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>selector</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>matchLabels</span>:
+</span></span><span style=display:flex><span>      <span style=color:#f92672>app</span>: <span style=color:#ae81ff>mvcapp</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>replicas</span>: <span style=color:#ae81ff>2</span> <span style=color:#75715e># --replicas=2 옵션과 동일 </span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>template</span>: <span style=color:#75715e># create pods using pod definition </span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>metadata</span>:
+</span></span><span style=display:flex><span>      <span style=color:#f92672>labels</span>:
+</span></span><span style=display:flex><span>        <span style=color:#f92672>app</span>: <span style=color:#ae81ff>mvcapp</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>spec</span>:
+</span></span><span style=display:flex><span>      <span style=color:#f92672>containers</span>:
+</span></span><span style=display:flex><span>      - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>mvcapp</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>image</span>: <span style=color:#ae81ff>cdecl/mvcapp:0.3</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>ports</span>:
+</span></span><span style=display:flex><span>        - <span style=color:#f92672>containerPort</span>: <span style=color:#ae81ff>80</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>---
+</span></span><span style=display:flex><span><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>v1</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>kind</span>: <span style=color:#ae81ff>Service</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>metadata</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>mvcapp</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>spec</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>type</span>: <span style=color:#ae81ff>NodePort</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>selector</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>app</span>: <span style=color:#ae81ff>mvcapp</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>ports</span>:
+</span></span><span style=display:flex><span>  - <span style=color:#f92672>port</span>: <span style=color:#ae81ff>80</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>targetPort</span>: <span style=color:#ae81ff>80</span>
+</span></span></code></pre></div><ul><li>yaml 파일 적용</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span><span style=color:#75715e># yaml 파일 적용 </span>
+</span></span><span style=display:flex><span>$ kubectl apply -f mvcapp-deploy-service.yaml
+</span></span><span style=display:flex><span>deployment.apps <span style=color:#e6db74>&#34;mvcapp&#34;</span> created
+</span></span><span style=display:flex><span>service <span style=color:#e6db74>&#34;mvcapp&#34;</span> created
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>$ kubectl get deploy -o wide
+</span></span><span style=display:flex><span>NAME     READY   UP-TO-DATE   AVAILABLE   AGE     CONTAINERS   IMAGES             SELECTOR
+</span></span><span style=display:flex><span>mvcapp   2/2     <span style=color:#ae81ff>2</span>            <span style=color:#ae81ff>2</span>           4h47m   mvcapp       cdecl/mvcapp:0.3   app<span style=color:#f92672>=</span>mvcapp
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>$ kubectl get po -o wide
+</span></span><span style=display:flex><span>NAME                      READY   STATUS    RESTARTS   AGE   IP              NODE    NOMINATED NODE   READINESS GATES
+</span></span><span style=display:flex><span>mvcapp-6b98dfc657-27zfr   1/1     Running   <span style=color:#ae81ff>0</span>          48m   10.244.135.18   node3   &lt;none&gt;           &lt;none&gt;
+</span></span><span style=display:flex><span>mvcapp-6b98dfc657-p8hh4   1/1     Running   <span style=color:#ae81ff>0</span>          48m   10.244.104.27   node2   &lt;none&gt;           &lt;none&gt;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>$ kubectl k get svc -o wide
+</span></span><span style=display:flex><span>NAME         TYPE        CLUSTER-IP      EXTERNAL-IP   PORT<span style=color:#f92672>(</span>S<span style=color:#f92672>)</span>        AGE     SELECTOR
+</span></span><span style=display:flex><span>mvcapp       NodePort    10.106.102.27   &lt;none&gt;        80:30010/TCP   4h47m   app<span style=color:#f92672>=</span>mvcapp
+</span></span></code></pre></div><h2 id=서비스-유형--clusterip-vs-nodeport-vs-loadbalancer>서비스 유형 : ClusterIP vs NodePort vs LoadBalancer<a hidden class=anchor aria-hidden=true href=#서비스-유형--clusterip-vs-nodeport-vs-loadbalancer>#</a></h2><ul><li><a href=https://medium.com/google-cloud/kubernetes-nodeport-vs-loadbalancer-vs-ingress-when-should-i-use-what-922f010849e0>https://medium.com/google-cloud/kubernetes-nodeport-vs-loadbalancer-vs-ingress-when-should-i-use-what-922f010849e0</a>{:target="_blank"}</li></ul><h3 id=clusterip>ClusterIP<a hidden class=anchor aria-hidden=true href=#clusterip>#</a></h3><ul><li>A ClusterIP service is the default Kubernetes service</li><li>클러스터내에서의 유효한 주소 및 Access 가능</li><li>외부 노출을 위해 별도의 Proxy 가 필요</li></ul><p><img loading=lazy src=/images/2020-11-06-11-40-59.png></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>$ kubectl get svc
+</span></span><span style=display:flex><span>NAME         TYPE        CLUSTER-IP    EXTERNAL-IP   PORT<span style=color:#f92672>(</span>S<span style=color:#f92672>)</span>        AGE
+</span></span><span style=display:flex><span>kubernetes   ClusterIP   10.43.0.1     &lt;none&gt;        443/TCP        2d18h
+</span></span></code></pre></div><h3 id=nodeport>NodePort<a hidden class=anchor aria-hidden=true href=#nodeport>#</a></h3><ul><li>ClusterIP 기능 이외에 추가 기능이 있는 서비스 형태</li><li>노드 머신의 kube-proxy 통해 별도 30000-32767 사이의 포트로 서비스 노출</li><li><code>nodePort</code> 를 통해 지정가능 하며, 지정하지 않으면 랜덤 할당</li></ul><p><img loading=lazy src=/images/2020-11-06-11-41-30.png></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>$ kubectl get svc
+</span></span><span style=display:flex><span>NAME         TYPE        CLUSTER-IP    EXTERNAL-IP   PORT<span style=color:#f92672>(</span>S<span style=color:#f92672>)</span>        AGE
+</span></span><span style=display:flex><span>mvcapp       NodePort    10.43.37.45   &lt;none&gt;        80:30010/TCP   2d18h
+</span></span></code></pre></div><h3 id=loadbalancer>LoadBalancer<a hidden class=anchor aria-hidden=true href=#loadbalancer>#</a></h3><ul><li>LoadBalancer (L4/L7) 서비스를 통해 Worker Node 를 자동 등록하고 NodePort 를 통해 서비스 연결</li><li>Cloud 서비스 등에서만 지원하며 서비스 노출하는 표준적인 방법</li><li>Bare Metal 환경에서는 <a href=https://metallb.universe.tf/>metallb</a></li></ul><p><img loading=lazy src=/images/2020-11-06-11-41-49.png></p><pre tabindex=0><code>NAME         TYPE           CLUSTER-IP      EXTERNAL-IP                                        PORT(S)        AGE
+mvcapp       LoadBalancer   172.20.43.194   xxxxx-885321513.ap-northeast-2.elb.amazonaws.com   80:30291/TCP   10d
+</code></pre><h3 id=ingress>Ingress<a hidden class=anchor aria-hidden=true href=#ingress>#</a></h3><ul><li>서비스 유형은 아니며, L7 프로토콜을 통한 &ldquo;스마트 라우터&rdquo; 또는 진입점 역할하는 특별한 서비스</li><li>일반적인 L7 Layer Proxy 담당하는 kubernetes 서비스</li></ul><p><img loading=lazy src=/images/2020-11-06-11-42-08.png></p><pre tabindex=0><code>$ kubectl get po -A
+NAMESPACE       NAME                                      READY   STATUS      RESTARTS   AGE
+...
+ingress-nginx   default-http-backend-65dd5949d9-mlr9f     1/1     Running     0          2d19h
+ingress-nginx   nginx-ingress-controller-q4j6b            1/1     Running     0          2d19h
+ingress-nginx   nginx-ingress-controller-rngt9            1/1     Running     0          2d19h
+...
+
+$ kubectl get ing
+NAME          CLASS    HOSTS   ADDRESS                                             PORTS   AGE
+eks-ingress   &lt;none&gt;   *       xxxxx-1951376961.ap-northeast-2.elb.amazonaws.com   80      9d
+</code></pre><h2 id=kubernetes-dns>Kubernetes DNS<a hidden class=anchor aria-hidden=true href=#kubernetes-dns>#</a></h2><ul><li>클러스터내에 유효한 이름 규칙 및 DNS 서비스 조회를 담당</li><li><code>CoreDNS</code> Kubernetes 1.15 클러스터 지원되며 Kubernetes 이하 버전의 클러스터는 <code>kube-dns</code>를 기본 DNS 공급자로 사용</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>$ kubectl get po -A
+</span></span><span style=display:flex><span>NAMESPACE       NAME                                      READY   STATUS      RESTARTS   AGE
+</span></span><span style=display:flex><span>...
+</span></span><span style=display:flex><span>kube-system     coredns-6f85d5fb88-njg26                  1/1     Running     <span style=color:#ae81ff>0</span>          2d19h
+</span></span><span style=display:flex><span>kube-system     coredns-6f85d5fb88-ns99n                  1/1     Running     <span style=color:#ae81ff>0</span>          2d18h
+</span></span><span style=display:flex><span>kube-system     coredns-autoscaler-79599b9dc6-gtpzq       1/1     Running     <span style=color:#ae81ff>0</span>          2d19h
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>$ kubectl get svc -A
+</span></span><span style=display:flex><span>NAMESPACE       NAME                   TYPE        CLUSTER-IP     EXTERNAL-IP   PORT<span style=color:#f92672>(</span>S<span style=color:#f92672>)</span>                  AGE
+</span></span><span style=display:flex><span>kube-system     kube-dns               ClusterIP   10.43.0.10     &lt;none&gt;        53/UDP,53/TCP,9153/TCP   2d19h
+</span></span></code></pre></div><h3 id=lookup-규칙>Lookup 규칙<a hidden class=anchor aria-hidden=true href=#lookup-규칙>#</a></h3><ul><li><a href=https://kubernetes.io/ko/docs/concepts/services-networking/dns-pod-service/>https://kubernetes.io/ko/docs/concepts/services-networking/dns-pod-service/</a>{:target="_blank"}</li><li>Service: <code>[service-name]</code>.<code>[namespace]</code>.svc.cluster.local</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>$ nslookup
+</span></span><span style=display:flex><span>&gt; lserver 10.43.0.10
+</span></span><span style=display:flex><span>Default server: 10.43.0.10
+</span></span><span style=display:flex><span>Address: 10.43.0.10#53
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>&gt; mvcapp.default.svc.cluster.local
+</span></span><span style=display:flex><span>Server:		10.43.0.10
+</span></span><span style=display:flex><span>Address:	10.43.0.10#53
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>Name:	mvcapp.default.svc.cluster.local
+</span></span><span style=display:flex><span>Address: 10.43.37.45
+</span></span></code></pre></div><h3 id=pod-내부-세팅--etcresolvconf>Pod 내부 세팅 : <code>/etc/resolv.conf</code><a hidden class=anchor aria-hidden=true href=#pod-내부-세팅--etcresolvconf>#</a></h3><ul><li>해당 Pod 에 해당하는 이름 규칙의 질의 내용 표시</li><li><code>default.svc.cluster.local</code> <code>svc.cluster.local</code> <code>cluster.local</code></li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>$ kubectl exec -it mvcapp-6cc9667f94-ljvjx -- /bin/bash
+</span></span><span style=display:flex><span>root@mvcapp-6cc9667f94-ljvjx:/app$ cat /etc/resolv.conf 
+</span></span><span style=display:flex><span>nameserver 10.43.0.10
+</span></span><span style=display:flex><span>search default.svc.cluster.local svc.cluster.local cluster.local
+</span></span><span style=display:flex><span>options ndots:5
+</span></span></code></pre></div><hr><h2 id=서비스-노출-aws>서비스 노출 (AWS)<a hidden class=anchor aria-hidden=true href=#서비스-노출-aws>#</a></h2><h3 id=aws>AWS<a hidden class=anchor aria-hidden=true href=#aws>#</a></h3><ul><li>type: LoadBalancer : 서비스 타입을 LoadBalancer 지정하면 EXTERNAL-IP 자동으로 할당</li><li>Ingress 활용 : annotations 을 통해 alb 할당</li><li><a href=eks/README.md>EKS 클러스터 생성 및 Ingress</a></li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>v1</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>kind</span>: <span style=color:#ae81ff>Service</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>metadata</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>mvcapp</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>spec</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>type</span>: <span style=color:#ae81ff>LoadBalancer </span> <span style=color:#75715e># ←</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>selector</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>app</span>: <span style=color:#ae81ff>mvcapp</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>ports</span>:
+</span></span><span style=display:flex><span>  - <span style=color:#f92672>port</span>: <span style=color:#ae81ff>80</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>targetPort</span>: <span style=color:#ae81ff>80</span>
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>$ kubectl get svc -o wide
+</span></span><span style=display:flex><span>NAME         TYPE           CLUSTER-IP    EXTERNAL-IP                                     PORT<span style=color:#f92672>(</span>S<span style=color:#f92672>)</span>        AGE   SELECTOR
+</span></span><span style=display:flex><span>mvcapp       LoadBalancer   172.20.9.13   xx-651061089.ap-northeast-2.elb.amazonaws.com   80:30731/TCP   30d   app<span style=color:#f92672>=</span>mvcapp
+</span></span></code></pre></div><h4 id=aws-ingress>AWS Ingress<a hidden class=anchor aria-hidden=true href=#aws-ingress>#</a></h4><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>networking.k8s.io/v1beta1</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>kind</span>: <span style=color:#ae81ff>Ingress</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>metadata</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>eks-ingress</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>annotations</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>kubernetes.io/ingress.class</span>: <span style=color:#ae81ff>alb</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>#alb.ingress.kubernetes.io/target-type: ip  # ip, instance</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>alb.ingress.kubernetes.io/scheme</span>: <span style=color:#ae81ff>internet-facing</span> <span style=color:#75715e># internal, internet-facing</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>spec</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>rules</span>:
+</span></span><span style=display:flex><span>  - <span style=color:#f92672>host</span>: <span style=color:#ae81ff>mvcapp.cdecl.net     </span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>http</span>:
+</span></span><span style=display:flex><span>      <span style=color:#f92672>paths</span>:               
+</span></span><span style=display:flex><span>      - <span style=color:#f92672>backend</span>:           
+</span></span><span style=display:flex><span>          <span style=color:#f92672>serviceName</span>: <span style=color:#ae81ff>mvcapp</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>servicePort</span>: <span style=color:#ae81ff>80</span>
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>$ kubectl get ing -o wide
+</span></span><span style=display:flex><span>NAME          HOSTS   ADDRESS                                                      PORTS   AGE
+</span></span><span style=display:flex><span>eks-ingress   *       xx-default-eksingres-ea83.ap-northeast-2.elb.amazonaws.com   <span style=color:#ae81ff>80</span>      30d
+</span></span></code></pre></div><h2 id=서비스-노출-bare-metal>서비스 노출 (Bare Metal)<a hidden class=anchor aria-hidden=true href=#서비스-노출-bare-metal>#</a></h2><ul><li>Bare-metal considerations : <a href=https://kubernetes.github.io/ingress-nginx/deploy/baremetal/>https://kubernetes.github.io/ingress-nginx/deploy/baremetal/</a>{:target="_blank"}</li><li>쿠버네티스 네트워킹 이해하기 : <a href=https://coffeewhale.com/k8s/network/2019/05/30/k8s-network-03/>https://coffeewhale.com/k8s/network/2019/05/30/k8s-network-03/</a>{:target="_blank"}</li></ul><h3 id=metallb-활용>MetalLB 활용<a hidden class=anchor aria-hidden=true href=#metallb-활용>#</a></h3><ul><li><a href=https://github.com/hashicorp/memberlist>memberlist</a> 기반 ARP<code>(IPv4)</code>/NDP<code>(IPv6)</code> 활용 LB 리더 역할 관리</li><li>metallb vs keepalibed : <a href=https://metallb.universe.tf/concepts/layer2/#comparison-to-keepalived>https://metallb.universe.tf/concepts/layer2/#comparison-to-keepalived</a>{:target="_blank"}</li></ul><blockquote><ul><li>Keepalived uses the Virtual Router Redundancy Pro</li><li>MetalLB on the other hand relies on memberlist to know when a Node in the cluster is no longer reachable and the service IPs from that node should be moved elsewhere.</li></ul></blockquote><p><img loading=lazy src=/images/2020-11-06-12-54-02.png></p><ul><li>설치 : <a href=https://metallb.universe.tf/installation/#installation-by-manifest>https://metallb.universe.tf/installation/#installation-by-manifest</a>{:target="_blank"}</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># On first install only</span>
+</span></span><span style=display:flex><span>$ kubectl create secret generic -n metallb-system memberlist --from-literal<span style=color:#f92672>=</span>secretkey<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;</span><span style=color:#66d9ef>$(</span>openssl rand -base64 128<span style=color:#66d9ef>)</span><span style=color:#e6db74>&#34;</span>
+</span></span></code></pre></div><ul><li>ConfigMap</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yml data-lang=yml><span style=display:flex><span><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>v1</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>kind</span>: <span style=color:#ae81ff>ConfigMap</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>metadata</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>namespace</span>: <span style=color:#ae81ff>metallb-system</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>config</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>data</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>config</span>: |<span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    address-pools:
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    - name: default
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>      pro
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>      addresses:
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>      - 192.168.28.100-192.168.28.103   </span>
+</span></span></code></pre></div><ul><li>서비스의 type: LoadBalancer 지정하면 addresses 범위 내 할당 (지정가능: loadBalancerIP)</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yml data-lang=yml><span style=display:flex><span><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>v1</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>kind</span>: <span style=color:#ae81ff>Service</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>metadata</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>mvcapp</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>spec</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>type</span>: <span style=color:#ae81ff>LoadBalancer</span>
+</span></span><span style=display:flex><span>  <span style=color:#75715e>#loadBalancerIP: 192.168.28.100</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>selector</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>app</span>: <span style=color:#ae81ff>mvcapp</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>ports</span>:
+</span></span><span style=display:flex><span>  - <span style=color:#f92672>port</span>: <span style=color:#ae81ff>80</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>targetPort</span>: <span style=color:#ae81ff>80</span>
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>$ curl 192.168.28.100
+</span></span></code></pre></div><h3 id=nodeport--over-a-nodeport-service>NodePort : Over a NodePort Service<a hidden class=anchor aria-hidden=true href=#nodeport--over-a-nodeport-service>#</a></h3><ul><li>Nodeport 자동(수동)으로 할당한 30000-32767 over port 활용</li></ul><p><img loading=lazy src=/images/2020-11-06-12-54-53.png></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yml data-lang=yml><span style=display:flex><span><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>v1</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>kind</span>: <span style=color:#ae81ff>Service</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>metadata</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>mvcapp</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>spec</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>type</span>: <span style=color:#ae81ff>NodePort</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>selector</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>app</span>: <span style=color:#ae81ff>mvcapp</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>ports</span>:
+</span></span><span style=display:flex><span>  - <span style=color:#f92672>port</span>: <span style=color:#ae81ff>80</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>targetPort</span>: <span style=color:#ae81ff>80</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e># nodePort: 30010  # 포트 임의지정 </span>
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span><span style=color:#75715e># PORT(S) 확인</span>
+</span></span><span style=display:flex><span>$ kubectl get svc 
+</span></span><span style=display:flex><span>NAME         TYPE        CLUSTER-IP      EXTERNAL-IP   PORT<span style=color:#f92672>(</span>S<span style=color:#f92672>)</span>        AGE
+</span></span><span style=display:flex><span>mvcapp       NodePort    10.106.102.27   &lt;none&gt;        80:30010/TCP   128m
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Master 및 Worker IP </span>
+</span></span><span style=display:flex><span>$ curl localhost:30010
+</span></span><span style=display:flex><span>$ curl 192.168.28.16:30010
+</span></span></code></pre></div><h3 id=external-ips>External IPs<a hidden class=anchor aria-hidden=true href=#external-ips>#</a></h3><ul><li>일반적으로 권고하지 않음</li><li>서비스에 externalIPs 를 설정하여 서비스 노출</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yml data-lang=yml><span style=display:flex><span><span style=color:#f92672>spec</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>externalIPs</span>:
+</span></span><span style=display:flex><span>  - <span style=color:#ae81ff>192.168.28.15</span>
+</span></span><span style=display:flex><span>  - <span style=color:#ae81ff>192.168.28.16</span>
+</span></span><span style=display:flex><span>  - <span style=color:#ae81ff>192.168.28.17</span>
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>$ netstat -an | grep <span style=color:#e6db74>&#39;LISTEN &#39;</span>
+</span></span><span style=display:flex><span>tcp        <span style=color:#ae81ff>0</span>      <span style=color:#ae81ff>0</span> 192.168.28.15:80        0.0.0.0:*               LISTEN 
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>$ ansible all -m shell -a <span style=color:#e6db74>&#34;netstat -an | grep &#39;LISTEN &#39; | grep &#39;:80&#39; &#34;</span>
+</span></span><span style=display:flex><span>node3 | CHANGED | rc<span style=color:#f92672>=</span><span style=color:#ae81ff>0</span> &gt;&gt;
+</span></span><span style=display:flex><span>tcp        <span style=color:#ae81ff>0</span>      <span style=color:#ae81ff>0</span> 192.168.28.17:80        0.0.0.0:*               LISTEN     
+</span></span><span style=display:flex><span>node1 | CHANGED | rc<span style=color:#f92672>=</span><span style=color:#ae81ff>0</span> &gt;&gt;
+</span></span><span style=display:flex><span>tcp        <span style=color:#ae81ff>0</span>      <span style=color:#ae81ff>0</span> 192.168.28.15:80        0.0.0.0:*               LISTEN     
+</span></span><span style=display:flex><span>node2 | CHANGED | rc<span style=color:#f92672>=</span><span style=color:#ae81ff>0</span> &gt;&gt;
+</span></span><span style=display:flex><span>tcp        <span style=color:#ae81ff>0</span>      <span style=color:#ae81ff>0</span> 192.168.28.16:80        0.0.0.0:*               LISTEN   
+</span></span></code></pre></div><hr><h3 id=ingress-controller>Ingress controller<a hidden class=anchor aria-hidden=true href=#ingress-controller>#</a></h3><ul><li>외부 서비스 접속을 위한 도메인, URL 기반 서비스 분기 역할 <code>L7 레이어 기능</code></li><li>RBAC 기반 설치 : 역할 기반 접근 제어(role-based access control)</li><li>그중 가장 많이 활성화 된 nginx 기반 Ingress 컨트롤러 이용</li><li>ingress-nginx repository : <a href=https://github.com/kubernetes/ingress-nginx>https://github.com/kubernetes/ingress-nginx</a>{:target="_blank"}<ul><li>Installation Guide : <a href=https://github.com/kubernetes/ingress-nginx/blob/master/docs/deploy/index.md>https://github.com/kubernetes/ingress-nginx/blob/master/docs/deploy/index.md</a>{:target="_blank"}</li></ul></li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span><span style=color:#75715e># Bare-metal Using NodePort:</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>namespace/ingress-nginx created
+</span></span><span style=display:flex><span>serviceaccount/ingress-nginx created
+</span></span><span style=display:flex><span>configmap/ingress-nginx-controller created
+</span></span><span style=display:flex><span>clusterrole.rbac.authorization.k8s.io/ingress-nginx created
+</span></span><span style=display:flex><span>clusterrolebinding.rbac.authorization.k8s.io/ingress-nginx created
+</span></span><span style=display:flex><span>role.rbac.authorization.k8s.io/ingress-nginx created
+</span></span><span style=display:flex><span>rolebinding.rbac.authorization.k8s.io/ingress-nginx created
+</span></span><span style=display:flex><span>service/ingress-nginx-controller-admission created
+</span></span><span style=display:flex><span>service/ingress-nginx-controller created
+</span></span><span style=display:flex><span>deployment.apps/ingress-nginx-controller created
+</span></span><span style=display:flex><span>validatingwebhookconfiguration.admissionregistration.k8s.io/ingress-nginx-admission created
+</span></span><span style=display:flex><span>serviceaccount/ingress-nginx-admission created
+</span></span><span style=display:flex><span>clusterrole.rbac.authorization.k8s.io/ingress-nginx-admission created
+</span></span><span style=display:flex><span>clusterrolebinding.rbac.authorization.k8s.io/ingress-nginx-admission created
+</span></span><span style=display:flex><span>role.rbac.authorization.k8s.io/ingress-nginx-admission created
+</span></span><span style=display:flex><span>rolebinding.rbac.authorization.k8s.io/ingress-nginx-admission created
+</span></span><span style=display:flex><span>job.batch/ingress-nginx-admission-create created
+</span></span><span style=display:flex><span>job.batch/ingress-nginx-admission-patch created
+</span></span></code></pre></div><ul><li>Ingress Rule 적용</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yml data-lang=yml><span style=display:flex><span><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>networking.k8s.io/v1beta1</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>kind</span>: <span style=color:#ae81ff>Ingress</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>metadata</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>main-ingress</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>annotations</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>nginx.ingress.kubernetes.io/rewrite-target</span>: <span style=color:#ae81ff>/</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>spec</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>rules</span>:
+</span></span><span style=display:flex><span><span style=color:#75715e>#  - host: mvcapp.cdecl.net     </span>
+</span></span><span style=display:flex><span>   - <span style=color:#f92672>http</span>:
+</span></span><span style=display:flex><span>      <span style=color:#f92672>paths</span>:               
+</span></span><span style=display:flex><span>      - <span style=color:#f92672>backend</span>:           
+</span></span><span style=display:flex><span>          <span style=color:#f92672>serviceName</span>: <span style=color:#ae81ff>mvcapp</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>servicePort</span>: <span style=color:#ae81ff>80</span>
+</span></span></code></pre></div><ul><li>Ingress 확인</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>$ kubectl get ing 
+</span></span><span style=display:flex><span>NAME           CLASS    HOSTS   ADDRESS         PORTS   AGE
+</span></span><span style=display:flex><span>main-ingress   &lt;none&gt;   *       192.168.28.16   <span style=color:#ae81ff>80</span>      25s
+</span></span></code></pre></div><hr><h2 id=기타-network-분석>기타 Network 분석<a hidden class=anchor aria-hidden=true href=#기타-network-분석>#</a></h2><h3 id=route>Route<a hidden class=anchor aria-hidden=true href=#route>#</a></h3><ul><li>Route table 기반으로 Pod 이 존재하는 Gateway로 보내는 구조</li><li>① 접속하는 Node에 존재하는 Pod 은 Gateway를 <code>0.0.0.0</code> 해당 Node 처리</li><li>② 다른 Node에 존재하는 Pod 은 해당 대역대의 서버(Gateway) 보내어 ①과 같은 과정으로 처리 후 리턴</li></ul><p><img alt=image loading=lazy src=https://user-images.githubusercontent.com/5927142/97154892-dbdbc800-17b7-11eb-83fc-91597588eeaa.png></p><p><img alt=image loading=lazy src=https://user-images.githubusercontent.com/5927142/97154530-5526eb00-17b7-11eb-86be-1a260cb0291e.png></p><hr><h3 id=aws-eks-loadbalancer>AWS EKS LoadBalancer<a hidden class=anchor aria-hidden=true href=#aws-eks-loadbalancer>#</a></h3><ul><li>ALB/NLB Target Group의 NodePort I/F 를 통해 서비스 접속</li></ul><p><img loading=lazy src=/images/2020-11-06-13-09-56.png></p><hr><h2 id=고가용성-토폴로지-ha-구성>고가용성 토폴로지 (HA) 구성<a hidden class=anchor aria-hidden=true href=#고가용성-토폴로지-ha-구성>#</a></h2><ul><li><a href=https://kubernetes.io/ko/docs/setup/production-environment/tools/kubeadm/ha-topology/>https://kubernetes.io/ko/docs/setup/production-environment/tools/kubeadm/ha-topology/</a>{:target="_blank"}</li></ul><h3 id=중첩된-etcd-토플로지-stacked-etcd>중첩된 etcd 토플로지 (Stacked etcd)<a hidden class=anchor aria-hidden=true href=#중첩된-etcd-토플로지-stacked-etcd>#</a></h3><ul><li>컨트롤 플레인(&ndash;control-plane) 구성 요소를 실행하는 kubeadm 관리되는 노드 추가</li></ul><p><img loading=lazy src=/images/2020-11-06-14-54-11.png></p><h4 id=master-node-설정-1>Master Node 설정<a hidden class=anchor aria-hidden=true href=#master-node-설정-1>#</a></h4><ul><li>Single Master 구성에서 옵션 추가 필요<ul><li>kube-apiserver 를 위한 load balancer 구성 필요</li><li><code>--control-plane-endpoint "LOAD_BALANCER_IP:PORT"</code></li><li><code>--upload-certs</code> : 인증서를 업로드 (자동배포)</li></ul></li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span><span style=color:#75715e># kube01</span>
+</span></span><span style=display:flex><span>$ kubeadm init --pod-network-cidr 10.244.0.0/16 --control-plane-endpoint <span style=color:#e6db74>&#34;10.239.36.184:6443&#34;</span> --upload-certs
+</span></span><span style=display:flex><span>...
+</span></span><span style=display:flex><span>  mkdir -p $HOME/.kube
+</span></span><span style=display:flex><span>  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+</span></span><span style=display:flex><span>  sudo chown <span style=color:#66d9ef>$(</span>id -u<span style=color:#66d9ef>)</span>:<span style=color:#66d9ef>$(</span>id -g<span style=color:#66d9ef>)</span> $HOME/.kube/config
+</span></span><span style=display:flex><span>...
+</span></span><span style=display:flex><span>You can now join any number of the control-plane node running the following command on each as root:
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  kubeadm join 10.239.36.184:6443 --token 62f4ot.y6c026tnpxmanqrk <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>    --discovery-token-ca-cert-hash sha256:5c7b19f57085d582d216681924a869a3fa66dd042f55fdfd3c7ac32115f01c18 <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>    --control-plane --certificate-key 11f38363a6f08d6d89e8b37a00599a0ffbd9a5210d86b9709ffed7249af23716
+</span></span><span style=display:flex><span>...
+</span></span><span style=display:flex><span>kubeadm join 10.239.36.184:6443 --token 62f4ot.y6c026tnpxmanqrk <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>    --discovery-token-ca-cert-hash sha256:5c7b19f57085d582d216681924a869a3fa66dd042f55fdfd3c7ac32115f01c18 
+</span></span></code></pre></div><ul><li>control-plane join 명렁어 추가됨</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span><span style=color:#75715e># kube04 </span>
+</span></span><span style=display:flex><span>$ kubeadm join 10.239.36.184:6443 --token 62f4ot.y6c026tnpxmanqrk <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>    --discovery-token-ca-cert-hash sha256:5c7b19f57085d582d216681924a869a3fa66dd042f55fdfd3c7ac32115f01c18 <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>    --control-plane --certificate-key 11f38363a6f08d6d89e8b37a00599a0ffbd9a5210d86b9709ffed7249af23716
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>$ kubectl get node 
+</span></span><span style=display:flex><span>NAME     STATUS   ROLES    AGE     VERSION
+</span></span><span style=display:flex><span>kube01   Ready    master   8m58s   v1.19.3
+</span></span><span style=display:flex><span>kube02   Ready    &lt;none&gt;   5m      v1.19.3
+</span></span><span style=display:flex><span>kube03   Ready    &lt;none&gt;   4m50s   v1.19.3
+</span></span><span style=display:flex><span>kube04   Ready    master   2m7s    v1.19.3
+</span></span></code></pre></div><h4 id=ha에서-control-plane-노드-제거>HA에서 control plane 노드 제거<a hidden class=anchor aria-hidden=true href=#ha에서-control-plane-노드-제거>#</a></h4><ul><li>제거 할 노드에서 reset 명령 실행</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span><span style=color:#75715e># kube04 </span>
+</span></span><span style=display:flex><span>$ sudo kubeadm reset
+</span></span></code></pre></div><blockquote><ul><li>kubectl delete node로 control plane노드 를 제거하지 않도록 한다.</li><li>만약 kubectl delete node로 삭제하는 경우 이후 추가 되는 control plane 노드들은 HA에 추가 될수 없다.</li><li>그 이유는 kubeadm reset은 HA내 다른 control plane 노드의 etcd에서 etcd endpoint 정보를 지우지만 kubectl delete node는 HA 내의 다른 controle plane 노드에서 etcd endpoint 정보를 지우지 못하기 때문이다.</li><li>이로 인해 이후 HA에 추가되는 control plane 노드는 삭제된 노드의 etcd endpoint 접속이 되지 않기 때문에 etcd 유효성 검사 과정에서 오류가 발생하게 된다.</li><li>참고 : <a href=https://fliedcat.tistory.com/170>https://fliedcat.tistory.com/170</a>{:target="_blank"}</li></ul></blockquote><h4 id=nginx-정보-참고>Nginx 정보 (참고)<a hidden class=anchor aria-hidden=true href=#nginx-정보-참고>#</a></h4><ul><li>Load balancer 구성을 위한 reverse proxy 세팅</li></ul><pre tabindex=0><code># /etc/nginx/nginx.conf
+
+stream {
+    upstream kube {
+        server kube01:6443;
+        server kube04:6443;
+    }
+    server {
+        listen 6443;
+        proxy_pass kube;
+    } 
+}
+</code></pre><h3 id=외부-etcd-토플로지-external-etcd>외부 etcd 토플로지 (External etcd)<a hidden class=anchor aria-hidden=true href=#외부-etcd-토플로지-external-etcd>#</a></h3><ul><li>별도의 서버를 통해 etcd 서비스를 분산하는 방법</li><li>이 토플로지는 중첩된 토플로지에 비해 호스트 개수가 두배나 필요하다. 이 토플로지로 HA 클러스터를 구성하기 위해서는 최소한 3개의 컨트롤 플레인과 3개의 etcd 노드가 필요하다.</li></ul><p><img loading=lazy src=/images/2020-11-06-14-55-08.png></p><hr><h2 id=kubernetes-초기화>Kubernetes 초기화<a hidden class=anchor aria-hidden=true href=#kubernetes-초기화>#</a></h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>$ sudo kubeadm reset -f
+</span></span></code></pre></div></div><footer class=post-footer><ul class=post-tags><li><a href=https://cdecl.github.io/tags/kubernetes/>Kubernetes</a></li><li><a href=https://cdecl.github.io/tags/k8s/>K8s</a></li><li><a href=https://cdecl.github.io/tags/docker/>Docker</a></li></ul></footer></article></main><footer class=footer><span>&copy; 2026 <a href=https://cdecl.github.io/>cdeclog</a></span> ·
+<span>Powered by
+<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
+<a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg viewBox="0 0 12 6" fill="currentColor"><path d="M12 6H0l6-6z"/></svg>
+</a><script>let menu=document.getElementById("menu");if(menu){const e=localStorage.getItem("menu-scroll-position");e&&(menu.scrollLeft=parseInt(e,10)),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}}document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{const e=document.querySelector("html");e.dataset.theme==="dark"?(e.dataset.theme="light",localStorage.setItem("pref-theme","light")):(e.dataset.theme="dark",localStorage.setItem("pref-theme","dark"))})</script></body></html>

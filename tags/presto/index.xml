@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Presto on cdeclog</title><link>https://cdecl.github.io/tags/presto/</link><description>Recent content in Presto on cdeclog</description><generator>Hugo -- 0.154.5</generator><language>ko-kr</language><lastBuildDate>Tue, 23 Aug 2022 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/presto/index.xml" rel="self" type="application/rss+xml"/><item><title>trino(presto) nested json 예제</title><link>https://cdecl.github.io/devops/presto-json-nested/</link><pubDate>Tue, 23 Aug 2022 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/presto-json-nested/</guid><description>&lt;p&gt;trino(presto) nested json 를 처리하기 위한 table schema 예제&lt;/p&gt;
+&lt;h2 id="trinopresto---create-table"&gt;trino(presto) - create table&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;row : json object (nested json) 타입을 위한 sub column 정의&lt;/li&gt;
+&lt;li&gt;array : 배열&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="example"&gt;Example&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-json" data-lang="json"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{&lt;span style="color:#f92672"&gt;&amp;#34;id&amp;#34;&lt;/span&gt;:&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;,&lt;span style="color:#f92672"&gt;&amp;#34;name&amp;#34;&lt;/span&gt;:&lt;span style="color:#e6db74"&gt;&amp;#34;Alice&amp;#34;&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{&lt;span style="color:#f92672"&gt;&amp;#34;id&amp;#34;&lt;/span&gt;:&lt;span style="color:#ae81ff"&gt;2&lt;/span&gt;,&lt;span style="color:#f92672"&gt;&amp;#34;name&amp;#34;&lt;/span&gt;:&lt;span style="color:#e6db74"&gt;&amp;#34;Bob&amp;#34;&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{&lt;span style="color:#f92672"&gt;&amp;#34;id&amp;#34;&lt;/span&gt;:&lt;span style="color:#ae81ff"&gt;3&lt;/span&gt;,&lt;span style="color:#f92672"&gt;&amp;#34;name&amp;#34;&lt;/span&gt;:&lt;span style="color:#e6db74"&gt;&amp;#34;Carol&amp;#34;&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{&lt;span style="color:#f92672"&gt;&amp;#34;id&amp;#34;&lt;/span&gt;:&lt;span style="color:#ae81ff"&gt;4&lt;/span&gt;,&lt;span style="color:#f92672"&gt;&amp;#34;name&amp;#34;&lt;/span&gt;:&lt;span style="color:#e6db74"&gt;&amp;#34;David&amp;#34;&lt;/span&gt;, &lt;span style="color:#f92672"&gt;&amp;#34;etc1&amp;#34;&lt;/span&gt;: [{&lt;span style="color:#f92672"&gt;&amp;#34;key&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;key-data11&amp;#34;&lt;/span&gt;}, {&lt;span style="color:#f92672"&gt;&amp;#34;key&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;key-data22&amp;#34;&lt;/span&gt;}] }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{&lt;span style="color:#f92672"&gt;&amp;#34;id&amp;#34;&lt;/span&gt;:&lt;span style="color:#ae81ff"&gt;5&lt;/span&gt;,&lt;span style="color:#f92672"&gt;&amp;#34;name&amp;#34;&lt;/span&gt;:&lt;span style="color:#e6db74"&gt;&amp;#34;Elise&amp;#34;&lt;/span&gt;, &lt;span style="color:#f92672"&gt;&amp;#34;etc2&amp;#34;&lt;/span&gt;: [&lt;span style="color:#e6db74"&gt;&amp;#34;data1&amp;#34;&lt;/span&gt;, &lt;span style="color:#e6db74"&gt;&amp;#34;data2&amp;#34;&lt;/span&gt;, &lt;span style="color:#e6db74"&gt;&amp;#34;data3&amp;#34;&lt;/span&gt;]}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sql" data-lang="sql"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;create&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;table&lt;/span&gt; hive.&lt;span style="color:#66d9ef"&gt;default&lt;/span&gt;.sample (
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; id varchar,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; name varchar,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; etc1 array(&lt;span style="color:#66d9ef"&gt;row&lt;/span&gt;(&lt;span style="color:#66d9ef"&gt;key&lt;/span&gt; varchar)),
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; etc2 array(varchar)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;with&lt;/span&gt; (
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; format &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;json&amp;#39;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; external_location &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;s3a://data/sample/&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;hr&gt;
+&lt;h3 id="trino-cli"&gt;trino cli&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;trino&amp;gt; use hive.default;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;USE
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;trino:default&amp;gt; &lt;span style="color:#66d9ef"&gt;select&lt;/span&gt; * from sample;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; id | name | etc1 | etc2
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;----+-------+--------------------------------------+-----------------------
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; | Alice | NULL | NULL
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ae81ff"&gt;2&lt;/span&gt; | Bob | NULL | NULL
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ae81ff"&gt;3&lt;/span&gt; | Carol | NULL | NULL
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ae81ff"&gt;4&lt;/span&gt; | David | &lt;span style="color:#f92672"&gt;[{&lt;/span&gt;key&lt;span style="color:#f92672"&gt;=&lt;/span&gt;key-data11&lt;span style="color:#f92672"&gt;}&lt;/span&gt;, &lt;span style="color:#f92672"&gt;{&lt;/span&gt;key&lt;span style="color:#f92672"&gt;=&lt;/span&gt;key-data22&lt;span style="color:#f92672"&gt;}]&lt;/span&gt; | NULL
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ae81ff"&gt;5&lt;/span&gt; | Elise | NULL | &lt;span style="color:#f92672"&gt;[&lt;/span&gt;data1, data2, data3&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;(&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;5&lt;/span&gt; rows&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Query 20220824_000627_00008_qpvtj, FINISHED, &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; node
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Splits: &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; total, &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;done&lt;/span&gt; &lt;span style="color:#f92672"&gt;(&lt;/span&gt;100.00%&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;0.27 &lt;span style="color:#f92672"&gt;[&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;5&lt;/span&gt; rows, 212B&lt;span style="color:#f92672"&gt;]&lt;/span&gt; &lt;span style="color:#f92672"&gt;[&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;18&lt;/span&gt; rows/s, 777B/s&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description></item><item><title>trino(presto), minio docker 테스트 환경</title><link>https://cdecl.github.io/devops/presto-minio-docker/</link><pubDate>Fri, 19 Aug 2022 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/presto-minio-docker/</guid><description>&lt;p&gt;trino(presto), minio docker 활용 테스트 환경&lt;/p&gt;
+&lt;h2 id="trino-hive-connector-to-minio"&gt;trino (hive connector) to minio&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;trino 의 hive connector 를 활용해서 minio 데이터 분석 환경
+&lt;ul&gt;
+&lt;li&gt;Hive connector : &lt;a href="https://trino.io/docs/current/connector/hive.html"&gt;https://trino.io/docs/current/connector/hive.html&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;참고 : &lt;a href="https://github.com/cdecl/trino-minio-docker"&gt;https://github.com/cdecl/trino-minio-docker&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="docker-compose-trino-minio"&gt;docker-compose (trino, minio)&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;version&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#39;3&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;services&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;trino&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;image&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;trinodb/trino&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;container_name&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;trino&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;restart&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;always&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;ports&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#e6db74"&gt;&amp;#34;8080:8080&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;volumes&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;./etc:/etc/trino&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;minio&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;image&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;minio/minio&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;restart&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;always&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;command&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;server /data --console-address &amp;#34;:9001&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;container_name&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;minio&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;environment&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;MINIO_ROOT_USER&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;minio&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;MINIO_ROOT_PASSWORD&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;minio1234&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;restart&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;always&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;ports&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#e6db74"&gt;&amp;#34;9000:9000&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#e6db74"&gt;&amp;#34;9001:9001&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;volumes&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;./minio-data:/data&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id="minio-hive-properties"&gt;minio (hive) properties&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;etc/catalog/hive.properties&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;metastore 는 minio catalog 버킷에 저장 &lt;code&gt;s3a://catalog/trino/&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;minio 세팅 정보 : &lt;code&gt;access-key&lt;/code&gt;, &lt;code&gt;secret-key&lt;/code&gt;, &lt;code&gt;endpoint&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-properties" data-lang="properties"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;connector.name&lt;/span&gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;hive-hadoop2&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;hive.metastore&lt;/span&gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;file&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;hive.metastore.catalog.dir&lt;/span&gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;s3a://catalog/trino/&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;hive.recursive-directories&lt;/span&gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;true&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;hive.non-managed-table-writes-enabled&lt;/span&gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;true&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;hive.allow-drop-table&lt;/span&gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;true&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;hive.s3.path-style-access&lt;/span&gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;true&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;hive.s3.ssl.enabled&lt;/span&gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;false&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;hive.s3select-pushdown.enabled&lt;/span&gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;true&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;hive.s3.aws-access-key&lt;/span&gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;minio&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;hive.s3.aws-secret-key&lt;/span&gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;minio1234&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;hive.s3.endpoint&lt;/span&gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;http://minio:9000&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="docker-compose-실행-및-초기값-세팅"&gt;docker-compose 실행 및 초기값 세팅&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;## 실행 &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ docker-compose up -d
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;reating network &lt;span style="color:#e6db74"&gt;&amp;#34;trino_default&amp;#34;&lt;/span&gt; with the default driver
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Creating minio ... &lt;span style="color:#66d9ef"&gt;done&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Creating trino ... &lt;span style="color:#66d9ef"&gt;done&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id="rclone-으로-minio-버킷-생성"&gt;rclone 으로 minio 버킷 생성&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# rclone 설정&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ cat local.conf
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;[&lt;/span&gt;local&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;type &lt;span style="color:#f92672"&gt;=&lt;/span&gt; s3
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;provider &lt;span style="color:#f92672"&gt;=&lt;/span&gt; Minio
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;env_auth &lt;span style="color:#f92672"&gt;=&lt;/span&gt; false
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;access_key_id &lt;span style="color:#f92672"&gt;=&lt;/span&gt; minio
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;secret_access_key &lt;span style="color:#f92672"&gt;=&lt;/span&gt; minio1234
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;endpoint &lt;span style="color:#f92672"&gt;=&lt;/span&gt; http://localhost:9000
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# create catalog, data directory &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ rclone --config local.conf mkdir local:catalog
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ rclone --config local.conf mkdir local:data
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# sample json (ndjson) data)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ cat 1.json
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;{&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;id&amp;#34;&lt;/span&gt;:1,&lt;span style="color:#e6db74"&gt;&amp;#34;name&amp;#34;&lt;/span&gt;:&lt;span style="color:#e6db74"&gt;&amp;#34;Alice&amp;#34;&lt;/span&gt;&lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;{&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;id&amp;#34;&lt;/span&gt;:2,&lt;span style="color:#e6db74"&gt;&amp;#34;name&amp;#34;&lt;/span&gt;:&lt;span style="color:#e6db74"&gt;&amp;#34;Bob&amp;#34;&lt;/span&gt;&lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;{&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;id&amp;#34;&lt;/span&gt;:3,&lt;span style="color:#e6db74"&gt;&amp;#34;name&amp;#34;&lt;/span&gt;:&lt;span style="color:#e6db74"&gt;&amp;#34;Carol&amp;#34;&lt;/span&gt;&lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# test data copy&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ rclone --config local.conf copy 1.json local:data/sample/
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id="schema-table-생성"&gt;schema, table 생성&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;default&lt;/code&gt; schema (db) 생성 및 external_location table 생성&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sql" data-lang="sql"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;-- hive 의 schema(db) 생성
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;create&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;schema&lt;/span&gt; hive.&lt;span style="color:#66d9ef"&gt;default&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;-- table 생성
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;create&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;table&lt;/span&gt; hive.&lt;span style="color:#66d9ef"&gt;default&lt;/span&gt;.sample (
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; id varchar,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; name varchar
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;with&lt;/span&gt; (
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; format &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;json&amp;#39;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; external_location &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;s3a://data/sample/&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;-- select
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;select&lt;/span&gt; &lt;span style="color:#f92672"&gt;*&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;from&lt;/span&gt; sample;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id="쿼리-테스트-dbeaver"&gt;쿼리 테스트 (dbeaver)&lt;/h4&gt;
+&lt;p&gt;&lt;img loading="lazy" src="https://cdecl.github.io/images/2022-08-20-13-38-49.png"&gt;&lt;/p&gt;</description></item></channel></rss>

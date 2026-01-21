@@ -1,0 +1,358 @@
+<!doctype html><html lang=en dir=auto data-theme=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>CryotoPP Example | cdeclog</title><meta name=keywords content="cryptopp,crypto++,aes,cbc,crypto"><meta name=description content='CryptoPP
+
+https://www.cryptopp.com/{:target="_blank"}
+Crypto++ 사용하기, 예제{:target="_blank"}
+암호화 지식 (개발자){:target="_blank"}
+
+
+기존 작성한 내용(5.6 버전)의 최신화(8.5 버전) : 빌드 이슈
+
+Package 설치
+
+vcpkg 사용 : 8.5.0
+
+$ ./vcpkg install cryptopp
+Computing installation plan...
+The following packages will be built and installed:
+    cryptopp[core]:arm64-osx -> 8.5.0
+...
+The package cryptopp:arm64-osx provides CMake targets:
+
+    find_package(cryptopp CONFIG REQUIRED)
+    target_link_libraries(main PRIVATE cryptopp-static)
+
+CMakeLists.txt
+
+cmake_minimum_required(VERSION 3.11)
+project(main)
+set(CMAKE_CXX_STANDARD 17)
+
+add_executable(main main.cpp)
+target_compile_options(main PRIVATE -Wall -O2)
+
+find_package(cryptopp CONFIG REQUIRED)
+target_link_libraries(main PRIVATE cryptopp-static)
+Build
+$ mkdir build && cd build
+$ cmake .. -DCMAKE_TOOLCHAIN_FILE=<PATH>/vcpkg/scripts/buildsystems/vcpkg.cmake
+
+$ build 
+
+Example
+
+기본 Flow
+
+- Encryption : StringSource -> StreamTransformationFilter(Encryptor) -> Base64Encoder(StringSink)
+- Decryption : StringSource -> Base64Decoder -> StreamTransformationFilter(Decryptor, StringSink)
+과거 버전과의 이슈
+
+std::byte의 표준화 이전에 작성된 라이브러리라, byte 타입 충돌
+
+https://www.cryptopp.com/wiki/Modes_of_Operation{:target="_blank"}
+KEY, IV 를 정의하기 위해 CryptoPP::SecByteBlock 타입 사용
+
+
+
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+#include <cryptopp/cryptlib.h>
+#include <cryptopp/base64.h>
+#include <cryptopp/aes.h>
+#include <cryptopp/seed.h>
+#include <cryptopp/des.h>
+#include <cryptopp/modes.h>
+#include <cryptopp/filters.h>
+
+template <class EncryptorType>
+std::string Encrypt(EncryptorType &amp;encryptor, const std::string &amp;PlainText) 
+{
+	std::string CipherText;
+	CryptoPP::StringSource(PlainText, true,
+		new CryptoPP::StreamTransformationFilter(
+			encryptor, new CryptoPP::Base64Encoder(new CryptoPP::StringSink(CipherText), false) /* default padding */
+		)
+	);
+	return CipherText;
+}
+
+template <class DecryptorType>
+std::string Decrypt(DecryptorType &amp;decryptor, const std::string &amp;EncText) 
+{
+	std::string PlainText;
+	CryptoPP::StringSource(EncText, true,
+		new CryptoPP::Base64Decoder(
+			new CryptoPP::StreamTransformationFilter(
+				decryptor, new CryptoPP::StringSink(PlainText)
+			)
+		)
+	);
+	return PlainText;
+}
+
+int main()
+{
+	using namespace std;
+	using AES = CryptoPP::AES;
+
+	CryptoPP::SecByteBlock KEY(AES::DEFAULT_KEYLENGTH);
+	CryptoPP::SecByteBlock IV(AES::DEFAULT_KEYLENGTH);
+
+	// 임의 값 초기화 
+	for (auto &amp;c : KEY) c = 0;
+	for (auto &amp;c : IV) c = 0;
+
+	CryptoPP::CBC_Mode<AES>::Encryption Encryptor { KEY, KEY.size(), IV };
+	CryptoPP::CBC_Mode<AES>::Decryption Decryptor { KEY, KEY.size(), IV };
+
+	try {
+		string sText = "Plain Text";
+		string sEnc, sDec;
+
+		sEnc = Encrypt(Encryptor, sText);
+		cout << sText << " -> " << sEnc << endl;
+
+		sDec = Decrypt(Decryptor, sEnc);
+		cout << sEnc << " -> " << sDec << endl;	
+	}
+	catch (exception &amp;ex) {
+		cerr << ex.what() << endl;
+	}
+
+	return 0;
+}
+$ ./main
+Plain Text -> MtiafY0csWZJZzsRNfE8cA==
+MtiafY0csWZJZzsRNfE8cA== -> Plain Text
+'><meta name=author content="Byung Kyu KIM"><link rel=canonical href=https://cdecl.github.io/dev/cryptopp-example/><link crossorigin=anonymous href=/assets/css/stylesheet.d980bb9fb2cba61af0aead0606b5eb221d7e358748ac394b60233d95d626c563.css integrity="sha256-2YC7n7LLphrwrq0GBrXrIh1+NYdIrDlLYCM9ldYmxWM=" rel="preload stylesheet" as=style><link rel=icon href=https://cdecl.github.io/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://cdecl.github.io/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://cdecl.github.io/favicon-32x32.png><link rel=apple-touch-icon href=https://cdecl.github.io/apple-touch-icon.png><link rel=mask-icon href=https://cdecl.github.io/safari-pinned-tab.svg><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><link rel=alternate hreflang=en href=https://cdecl.github.io/dev/cryptopp-example/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51);color-scheme:dark}.list{background:var(--theme)}.toc{background:var(--entry)}}@media(prefers-color-scheme:light){.list::-webkit-scrollbar-thumb{border-color:var(--code-bg)}}</style></noscript><script>localStorage.getItem("pref-theme")==="dark"?document.querySelector("html").dataset.theme="dark":localStorage.getItem("pref-theme")==="light"?document.querySelector("html").dataset.theme="light":window.matchMedia("(prefers-color-scheme: dark)").matches?document.querySelector("html").dataset.theme="dark":document.querySelector("html").dataset.theme="light"</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-VQQHHYPN7K"></script><script>var doNotTrack=!1,dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes";if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-VQQHHYPN7K")}</script><meta property="og:url" content="https://cdecl.github.io/dev/cryptopp-example/"><meta property="og:site_name" content="cdeclog"><meta property="og:title" content="CryotoPP Example"><meta property="og:description" content='CryptoPP https://www.cryptopp.com/{:target="_blank"} Crypto++ 사용하기, 예제{:target="_blank"} 암호화 지식 (개발자){:target="_blank"} 기존 작성한 내용(5.6 버전)의 최신화(8.5 버전) : 빌드 이슈
+Package 설치 vcpkg 사용 : 8.5.0 $ ./vcpkg install cryptopp Computing installation plan... The following packages will be built and installed: cryptopp[core]:arm64-osx -> 8.5.0 ... The package cryptopp:arm64-osx provides CMake targets: find_package(cryptopp CONFIG REQUIRED) target_link_libraries(main PRIVATE cryptopp-static) CMakeLists.txt cmake_minimum_required(VERSION 3.11) project(main) set(CMAKE_CXX_STANDARD 17) add_executable(main main.cpp) target_compile_options(main PRIVATE -Wall -O2) find_package(cryptopp CONFIG REQUIRED) target_link_libraries(main PRIVATE cryptopp-static) Build $ mkdir build && cd build $ cmake .. -DCMAKE_TOOLCHAIN_FILE=<PATH>/vcpkg/scripts/buildsystems/vcpkg.cmake $ build Example 기본 Flow - Encryption : StringSource -> StreamTransformationFilter(Encryptor) -> Base64Encoder(StringSink) - Decryption : StringSource -> Base64Decoder -> StreamTransformationFilter(Decryptor, StringSink) 과거 버전과의 이슈 std::byte의 표준화 이전에 작성된 라이브러리라, byte 타입 충돌 https://www.cryptopp.com/wiki/Modes_of_Operation{:target="_blank"} KEY, IV 를 정의하기 위해 CryptoPP::SecByteBlock 타입 사용 #include <iostream> #include <algorithm> using namespace std; #include <cryptopp/cryptlib.h> #include <cryptopp/base64.h> #include <cryptopp/aes.h> #include <cryptopp/seed.h> #include <cryptopp/des.h> #include <cryptopp/modes.h> #include <cryptopp/filters.h> template <class EncryptorType> std::string Encrypt(EncryptorType &amp;encryptor, const std::string &amp;PlainText) { std::string CipherText; CryptoPP::StringSource(PlainText, true, new CryptoPP::StreamTransformationFilter( encryptor, new CryptoPP::Base64Encoder(new CryptoPP::StringSink(CipherText), false) /* default padding */ ) ); return CipherText; } template <class DecryptorType> std::string Decrypt(DecryptorType &amp;decryptor, const std::string &amp;EncText) { std::string PlainText; CryptoPP::StringSource(EncText, true, new CryptoPP::Base64Decoder( new CryptoPP::StreamTransformationFilter( decryptor, new CryptoPP::StringSink(PlainText) ) ) ); return PlainText; } int main() { using namespace std; using AES = CryptoPP::AES; CryptoPP::SecByteBlock KEY(AES::DEFAULT_KEYLENGTH); CryptoPP::SecByteBlock IV(AES::DEFAULT_KEYLENGTH); // 임의 값 초기화 for (auto &amp;c : KEY) c = 0; for (auto &amp;c : IV) c = 0; CryptoPP::CBC_Mode<AES>::Encryption Encryptor { KEY, KEY.size(), IV }; CryptoPP::CBC_Mode<AES>::Decryption Decryptor { KEY, KEY.size(), IV }; try { string sText = "Plain Text"; string sEnc, sDec; sEnc = Encrypt(Encryptor, sText); cout << sText << " -> " << sEnc << endl; sDec = Decrypt(Decryptor, sEnc); cout << sEnc << " -> " << sDec << endl;	} catch (exception &amp;ex) { cerr << ex.what() << endl; } return 0; } $ ./main Plain Text -> MtiafY0csWZJZzsRNfE8cA== MtiafY0csWZJZzsRNfE8cA== -> Plain Text '><meta property="og:locale" content="ko-kr"><meta property="og:type" content="article"><meta property="article:section" content="dev"><meta property="article:published_time" content="2021-08-28T00:00:00+09:00"><meta property="article:modified_time" content="2021-08-28T00:00:00+09:00"><meta property="article:tag" content="Cryptopp"><meta property="article:tag" content="Crypto++"><meta property="article:tag" content="Aes"><meta property="article:tag" content="Cbc"><meta property="article:tag" content="Crypto"><meta name=twitter:card content="summary"><meta name=twitter:title content="CryotoPP Example"><meta name=twitter:description content='CryptoPP
+
+https://www.cryptopp.com/{:target="_blank"}
+Crypto++ 사용하기, 예제{:target="_blank"}
+암호화 지식 (개발자){:target="_blank"}
+
+
+기존 작성한 내용(5.6 버전)의 최신화(8.5 버전) : 빌드 이슈
+
+Package 설치
+
+vcpkg 사용 : 8.5.0
+
+$ ./vcpkg install cryptopp
+Computing installation plan...
+The following packages will be built and installed:
+    cryptopp[core]:arm64-osx -> 8.5.0
+...
+The package cryptopp:arm64-osx provides CMake targets:
+
+    find_package(cryptopp CONFIG REQUIRED)
+    target_link_libraries(main PRIVATE cryptopp-static)
+
+CMakeLists.txt
+
+cmake_minimum_required(VERSION 3.11)
+project(main)
+set(CMAKE_CXX_STANDARD 17)
+
+add_executable(main main.cpp)
+target_compile_options(main PRIVATE -Wall -O2)
+
+find_package(cryptopp CONFIG REQUIRED)
+target_link_libraries(main PRIVATE cryptopp-static)
+Build
+$ mkdir build && cd build
+$ cmake .. -DCMAKE_TOOLCHAIN_FILE=<PATH>/vcpkg/scripts/buildsystems/vcpkg.cmake
+
+$ build 
+
+Example
+
+기본 Flow
+
+- Encryption : StringSource -> StreamTransformationFilter(Encryptor) -> Base64Encoder(StringSink)
+- Decryption : StringSource -> Base64Decoder -> StreamTransformationFilter(Decryptor, StringSink)
+과거 버전과의 이슈
+
+std::byte의 표준화 이전에 작성된 라이브러리라, byte 타입 충돌
+
+https://www.cryptopp.com/wiki/Modes_of_Operation{:target="_blank"}
+KEY, IV 를 정의하기 위해 CryptoPP::SecByteBlock 타입 사용
+
+
+
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+#include <cryptopp/cryptlib.h>
+#include <cryptopp/base64.h>
+#include <cryptopp/aes.h>
+#include <cryptopp/seed.h>
+#include <cryptopp/des.h>
+#include <cryptopp/modes.h>
+#include <cryptopp/filters.h>
+
+template <class EncryptorType>
+std::string Encrypt(EncryptorType &amp;encryptor, const std::string &amp;PlainText) 
+{
+	std::string CipherText;
+	CryptoPP::StringSource(PlainText, true,
+		new CryptoPP::StreamTransformationFilter(
+			encryptor, new CryptoPP::Base64Encoder(new CryptoPP::StringSink(CipherText), false) /* default padding */
+		)
+	);
+	return CipherText;
+}
+
+template <class DecryptorType>
+std::string Decrypt(DecryptorType &amp;decryptor, const std::string &amp;EncText) 
+{
+	std::string PlainText;
+	CryptoPP::StringSource(EncText, true,
+		new CryptoPP::Base64Decoder(
+			new CryptoPP::StreamTransformationFilter(
+				decryptor, new CryptoPP::StringSink(PlainText)
+			)
+		)
+	);
+	return PlainText;
+}
+
+int main()
+{
+	using namespace std;
+	using AES = CryptoPP::AES;
+
+	CryptoPP::SecByteBlock KEY(AES::DEFAULT_KEYLENGTH);
+	CryptoPP::SecByteBlock IV(AES::DEFAULT_KEYLENGTH);
+
+	// 임의 값 초기화 
+	for (auto &amp;c : KEY) c = 0;
+	for (auto &amp;c : IV) c = 0;
+
+	CryptoPP::CBC_Mode<AES>::Encryption Encryptor { KEY, KEY.size(), IV };
+	CryptoPP::CBC_Mode<AES>::Decryption Decryptor { KEY, KEY.size(), IV };
+
+	try {
+		string sText = "Plain Text";
+		string sEnc, sDec;
+
+		sEnc = Encrypt(Encryptor, sText);
+		cout << sText << " -> " << sEnc << endl;
+
+		sDec = Decrypt(Decryptor, sEnc);
+		cout << sEnc << " -> " << sDec << endl;	
+	}
+	catch (exception &amp;ex) {
+		cerr << ex.what() << endl;
+	}
+
+	return 0;
+}
+$ ./main
+Plain Text -> MtiafY0csWZJZzsRNfE8cA==
+MtiafY0csWZJZzsRNfE8cA== -> Plain Text
+'><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Devs","item":"https://cdecl.github.io/dev/"},{"@type":"ListItem","position":2,"name":"CryotoPP Example","item":"https://cdecl.github.io/dev/cryptopp-example/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"CryotoPP Example","name":"CryotoPP Example","description":"CryptoPP https://www.cryptopp.com/{:target=\u0026quot;_blank\u0026quot;} Crypto++ 사용하기, 예제{:target=\u0026quot;_blank\u0026quot;} 암호화 지식 (개발자){:target=\u0026quot;_blank\u0026quot;} 기존 작성한 내용(5.6 버전)의 최신화(8.5 버전) : 빌드 이슈\nPackage 설치 vcpkg 사용 : 8.5.0 $ ./vcpkg install cryptopp Computing installation plan... The following packages will be built and installed: cryptopp[core]:arm64-osx -\u0026gt; 8.5.0 ... The package cryptopp:arm64-osx provides CMake targets: find_package(cryptopp CONFIG REQUIRED) target_link_libraries(main PRIVATE cryptopp-static) CMakeLists.txt cmake_minimum_required(VERSION 3.11) project(main) set(CMAKE_CXX_STANDARD 17) add_executable(main main.cpp) target_compile_options(main PRIVATE -Wall -O2) find_package(cryptopp CONFIG REQUIRED) target_link_libraries(main PRIVATE cryptopp-static) Build $ mkdir build \u0026amp;\u0026amp; cd build $ cmake .. -DCMAKE_TOOLCHAIN_FILE=\u0026lt;PATH\u0026gt;/vcpkg/scripts/buildsystems/vcpkg.cmake $ build Example 기본 Flow - Encryption : StringSource -\u0026gt; StreamTransformationFilter(Encryptor) -\u0026gt; Base64Encoder(StringSink) - Decryption : StringSource -\u0026gt; Base64Decoder -\u0026gt; StreamTransformationFilter(Decryptor, StringSink) 과거 버전과의 이슈 std::byte의 표준화 이전에 작성된 라이브러리라, byte 타입 충돌 https://www.cryptopp.com/wiki/Modes_of_Operation{:target=\u0026quot;_blank\u0026quot;} KEY, IV 를 정의하기 위해 CryptoPP::SecByteBlock 타입 사용 #include \u0026lt;iostream\u0026gt; #include \u0026lt;algorithm\u0026gt; using namespace std; #include \u0026lt;cryptopp/cryptlib.h\u0026gt; #include \u0026lt;cryptopp/base64.h\u0026gt; #include \u0026lt;cryptopp/aes.h\u0026gt; #include \u0026lt;cryptopp/seed.h\u0026gt; #include \u0026lt;cryptopp/des.h\u0026gt; #include \u0026lt;cryptopp/modes.h\u0026gt; #include \u0026lt;cryptopp/filters.h\u0026gt; template \u0026lt;class EncryptorType\u0026gt; std::string Encrypt(EncryptorType \u0026amp;encryptor, const std::string \u0026amp;PlainText) { std::string CipherText; CryptoPP::StringSource(PlainText, true, new CryptoPP::StreamTransformationFilter( encryptor, new CryptoPP::Base64Encoder(new CryptoPP::StringSink(CipherText), false) /* default padding */ ) ); return CipherText; } template \u0026lt;class DecryptorType\u0026gt; std::string Decrypt(DecryptorType \u0026amp;decryptor, const std::string \u0026amp;EncText) { std::string PlainText; CryptoPP::StringSource(EncText, true, new CryptoPP::Base64Decoder( new CryptoPP::StreamTransformationFilter( decryptor, new CryptoPP::StringSink(PlainText) ) ) ); return PlainText; } int main() { using namespace std; using AES = CryptoPP::AES; CryptoPP::SecByteBlock KEY(AES::DEFAULT_KEYLENGTH); CryptoPP::SecByteBlock IV(AES::DEFAULT_KEYLENGTH); // 임의 값 초기화 for (auto \u0026amp;c : KEY) c = 0; for (auto \u0026amp;c : IV) c = 0; CryptoPP::CBC_Mode\u0026lt;AES\u0026gt;::Encryption Encryptor { KEY, KEY.size(), IV }; CryptoPP::CBC_Mode\u0026lt;AES\u0026gt;::Decryption Decryptor { KEY, KEY.size(), IV }; try { string sText = \u0026#34;Plain Text\u0026#34;; string sEnc, sDec; sEnc = Encrypt(Encryptor, sText); cout \u0026lt;\u0026lt; sText \u0026lt;\u0026lt; \u0026#34; -\u0026gt; \u0026#34; \u0026lt;\u0026lt; sEnc \u0026lt;\u0026lt; endl; sDec = Decrypt(Decryptor, sEnc); cout \u0026lt;\u0026lt; sEnc \u0026lt;\u0026lt; \u0026#34; -\u0026gt; \u0026#34; \u0026lt;\u0026lt; sDec \u0026lt;\u0026lt; endl;\t} catch (exception \u0026amp;ex) { cerr \u0026lt;\u0026lt; ex.what() \u0026lt;\u0026lt; endl; } return 0; } $ ./main Plain Text -\u0026gt; MtiafY0csWZJZzsRNfE8cA== MtiafY0csWZJZzsRNfE8cA== -\u0026gt; Plain Text ","keywords":["cryptopp","crypto++","aes","cbc","crypto"],"articleBody":"CryptoPP https://www.cryptopp.com/{:target=\"_blank\"} Crypto++ 사용하기, 예제{:target=\"_blank\"} 암호화 지식 (개발자){:target=\"_blank\"} 기존 작성한 내용(5.6 버전)의 최신화(8.5 버전) : 빌드 이슈\nPackage 설치 vcpkg 사용 : 8.5.0 $ ./vcpkg install cryptopp Computing installation plan... The following packages will be built and installed: cryptopp[core]:arm64-osx -\u003e 8.5.0 ... The package cryptopp:arm64-osx provides CMake targets: find_package(cryptopp CONFIG REQUIRED) target_link_libraries(main PRIVATE cryptopp-static) CMakeLists.txt cmake_minimum_required(VERSION 3.11) project(main) set(CMAKE_CXX_STANDARD 17) add_executable(main main.cpp) target_compile_options(main PRIVATE -Wall -O2) find_package(cryptopp CONFIG REQUIRED) target_link_libraries(main PRIVATE cryptopp-static) Build $ mkdir build \u0026\u0026 cd build $ cmake .. -DCMAKE_TOOLCHAIN_FILE=/vcpkg/scripts/buildsystems/vcpkg.cmake $ build Example 기본 Flow - Encryption : StringSource -\u003e StreamTransformationFilter(Encryptor) -\u003e Base64Encoder(StringSink) - Decryption : StringSource -\u003e Base64Decoder -\u003e StreamTransformationFilter(Decryptor, StringSink) 과거 버전과의 이슈 std::byte의 표준화 이전에 작성된 라이브러리라, byte 타입 충돌 https://www.cryptopp.com/wiki/Modes_of_Operation{:target=\"_blank\"} KEY, IV 를 정의하기 위해 CryptoPP::SecByteBlock 타입 사용 #include #include using namespace std; #include #include #include #include #include #include #include template \u003cclass EncryptorType\u003e std::string Encrypt(EncryptorType \u0026encryptor, const std::string \u0026PlainText) { std::string CipherText; CryptoPP::StringSource(PlainText, true, new CryptoPP::StreamTransformationFilter( encryptor, new CryptoPP::Base64Encoder(new CryptoPP::StringSink(CipherText), false) /* default padding */ ) ); return CipherText; } template \u003cclass DecryptorType\u003e std::string Decrypt(DecryptorType \u0026decryptor, const std::string \u0026EncText) { std::string PlainText; CryptoPP::StringSource(EncText, true, new CryptoPP::Base64Decoder( new CryptoPP::StreamTransformationFilter( decryptor, new CryptoPP::StringSink(PlainText) ) ) ); return PlainText; } int main() { using namespace std; using AES = CryptoPP::AES; CryptoPP::SecByteBlock KEY(AES::DEFAULT_KEYLENGTH); CryptoPP::SecByteBlock IV(AES::DEFAULT_KEYLENGTH); // 임의 값 초기화 for (auto \u0026c : KEY) c = 0; for (auto \u0026c : IV) c = 0; CryptoPP::CBC_Mode\u003cAES\u003e::Encryption Encryptor { KEY, KEY.size(), IV }; CryptoPP::CBC_Mode\u003cAES\u003e::Decryption Decryptor { KEY, KEY.size(), IV }; try { string sText = \"Plain Text\"; string sEnc, sDec; sEnc = Encrypt(Encryptor, sText); cout \u003c\u003c sText \u003c\u003c \" -\u003e \" \u003c\u003c sEnc \u003c\u003c endl; sDec = Decrypt(Decryptor, sEnc); cout \u003c\u003c sEnc \u003c\u003c \" -\u003e \" \u003c\u003c sDec \u003c\u003c endl;\t} catch (exception \u0026ex) { cerr \u003c\u003c ex.what() \u003c\u003c endl; } return 0; } $ ./main Plain Text -\u003e MtiafY0csWZJZzsRNfE8cA== MtiafY0csWZJZzsRNfE8cA== -\u003e Plain Text ","wordCount":"315","inLanguage":"en","datePublished":"2021-08-28T00:00:00+09:00","dateModified":"2021-08-28T00:00:00+09:00","author":{"@type":"Person","name":"Byung Kyu KIM"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://cdecl.github.io/dev/cryptopp-example/"},"publisher":{"@type":"Organization","name":"cdeclog","logo":{"@type":"ImageObject","url":"https://cdecl.github.io/favicon.ico"}}}</script></head><body id=top><header class=header><nav class=nav><div class=logo><a href=https://cdecl.github.io/ accesskey=h title="cdeclog (Alt + H)">cdeclog</a><div class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)" aria-label="Toggle theme">
+<svg id="moon" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+<svg id="sun" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu><li><a href=https://cdecl.github.io/archives/ title=Archive><span>Archive</span></a></li><li><a href=https://cdecl.github.io/search/ title="Search (Alt + /)" accesskey=/><span>Search</span></a></li><li><a href=https://cdecl.github.io/tags/ title=Tags><span>Tags</span></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><h1 class="post-title entry-hint-parent">CryotoPP Example</h1><div class=post-meta><span title='2021-08-28 00:00:00 +0900 KST'>August 28, 2021</span>&nbsp;·&nbsp;<span>Byung Kyu KIM</span></div></header><div class=toc><details open><summary accesskey=c title="(Alt + C)"><span class=details>Table of Contents</span></summary><div class=inner><ul><li><a href=#cryptopp aria-label=CryptoPP>CryptoPP</a><ul><li><a href=#package-%ec%84%a4%ec%b9%98 aria-label="Package 설치">Package 설치</a><ul><li><a href=#build aria-label=Build>Build</a></li></ul></li><li><a href=#example aria-label=Example>Example</a><ul><li><a href=#%ea%b3%bc%ea%b1%b0-%eb%b2%84%ec%a0%84%ea%b3%bc%ec%9d%98-%ec%9d%b4%ec%8a%88 aria-label="과거 버전과의 이슈">과거 버전과의 이슈</a></li></ul></li></ul></li></ul></div></details></div><div class=post-content><h2 id=cryptopp>CryptoPP<a hidden class=anchor aria-hidden=true href=#cryptopp>#</a></h2><ul><li><a href=https://www.cryptopp.com/>https://www.cryptopp.com/</a>{:target="_blank"}</li><li><a href=https://cdecl.tistory.com/277>Crypto++ 사용하기, 예제</a>{:target="_blank"}</li><li><a href=/dev/crypto-for-develop/>암호화 지식 (개발자)</a>{:target="_blank"}</li></ul><blockquote><p>기존 작성한 내용(5.6 버전)의 최신화(8.5 버전) : 빌드 이슈</p></blockquote><h3 id=package-설치>Package 설치<a hidden class=anchor aria-hidden=true href=#package-설치>#</a></h3><ul><li>vcpkg 사용 : 8.5.0</li></ul><pre tabindex=0><code>$ ./vcpkg install cryptopp
+Computing installation plan...
+The following packages will be built and installed:
+    cryptopp[core]:arm64-osx -&gt; 8.5.0
+...
+The package cryptopp:arm64-osx provides CMake targets:
+
+    find_package(cryptopp CONFIG REQUIRED)
+    target_link_libraries(main PRIVATE cryptopp-static)
+</code></pre><ul><li>CMakeLists.txt</li></ul><pre tabindex=0><code>cmake_minimum_required(VERSION 3.11)
+project(main)
+set(CMAKE_CXX_STANDARD 17)
+
+add_executable(main main.cpp)
+target_compile_options(main PRIVATE -Wall -O2)
+
+find_package(cryptopp CONFIG REQUIRED)
+target_link_libraries(main PRIVATE cryptopp-static)
+</code></pre><h4 id=build>Build<a hidden class=anchor aria-hidden=true href=#build>#</a></h4><pre tabindex=0><code>$ mkdir build &amp;&amp; cd build
+$ cmake .. -DCMAKE_TOOLCHAIN_FILE=&lt;PATH&gt;/vcpkg/scripts/buildsystems/vcpkg.cmake
+
+$ build 
+</code></pre><hr><h3 id=example>Example<a hidden class=anchor aria-hidden=true href=#example>#</a></h3><ul><li>기본 Flow</li></ul><pre tabindex=0><code>- Encryption : StringSource -&gt; StreamTransformationFilter(Encryptor) -&gt; Base64Encoder(StringSink)
+- Decryption : StringSource -&gt; Base64Decoder -&gt; StreamTransformationFilter(Decryptor, StringSink)
+</code></pre><h4 id=과거-버전과의-이슈>과거 버전과의 이슈<a hidden class=anchor aria-hidden=true href=#과거-버전과의-이슈>#</a></h4><ul><li><code>std::byte</code>의 표준화 이전에 작성된 라이브러리라, byte 타입 충돌<ul><li><a href=https://www.cryptopp.com/wiki/Modes_of_Operation>https://www.cryptopp.com/wiki/Modes_of_Operation</a>{:target="_blank"}</li><li>KEY, IV 를 정의하기 위해 <code>CryptoPP::SecByteBlock</code> 타입 사용</li></ul></li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-cpp data-lang=cpp><span style=display:flex><span><span style=color:#75715e>#include</span> <span style=color:#75715e>&lt;iostream&gt;</span><span style=color:#75715e>
+</span></span></span><span style=display:flex><span><span style=color:#75715e>#include</span> <span style=color:#75715e>&lt;algorithm&gt;</span><span style=color:#75715e>
+</span></span></span><span style=display:flex><span><span style=color:#66d9ef>using</span> <span style=color:#66d9ef>namespace</span> std;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>#include</span> <span style=color:#75715e>&lt;cryptopp/cryptlib.h&gt;</span><span style=color:#75715e>
+</span></span></span><span style=display:flex><span><span style=color:#75715e>#include</span> <span style=color:#75715e>&lt;cryptopp/base64.h&gt;</span><span style=color:#75715e>
+</span></span></span><span style=display:flex><span><span style=color:#75715e>#include</span> <span style=color:#75715e>&lt;cryptopp/aes.h&gt;</span><span style=color:#75715e>
+</span></span></span><span style=display:flex><span><span style=color:#75715e>#include</span> <span style=color:#75715e>&lt;cryptopp/seed.h&gt;</span><span style=color:#75715e>
+</span></span></span><span style=display:flex><span><span style=color:#75715e>#include</span> <span style=color:#75715e>&lt;cryptopp/des.h&gt;</span><span style=color:#75715e>
+</span></span></span><span style=display:flex><span><span style=color:#75715e>#include</span> <span style=color:#75715e>&lt;cryptopp/modes.h&gt;</span><span style=color:#75715e>
+</span></span></span><span style=display:flex><span><span style=color:#75715e>#include</span> <span style=color:#75715e>&lt;cryptopp/filters.h&gt;</span><span style=color:#75715e>
+</span></span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>template</span> <span style=color:#f92672>&lt;</span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>EncryptorType</span><span style=color:#f92672>&gt;</span>
+</span></span><span style=display:flex><span>std<span style=color:#f92672>::</span>string Encrypt(EncryptorType <span style=color:#f92672>&amp;</span>encryptor, <span style=color:#66d9ef>const</span> std<span style=color:#f92672>::</span>string <span style=color:#f92672>&amp;</span>PlainText) 
+</span></span><span style=display:flex><span>{
+</span></span><span style=display:flex><span>	std<span style=color:#f92672>::</span>string CipherText;
+</span></span><span style=display:flex><span>	CryptoPP<span style=color:#f92672>::</span>StringSource(PlainText, true,
+</span></span><span style=display:flex><span>		<span style=color:#66d9ef>new</span> CryptoPP<span style=color:#f92672>::</span>StreamTransformationFilter(
+</span></span><span style=display:flex><span>			encryptor, <span style=color:#66d9ef>new</span> CryptoPP<span style=color:#f92672>::</span>Base64Encoder(<span style=color:#66d9ef>new</span> CryptoPP<span style=color:#f92672>::</span>StringSink(CipherText), false) <span style=color:#75715e>/* default padding */</span>
+</span></span><span style=display:flex><span>		)
+</span></span><span style=display:flex><span>	);
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>return</span> CipherText;
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>template</span> <span style=color:#f92672>&lt;</span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>DecryptorType</span><span style=color:#f92672>&gt;</span>
+</span></span><span style=display:flex><span>std<span style=color:#f92672>::</span>string Decrypt(DecryptorType <span style=color:#f92672>&amp;</span>decryptor, <span style=color:#66d9ef>const</span> std<span style=color:#f92672>::</span>string <span style=color:#f92672>&amp;</span>EncText) 
+</span></span><span style=display:flex><span>{
+</span></span><span style=display:flex><span>	std<span style=color:#f92672>::</span>string PlainText;
+</span></span><span style=display:flex><span>	CryptoPP<span style=color:#f92672>::</span>StringSource(EncText, true,
+</span></span><span style=display:flex><span>		<span style=color:#66d9ef>new</span> CryptoPP<span style=color:#f92672>::</span>Base64Decoder(
+</span></span><span style=display:flex><span>			<span style=color:#66d9ef>new</span> CryptoPP<span style=color:#f92672>::</span>StreamTransformationFilter(
+</span></span><span style=display:flex><span>				decryptor, <span style=color:#66d9ef>new</span> CryptoPP<span style=color:#f92672>::</span>StringSink(PlainText)
+</span></span><span style=display:flex><span>			)
+</span></span><span style=display:flex><span>		)
+</span></span><span style=display:flex><span>	);
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>return</span> PlainText;
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>int</span> <span style=color:#a6e22e>main</span>()
+</span></span><span style=display:flex><span>{
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>using</span> <span style=color:#66d9ef>namespace</span> std;
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>using</span> AES <span style=color:#f92672>=</span> CryptoPP<span style=color:#f92672>::</span>AES;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>	CryptoPP<span style=color:#f92672>::</span>SecByteBlock KEY(AES<span style=color:#f92672>::</span>DEFAULT_KEYLENGTH);
+</span></span><span style=display:flex><span>	CryptoPP<span style=color:#f92672>::</span>SecByteBlock IV(AES<span style=color:#f92672>::</span>DEFAULT_KEYLENGTH);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>	<span style=color:#75715e>// 임의 값 초기화 
+</span></span></span><span style=display:flex><span>	<span style=color:#66d9ef>for</span> (<span style=color:#66d9ef>auto</span> <span style=color:#f92672>&amp;</span>c : KEY) c <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>;
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>for</span> (<span style=color:#66d9ef>auto</span> <span style=color:#f92672>&amp;</span>c : IV) c <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>	CryptoPP<span style=color:#f92672>::</span>CBC_Mode<span style=color:#f92672>&lt;</span>AES<span style=color:#f92672>&gt;::</span>Encryption Encryptor { KEY, KEY.size(), IV };
+</span></span><span style=display:flex><span>	CryptoPP<span style=color:#f92672>::</span>CBC_Mode<span style=color:#f92672>&lt;</span>AES<span style=color:#f92672>&gt;::</span>Decryption Decryptor { KEY, KEY.size(), IV };
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>try</span> {
+</span></span><span style=display:flex><span>		string sText <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;Plain Text&#34;</span>;
+</span></span><span style=display:flex><span>		string sEnc, sDec;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>		sEnc <span style=color:#f92672>=</span> Encrypt(Encryptor, sText);
+</span></span><span style=display:flex><span>		cout <span style=color:#f92672>&lt;&lt;</span> sText <span style=color:#f92672>&lt;&lt;</span> <span style=color:#e6db74>&#34; -&gt; &#34;</span> <span style=color:#f92672>&lt;&lt;</span> sEnc <span style=color:#f92672>&lt;&lt;</span> endl;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>		sDec <span style=color:#f92672>=</span> Decrypt(Decryptor, sEnc);
+</span></span><span style=display:flex><span>		cout <span style=color:#f92672>&lt;&lt;</span> sEnc <span style=color:#f92672>&lt;&lt;</span> <span style=color:#e6db74>&#34; -&gt; &#34;</span> <span style=color:#f92672>&lt;&lt;</span> sDec <span style=color:#f92672>&lt;&lt;</span> endl;	
+</span></span><span style=display:flex><span>	}
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>catch</span> (exception <span style=color:#f92672>&amp;</span>ex) {
+</span></span><span style=display:flex><span>		cerr <span style=color:#f92672>&lt;&lt;</span> ex.what() <span style=color:#f92672>&lt;&lt;</span> endl;
+</span></span><span style=display:flex><span>	}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>return</span> <span style=color:#ae81ff>0</span>;
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>$ ./main
+</span></span><span style=display:flex><span>Plain Text -&gt; MtiafY0csWZJZzsRNfE8cA<span style=color:#f92672>==</span>
+</span></span><span style=display:flex><span>MtiafY0csWZJZzsRNfE8cA<span style=color:#f92672>==</span> -&gt; Plain Text
+</span></span></code></pre></div></div><footer class=post-footer><ul class=post-tags><li><a href=https://cdecl.github.io/tags/cryptopp/>Cryptopp</a></li><li><a href=https://cdecl.github.io/tags/crypto++/>Crypto++</a></li><li><a href=https://cdecl.github.io/tags/aes/>Aes</a></li><li><a href=https://cdecl.github.io/tags/cbc/>Cbc</a></li><li><a href=https://cdecl.github.io/tags/crypto/>Crypto</a></li></ul></footer></article></main><footer class=footer><span>&copy; 2026 <a href=https://cdecl.github.io/>cdeclog</a></span> ·
+<span>Powered by
+<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
+<a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg viewBox="0 0 12 6" fill="currentColor"><path d="M12 6H0l6-6z"/></svg>
+</a><script>let menu=document.getElementById("menu");if(menu){const e=localStorage.getItem("menu-scroll-position");e&&(menu.scrollLeft=parseInt(e,10)),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}}document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{const e=document.querySelector("html");e.dataset.theme==="dark"?(e.dataset.theme="light",localStorage.setItem("pref-theme","light")):(e.dataset.theme="dark",localStorage.setItem("pref-theme","dark"))})</script></body></html>

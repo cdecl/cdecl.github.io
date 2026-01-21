@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Loadbalancing on cdeclog</title><link>https://cdecl.github.io/tags/loadbalancing/</link><description>Recent content in Loadbalancing on cdeclog</description><generator>Hugo -- 0.154.5</generator><language>ko-kr</language><lastBuildDate>Mon, 25 Oct 2021 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/loadbalancing/index.xml" rel="self" type="application/rss+xml"/><item><title>Keepalived Basic</title><link>https://cdecl.github.io/devops/keepalived-basic/</link><pubDate>Mon, 25 Oct 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/keepalived-basic/</guid><description>&lt;p&gt;Loadbalancing &amp;amp; High-Availability 를 위한 Keepalived 설정 및 테스트&lt;/p&gt;
+&lt;h2 id="keepalived"&gt;Keepalived&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.keepalived.org/"&gt;https://www.keepalived.org/&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;li&gt;VRRP 를 활용 가상IP (VIP) 기반 서버 다중화 도구&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;VRRP 는 여러 대의 라우터를 그룹으로 묶어 하나의 가상 IP 어드레스를 부여,&lt;br&gt;
+마스터로 지정된 라우터 장애시 VRRP 그룹 내의 백업 라우터가 마스터로 자동 전환되는 프로토콜입니다.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id="install"&gt;Install&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# install&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ sudo yum install keepalived
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# service start&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ sudo systemctl start keepalived
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ sudo systemctl status keepalived
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;● keepalived.service - LVS and VRRP High Availability Monitor
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Loaded: loaded &lt;span style="color:#f92672"&gt;(&lt;/span&gt;/usr/lib/systemd/system/keepalived.service; disabled; vendor preset: disabled&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Active: active &lt;span style="color:#f92672"&gt;(&lt;/span&gt;running&lt;span style="color:#f92672"&gt;)&lt;/span&gt; since 화 2021-10-26 11:37:04 KST; 4s ago
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Process: &lt;span style="color:#ae81ff"&gt;18356&lt;/span&gt; ExecStart&lt;span style="color:#f92672"&gt;=&lt;/span&gt;/usr/sbin/keepalived $KEEPALIVED_OPTIONS &lt;span style="color:#f92672"&gt;(&lt;/span&gt;code&lt;span style="color:#f92672"&gt;=&lt;/span&gt;exited, status&lt;span style="color:#f92672"&gt;=&lt;/span&gt;0/SUCCESS&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Main PID: &lt;span style="color:#ae81ff"&gt;18357&lt;/span&gt; &lt;span style="color:#f92672"&gt;(&lt;/span&gt;keepalived&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Tasks: &lt;span style="color:#ae81ff"&gt;3&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Memory: 1.6M
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; CGroup: /system.slice/keepalived.service
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ├─18357 /usr/sbin/keepalived -D
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ├─18358 /usr/sbin/keepalived -D
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; └─18359 /usr/sbin/keepalived -D
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;10월 &lt;span style="color:#ae81ff"&gt;26&lt;/span&gt; 11:37:05 node1 Keepalived_vrrp&lt;span style="color:#f92672"&gt;[&lt;/span&gt;18359&lt;span style="color:#f92672"&gt;]&lt;/span&gt;: VRRP_Instance&lt;span style="color:#f92672"&gt;(&lt;/span&gt;VI_1&lt;span style="color:#f92672"&gt;)&lt;/span&gt; forcing a new MASTER ...on
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;10월 &lt;span style="color:#ae81ff"&gt;26&lt;/span&gt; 11:37:06 node1 Keepalived_vrrp&lt;span style="color:#f92672"&gt;[&lt;/span&gt;18359&lt;span style="color:#f92672"&gt;]&lt;/span&gt;: VRRP_Instance&lt;span style="color:#f92672"&gt;(&lt;/span&gt;VI_1&lt;span style="color:#f92672"&gt;)&lt;/span&gt; Transition to MASTER STATE
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;10월 &lt;span style="color:#ae81ff"&gt;26&lt;/span&gt; 11:37:07 node1 Keepalived_vrrp&lt;span style="color:#f92672"&gt;[&lt;/span&gt;18359&lt;span style="color:#f92672"&gt;]&lt;/span&gt;: VRRP_Instance&lt;span style="color:#f92672"&gt;(&lt;/span&gt;VI_1&lt;span style="color:#f92672"&gt;)&lt;/span&gt; Entering MASTER STATE
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;10월 &lt;span style="color:#ae81ff"&gt;26&lt;/span&gt; 11:37:07 node1 Keepalived_vrrp&lt;span style="color:#f92672"&gt;[&lt;/span&gt;18359&lt;span style="color:#f92672"&gt;]&lt;/span&gt;: VRRP_Instance&lt;span style="color:#f92672"&gt;(&lt;/span&gt;VI_1&lt;span style="color:#f92672"&gt;)&lt;/span&gt; setting pro
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;10월 &lt;span style="color:#ae81ff"&gt;26&lt;/span&gt; 11:37:07 node1 Keepalived_vrrp&lt;span style="color:#f92672"&gt;[&lt;/span&gt;18359&lt;span style="color:#f92672"&gt;]&lt;/span&gt;: Sending gratuitous ARP on eth0 &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; 192.16...00
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;10월 &lt;span style="color:#ae81ff"&gt;26&lt;/span&gt; 11:37:07 node1 Keepalived_vrrp&lt;span style="color:#f92672"&gt;[&lt;/span&gt;18359&lt;span style="color:#f92672"&gt;]&lt;/span&gt;: VRRP_Instance&lt;span style="color:#f92672"&gt;(&lt;/span&gt;VI_1&lt;span style="color:#f92672"&gt;)&lt;/span&gt; Sending/queueing grat...00
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;10월 &lt;span style="color:#ae81ff"&gt;26&lt;/span&gt; 11:37:07 node1 Keepalived_vrrp&lt;span style="color:#f92672"&gt;[&lt;/span&gt;18359&lt;span style="color:#f92672"&gt;]&lt;/span&gt;: Sending gratuitous ARP on eth0 &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; 192.16...00
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;10월 &lt;span style="color:#ae81ff"&gt;26&lt;/span&gt; 11:37:07 node1 Keepalived_vrrp&lt;span style="color:#f92672"&gt;[&lt;/span&gt;18359&lt;span style="color:#f92672"&gt;]&lt;/span&gt;: Sending gratuitous ARP on eth0 &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; 192.16...00
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;10월 &lt;span style="color:#ae81ff"&gt;26&lt;/span&gt; 11:37:07 node1 Keepalived_vrrp&lt;span style="color:#f92672"&gt;[&lt;/span&gt;18359&lt;span style="color:#f92672"&gt;]&lt;/span&gt;: Sending gratuitous ARP on eth0 &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; 192.16...00
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;10월 &lt;span style="color:#ae81ff"&gt;26&lt;/span&gt; 11:37:07 node1 Keepalived_vrrp&lt;span style="color:#f92672"&gt;[&lt;/span&gt;18359&lt;span style="color:#f92672"&gt;]&lt;/span&gt;: Sending gratuitous ARP on eth0 &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; 192.16...00
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Hint: Some lines were ellipsized, use -l to show in full.
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;hr&gt;
+&lt;h3 id="기본-설정"&gt;기본 설정&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.redhat.com/sysadmin/keepalived-basics"&gt;https://www.redhat.com/sysadmin/keepalived-basics&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.redhat.com/sysadmin/advanced-keepalived"&gt;https://www.redhat.com/sysadmin/advanced-keepalived&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id="테스트-환경"&gt;테스트 환경&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;CentOS 7 (&lt;code&gt;Hyper-v&lt;/code&gt;)
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;node1&lt;/code&gt; (&lt;code&gt;MASTER&lt;/code&gt;) : &lt;code&gt;192.168.137.201&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;node2&lt;/code&gt; (&lt;code&gt;BACKUP&lt;/code&gt;) : &lt;code&gt;192.168.137.202&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;VIP&lt;/code&gt; : &lt;code&gt;192.168.137.200&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id="etckeepalivedkeepalivedconf"&gt;&lt;code&gt;/etc/keepalived/keepalived.conf&lt;/code&gt;&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;vrrp_instance&lt;/code&gt; : 인터페이스에서 실행되는 프로토콜의 개별 인스턴스 정의&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;state&lt;/code&gt; : 인스턴스에서 시작해야 하는 초기 상태&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;interface&lt;/code&gt; : 네트워크 인터페이스&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;virtual_router_id&lt;/code&gt; : 네트워크 가상 ID&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;priority&lt;/code&gt; : 우선 순위&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;advert_int&lt;/code&gt; : &lt;code&gt;VRRP&lt;/code&gt; 패킷 송신 간격 (sec)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;authentication&lt;/code&gt; : 서로 서버간, 인증 계정 정보&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;virtual_ipaddress&lt;/code&gt; : 가상 IP &lt;code&gt;vip&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h5 id="master-설정--192168137201"&gt;MASTER 설정 : &lt;code&gt;192.168.137.201&lt;/code&gt;&lt;/h5&gt;
+&lt;pre tabindex="0"&gt;&lt;code class="language-conf" data-lang="conf"&gt;vrrp_instance VI_1 {
+state MASTER
+interface eth0
+virtual_router_id 51
+priority 210
+advert_int 1
+authentication {
+auth_type PASS
+auth_pass 1111
+}
+virtual_ipaddress {
+192.168.137.200
+}
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h5 id="backup-설정--192168137202"&gt;BACKUP 설정 : &lt;code&gt;192.168.137.202&lt;/code&gt;&lt;/h5&gt;
+&lt;pre tabindex="0"&gt;&lt;code class="language-conf" data-lang="conf"&gt;vrrp_instance VI_1 {
+state BACKUP
+interface eth0
+virtual_router_id 51
+priority 200
+advert_int 1
+authentication {
+auth_type PASS
+auth_pass 1111
+}
+virtual_ipaddress {
+192.168.137.200
+}
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;blockquote&gt;
+&lt;p&gt;&lt;code&gt;MASTER&lt;/code&gt; 노드에 우선순위 &lt;code&gt;priority 210&lt;/code&gt; 를 높게 줌&lt;/p&gt;</description></item></channel></rss>

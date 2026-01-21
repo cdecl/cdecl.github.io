@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>MacOS on cdeclog</title><link>https://cdecl.github.io/tags/macos/</link><description>Recent content in MacOS on cdeclog</description><generator>Hugo -- 0.154.5</generator><language>ko-kr</language><lastBuildDate>Fri, 14 Nov 2025 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/macos/index.xml" rel="self" type="application/rss+xml"/><item><title>Mackup으로 macOS 애플리케이션 설정 동기화하기</title><link>https://cdecl.github.io/devops/macos-mackup-guide/</link><pubDate>Fri, 14 Nov 2025 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/macos-mackup-guide/</guid><description>&lt;p&gt;새로운 Mac을 설정하거나 여러 대의 Mac을 사용할 때마다 애플리케이션 설정을 일일이 다시 구성하는 것은 번거로운 일입니다. Mackup은 이러한 애플리케이션 설정 파일(dotfiles)을 iCloud, Dropbox, Google Drive 등과 같은 클라우드 스토리지에 백업하고, 필요할 때 손쉽게 복원하여 여러 기기 간의 설정을 동기화해주는 강력한 유틸리티입니다.&lt;/p&gt;
+&lt;p&gt;이 글에서는 Mackup의 기본 개념부터 설치, 사용법, 그리고 고급 설정까지 자세히 다룹니다.&lt;/p&gt;
+&lt;h2 id="mackup이란-무엇이며-왜-필요한가"&gt;Mackup이란 무엇이며 왜 필요한가?&lt;/h2&gt;
+&lt;p&gt;Mackup은 &amp;lsquo;Mac&amp;rsquo;과 &amp;lsquo;Backup&amp;rsquo;의 합성어로, 이름에서 알 수 있듯이 macOS 환경의 설정을 백업하고 동기화하는 데 특화된 도구입니다. 많은 애플리케이션들은 홈 디렉토리에 &lt;code&gt;.zshrc&lt;/code&gt;, &lt;code&gt;.vimrc&lt;/code&gt;, &lt;code&gt;.gitconfig&lt;/code&gt;와 같이 점(.)으로 시작하는 설정 파일(dotfiles)을 저장합니다. 새로운 기기를 설정할 때 이 파일들을 수동으로 옮기는 것은 매우 귀찮은 작업입니다.&lt;/p&gt;</description></item><item><title>macOS 데스크탑 화면 이동 순서 관리하기</title><link>https://cdecl.github.io/devops/macos-desktop-screen-switching-order/</link><pubDate>Mon, 21 Jul 2025 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/macos-desktop-screen-switching-order/</guid><description>&lt;p&gt;macOS의 Mission Control과 Spaces 기능을 활용하여 여러 데스크탑 화면을 효율적으로 관리하고 이동하는 방법에 대해 알아봅니다. 자동 재정렬 기능을 끄고 단축키를 활용하면 작업 생산성을 크게 높일 수 있습니다.&lt;/p&gt;
+&lt;h2 id="mission-control-및-spaces-기능"&gt;Mission Control 및 Spaces 기능&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Mission Control:&lt;/strong&gt; Mac에서 열려있는 모든 윈도우와 Spaces를 한눈에 보여주는 기능입니다. 여러 데스크탑 화면(Spaces)을 만들어 사용하거나, 전체 화면으로 실행 중인 앱 윈도우를 나열하는 데 사용됩니다.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Spaces:&lt;/strong&gt; macOS에서 제공하는 가상 데스크탑 기능으로, 여러 작업 공간을 분리하여 사용할 수 있습니다. Spaces를 통해 여러 개의 데스크탑을 만들고 각 데스크탑에 작업 윈도우를 배치하여 작업 효율성을 높일 수 있습니다. 최대 16개의 Spaces를 만들 수 있습니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="spaces-순서-변경-및-고정"&gt;Spaces 순서 변경 및 고정&lt;/h2&gt;
+&lt;h3 id="spaces-자동-재정렬-끄기"&gt;Spaces 자동 재정렬 끄기&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;macOS에서는 Spaces를 최근 사용 내역에 따라 자동으로 재정렬하는 기능이 기본적으로 활성화되어 있습니다. 이 기능을 끄면 데스크탑 순서가 사용자가 설정한 순서대로 고정됩니다.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;설정 방법:&lt;/strong&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;시스템 설정&lt;/strong&gt; 열기.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;데스크탑 및 Dock&lt;/strong&gt; 또는 &lt;strong&gt;Mission Control&lt;/strong&gt; 메뉴를 찾습니다.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Mission Control&lt;/strong&gt; 설정에서 &amp;ldquo;Spaces를 최근 사용 내역에 따라 자동으로 재정렬&amp;rdquo; 옵션을 끕니다.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="spaces-순서-고정의-장점"&gt;Spaces 순서 고정의 장점&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;데스크탑 순서가 바뀌지 않아 작업 공간을 예측 가능하게 관리할 수 있습니다.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Control + 숫자&lt;/code&gt; 단축키를 사용하여 원하는 데스크탑으로 빠르게 이동할 수 있습니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="spaces-이동-방법"&gt;Spaces 이동 방법&lt;/h2&gt;
+&lt;h3 id="트랙패드-제스처"&gt;트랙패드 제스처&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;세 손가락 또는 네 손가락을 사용하여 트랙패드를 좌우로 쓸어 넘겨 Spaces를 이동할 수 있습니다.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;설정 확인:&lt;/strong&gt; 시스템 환경설정 &amp;gt; 트랙패드에서 &amp;ldquo;Mission Control&amp;rdquo; 제스처가 활성화되어 있는지 확인합니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="키보드-단축키"&gt;키보드 단축키&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;Control + ←&lt;/code&gt; 또는 &lt;code&gt;Control + →&lt;/code&gt; 키를 사용하여 이전 또는 다음 Spaces로 이동할 수 있습니다.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Control + 숫자 (1, 2, 3...)&lt;/code&gt; 키를 사용하여 특정 Spaces로 바로 이동할 수 있습니다.
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;단축키 활성화:&lt;/strong&gt; 시스템 환경설정 &amp;gt; 키보드 &amp;gt; 단축키 &amp;gt; Mission Control에서 &amp;ldquo;데스크탑 X로 전환&amp;rdquo; 옵션을 활성화해야 합니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="mission-control-사용"&gt;Mission Control 사용&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Mission Control을 열어(F3 키 또는 &lt;code&gt;Control + ↑&lt;/code&gt;) 화면 상단의 Spaces 막대에서 원하는 Spaces를 클릭하여 이동할 수 있습니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="추가-팁"&gt;추가 팁&lt;/h2&gt;
+&lt;h3 id="mission-control-설정"&gt;Mission Control 설정&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;시스템 설정에서 Mission Control 관련 설정을 변경하여 작업 스타일에 맞게 조정할 수 있습니다. 예를 들어, &amp;ldquo;응용 프로그램으로 전환할 때, 응용 프로그램에 대해 윈도우가 열려 있는 Space로 전환&amp;rdquo; 옵션을 활성화하면 앱 전환 시 해당 앱의 윈도우가 열려 있는 Space로 자동으로 이동합니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="핫-코너-활용"&gt;핫 코너 활용&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;핫 코너를 설정하여 마우스 커서를 화면 모서리로 이동하면 Mission Control이 활성화되도록 할 수 있습니다. 시스템 설정 &amp;gt; 데스크탑 및 Dock &amp;gt; 핫 코너에서 설정할 수 있습니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="윈도우-이동"&gt;윈도우 이동&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Mission Control을 사용하여 윈도우를 다른 데스크탑으로 드래그 앤 드롭할 수 있습니다. 창 상단을 클릭한 상태에서 화면 위쪽 모서리로 마우스 커서를 이동하면 Spaces 막대가 나타나고, 원하는 데스크탑으로 창을 이동시킬 수 있습니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="dock-활용"&gt;Dock 활용&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Dock에서 앱 아이콘을 Control-클릭하여 옵션 메뉴를 열고, &amp;ldquo;Option &amp;gt; Dock에 유지&amp;quot;를 선택하면 해당 앱이 Dock에 항상 표시되도록 할 수 있습니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;이 정보가 macOS 데스크탑 화면 이동 순서를 관리하는 데 도움이 되기를 바랍니다.&lt;/p&gt;</description></item><item><title>macOS에서 키를 길게 눌렀을 때 동작 변경하기</title><link>https://cdecl.github.io/devops/macos-key-repeat-settings/</link><pubDate>Sun, 20 Jul 2025 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/macos-key-repeat-settings/</guid><description>&lt;p&gt;macOS에서 키를 길게 눌렀을 때 기본적으로 악센트 메뉴(예: &amp;ldquo;a&amp;quot;를 길게 누르면 à, á, â 등이 표시)가 나타나지만, 이를 키 반복(Windows와 유사한 문자 반복 입력)으로 변경할 수 있습니다.&lt;/p&gt;
+&lt;h2 id="개요"&gt;개요&lt;/h2&gt;
+&lt;p&gt;이 문서에서는 터미널 명령어(&lt;code&gt;defaults&lt;/code&gt;)를 사용해 &lt;code&gt;ApplePressAndHoldEnabled&lt;/code&gt; 설정을 변경하는 방법과 관련된 동작 방식, 설정 확인, 삭제, 주의사항을 설명합니다.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;ApplePressAndHoldEnabled&lt;/code&gt; 설정은 키를 길게 눌렀을 때의 동작을 제어합니다:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;true&lt;/code&gt; (기본값)&lt;/strong&gt;: 키를 길게 누르면 악센트 메뉴가 표시됩니다. 예를 들어, &amp;ldquo;e&amp;rdquo; 키를 길게 누르면 é, è, ê 등의 선택 메뉴가 나타납니다.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;false&lt;/code&gt;&lt;/strong&gt;: 키를 길게 누르면 해당 문자가 반복적으로 입력됩니다(예: &amp;ldquo;eeeee&amp;rdquo;). 이는 Windows의 키보드 동작과 유사합니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;이 설정은 시스템 전반 또는 특정 응용 프로그램에 적용할 수 있습니다.&lt;/p&gt;</description></item><item><title>macOS Homebrew Cask, 추가 애플리케이션</title><link>https://cdecl.github.io/util/apps-for-macos/</link><pubDate>Sun, 17 Nov 2024 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/util/apps-for-macos/</guid><description>&lt;p&gt;macOS 애플리케이션 - personal installation&lt;/p&gt;
+&lt;h2 id="시스템-유틸리티"&gt;시스템 유틸리티&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;alt-tab (AltTab.app)&lt;br&gt;
+윈도우 스타일의 앱 전환기로, 모든 열린 창을 한눈에 보고 빠르게 전환할 수 있습니다.&lt;br&gt;
+macOS의 기본 앱 전환 기능을 개선하여 생산성을 높이는 데 도움을 줍니다.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;linearmouse (LinearMouse.app)&lt;br&gt;
+macOS용 마우스 커스터마이징 도구로, 스크롤 방향, 속도, 버튼 기능 등을 세밀하게 조정할 수 있습니다.&lt;br&gt;
+특히 서드파티 마우스 사용 시 macOS의 제한적인 마우스 설정을 보완해줍니다.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;rectangle (Rectangle.app)&lt;br&gt;
+키보드 단축키로 창 크기와 위치를 쉽게 조절할 수 있는 창 관리 도구입니다.&lt;br&gt;
+다중 모니터 환경에서 창 관리를 효율적으로 할 수 있어 작업 생산성을 크게 향상시킵니다.&lt;/p&gt;</description></item><item><title>Docker 네트워크 - Macvlan</title><link>https://cdecl.github.io/devops/docker-macvlan/</link><pubDate>Tue, 25 Jun 2024 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/docker-macvlan/</guid><description>&lt;p&gt;Docker Macvlan 네트워크 소개, 활용 및 이슈&lt;/p&gt;
+&lt;h2 id="1-docker-macvlan-네트워크"&gt;1. Docker Macvlan 네트워크?&lt;/h2&gt;
+&lt;p&gt;Macvlan 네트워크는 컨테이너에 독립적인 네트워크 인터페이스를 제공하여 물리적 네트워크와 직접 상호작용 가능&lt;br&gt;
+이는 각 컨테이너가 고유한 MAC 주소를 가지므로 네트워크 수준에서 완전히 독립된 호스트처럼 동작 가능&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;호스트 머신과 같은 네트워크에 docker 컨테이너를 생성 목적&lt;br&gt;
+Macvlan 네트워크 설정은 물리적 네트워크 환경에 따라 적절한 서브넷과 게이트웨이를 사용 필요 (e.g. DHCP 환경)&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id="macvlan-구성"&gt;Macvlan 구성&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;네트워크 성능 향상&lt;/strong&gt;: 호스트의 NAT를 거치지 않아 성능이 향상&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;네트워크 격리&lt;/strong&gt;: 각 컨테이너가 고유한 MAC 주소를 가져 네트워크 레벨에서 완전히 격리&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;기존 네트워크와의 통합&lt;/strong&gt;: 기존 물리적 네트워크 인프라와 쉽게 통합&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="docker-네트워크-유형"&gt;Docker 네트워크 유형&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;브리지 네트워크 (Bridge Network)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;기본 네트워크 모드로, Docker가 기본적으로 사용하는 네트워크입니다.&lt;/li&gt;
+&lt;li&gt;내부 네트워크를 생성하여 컨테이너 간의 통신을 가능하게 합니다.&lt;/li&gt;
+&lt;li&gt;호스트와 컨테이너 간의 통신은 NAT(Network Address Translation)를 사용합니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol start="2"&gt;
+&lt;li&gt;호스트 네트워크 (Host Network)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;컨테이너가 호스트의 네트워크 스택을 공유합니다.&lt;/li&gt;
+&lt;li&gt;성능이 중요한 애플리케이션에서 사용될 수 있습니다.&lt;/li&gt;
+&lt;li&gt;컨테이너와 호스트 간의 네트워크 격리가 없습니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol start="3"&gt;
+&lt;li&gt;None 네트워크 (None Network)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;네트워크 연결이 없는 컨테이너를 생성합니다.&lt;/li&gt;
+&lt;li&gt;네트워크 격리가 필요한 경우에 유용합니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="2-macvlan-네트워크-설정"&gt;2. Macvlan 네트워크 설정&lt;/h2&gt;
+&lt;h3 id="설치-요구-사항"&gt;설치 요구 사항&lt;/h3&gt;
+&lt;p&gt;Docker가 설치된 시스템, 루트 권한 또는 Docker 관리 권한&lt;/p&gt;</description></item><item><title>Homebrew, Formulae와 Cask의 차이점</title><link>https://cdecl.github.io/devops/homebrew-formulae-cask/</link><pubDate>Fri, 07 Jun 2024 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/homebrew-formulae-cask/</guid><description>&lt;p&gt;Homebrew는 macOS와 Linux에서 소프트웨어를 쉽게 설치하고 관리할 수 있는 패키지 관리자.&lt;/p&gt;
+&lt;h2 id="homebrew"&gt;Homebrew&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://brew.sh/"&gt;https://brew.sh/&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;li&gt;Homebrew는 macOS와 Linux에서 소프트웨어 패키지를 간편하게 설치하고 관리할 수 있는 패키지 관리자&lt;/li&gt;
+&lt;li&gt;Homebrew에는 두 가지 주요 설치 방법인 &lt;code&gt;Formulae&lt;/code&gt;와 &lt;code&gt;Cask&lt;/code&gt;가 있습니다.&lt;/li&gt;
+&lt;li&gt;Formulae와 Cask의 차이점과 동일한 애플리케이션이 두 가지 방법으로 제공되는 예시를 설명&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="homebrew-설치"&gt;Homebrew 설치&lt;/h3&gt;
+&lt;h4 id="macos"&gt;macOS&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ brew --version &lt;span style="color:#75715e"&gt;# 설치 확인&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id="linux"&gt;Linux&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ eval &lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;/home/linuxbrew/.linuxbrew/bin/brew shellenv&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ brew --version &lt;span style="color:#75715e"&gt;# 설치 확인&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="homebrew-주요-명령어"&gt;Homebrew 주요 명령어&lt;/h3&gt;
+&lt;h4 id="formulae-설치-cli-애플리케이션"&gt;Formulae 설치 (CLI 애플리케이션)&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;brew install &amp;lt;package-name&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;예: &lt;code&gt;wget&lt;/code&gt; 설치&lt;/p&gt;</description></item><item><title>GCC 설치 (`macOS`, `Windows`)</title><link>https://cdecl.github.io/dev/gcc-install-mac/</link><pubDate>Fri, 27 Aug 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/gcc-install-mac/</guid><description>&lt;p&gt;macOS 및 Windows 에 GCC 설치하기&lt;/p&gt;
+&lt;h2 id="mac-os"&gt;MAC OS&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;brew : macOS 용 패키지 관리자 &lt;a href="https://brew.sh/index_ko"&gt;https://brew.sh/index_ko&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;li&gt;brew 사용 gcc 설치&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="command-line-tools-설치"&gt;Command line tools 설치&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;xcode 없이 개발툴 설치&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ xcode-select --install
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;blockquote&gt;
+&lt;p&gt;&lt;code&gt;clang&lt;/code&gt; 이 설치되고 &lt;code&gt;gcc&lt;/code&gt;로 심볼링 링크 걸려 있음&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ gcc -v
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Configured with: --prefix&lt;span style="color:#f92672"&gt;=&lt;/span&gt;/Library/Developer/CommandLineTools/usr --with-gxx-include-dir&lt;span style="color:#f92672"&gt;=&lt;/span&gt;/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/4.2.1
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Apple clang version 12.0.5 &lt;span style="color:#f92672"&gt;(&lt;/span&gt;clang-1205.0.22.11&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Target: arm64-apple-darwin20.6.0
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Thread model: posix
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;InstalledDir: /Library/Developer/CommandLineTools/usr/bin
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="gcc-g-설치"&gt;GCC (G++) 설치&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 특정 버전으로 설치 가능 &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ brew search gcc
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;==&lt;/span&gt;&amp;gt; Formulae
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;gcc gcc@5 gcc@8 libgccjit ghc ncc
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;gcc@10 gcc@6 gcc@9 x86_64-elf-gcc scc
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;gcc@4.9 gcc@7 i686-elf-gcc grc tcc
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;==&lt;/span&gt;&amp;gt; Casks
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;gcc-arm-embedded
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 기본(최신) 버전 설치 &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ brew install gcc
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;==&lt;/span&gt;&amp;gt; Auto-updated Homebrew!
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Updated &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; tap &lt;span style="color:#f92672"&gt;(&lt;/span&gt;homebrew/core&lt;span style="color:#f92672"&gt;)&lt;/span&gt;.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;==&lt;/span&gt;&amp;gt; Updated Formulae
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Updated &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; formula.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;==&lt;/span&gt;&amp;gt; Downloading https://ghcr.io/v2/homebrew/core/gcc/manifests/11.2.0
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Already downloaded: /Users/cdecl/Library/Caches/Homebrew/downloads/210783e77b227b8210d559abfe3514cdb95c915619fa3f785ad212120d6a36f9--gcc-11.2.0.bottle_manifest.json
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;==&lt;/span&gt;&amp;gt; Downloading https://ghcr.io/v2/homebrew/core/gcc/blobs/sha256:23ec727fa684a9f65cf9f55d61d208486d5202fb6112585a01426a
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Already downloaded: /Users/cdecl/Library/Caches/Homebrew/downloads/8d1fae8a356d50aa911004b768eff64c241e170ce9be66e684b819fc4f67fc7c--gcc--11.2.0.arm64_big_sur.bottle.tar.gz
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;==&lt;/span&gt;&amp;gt; Pouring gcc--11.2.0.arm64_big_sur.bottle.tar.gz
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;🍺 /opt/homebrew/Cellar/gcc/11.2.0: 1,412 files, 339.5MB
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id="심볼릭링크-설정-및-path-설정"&gt;심볼릭링크 설정 및 PATH 설정&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ cd /opt/homebrew/Cellar/gcc/11.2.0
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ ls -l
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;...
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;-rwxr-xr-x &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; cdecl admin 1.7M &lt;span style="color:#ae81ff"&gt;8&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;28&lt;/span&gt; 13:41 g++-11
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;-rwxr-xr-x &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; cdecl admin 1.7M &lt;span style="color:#ae81ff"&gt;8&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;28&lt;/span&gt; 13:41 gcc-11
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;...
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ ln -s g++-11 g++
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ ln -s gcc-11 gcc
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;.zshrc or .bashrc&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;export PATH=/opt/homebrew/Cellar/gcc/11.2.0/bin:$PATH
+&lt;/code&gt;&lt;/pre&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ g++ -v
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Using built-in specs.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;COLLECT_GCC&lt;span style="color:#f92672"&gt;=&lt;/span&gt;g++
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;COLLECT_LTO_WRAPPER&lt;span style="color:#f92672"&gt;=&lt;/span&gt;/opt/homebrew/Cellar/gcc/11.2.0/libexec/gcc/aarch64-apple-darwin20/11.1.0/lto-wrapper
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Target: aarch64-apple-darwin20
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Configured with: ../configure --prefix&lt;span style="color:#f92672"&gt;=&lt;/span&gt;/opt/homebrew/Cellar/gcc/11.2.0 --libdir&lt;span style="color:#f92672"&gt;=&lt;/span&gt;/opt/homebrew/Cellar/gcc/11.2.0/lib/gcc/11 --disable-nls --enable-checking&lt;span style="color:#f92672"&gt;=&lt;/span&gt;release --enable-languages&lt;span style="color:#f92672"&gt;=&lt;/span&gt;c,c++,objc,obj-c++,fortran --program-suffix&lt;span style="color:#f92672"&gt;=&lt;/span&gt;-11 --with-gmp&lt;span style="color:#f92672"&gt;=&lt;/span&gt;/opt/homebrew/opt/gmp --with-mpfr&lt;span style="color:#f92672"&gt;=&lt;/span&gt;/opt/homebrew/opt/mpfr --with-mpc&lt;span style="color:#f92672"&gt;=&lt;/span&gt;/opt/homebrew/opt/libmpc --with-isl&lt;span style="color:#f92672"&gt;=&lt;/span&gt;/opt/homebrew/opt/isl --with-zstd&lt;span style="color:#f92672"&gt;=&lt;/span&gt;/opt/homebrew/opt/zstd --with-pkgversion&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#39;Homebrew GCC 11.2.0&amp;#39;&lt;/span&gt; --with-bugurl&lt;span style="color:#f92672"&gt;=&lt;/span&gt;https://github.com/Homebrew/homebrew-core/issues --build&lt;span style="color:#f92672"&gt;=&lt;/span&gt;aarch64-apple-darwin20 --with-system-zlib --disable-multilib --with-native-system-header-dir&lt;span style="color:#f92672"&gt;=&lt;/span&gt;/usr/include --with-sysroot&lt;span style="color:#f92672"&gt;=&lt;/span&gt;/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Thread model: posix
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Supported LTO compression algorithms: zlib zstd
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;gcc version 11.1.0 &lt;span style="color:#f92672"&gt;(&lt;/span&gt;Homebrew GCC 11.2.0&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="windows"&gt;Windows&lt;/h2&gt;
+&lt;h3 id="chocolatey"&gt;chocolatey&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;chocolatey : Windows 용 패키지 관리자 &lt;a href="https://chocolatey.org/"&gt;https://chocolatey.org/&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;li&gt;choco 사용 gcc 설치&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="gcc-g-설치-1"&gt;GCC (G++) 설치&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;패키지가 2개중에 하나 선택
+&lt;ul&gt;
+&lt;li&gt;mingw : &lt;a href="https://community.chocolatey.org/packages/mingw"&gt;https://community.chocolatey.org/packages/mingw&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;li&gt;winlibs : &lt;a href="https://community.chocolatey.org/packages/winlibs"&gt;https://community.chocolatey.org/packages/winlibs&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;code&gt;winlibs&lt;/code&gt;가 버전이 높고 &lt;code&gt;mingw&lt;/code&gt;는 버전인 올라가면서 posix thread가 문제가 있음&lt;/p&gt;</description></item></channel></rss>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Kernel on cdeclog</title><link>https://cdecl.github.io/tags/kernel/</link><description>Recent content in Kernel on cdeclog</description><generator>Hugo -- 0.154.5</generator><language>ko-kr</language><lastBuildDate>Sat, 22 Nov 2025 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/kernel/index.xml" rel="self" type="application/rss+xml"/><item><title>Linux vs Windows 쓰레딩 모델 비교</title><link>https://cdecl.github.io/dev/linux-vs-windows-threading/</link><pubDate>Sat, 22 Nov 2025 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/linux-vs-windows-threading/</guid><description>&lt;p&gt;쓰레드는 운영체제가 프로세스 내에서 작업을 병렬로 실행하기 위해 사용하는 &lt;strong&gt;기본 실행 단위&lt;/strong&gt;입니다. 리눅스와 윈도우는 이 쓰레드를 관리하고 스케줄링하는 방식에서 서로 다른 모델을 채택하고 있으며, 이러한 차이는 시스템 성능과 프로그래밍 방식에 영향을 미칩니다.&lt;/p&gt;
+&lt;h2 id="-리눅스-쓰레딩-모델-n1-및-11-혼합-nptl"&gt;🐧 리눅스 쓰레딩 모델: N:1 및 1:1 혼합 (NPTL)&lt;/h2&gt;
+&lt;p&gt;리눅스는 역사적으로 다양한 쓰레딩 모델을 거쳐왔으나, 현재는 **NPTL(Native POSIX Thread Library)**이라는 1:1 모델과 N:1 모델의 장점을 결합한 형태가 주류입니다.&lt;/p&gt;
+&lt;h3 id="1-핵심-개념-경량-프로세스-lwp-lightweight-process"&gt;1. 핵심 개념: 경량 프로세스 (LWP, LightWeight Process)&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;리눅스 커널의 관점:&lt;/strong&gt; 리눅스 커널은 &lt;strong&gt;프로세스와 쓰레드를 구분하지 않고&lt;/strong&gt;, 모두 &lt;strong&gt;태스크(Task)&lt;/strong&gt; 또는 **경량 프로세스(LWP)**로 취급하고 스케줄링합니다.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;쓰레드의 생성:&lt;/strong&gt; POSIX 쓰레드(pthreads) 라이브러리를 통해 쓰레드를 생성하면, 커널에 새로운 LWP가 생성됩니다. 이 LWP들은 부모 프로세스의 주소 공간, 파일 디스크립터 등을 공유하며, 각자의 실행 문맥(Context)을 가집니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="2-모델-유형-11-모델"&gt;2. 모델 유형: 1:1 모델&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;특징:&lt;/strong&gt; 사용자 공간의 **각 쓰레드(N)**가 커널 공간의 &lt;strong&gt;각각의 스케줄링 가능한 엔티티(1)&lt;/strong&gt;, 즉 LWP에 &lt;strong&gt;직접적으로 대응&lt;/strong&gt;됩니다.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;장점:&lt;/strong&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;진정한 병렬성:&lt;/strong&gt; 멀티 코어 환경에서 여러 쓰레드가 &lt;strong&gt;동시에 병렬&lt;/strong&gt;로 실행될 수 있습니다.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;커널 지원:&lt;/strong&gt; 특정 쓰레드가 I/O 작업 등으로 &lt;strong&gt;블록(Block)&lt;/strong&gt; 상태가 되더라도, 커널은 해당 프로세스의 다른 쓰레드들을 계속 스케줄링할 수 있습니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;단점:&lt;/strong&gt; 쓰레드 생성 및 컨텍스트 전환 시 &lt;strong&gt;커널 오버헤드&lt;/strong&gt;가 발생합니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;요약:&lt;/strong&gt; 리눅스는 &lt;strong&gt;POSIX 표준&lt;/strong&gt;을 따르며, 사용자 레벨의 쓰레드가 커널 레벨의 프로세스와 유사한 경량 프로세스로 매핑되는 &lt;strong&gt;1:1 모델&lt;/strong&gt;에 가깝습니다.&lt;/p&gt;</description></item></channel></rss>

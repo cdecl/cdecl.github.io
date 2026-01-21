@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Docker Desktop on cdeclog</title><link>https://cdecl.github.io/tags/docker-desktop/</link><description>Recent content in Docker Desktop on cdeclog</description><generator>Hugo -- 0.154.5</generator><language>ko-kr</language><lastBuildDate>Tue, 25 Apr 2023 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/docker-desktop/index.xml" rel="self" type="application/rss+xml"/><item><title>OrbStack</title><link>https://cdecl.github.io/devops/orbstack/</link><pubDate>Tue, 25 Apr 2023 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/orbstack/</guid><description>&lt;p&gt;Docker Desktop 대체제, Docker containers and Linux machines on macOS&lt;/p&gt;
+&lt;h2 id="orbstack"&gt;OrbStack&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://orbstack.dev/"&gt;https://orbstack.dev/&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;li&gt;MacOS 환경에서 Docker Desktop 대체제로 Docker containers를 실행 가능하고 추가적으로 리눅스 VM도 운영가능함&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://docs.orbstack.dev/compare/docker-desktop"&gt;OrbStack vs. Docker Desktop&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}
+&lt;ul&gt;
+&lt;li&gt;Docker Desktop 에 비해 적은 리소스 및 빠른 속도&lt;/li&gt;
+&lt;li&gt;Linux machines 지원 및 Rosetta x86 emulation 가능&lt;/li&gt;
+&lt;li&gt;Kubernetes는 계획중&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://docs.orbstack.dev/compare/colima"&gt;OrbStack vs. Colima&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}
+&lt;ul&gt;
+&lt;li&gt;Docker Desktop 대체체로 많이 언급되는 Colima 와의 비교&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;사용하고있는 &lt;code&gt;Docker Desktop&lt;/code&gt; 과 &lt;code&gt;Multipass&lt;/code&gt; 2개를 대체 가능할 것으로 보임&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id="quick-start"&gt;Quick start&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://docs.orbstack.dev/quick-start"&gt;https://docs.orbstack.dev/quick-start&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;brew install orbstack
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;hr&gt;
+&lt;p&gt;&lt;img loading="lazy" src="https://cdecl.github.io/images/2023-04-26-10-38-57.png"&gt;&lt;/p&gt;</description></item><item><title>Docker install without docker desktop (WSL)</title><link>https://cdecl.github.io/devops/docker-install-without-docker-decktop/</link><pubDate>Tue, 31 Aug 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/docker-install-without-docker-decktop/</guid><description>&lt;p&gt;WSL2 에 Docker 설치 (without Docker Desktop)&lt;/p&gt;
+&lt;h2 id="docker-desktop"&gt;Docker Desktop&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.docker.com/blog/updating-product-subscriptions/"&gt;Docker Desktop 유료화&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Docker Desktop remains free for small businesses (fewer than 250 employees AND less than $10 million in annual revenue), personal use, education, and non-commercial open source projects.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;WSL2 이후, Docker Desktop 의 기능을 따로 사용하지 않아도 CLI 기능으로도 충분
+&lt;ul&gt;
+&lt;li&gt;개인적으로 Hyper-v VM 사용 권고&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="docker-install-without-docker-desktop"&gt;Docker install without docker desktop&lt;/h2&gt;
+&lt;h3 id="wsl2-install"&gt;WSL2 Install&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://docs.microsoft.com/ko-kr/windows/wsl/install-win10"&gt;Windows 10에 Linux용 Windows 하위 시스템 설치 가이드&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="docker-install"&gt;Docker install&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://newbedev.com/shell-install-docker-on-wsl-without-docker-desktop-code-example"&gt;https://newbedev.com/shell-install-docker-on-wsl-without-docker-desktop-code-example&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Update the apt package list.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ sudo apt-get update -y
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Install Docker&amp;#39;s package dependencies.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ sudo apt-get install -y &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; apt-transport-https &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ca-certificates &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; curl &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; software-properties-common
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Download and add Docker&amp;#39;s official public PGP key.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Verify the fingerprint.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ sudo apt-key fingerprint 0EBFCD88
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Add the `stable` channel&amp;#39;s Docker upstream repository.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# If you want to live on the edge, you can change &amp;#34;stable&amp;#34; below to &amp;#34;test&amp;#34; or&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# &amp;#34;nightly&amp;#34;. I highly recommend sticking with stable!&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ sudo add-apt-repository &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; &lt;/span&gt;&lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;lsb_release -cs&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt;&lt;span style="color:#e6db74"&gt; \
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; stable&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Update the apt package list (for the new apt repo).&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ sudo apt-get update -y
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Install the latest version of Docker CE.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ sudo apt-get install -y docker-ce
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Allow your user to access the Docker CLI without needing root access.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ sudo usermod -aG docker $USER
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# START DOCKER DAEMON&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ sudo service docker start
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ sudo service docker status
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ docker ps
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description></item></channel></rss>

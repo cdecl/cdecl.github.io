@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>QuerySelector on cdeclog</title><link>https://cdecl.github.io/tags/queryselector/</link><description>Recent content in QuerySelector on cdeclog</description><generator>Hugo -- 0.154.5</generator><language>ko-kr</language><lastBuildDate>Sat, 01 Mar 2025 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/queryselector/index.xml" rel="self" type="application/rss+xml"/><item><title>Playwright 101</title><link>https://cdecl.github.io/dev/playwright-101/</link><pubDate>Sat, 01 Mar 2025 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/playwright-101/</guid><description>&lt;p&gt;Playwright 가이드: 웹 자동화&lt;/p&gt;
+&lt;h2 id="1-playwright란"&gt;1. Playwright란?&lt;/h2&gt;
+&lt;p&gt;Playwright는 웹 브라우저 자동화를 위한 도구로, Selenium의 대안으로 설계되었습니다. 주요 용도는 다음과 같습니다:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;웹 애플리케이션 테스트 자동화&lt;/li&gt;
+&lt;li&gt;웹 스크래핑 및 데이터 추출&lt;/li&gt;
+&lt;li&gt;반복적인 웹 작업 자동화&lt;/li&gt;
+&lt;li&gt;크로스 브라우저 테스팅&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="주요-기능"&gt;주요 기능&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;브라우저 제어:&lt;/strong&gt; Chromium, Firefox, Webkit(Safari 엔진) 지원&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;DOM 조작:&lt;/strong&gt; &lt;code&gt;querySelector&lt;/code&gt;와 &lt;code&gt;locator&lt;/code&gt;로 요소 검색 및 조작&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;폼 자동화:&lt;/strong&gt; 입력 및 제출 자동화&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;스크린샷 캡처:&lt;/strong&gt; 페이지 또는 요소 캡처&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;헤드리스 모드:&lt;/strong&gt; GUI 없는 실행&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Playwright는 Selenium보다 최신 기술을 활용하며, 자동 대기와 간결한 API를 제공합니다.&lt;/p&gt;</description></item></channel></rss>

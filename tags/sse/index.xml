@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Sse on cdeclog</title><link>https://cdecl.github.io/tags/sse/</link><description>Recent content in Sse on cdeclog</description><generator>Hugo -- 0.154.5</generator><language>ko-kr</language><lastBuildDate>Thu, 10 Apr 2025 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/sse/index.xml" rel="self" type="application/rss+xml"/><item><title>MCP 101</title><link>https://cdecl.github.io/dev/mcp-101/</link><pubDate>Thu, 10 Apr 2025 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/mcp-101/</guid><description>&lt;p&gt;Model Context Pro&lt;/p&gt;
+&lt;h2 id="mcp-101-model-context-pro"&gt;MCP 101: Model Context Pro&lt;/h2&gt;
+&lt;p&gt;Model Context Pro&lt;/p&gt;
+&lt;h2 id="1-mcp란-무엇인가"&gt;1. MCP란 무엇인가?&lt;/h2&gt;
+&lt;p&gt;MCP(Model Context Pro&lt;/p&gt;
+&lt;h3 id="주요-기능"&gt;주요 기능&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;동적 도구 탐색&lt;/strong&gt;: 도구가 JSON 메타데이터로 자신의 기능을 제공하여 AI가 자동으로 이해하고 활용.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;양방향 통신&lt;/strong&gt;: WebSocket 또는 SSE(Server-Sent Events)를 통해 실시간 상호작용 지원.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;AI 중심 설계&lt;/strong&gt;: AI의 의도(intent)를 기반으로 적합한 도구를 동적으로 호출.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="사용-시기"&gt;사용 시기&lt;/h3&gt;
+&lt;p&gt;MCP는 다음과 같은 경우에 적합합니다:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;AI가 외부 리소스(예: GitHub, Google Drive)에 접근하거나 작업을 수행할 때.&lt;/li&gt;
+&lt;li&gt;새로운 도구를 동적으로 추가하거나 복잡한 워크플로우를 자동화할 때.&lt;/li&gt;
+&lt;li&gt;예: AI가 &amp;ldquo;파일을 읽고 Slack에 공유&amp;quot;하거나 &amp;ldquo;GitHub에서 코드 검색&amp;quot;하는 작업.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="2-mcp와-다른-api의-차이점"&gt;2. MCP와 다른 API의 차이점&lt;/h2&gt;
+&lt;p&gt;MCP는 REST API, SOAP와 비교해 AI 중심의 유연성을 제공합니다. 아래는 셀프 디스크립션(self-description)을 중심으로 주요 차이점입니다.&lt;/p&gt;</description></item></channel></rss>

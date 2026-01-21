@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Rustfs on cdeclog</title><link>https://cdecl.github.io/tags/rustfs/</link><description>Recent content in Rustfs on cdeclog</description><generator>Hugo -- 0.154.5</generator><language>ko-kr</language><lastBuildDate>Thu, 04 Dec 2025 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/rustfs/index.xml" rel="self" type="application/rss+xml"/><item><title>rustfs 101</title><link>https://cdecl.github.io/devops/rustfs-101/</link><pubDate>Thu, 04 Dec 2025 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/rustfs-101/</guid><description>&lt;h2 id="rustfs-소개"&gt;rustfs 소개&lt;/h2&gt;
+&lt;p&gt;rustfs는 Rust로 구축된 고성능 S3 호환 분산 객체 스토리지 시스템입니다. 성능, 메모리 안전성 및 보다 관대한 라이선스에 중점을 두어 MinIO와 같은 다른 객체 스토리지 솔루션에 대한 현대적인 대안으로 자리매김하고 있습니다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;웹사이트&lt;/strong&gt;: &lt;a href="https://rustfs.com/"&gt;https://rustfs.com/&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;핵심 기술&lt;/strong&gt;: Rust로 구축되어 메모리 안전성과 고성능 보장.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;라이선스&lt;/strong&gt;: MinIO의 AGPLv3에 비해 비즈니스 친화적인 Apache 2.0.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;호환성&lt;/strong&gt;: 100% S3 호환.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="rustfs-시작하기"&gt;rustfs 시작하기&lt;/h2&gt;
+&lt;p&gt;rustfs는 Docker를 사용하여 빠르고 쉽게 시작할 수 있습니다.&lt;/p&gt;
+&lt;h3 id="docker로-설치"&gt;Docker로 설치&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Docker 이미지 다운로드&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker pull rustfs/rustfs
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Docker 컨테이너 실행&lt;/strong&gt;&lt;/p&gt;</description></item></channel></rss>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Tcpdump on cdeclog</title><link>https://cdecl.github.io/tags/tcpdump/</link><description>Recent content in Tcpdump on cdeclog</description><generator>Hugo -- 0.154.5</generator><language>ko-kr</language><lastBuildDate>Wed, 26 Jun 2024 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/tcpdump/index.xml" rel="self" type="application/rss+xml"/><item><title>ARP 스푸핑, arpspoof와 fragrouter 사용법 원리</title><link>https://cdecl.github.io/devops/arpspoof-fragrouter/</link><pubDate>Wed, 26 Jun 2024 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/arpspoof-fragrouter/</guid><description>&lt;p&gt;네트워크 보안 툴 arpspoof와 fragrouter 사용법 및 ARP 스푸핑 원리&lt;/p&gt;
+&lt;h2 id="1-arp-주소-결정-프로토콜란"&gt;1. ARP (주소 결정 프로토콜)란?&lt;/h2&gt;
+&lt;h3 id="1-정의"&gt;1. 정의&lt;/h3&gt;
+&lt;p&gt;ARP`(Address Resolution Pro
+이를 통해 로컬 네트워크에서 IP 패킷이 올바른 물리적 네트워크 장치로 전달될 수 있습니다.&lt;/p&gt;
+&lt;h3 id="2-작동-원리"&gt;2. 작동 원리&lt;/h3&gt;
+&lt;p&gt;ARP는 다음과 같은 과정으로 작동합니다:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;ARP 요청 (Request)&lt;/strong&gt;
+&lt;ul&gt;
+&lt;li&gt;송신 호스트가 목적지 호스트의 MAC 주소를 모를 때, ARP 요청 패킷을 브로드캐스트로 네트워크에 전송합니다.&lt;/li&gt;
+&lt;li&gt;이 요청 패킷에는 송신 호스트의 IP 주소와 MAC 주소, 그리고 목적지 호스트의 IP 주소가 포함되어 있습니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;ARP 응답 (Reply)&lt;/strong&gt;
+&lt;ul&gt;
+&lt;li&gt;네트워크에 있는 모든 호스트가 이 ARP 요청을 수신합니다.&lt;/li&gt;
+&lt;li&gt;요청된 IP 주소를 가진 호스트는 자신의 MAC 주소를 포함한 ARP 응답 패킷을 송신 호스트에게 유니캐스트로 전송합니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;주소 매핑&lt;/strong&gt;
+&lt;ul&gt;
+&lt;li&gt;송신 호스트는 ARP 응답을 수신하고, 해당 IP 주소와 MAC 주소의 매핑을 ARP 캐시(테이블)에 저장합니다.&lt;/li&gt;
+&lt;li&gt;이후 동일한 IP 주소로의 통신이 발생할 때, ARP 캐시를 참조하여 MAC 주소를 빠르게 확인할 수 있습니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id="3-arp-캐시"&gt;3. ARP 캐시&lt;/h3&gt;
+&lt;p&gt;ARP 캐시는 IP 주소와 MAC 주소의 매핑을 일시적으로 저장하는 테이블입니다.&lt;br&gt;
+이를 통해 같은 IP 주소에 대한 반복적인 ARP 요청을 방지하고, 네트워크 성능을 향상시킬 수 있습니다.&lt;br&gt;
+그러나 ARP 캐시는 보통 일정 시간이 지나면 항목이 만료됩니다.&lt;/p&gt;</description></item></channel></rss>

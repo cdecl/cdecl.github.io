@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Coroutine on cdeclog</title><link>https://cdecl.github.io/tags/coroutine/</link><description>Recent content in Coroutine on cdeclog</description><generator>Hugo -- 0.154.5</generator><language>ko-kr</language><lastBuildDate>Sun, 31 Oct 2021 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/coroutine/index.xml" rel="self" type="application/rss+xml"/><item><title>Python asyncio</title><link>https://cdecl.github.io/dev/python-asyncio/</link><pubDate>Sun, 31 Oct 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/python-asyncio/</guid><description>&lt;p&gt;&lt;code&gt;asyncio&lt;/code&gt;는 &lt;code&gt;async&lt;/code&gt;/&lt;code&gt;await&lt;/code&gt; 구문을 사용하여 동시성 코드를 작성하는 라이브러리입니다. 특히 I/O 작업이 많은 애플리케이션에서 높은 성능을 발휘합니다.&lt;/p&gt;
+&lt;h2 id="asyncio--asynchronous-io-처리"&gt;asyncio : asynchronous io 처리&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://docs.python.org/ko/3/library/asyncio.html"&gt;https://docs.python.org/ko/3/library/asyncio.html&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Threading&lt;/code&gt; 동시성 제어는 &lt;code&gt;GIL (Global interpreter lock)&lt;/code&gt; 제약에 의해 느리고, 복잡도는 그대로 가지고 있음
+&lt;ul&gt;
+&lt;li&gt;GIL은 Python 인터프리터가 한 번에 하나의 스레드만 실행할 수 있도록 제한하는 메커니즘&lt;/li&gt;
+&lt;li&gt;멀티스레드를 사용해도 CPU 연산의 실제 병렬 처리가 어려움&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;IO 병목에 의한 동시성을 관리하기 위한 도구로서 &lt;code&gt;Coroutine&lt;/code&gt;을 통한 관리
+&lt;ul&gt;
+&lt;li&gt;네트워크 요청, 파일 읽기/쓰기 등 I/O 작업에서 효율적&lt;/li&gt;
+&lt;li&gt;코루틴은 스레드보다 가벼워서 수천 개의 동시 작업도 효율적으로 처리 가능&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="일반적인-coroutine-코드"&gt;일반적인 &lt;code&gt;Coroutine&lt;/code&gt; 코드&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;Coroutine&lt;/code&gt;으로 실행 되기는 하나, 비동기로 실행 되지는 않음&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;async def&lt;/code&gt;로 정의된 함수는 코루틴 함수가 됨&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;await&lt;/code&gt;는 다른 코루틴의 실행이 완료될 때까지 대기&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;asyncio.sleep()&lt;/code&gt;은 I/O 작업을 시뮬레이션하는 용도로 자주 사용됨&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-python" data-lang="python"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;import&lt;/span&gt; asyncio
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;from&lt;/span&gt; datetime &lt;span style="color:#f92672"&gt;import&lt;/span&gt; datetime
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;def&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;time_log&lt;/span&gt;(step):
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; print(datetime&lt;span style="color:#f92672"&gt;.&lt;/span&gt;now()&lt;span style="color:#f92672"&gt;.&lt;/span&gt;strftime(&lt;span style="color:#e6db74"&gt;&amp;#39;%H:%M:%S&amp;#39;&lt;/span&gt;), step)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;async&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;def&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;async_sleep&lt;/span&gt;():
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;await&lt;/span&gt; asyncio&lt;span style="color:#f92672"&gt;.&lt;/span&gt;sleep(&lt;span style="color:#ae81ff"&gt;2&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; time_log(&lt;span style="color:#e6db74"&gt;&amp;#39;async_sleep&amp;#39;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;async&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;def&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;async_execute&lt;/span&gt;():
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; time_log(&lt;span style="color:#e6db74"&gt;&amp;#39;start&amp;#39;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;await&lt;/span&gt; async_sleep()
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;await&lt;/span&gt; async_sleep()
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; time_log(&lt;span style="color:#e6db74"&gt;&amp;#39;end&amp;#39;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;def&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;main&lt;/span&gt;():
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; asyncio&lt;span style="color:#f92672"&gt;.&lt;/span&gt;run(async_execute())
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;if&lt;/span&gt; __name__ &lt;span style="color:#f92672"&gt;==&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;__main__&amp;#39;&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; main()
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;[&lt;/span&gt;Running&lt;span style="color:#f92672"&gt;]&lt;/span&gt; set PYTHONIOENCODING&lt;span style="color:#f92672"&gt;=&lt;/span&gt;utf8 &lt;span style="color:#f92672"&gt;&amp;amp;&amp;amp;&lt;/span&gt; python -u tempCodeRunnerFile.python
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;11:39:00 start
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;11:39:02 async_sleep
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;11:39:04 async_sleep
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;11:39:04 end
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;실행 결과를 보면 start -&amp;gt; 2초 대기 -&amp;gt; async_sleep -&amp;gt; 2초 대기 -&amp;gt; async_sleep -&amp;gt; end 순서로 순차 실행됨을 알 수 있습니다.&lt;/p&gt;</description></item></channel></rss>

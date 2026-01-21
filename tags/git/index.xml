@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Git on cdeclog</title><link>https://cdecl.github.io/tags/git/</link><description>Recent content in Git on cdeclog</description><generator>Hugo -- 0.154.5</generator><language>ko-kr</language><lastBuildDate>Wed, 07 Jan 2026 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/git/index.xml" rel="self" type="application/rss+xml"/><item><title>Git Worktree: 하나의 저장소, 여러 작업 공간</title><link>https://cdecl.github.io/dev/git-worktree-guide/</link><pubDate>Wed, 07 Jan 2026 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/git-worktree-guide/</guid><description>&lt;p&gt;Git Worktree란 무엇이며 왜 필요한가? Stash와의 차이점부터 주요 명령어까지, 효율적인 브랜치 관리&lt;/p&gt;
+&lt;h2 id="개요"&gt;개요&lt;/h2&gt;
+&lt;p&gt;개발을 하다 보면 현재 작업 중인 브랜치에서 아직 커밋하지 못한 변경 사항이 있는데, 긴급하게 다른 브랜치(예: 배포를 위한 핫픽스)로 전환해야 하는 상황을 자주 마주하게 됩니다. 보통은 &lt;code&gt;git stash&lt;/code&gt;를 사용하거나 아직 완료되지 않은 코드를 임시 커밋(WIP)하고 브랜치를 전환하지만, 이러한 방식은 번거롭고 컨텍스트 전환에 비용이 듭니다.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Git Worktree&lt;/strong&gt;는 이런 문제를 우아하게 해결해주는 Git의 강력한 기능입니다. 이 글에서는 Git Worktree의 개념과 필요성, 그리고 &lt;code&gt;git stash&lt;/code&gt;와의 차이점과 사용법에 대해 알아봅니다.&lt;/p&gt;</description></item><item><title>사례로 보는 Git 트러블 슈팅</title><link>https://cdecl.github.io/dev/git-troubleshooting-examples/</link><pubDate>Tue, 30 Dec 2025 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/git-troubleshooting-examples/</guid><description>&lt;p&gt;Git은 강력하지만, 복잡한 상황에서는 개발자를 당황하게 만드는 경우가 많습니다. &amp;ldquo;앗, 방금 뭘 한 거지?&amp;rdquo; 싶은 순간은 누구에게나 찾아옵니다. 이 글에서는 &lt;code&gt;checkout&lt;/code&gt;, &lt;code&gt;stash&lt;/code&gt;, &lt;code&gt;branch&lt;/code&gt; 등 핵심 명령어를 중심으로, 실제 현업에서 자주 겪는 20가지 트러블 슈팅 사례와 해결 방안을 구체적으로 정리했습니다.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id="part-1-checkout-관련-문제---코드가-뒤섞였어요"&gt;Part 1: &lt;code&gt;checkout&lt;/code&gt; 관련 문제 - &amp;ldquo;코드가 뒤섞였어요!&amp;rdquo;&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;checkout&lt;/code&gt;은 브랜치를 바꾸거나 특정 버전으로 돌아갈 때 사용하지만, 이 과정에서 많은 실수가 발생합니다.&lt;/p&gt;
+&lt;h4 id="사례-1-다른-브랜치로-이동하려는데-작업하던-내용이-있어서-막힐-때"&gt;사례 1: 다른 브랜치로 이동하려는데, 작업하던 내용이 있어서 막힐 때&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;문제 상황:&lt;/strong&gt; &lt;code&gt;feature/new-login&lt;/code&gt; 브랜치에서 작업하던 중, 급하게 &lt;code&gt;hotfix/bug-report&lt;/code&gt; 브랜치로 이동해야 합니다. &lt;code&gt;git checkout hotfix/bug-report&lt;/code&gt;를 입력하니 &amp;ldquo;error: Your local changes to the following files would be overwritten by checkout&amp;hellip;&amp;rdquo; 메시지가 나옵니다.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;해결 방안:&lt;/strong&gt; 아직 커밋하기 애매한 작업 내용을 임시 저장 공간(&lt;code&gt;stash&lt;/code&gt;)에 저장합니다.
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 현재 작업 내용을 스택에 임시 저장&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git stash
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&amp;gt; &lt;span style="color:#e6db74"&gt;`&lt;/span&gt;git stash&lt;span style="color:#e6db74"&gt;`&lt;/span&gt;: 현재 작업 디렉터리의 변경된 파일&lt;span style="color:#f92672"&gt;(&lt;/span&gt;Tracked files&lt;span style="color:#f92672"&gt;)&lt;/span&gt;을 임시로 스택에 저장합니다. &lt;span style="color:#e6db74"&gt;`&lt;/span&gt;push&lt;span style="color:#e6db74"&gt;`&lt;/span&gt;, &lt;span style="color:#e6db74"&gt;`&lt;/span&gt;pop&lt;span style="color:#e6db74"&gt;`&lt;/span&gt;, &lt;span style="color:#e6db74"&gt;`&lt;/span&gt;apply&lt;span style="color:#e6db74"&gt;`&lt;/span&gt;, &lt;span style="color:#e6db74"&gt;`&lt;/span&gt;list&lt;span style="color:#e6db74"&gt;`&lt;/span&gt; 등의 하위 명령어를 통해 관리할 수 있습니다.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 원하는 브랜치로 이동하여 작업 수행&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git checkout hotfix/bug-report
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# ... 핫픽스 작업 ...&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git commit -m &lt;span style="color:#e6db74"&gt;&amp;#34;Fix: Critical bug&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git push origin hotfix/bug-report
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 원래 브랜치로 복귀&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git checkout feature/new-login
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 임시 저장했던 작업 내용 다시 적용&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git stash pop
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id="사례-2-실수로-파일을-삭제했는데-커밋은-아직-안-했을-때-rm-atxt"&gt;사례 2: 실수로 파일을 삭제했는데, 커밋은 아직 안 했을 때 (&lt;code&gt;rm a.txt&lt;/code&gt;)&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;문제 상황:&lt;/strong&gt; &lt;code&gt;git rm&lt;/code&gt;이 아닌 &lt;code&gt;rm&lt;/code&gt; 명령어로 파일을 삭제했습니다. &lt;code&gt;git status&lt;/code&gt;에 &amp;ldquo;deleted: a.txt&amp;quot;로 표시됩니다.&lt;/p&gt;</description></item><item><title>Git 시맨틱 커밋 메시지</title><link>https://cdecl.github.io/dev/semantic-commit-message/</link><pubDate>Sun, 16 Mar 2025 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/semantic-commit-message/</guid><description>&lt;p&gt;Git 시맨틱 커밋 메시지 가이드&lt;/p&gt;
+&lt;h2 id="시맨틱-커밋-메시지란"&gt;시맨틱 커밋 메시지란?&lt;/h2&gt;
+&lt;p&gt;시맨틱 커밋 메시지는 커밋의 목적과 의도를 명확하게 전달하기 위한 규칙입니다. 이 규칙을 따르면 프로젝트의 히스토리를 쉽게 이해하고 자동화된 도구를 활용할 수 있습니다.&lt;/p&gt;
+&lt;h2 id="기본-구조"&gt;기본 구조&lt;/h2&gt;
+&lt;p&gt;시맨틱 커밋 메시지의 기본 구조는 다음과 같습니다:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;&amp;lt;type&amp;gt;[optional scope]: &amp;lt;description&amp;gt;
+[optional body]
+[optional footer(s)]
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id="주요-타입"&gt;주요 타입&lt;/h2&gt;
+&lt;p&gt;커밋 메시지는 다음 타입 중 하나로 시작해야 합니다:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;feat&lt;/strong&gt;: 새로운 기능 추가&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;fix&lt;/strong&gt;: 버그 수정&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;docs&lt;/strong&gt;: 문서 변경&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;style&lt;/strong&gt;: 코드 포맷팅, 세미콜론 누락 등 (코드 변경 없음)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;refactor&lt;/strong&gt;: 코드 리팩토링&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;test&lt;/strong&gt;: 테스트 코드 추가 또는 수정&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;chore&lt;/strong&gt;: 빌드 프로세스 또는 보조 도구 변경&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="모범-사례"&gt;모범 사례&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;제목은 50자 이내로 제한합니다.&lt;/li&gt;
+&lt;li&gt;제목의 첫 글자만 대문자로 씁니다.&lt;/li&gt;
+&lt;li&gt;제목 끝에 마침표를 넣지 않습니다.&lt;/li&gt;
+&lt;li&gt;제목과 본문 사이에 빈 줄을 넣습니다.&lt;/li&gt;
+&lt;li&gt;본문은 72자마다 줄바꿈합니다.&lt;/li&gt;
+&lt;li&gt;명령형 현재 시제를 사용합니다 (예: &amp;ldquo;변경&amp;rdquo;, &amp;ldquo;수정함&amp;rdquo; 대신 &amp;ldquo;변경하다&amp;rdquo;).&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id="예시"&gt;예시&lt;/h2&gt;
+&lt;p&gt;좋은 커밋 메시지 예시:&lt;/p&gt;</description></item><item><title>Git 커밋 메시지 수정</title><link>https://cdecl.github.io/dev/git-rebase-commit-message-edit-guide/</link><pubDate>Sat, 26 Oct 2024 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/git-rebase-commit-message-edit-guide/</guid><description>&lt;p&gt;Git 커밋 메시지 수정&lt;/p&gt;
+&lt;h2 id="git-커밋-메시지-수정-가이드"&gt;Git 커밋 메시지 수정 가이드&lt;/h2&gt;
+&lt;p&gt;Git을 사용하다 보면 커밋 메시지를 수정해야 할 경우가 자주 발생합니다.&lt;br&gt;
+이 글에서는 가장 기본적인 방법부터 고급 기술까지 모든 커밋 메시지 수정 방법을 다루겠습니다.&lt;/p&gt;
+&lt;h2 id="기본적인-커밋-메시지-수정-방법"&gt;기본적인 커밋 메시지 수정 방법&lt;/h2&gt;
+&lt;h3 id="1-가장-최근-커밋-메시지-수정"&gt;1. 가장 최근 커밋 메시지 수정&lt;/h3&gt;
+&lt;p&gt;가장 최근의 커밋 메시지를 수정하는 것은 매우 간단합니다.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git commit --amend
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;또는 에디터를 열지 않고 직접 메시지를 입력할 수우도 있습니다:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git commit --amend -m &lt;span style="color:#e6db74"&gt;&amp;#34;새로운 커밋 메시지&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="2-커밋-내용과-메시지-함께-수정"&gt;2. 커밋 내용과 메시지 함께 수정&lt;/h3&gt;
+&lt;p&gt;파일 변경사항을 포함하여 최근 커밋을 수정할 수 있습니다:&lt;/p&gt;</description></item><item><title>Git Repository 복제, Branch 동기화 관리</title><link>https://cdecl.github.io/dev/git-mirror-branch/</link><pubDate>Wed, 23 Feb 2022 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/git-mirror-branch/</guid><description>&lt;h1 id="git-repository-복제-및-branch-관리-가이드"&gt;Git Repository 복제 및 Branch 관리 가이드&lt;/h1&gt;
+&lt;h2 id="git-repository-복제"&gt;Git Repository 복제&lt;/h2&gt;
+&lt;h3 id="remote--local-복제"&gt;Remote → Local 복제&lt;/h3&gt;
+&lt;p&gt;Git 저장소를 복제하는 방법에는 여러 가지가 있으며, 각각의 방식에 따라 다른 특징이 있습니다.&lt;/p&gt;
+&lt;h4 id="--mirror-복제의-특징"&gt;&lt;code&gt;--mirror&lt;/code&gt; 복제의 특징&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;git clone --mirror&lt;/code&gt;: Remote repository의 모든 참조(&lt;code&gt;refs&lt;/code&gt;)를 포함하여 Local에 저장&lt;/li&gt;
+&lt;li&gt;기본 &lt;code&gt;clone&lt;/code&gt;과 달리 작업 디렉토리 없이 저장소의 메타데이터 전체를 복제&lt;/li&gt;
+&lt;li&gt;주로 저장소 백업이나 완전한 미러링에 사용&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# mirror 복제&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ git clone --mirror https://github.com/cdecl/test
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ tree -d
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;└── test.git
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ├── branches
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ├── hooks
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ├── info
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ├── objects
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; │   ├── info
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; │   └── pack
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; └── refs
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ├── heads
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; └── tags
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;blockquote&gt;
+&lt;p&gt;💡 추가 정보:&lt;/p&gt;</description></item></channel></rss>

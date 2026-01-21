@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Chrome-Extension on cdeclog</title><link>https://cdecl.github.io/tags/chrome-extension/</link><description>Recent content in Chrome-Extension on cdeclog</description><generator>Hugo -- 0.154.5</generator><language>ko-kr</language><lastBuildDate>Tue, 24 Jun 2025 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/chrome-extension/index.xml" rel="self" type="application/rss+xml"/><item><title>MCP-SuperAssistant 사용법</title><link>https://cdecl.github.io/dev/superassistant/</link><pubDate>Tue, 24 Jun 2025 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/superassistant/</guid><description>&lt;h2 id="model-context-pro"&gt;Model Context Pro&lt;/h2&gt;
+&lt;p&gt;**Model Context Pro&lt;/p&gt;
+&lt;h2 id="mcp-superassistant란"&gt;MCP-SuperAssistant란?&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;MCP-SuperAssistant&lt;/strong&gt;는 MCP를 활용해 AI 플랫폼(ChatGPT, Perplexity, Google Gemini, Grok 등)과 외부 데이터 및 도구를 연결하는 크롬 확장 프로그램입니다. 이 도구는 AI 대화 내에서 MCP 도구 호출을 감지하고, 실행 결과를 자동 또는 수동으로 대화에 삽입하여 워크플로우를 간소화합니다. MCP-SuperAssistant는 다양한 AI 플랫폼과의 호환성과 유연한 설정을 통해 개발자와 비즈니스 사용자의 생산성을 극대화합니다.&lt;/p&gt;
+&lt;h3 id="mcp-superassistant의-주요-기능"&gt;MCP-SuperAssistant의 주요 기능&lt;/h3&gt;
+&lt;p&gt;MCP-SuperAssistant는 다음과 같은 기능을 제공합니다:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;다양한 AI 플랫폼 지원&lt;/strong&gt;: ChatGPT, Perplexity, Google Gemini, Grok, Google AI Studio, OpenRouter, DeepSeek 등에서 MCP 도구 실행 가능&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;MCP 도구 실행 및 결과 삽입&lt;/strong&gt;: AI 대화 내 도구 호출을 감지해 실행하고 결과를 대화에 삽입&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;실시간 데이터 연결&lt;/strong&gt;: MCP를 통해 콘텐츠 저장소, 비즈니스 앱, 개발 환경 등과 안전하게 연결&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;자동/수동 모드&lt;/strong&gt;: 자동 모드(도구 실행 및 결과 제출 자동화)와 수동 모드(사용자 제어) 지원&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;확장성과 모듈성&lt;/strong&gt;: 플러그인 기반 아키텍처로 새로운 플랫폼 및 도구 추가 가능, WebSocket 및 SSE 지원&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;보안 및 접근성&lt;/strong&gt;: 복잡한 API 키 설정 없이 기존 AI 구독 활용, 최소 설정으로 사용 가능&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;6000+ MCP 서버 지원&lt;/strong&gt;: 다양한 MCP 서버와 통합해 AI 워크플로우 강화&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;특징&lt;/strong&gt;: 확장 프로그램은 간단한 설치로 즉시 사용 가능하며, 샌드박스 환경에서 실행되어 보안성을 유지합니다.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;제약사항&lt;/strong&gt;: 일부 복잡한 도구 호출은 MCP 서버 설정이 필요하며, AI 모델의 프롬프트 이해도에 따라 결과 정확도가 달라질 수 있습니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="초기-설치-및-세팅-실행-준비"&gt;초기 설치 및 세팅, 실행 준비&lt;/h2&gt;
+&lt;p&gt;MCP-SuperAssistant를 사용하려면 크롬 확장 프로그램 설치와 MCP 프록시 서버 설정이 필요합니다. 아래는 단계별 설치 및 실행 준비 과정입니다.&lt;/p&gt;</description></item></channel></rss>

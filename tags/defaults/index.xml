@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Defaults on cdeclog</title><link>https://cdecl.github.io/tags/defaults/</link><description>Recent content in Defaults on cdeclog</description><generator>Hugo -- 0.154.5</generator><language>ko-kr</language><lastBuildDate>Sun, 20 Jul 2025 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/defaults/index.xml" rel="self" type="application/rss+xml"/><item><title>macOS에서 키를 길게 눌렀을 때 동작 변경하기</title><link>https://cdecl.github.io/devops/macos-key-repeat-settings/</link><pubDate>Sun, 20 Jul 2025 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/macos-key-repeat-settings/</guid><description>&lt;p&gt;macOS에서 키를 길게 눌렀을 때 기본적으로 악센트 메뉴(예: &amp;ldquo;a&amp;quot;를 길게 누르면 à, á, â 등이 표시)가 나타나지만, 이를 키 반복(Windows와 유사한 문자 반복 입력)으로 변경할 수 있습니다.&lt;/p&gt;
+&lt;h2 id="개요"&gt;개요&lt;/h2&gt;
+&lt;p&gt;이 문서에서는 터미널 명령어(&lt;code&gt;defaults&lt;/code&gt;)를 사용해 &lt;code&gt;ApplePressAndHoldEnabled&lt;/code&gt; 설정을 변경하는 방법과 관련된 동작 방식, 설정 확인, 삭제, 주의사항을 설명합니다.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;ApplePressAndHoldEnabled&lt;/code&gt; 설정은 키를 길게 눌렀을 때의 동작을 제어합니다:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;true&lt;/code&gt; (기본값)&lt;/strong&gt;: 키를 길게 누르면 악센트 메뉴가 표시됩니다. 예를 들어, &amp;ldquo;e&amp;rdquo; 키를 길게 누르면 é, è, ê 등의 선택 메뉴가 나타납니다.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;false&lt;/code&gt;&lt;/strong&gt;: 키를 길게 누르면 해당 문자가 반복적으로 입력됩니다(예: &amp;ldquo;eeeee&amp;rdquo;). 이는 Windows의 키보드 동작과 유사합니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;이 설정은 시스템 전반 또는 특정 응용 프로그램에 적용할 수 있습니다.&lt;/p&gt;</description></item></channel></rss>

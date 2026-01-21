@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>-Fmodules-Ts on cdeclog</title><link>https://cdecl.github.io/tags/-fmodules-ts/</link><description>Recent content in -Fmodules-Ts on cdeclog</description><generator>Hugo -- 0.154.5</generator><language>ko-kr</language><lastBuildDate>Fri, 03 Sep 2021 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/-fmodules-ts/index.xml" rel="self" type="application/rss+xml"/><item><title>C++20 Modules - gnu c++ test</title><link>https://cdecl.github.io/dev/c++-modules-gcc/</link><pubDate>Fri, 03 Sep 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/c++-modules-gcc/</guid><description>&lt;p&gt;C++ Modules Test Example (g++)&lt;/p&gt;
+&lt;h2 id="c20-modules"&gt;C++20 Modules&lt;/h2&gt;
+&lt;p&gt;C++20에 추가된 모듈 &lt;code&gt;Modules&lt;/code&gt; 기능은 기존의 헤더 파일 &lt;code&gt;#include&lt;/code&gt;로 인한 컴파일 시간 증가 문제를 해결하고, 필요한 로직(함수, 심볼)만을 내보내는(export) 방식을 통해 타 언어의 모듈 단위처럼 효율적인 라이브러리 관리를 지원합니다.&lt;/p&gt;
+&lt;h3 id="modules의-주요-장점"&gt;Modules의 주요 장점&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;컴파일 시간 단축&lt;/strong&gt;: 각 모듈은 한 번만 컴파일되며, 그 결과가 캐시됨&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;심볼 격리&lt;/strong&gt;: 모듈 내부의 심볼은 명시적으로 export하지 않는 한 외부에서 접근 불가&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;순환 의존성 방지&lt;/strong&gt;: 헤더 파일과 달리 명확한 의존성 그래프 형성&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;매크로 독립성&lt;/strong&gt;: 모듈은 매크로의 영향을 받지 않아 더 안정적인 코드 작성 가능&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;일종의 PCH(Precompiled Header)의 기능을 포함한 표준적인 모듈 관리 기능입니다.&lt;br&gt;
+현재 컴파일러마다 (MSVC, g++, Clang) Standard Library 지원과 모듈 사용 방법이 약간 상이합니다.&lt;/p&gt;</description></item></channel></rss>

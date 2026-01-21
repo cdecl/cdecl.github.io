@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Binlog on cdeclog</title><link>https://cdecl.github.io/tags/binlog/</link><description>Recent content in Binlog on cdeclog</description><generator>Hugo -- 0.154.5</generator><language>ko-kr</language><lastBuildDate>Wed, 27 Oct 2021 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/binlog/index.xml" rel="self" type="application/rss+xml"/><item><title>MySQL BinLog</title><link>https://cdecl.github.io/devops/mysql-binlog/</link><pubDate>Wed, 27 Oct 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/mysql-binlog/</guid><description>&lt;p&gt;MySQL BinLog (Binary Log) 설정 및 확인&lt;/p&gt;
+&lt;h2 id="mysql-binlog"&gt;MySQL Binlog&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://dev.mysql.com/doc/internals/en/binary-log-overview.html"&gt;https://dev.mysql.com/doc/internals/en/binary-log-overview.html&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://dev.mysql.com/doc/refman/5.7/en/replication-options-binary-log.html"&gt;https://dev.mysql.com/doc/refman/5.7/en/replication-options-binary-log.html&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;데이터 수정에 대한 정보를 포함하는 로그 파일 세트&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id="binlog-를-사용하는-목적"&gt;Binlog 를 사용하는 목적&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;복제 : 마스터 복제 서버에서 슬레이브 서버로 보낼 명령문의 기록으로 사용&lt;/li&gt;
+&lt;li&gt;데이터 복구 : 백업 파일이 복원된, 특정 시점 이후의 데이터 복구를 위해 사용&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="binlog-기록하는-방법-binlog-format"&gt;Binlog 기록하는 방법 &lt;code&gt;binlog-format&lt;/code&gt;&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;STATEMENT&lt;/code&gt; : 이벤트에는 데이터 변경(삽입, 업데이트, 삭제)을 생성하는 SQL 문이 포함
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;MySQL 5.7.7&lt;/code&gt; 이전 버전까지 &lt;code&gt;Default&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ROW&lt;/code&gt; : 행 기반 로깅: 이벤트는 개별 행의 변경 사항을 설명합니다.
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;MySQL 5.7.7&lt;/code&gt; 버전 부터 &lt;code&gt;Default&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MIXED&lt;/code&gt; : 기본적으로 &lt;code&gt;STATEMENT&lt;/code&gt; 로깅, 필요에 따라 자동으로 &lt;code&gt;ROW&lt;/code&gt; 로깅으로 전환 &lt;code&gt;일관성&lt;/code&gt;
+&lt;ul&gt;
+&lt;li&gt;NDB Cluster 경우 &lt;code&gt;Default&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;code&gt;STATEMENT&lt;/code&gt; 경우 &lt;code&gt;ISOLATION LEVEL&lt;/code&gt;이 &lt;code&gt;READ-COMMITTED&lt;/code&gt; 경우 복구시, Dirty Read 에 의한 일관성이 문제가 될 수 있음&lt;/p&gt;</description></item></channel></rss>

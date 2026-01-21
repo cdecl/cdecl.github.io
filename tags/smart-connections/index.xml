@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Smart-Connections on cdeclog</title><link>https://cdecl.github.io/tags/smart-connections/</link><description>Recent content in Smart-Connections on cdeclog</description><generator>Hugo -- 0.154.5</generator><language>ko-kr</language><lastBuildDate>Sun, 20 Jul 2025 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/smart-connections/index.xml" rel="self" type="application/rss+xml"/><item><title>Obsidian - Smart Connections 플러그인</title><link>https://cdecl.github.io/devops/obsidian-smart-connections-plugin/</link><pubDate>Sun, 20 Jul 2025 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/obsidian-smart-connections-plugin/</guid><description>&lt;p&gt;이 글에서는 Obsidian Smart Connections 플러그인의 개념부터 기능, 설정 방법, 주요 기능과 예제, 그리고 비슷한 플러그인까지 상세히 알아보겠습니다.&lt;/p&gt;
+&lt;h3 id="1-obsidian-smart-connections-플러그인이란"&gt;1. Obsidian Smart Connections 플러그인이란?&lt;/h3&gt;
+&lt;p&gt;Smart Connections는 Obsidian에서 AI 임베딩을 활용해 노트 간의 의미적 연결을 찾아주는 강력한 플러그인입니다. 사용자의 노트를 분석하여 관련된 콘텐츠를 실시간으로 추천하거나, 노트를 기반으로 대화형 AI와 상호작용할 수 있게 합니다. 블로그 작성, 연구, 지식 관리 등에서 생산성을 높여주며, 특히 대규모 노트 저장소에서 유용합니다.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;주요 특징&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;의미적 검색&lt;/strong&gt;: 키워드가 아닌 노트의 의미를 기반으로 관련 노트를 찾아줍니다.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;로컬 및 클라우드 AI 지원&lt;/strong&gt;: Ollama, LM Studio 같은 로컬 모델과 OpenAI, Gemini, Claude 등 100개 이상의 API를 지원합니다.&lt;a href="https://github.com/brianpetro/obsidian-smart-connections"&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Smart Chat&lt;/strong&gt;: 노트를 기반으로 AI와 대화하며 질문에 답변하거나 콘텐츠를 생성합니다.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;컨텍스트 인식&lt;/strong&gt;: 현재 노트나 선택한 텍스트를 활용해 관련 콘텐츠를 제안합니다.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;오프라인 지원&lt;/strong&gt;: 로컬 임베딩 모델을 사용해 데이터 프라이버시를 보장합니다.&lt;a href="https://smartconnections.app/"&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="2-설치-및-설정"&gt;2. 설치 및 설정&lt;/h3&gt;
+&lt;p&gt;Smart Connections 플러그인은 Obsidian의 커뮤니티 플러그인 마켓에서 설치할 수 있습니다. 아래는 기본 설치 및 설정 방법입니다.&lt;/p&gt;</description></item></channel></rss>

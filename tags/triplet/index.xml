@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Triplet on cdeclog</title><link>https://cdecl.github.io/tags/triplet/</link><description>Recent content in Triplet on cdeclog</description><generator>Hugo -- 0.154.5</generator><language>ko-kr</language><lastBuildDate>Wed, 18 Aug 2021 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/triplet/index.xml" rel="self" type="application/rss+xml"/><item><title>Vcpkg Basic</title><link>https://cdecl.github.io/dev/vcpkg-basic/</link><pubDate>Wed, 18 Aug 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/vcpkg-basic/</guid><description>&lt;p&gt;&lt;a href="https://vcpkg.io/"&gt;https://vcpkg.io/&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;br&gt;
+Vcpkg helps you manage C and C++ libraries on Windows, Linux and MacOS. This tool and ecosystem are constantly evolving, and we always appreciate contributions!&lt;/p&gt;
+&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/microsoft/vcpkg"&gt;https://github.com/microsoft/vcpkg&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;li&gt;MS에서 만든 C++ Library Package 관리 (Cross Platform)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="vcpkg-install"&gt;Vcpkg install&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Git 이 필요하고, bootstrap-vcpkg 실행으로 필요한 툴을 다운로드(빌드)하는 작업을 수행
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;vcpkg.exe&lt;/code&gt; 생성&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ git clone https://github.com/microsoft/vcpkg
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ cd vcpkg
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# windows&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ bootstrap-vcpkg.bat
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# linux &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ ./bootstrap-vcpkg.sh
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="package-search--install"&gt;Package search &amp;amp; install&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;triplet&lt;/code&gt; : Target configuration set&lt;/li&gt;
+&lt;li&gt;설치시 &lt;code&gt;triplet&lt;/code&gt; 을 지정하지 않으면 설치되어 있는 기본 C++ Toolset 으로 지정
+&lt;ul&gt;
+&lt;li&gt;Windows의 경우 &lt;code&gt;x86-windows&lt;/code&gt; default&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id="주요-triplet-list"&gt;주요 Triplet list&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;vcpkg help triplet&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ vcpkg help triplet
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Available architecture triplets
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;VCPKG built-in triplets:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;...
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; x64-windows-static
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; x64-windows
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; x86-windows
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;...
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;VCPKG community triplets:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;...
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; x64-windows-static-md
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; x86-windows-static-md
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; x86-windows-static
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; x64-mingw-dynamic
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; x64-mingw-static
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; x86-mingw-dynamic
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; x86-mingw-static
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; x64-linux
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;...
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id="search"&gt;Search&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;vcpkg search&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Package search &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ vcpkg search fmt
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;fmt 7.1.3#5 Formatting library &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; C++. ...
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;The search result may be outdated. Run &lt;span style="color:#e6db74"&gt;`&lt;/span&gt;git pull&lt;span style="color:#e6db74"&gt;`&lt;/span&gt; to get the latest results.
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id="install"&gt;Install&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;vcpkg install&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;vcpkg search&lt;/code&gt; 에서 찾은 패키지를 triplet 을 지정하여 설치&lt;/li&gt;
+&lt;li&gt;설치가 완료되면 프로젝트 CMakeLists.txt 넣을 find_package 문 표시&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Package 별로 triplet 지정 &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ vcpkg.exe install fmt:x64-windows-static nlohmann-json:x64-windows-static
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# triplet 공통 지정 &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ vcpkg.exe install fmt nlohmann-json --triplet&lt;span style="color:#f92672"&gt;=&lt;/span&gt;x64-windows-static
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;...
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;The package fmt provides CMake targets:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; find_package&lt;span style="color:#f92672"&gt;(&lt;/span&gt;fmt CONFIG REQUIRED&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; target_link_libraries&lt;span style="color:#f92672"&gt;(&lt;/span&gt;main PRIVATE fmt::fmt&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;# Or use the header-only version&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; find_package&lt;span style="color:#f92672"&gt;(&lt;/span&gt;fmt CONFIG REQUIRED&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; target_link_libraries&lt;span style="color:#f92672"&gt;(&lt;/span&gt;main PRIVATE fmt::fmt-header-only&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;The package nlohmann-json:x64-windows-static provides CMake targets:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; find_package&lt;span style="color:#f92672"&gt;(&lt;/span&gt;nlohmann_json CONFIG REQUIRED&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; target_link_libraries&lt;span style="color:#f92672"&gt;(&lt;/span&gt;main PRIVATE nlohmann_json nlohmann_json::nlohmann_json&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id="설치된-리스트"&gt;설치된 리스트&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;vcpkg list&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Package installed list &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ vcpkg list
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;benchmark:x64-mingw-static 1.5.5 A library to support the benchmarking of functio...
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;benchmark:x64-windows-static 1.5.5 A library to support the benchmarking of functio...
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cpp-httplib:x64-mingw-static 0.9.1 A single file C++11 header-only HTTP/HTTPS serve...
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cpp-httplib:x64-windows-static 0.9.1 A single file C++11 header-only HTTP/HTTPS serve...
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;fmt:x64-windows 7.1.3#5 Formatting library &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; C++. It can be used as a ...
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;fmt:x64-windows-static 7.1.3#5 Formatting library &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; C++. It can be used as a ...
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;nlohmann-json:x64-mingw-static 3.9.1 JSON &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; Modern C++
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;nlohmann-json:x64-windows-static 3.9.1 JSON &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; Modern C++
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;openssl:x64-mingw-static 1.1.1k#8 OpenSSL is an open source project that provides ...
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;openssl:x64-windows-static 1.1.1k#8 OpenSSL is an open source project that provides ...
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;vcpkg-cmake-config:x64-windows 2021-05-22#1
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;vcpkg-cmake:x64-windows 2021-07-30
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;zlib:x64-mingw-static 1.2.11#11 A compression library
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;zlib:x64-windows-static 1.2.11#11 A compression library
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="integrate-install"&gt;Integrate install&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;vcpkg integrate install&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Windows Visual Studio에서 vcpkg 라이브러리를 별도 설정 없이 바로 사용&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ vcpkg integrate install
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Applied user-wide integration &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; this vcpkg root.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;All MSBuild C++ projects can now &lt;span style="color:#75715e"&gt;#include any installed libraries.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Linking will be handled automatically.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Installing new libraries will make them instantly available.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;CMake projects should use: &lt;span style="color:#e6db74"&gt;&amp;#34;-DCMAKE_TOOLCHAIN_FILE=D:/Lib/vcpkg/scripts/buildsystems/vcpkg.cmake&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="vcpkg-명령어"&gt;vcpkg 명령어&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Vcpkg package management program version 2021-08-12-85ab112d5ee102bc6eac8cdbbfdd173a71374e04&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ vcpkg help
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Commands:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; vcpkg search &lt;span style="color:#f92672"&gt;[&lt;/span&gt;pat&lt;span style="color:#f92672"&gt;]&lt;/span&gt; Search &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; packages available to be built
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; vcpkg install &amp;lt;pkg&amp;gt;... Install a package
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; vcpkg remove &amp;lt;pkg&amp;gt;... Uninstall a package
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; vcpkg remove --outdated Uninstall all out-of-date packages
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; vcpkg list List installed packages
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; vcpkg update Display list of packages &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; updating
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; vcpkg upgrade Rebuild all outdated packages
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; vcpkg x-history &amp;lt;pkg&amp;gt; &lt;span style="color:#f92672"&gt;(&lt;/span&gt;Experimental&lt;span style="color:#f92672"&gt;)&lt;/span&gt; Shows the history of CONTROL versions of a package
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; vcpkg hash &amp;lt;file&amp;gt; &lt;span style="color:#f92672"&gt;[&lt;/span&gt;alg&lt;span style="color:#f92672"&gt;]&lt;/span&gt; Hash a file by specific algorithm, default SHA512
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; vcpkg help topics Display the list of help topics
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; vcpkg help &amp;lt;topic&amp;gt; Display help &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; a specific topic
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; vcpkg integrate install Make installed packages available user-wide. Requires admin
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; privileges on first use
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; vcpkg integrate remove Remove user-wide integration
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; vcpkg integrate project Generate a referencing nuget package &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; individual VS project use
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; vcpkg integrate powershell Enable PowerShell tab-completion
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; vcpkg export &amp;lt;pkg&amp;gt;... &lt;span style="color:#f92672"&gt;[&lt;/span&gt;opt&lt;span style="color:#f92672"&gt;]&lt;/span&gt;... Exports a package
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; vcpkg edit &amp;lt;pkg&amp;gt; Open up a port &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; editing &lt;span style="color:#f92672"&gt;(&lt;/span&gt;uses %EDITOR%, default &lt;span style="color:#e6db74"&gt;&amp;#39;code&amp;#39;&lt;/span&gt;&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; vcpkg create &amp;lt;pkg&amp;gt; &amp;lt;url&amp;gt; &lt;span style="color:#f92672"&gt;[&lt;/span&gt;archivename&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Create a new package
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; vcpkg x-init-registry &amp;lt;path&amp;gt; Initializes a registry in the directory &amp;lt;path&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; vcpkg owns &amp;lt;pat&amp;gt; Search &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; files in installed packages
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; vcpkg depend-info &amp;lt;pkg&amp;gt;... Display a list of dependencies &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; packages
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; vcpkg env Creates a clean shell environment &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; development or compiling
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; vcpkg version Display version information
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; vcpkg contact Display contact information to send feedback
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;...
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;hr&gt;
+&lt;h3 id="1-내-프로젝트에서-사용-cmake-find_package"&gt;1. 내 프로젝트에서 사용 (CMake, find_package)&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;CMakeLists.txt 에 find_package 내용 추가&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id="cmakeliststxt"&gt;CMakeLists.txt&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-cmake" data-lang="cmake"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cmake_minimum_required(&lt;span style="color:#e6db74"&gt;VERSION&lt;/span&gt; &lt;span style="color:#e6db74"&gt;3.11&lt;/span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;project(&lt;span style="color:#e6db74"&gt;main&lt;/span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;set(&lt;span style="color:#e6db74"&gt;CMAKE_CXX_STANDARD&lt;/span&gt; &lt;span style="color:#e6db74"&gt;17&lt;/span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;add_executable(&lt;span style="color:#e6db74"&gt;main&lt;/span&gt; &lt;span style="color:#e6db74"&gt;main.cpp&lt;/span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;if(&lt;span style="color:#e6db74"&gt;MSVC&lt;/span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; target_compile_options(&lt;span style="color:#e6db74"&gt;main&lt;/span&gt; &lt;span style="color:#e6db74"&gt;PRIVATE&lt;/span&gt; &lt;span style="color:#e6db74"&gt;/MT&lt;/span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;else()&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; target_compile_options(&lt;span style="color:#e6db74"&gt;main&lt;/span&gt; &lt;span style="color:#e6db74"&gt;PRIVATE&lt;/span&gt; &lt;span style="color:#e6db74"&gt;-Wall&lt;/span&gt; &lt;span style="color:#e6db74"&gt;-O2&lt;/span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;endif()&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;find_package(&lt;span style="color:#e6db74"&gt;fmt&lt;/span&gt; &lt;span style="color:#e6db74"&gt;CONFIG&lt;/span&gt; &lt;span style="color:#e6db74"&gt;REQUIRED&lt;/span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;target_link_libraries(&lt;span style="color:#e6db74"&gt;main&lt;/span&gt; &lt;span style="color:#e6db74"&gt;PRIVATE&lt;/span&gt; &lt;span style="color:#e6db74"&gt;fmt::fmt&lt;/span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;find_package(&lt;span style="color:#e6db74"&gt;nlohmann_json&lt;/span&gt; &lt;span style="color:#e6db74"&gt;CONFIG&lt;/span&gt; &lt;span style="color:#e6db74"&gt;REQUIRED&lt;/span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;target_link_libraries(&lt;span style="color:#e6db74"&gt;main&lt;/span&gt; &lt;span style="color:#e6db74"&gt;PRIVATE&lt;/span&gt; &lt;span style="color:#e6db74"&gt;nlohmann_json&lt;/span&gt; &lt;span style="color:#e6db74"&gt;nlohmann_json::nlohmann_json&lt;/span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id="cmake-초기화"&gt;CMake 초기화&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;CMAKE_TOOLCHAIN_FILE&lt;/code&gt; 과 &lt;code&gt;VCPKG_TARGET_TRIPLET&lt;/code&gt; 을 지정하여 초기화
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;CMAKE_TOOLCHAIN_FILE&lt;/code&gt; : vcpkg/scripts/buildsystems/vcpkg.cmake&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ mkdir build &lt;span style="color:#f92672"&gt;&amp;amp;&amp;amp;&lt;/span&gt; cd build
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# windows msvc &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ cmake -G &lt;span style="color:#e6db74"&gt;&amp;#34;Visual Studio 16 2019&amp;#34;&lt;/span&gt; -A x64 .. -DCMAKE_TOOLCHAIN_FILE&lt;span style="color:#f92672"&gt;=&lt;/span&gt;D:/Lib/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET&lt;span style="color:#f92672"&gt;=&lt;/span&gt;x64-windows-static
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# windows mingw&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ cmake -G &lt;span style="color:#e6db74"&gt;&amp;#34;MSYS Makefiles&amp;#34;&lt;/span&gt; .. -DCMAKE_TOOLCHAIN_FILE&lt;span style="color:#f92672"&gt;=&lt;/span&gt;D:/Lib/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET&lt;span style="color:#f92672"&gt;=&lt;/span&gt;x64-mingw-static
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# linux : VCPKG_TARGET_TRIPLET 지정안함, defualt 사용 &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ cmake cmake .. -DCMAKE_TOOLCHAIN_FILE&lt;span style="color:#f92672"&gt;=&lt;/span&gt;~/lib/vcpkg/scripts/buildsystems/vcpkg.cmake
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id="build"&gt;Build&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# windows msvc : Release 모드 빌드 &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ cmake --build . --config&lt;span style="color:#f92672"&gt;=&lt;/span&gt;Release
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# run &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ Release&lt;span style="color:#ae81ff"&gt;\m&lt;/span&gt;ain.exe
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# mingw, linux &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ make
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ ./main
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="2-내-프로젝트에서-사용-라이브러리-수동으로-설정"&gt;2. 내 프로젝트에서 사용 (라이브러리 수동으로 설정)&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;CMake 수동 지정 : target_include_directories, target_link_directories, target_link_libraries 별도 지정&lt;/li&gt;
+&lt;li&gt;Makefile 사용 : &lt;code&gt;-I&lt;/code&gt; &lt;code&gt;-l&lt;/code&gt; &lt;code&gt;-L&lt;/code&gt; 등의 옵션 추가&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id="vcpkginstalledtriplet-디렉토리-참고"&gt;vcpkg/installed/&lt;code&gt;triplet&lt;/code&gt; 디렉토리 참고&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;수동으로 include, lib 등 지정 사용
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;triplet/include&lt;/code&gt; : header files&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;triplet/lib&lt;/code&gt; : static library&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;triplet/bin&lt;/code&gt; : shared library&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ tree vcpkg/installed -L &lt;span style="color:#ae81ff"&gt;3&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;vcpkg/installed
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;├── vcpkg
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;...
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;├── x64-mingw-static
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   ├── debug
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   │   └── lib
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   ├── include
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   │   ├── benchmark
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   │   ├── httplib.h
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   │   ├── nlohmann
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   │   ├── openssl
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   │   ├── zconf.h
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   │   └── zlib.h
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   ├── lib
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   │   ├── libbenchmark.a
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   │   ├── libbenchmark_main.a
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   │   ├── libcrypto.a
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   │   ├── libssl.a
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   │   ├── libzlib.a
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   │   └── pkgconfig
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   └── share
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   ├── benchmark
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   ├── cpp-httplib
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   ├── nlohmann-json
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   ├── nlohmann_json
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   ├── openssl
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   └── zlib
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;├── x64-windows
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   ├── bin
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   │   ├── fmt.dll
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   │   └── fmt.pdb
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   ├── debug
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   │   ├── bin
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   │   └── lib
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   ├── include
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   │   └── fmt
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   ├── lib
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   │   ├── fmt.lib
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   │   └── pkgconfig
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   └── share
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   ├── fmt
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   ├── vcpkg-cmake
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   └── vcpkg-cmake-config
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;└── x64-windows-static
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ├── debug
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; │   ├── lib
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; │   └── misc
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ├── include
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; │   ├── benchmark
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; │   ├── fmt
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; │   ├── httplib.h
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; │   ├── nlohmann
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; │   ├── openssl
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; │   ├── zconf.h
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; │   └── zlib.h
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ├── lib
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; │   ├── benchmark.lib
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; │   ├── benchmark_main.lib
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; │   ├── fmt.lib
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; │   ├── libcrypto.lib
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; │   ├── libssl.lib
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; │   ├── ossl_static.pdb
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; │   ├── pkgconfig
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; │   └── zlib.lib
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ├── misc
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; │   ├── CA.pl
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; │   └── tsget.pl
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ├── share
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; │   ├── benchmark
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; │   ├── cpp-httplib
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; │   ├── fmt
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; │   ├── nlohmann-json
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; │   ├── nlohmann_json
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; │   ├── openssl
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; │   └── zlib
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; └── tools
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; └── openssl
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description></item></channel></rss>

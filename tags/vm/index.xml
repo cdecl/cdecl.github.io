@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Vm on cdeclog</title><link>https://cdecl.github.io/tags/vm/</link><description>Recent content in Vm on cdeclog</description><generator>Hugo -- 0.154.5</generator><language>ko-kr</language><lastBuildDate>Mon, 04 Jul 2022 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/vm/index.xml" rel="self" type="application/rss+xml"/><item><title>Multipass, Ubuntu VM 설정</title><link>https://cdecl.github.io/devops/multipass-ubuntu/</link><pubDate>Mon, 04 Jul 2022 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/multipass-ubuntu/</guid><description>&lt;p&gt;Canonical 재단에서 지원하는 단일 명령으로 Ubuntu VM 구성 할 수 있는 도구&lt;/p&gt;
+&lt;h2 id="multipass"&gt;Multipass&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://multipass.run/"&gt;https://multipass.run/&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;li&gt;최소한의 오버헤드를 위한 각 플랫폼 지원
+&lt;ul&gt;
+&lt;li&gt;Windows : Hyper-V&lt;/li&gt;
+&lt;li&gt;macOS : QEMU, HyperKit&lt;/li&gt;
+&lt;li&gt;Linux : LXD&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="multipass-install"&gt;Multipass install&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://multipass.run/install"&gt;https://multipass.run/install&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;li&gt;플랫폼 별 패키지 설치 방법&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# windows &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ choco install multipass
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# macOS&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ brew install multipass
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="multipass-주요-명령-및-vm-instance-생성"&gt;Multipass 주요 명령 및 VM Instance 생성&lt;/h3&gt;
+&lt;h4 id="주요-명령어"&gt;주요 명령어&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;launch&lt;/code&gt; : Ubuntu instance 생성 및 시작&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;start&lt;/code&gt;, &lt;code&gt;stop&lt;/code&gt;, &lt;code&gt;restart&lt;/code&gt; : 시작 중지&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;delete&lt;/code&gt; : Ubuntu instance 삭제&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;purge&lt;/code&gt; : 삭제된 이미지 영구 삭제&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;shell&lt;/code&gt; : Instance 내부 shell 로 접속&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;list&lt;/code&gt; : 생성된 Instance 확인&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;info&lt;/code&gt; : Instance 정보 확인&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ multipass --help
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;...
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Available commands:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; alias Create an alias
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; aliases List available aliases
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; authenticate Authenticate client
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; delete Delete instances
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; exec Run a command on an instance
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; find Display available images to create instances from
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; get Get a configuration setting
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; help Display help about a command
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; info Display information about instances
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; launch Create and start an Ubuntu instance
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; list List all available instances
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; mount Mount a local directory in the instance
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; networks List available network interfaces
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; purge Purge all deleted instances permanently
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; recover Recover deleted instances
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; restart Restart instances
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; set Set a configuration setting
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; shell Open a shell on a running instance
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; start Start instances
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; stop Stop running instances
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; suspend Suspend running instances
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; transfer Transfer files between the host and instances
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; umount Unmount a directory from an instance
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; unalias Remove an alias
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; version Show version details
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id="ubuntu-vm-instance-생성--기본-생성"&gt;Ubuntu VM Instance 생성 : 기본 생성&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# node1 이름의 instance 생성 &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ multipass launch -n node01
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Launched: node01
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 기본 lts 이미지로 생성 : Ubuntu 20.04 LTS&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ multipass list
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Name State IPv4 Image
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;node01 Running 192.168.196.207 Ubuntu 20.04 LTS
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# instace 정보 &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ multipass info node01
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Name: node01
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;State: Running
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;IPv4: 192.168.196.207
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Release: Ubuntu 20.04.4 LTS
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Image hash: 75a04c7eed58 &lt;span style="color:#f92672"&gt;(&lt;/span&gt;Ubuntu 20.04 LTS&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Load: 0.38 0.15 0.05
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Disk usage: 1.4G out of 4.7G
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Memory usage: 162.4M out of 912.5M
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Mounts: --
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;blockquote&gt;
+&lt;p&gt;기본 설정으로 Instance 생성시, Disk 등의 리소스가 부족 할 수 있음&lt;/p&gt;</description></item></channel></rss>

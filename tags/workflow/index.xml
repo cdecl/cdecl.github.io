@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Workflow on cdeclog</title><link>https://cdecl.github.io/tags/workflow/</link><description>Recent content in Workflow on cdeclog</description><generator>Hugo -- 0.154.5</generator><language>ko-kr</language><lastBuildDate>Thu, 12 Aug 2021 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/workflow/index.xml" rel="self" type="application/rss+xml"/><item><title>Github Actions 101</title><link>https://cdecl.github.io/devops/github-actions/</link><pubDate>Thu, 12 Aug 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/github-actions/</guid><description>&lt;h1 id="github-actions-101"&gt;Github Actions 101&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;Github 에서 제공하는 Workflow 툴&lt;/li&gt;
+&lt;li&gt;GitHub-hosted Runner or Self-Hosted Runner 에서 실행&lt;/li&gt;
+&lt;li&gt;Actions 탭을 통해서 Template을 선택하고 Yaml 파일로 Task 내용을 기술
+&lt;ul&gt;
+&lt;li&gt;.github/workflows 디렉토리 밑에 위치&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="runner-종류"&gt;Runner 종류&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;GitHub-hosted Runner : MS Azure 가상머신에서 실행
+&lt;ul&gt;
+&lt;li&gt;Public Repository : 무료&lt;/li&gt;
+&lt;li&gt;Private Repository : 2000분/월 무료&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Self-Hosted Runner : 자체 머신을 통해 Runner Hosting
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://help.github.com/en/actions/hosting-your-own-runners/adding-self-hosted-runners"&gt;https://help.github.com/en/actions/hosting-your-own-runners/adding-self-hosted-runners&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="actions-basic"&gt;Actions Basic&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Actions Tab&lt;/li&gt;
+&lt;li&gt;Workflow syntax for GitHub Actions
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions"&gt;https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;awesome-actions
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/sdras/awesome-actions"&gt;https://github.com/sdras/awesome-actions&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img loading="lazy" src="https://cdecl.github.io/images/2020-05-18-16-31-11.png"&gt;&lt;/p&gt;
+&lt;h3 id="workflow"&gt;Workflow&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;runs-on: Virtual machine
+&lt;ul&gt;
+&lt;li&gt;ubuntu, macos, windows server 제공&lt;/li&gt;
+&lt;li&gt;기본 Package or apps 가 등록되어 있음 : &lt;a href="https://github.com/actions/virtual-environments"&gt;https://github.com/actions/virtual-environments&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}
+&lt;ul&gt;
+&lt;li&gt;Ubuntu : &lt;a href="https://github.com/actions/virtual-environments/blob/master/images/linux/Ubuntu1804-README.md"&gt;https://github.com/actions/virtual-environments/blob/master/images/linux/Ubuntu1804-README.md&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;li&gt;Windows Server : &lt;a href="https://github.com/actions/virtual-environments/blob/master/images/win/Windows2019-Readme.md"&gt;https://github.com/actions/virtual-environments/blob/master/images/win/Windows2019-Readme.md&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;steps :
+&lt;ul&gt;
+&lt;li&gt;uses: 예약된 Actions 실행이나 Apps 통합을 통해 Apps 사용 환경 구성
+&lt;ul&gt;
+&lt;li&gt;ex&amp;gt; uses: actions/checkout@v2 : git checkout 실행&lt;/li&gt;
+&lt;li&gt;ex&amp;gt; uses: nuget/setup-nuget@v1 : nuget apps setup&lt;/li&gt;
+&lt;li&gt;ex&amp;gt; uses: microsoft/setup-msbuild@v1 : msbuild setup&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;run: run command 지정&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;name&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;CI &lt;/span&gt; &lt;span style="color:#75715e"&gt;# workflow 이름 &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;on&lt;/span&gt;: &lt;span style="color:#75715e"&gt;# Triggers Event &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;push&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;branches&lt;/span&gt;: [ &lt;span style="color:#ae81ff"&gt;master ]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;pull_request&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;branches&lt;/span&gt;: [ &lt;span style="color:#ae81ff"&gt;master ]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;jobs&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;build&lt;/span&gt;: &lt;span style="color:#75715e"&gt;# Single job name&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;runs-on&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;ubuntu-latest &lt;/span&gt; &lt;span style="color:#75715e"&gt;# virtual machine&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;steps&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#f92672"&gt;uses&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;actions/checkout@v2&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#f92672"&gt;name&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;Run a one-line script&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;run&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;echo Hello, world!&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#f92672"&gt;name&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;Run a multi-line script&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;run&lt;/span&gt;: |&lt;span style="color:#e6db74"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; echo Add other actions to build,
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; echo test, and deploy your project.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="actions-예제"&gt;Actions 예제&lt;/h2&gt;
+&lt;h3 id="docker-build--registry-push"&gt;Docker Build &amp;amp; Registry Push&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;ubuntu-latest 이미지에는 Docker Daemon 활성화됨&lt;/li&gt;
+&lt;li&gt;secrets 변수 : [Settings] - [Secrets] 에서 변수 세팅 (DOCKERHUB_PASS)
+&lt;ul&gt;
+&lt;li&gt;${{ secrets.DOCKERHUB_PASS }}&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;name&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;Docker Image CI&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;on&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;push&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;branches&lt;/span&gt;: [ &lt;span style="color:#ae81ff"&gt;master ]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;jobs&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;build&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;runs-on&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;ubuntu-latest&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;steps&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#f92672"&gt;uses&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;actions/checkout@v2&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#f92672"&gt;name&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;Build the Docker image&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;run&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;docker build . --tag cdecl/gcc-boost&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#f92672"&gt;name&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;docker login&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;run&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;echo &amp;#39;${{ secrets.DOCKERHUB_PASS }}&amp;#39; | docker login -u cdecl --password-stdin&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#f92672"&gt;name&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;docker push&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;run&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;docker push cdecl/gcc-boost&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;img loading="lazy" src="https://cdecl.github.io/images/2020-05-18-14-40-10.png"&gt;&lt;/p&gt;</description></item><item><title>Gitlab CI/CD</title><link>https://cdecl.github.io/devops/gitlab-cicd/</link><pubDate>Thu, 12 Aug 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/gitlab-cicd/</guid><description>&lt;h1 id="gitlab-cicd-101"&gt;Gitlab CI/CD 101&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;Gitlab 에서 제공하는 CI/CD 목적의 Workflow 툴&lt;/li&gt;
+&lt;li&gt;Auto DevOps or gitlab-runner 에서 실행&lt;/li&gt;
+&lt;li&gt;Setup CI/CD 를 통해 세팅
+&lt;ul&gt;
+&lt;li&gt;.gitlab-ci.yml 파일에 기술&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="gitlab-runner"&gt;Gitlab-Runner&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;gitlab-runner : .gitlab-ci.yml 기반 파이프 라인 구성
+&lt;ul&gt;
+&lt;li&gt;Shared Runners : gitlab.com 에서 hosting 해주는 Runner&lt;/li&gt;
+&lt;li&gt;Self hosting Runners : 별도 머신을 통해 Runner 설치&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="gitlab-runner-세팅-self-hosting"&gt;Gitlab-Runner 세팅 (Self hosting)&lt;/h2&gt;
+&lt;h3 id="installing-the-runner"&gt;Installing the Runner&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://docs.gitlab.com/runner/install/linux-repository.html"&gt;https://docs.gitlab.com/runner/install/linux-repository.html&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="registering-runners"&gt;Registering Runners&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://docs.gitlab.com/runner/register/index.html"&gt;https://docs.gitlab.com/runner/register/index.html&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;li&gt;Interactive register runner&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ sudo gitlab-runner register
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Runtime platform arch&lt;span style="color:#f92672"&gt;=&lt;/span&gt;amd64 os&lt;span style="color:#f92672"&gt;=&lt;/span&gt;linux pid&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;120146&lt;/span&gt; revision&lt;span style="color:#f92672"&gt;=&lt;/span&gt;c5874a4b version&lt;span style="color:#f92672"&gt;=&lt;/span&gt;12.10.2
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Running in system-mode.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Please enter the gitlab-ci coordinator URL &lt;span style="color:#f92672"&gt;(&lt;/span&gt;e.g. https://gitlab.com/&lt;span style="color:#f92672"&gt;)&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;http://hqgit.inpark.kr/
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Please enter the gitlab-ci token &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; this runner:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;xxxxxxxxxxxxxxxxxxxxxxxxxxx
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Please enter the gitlab-ci description &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; this runner:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ci-test runner
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Please enter the gitlab-ci tags &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; this runner &lt;span style="color:#f92672"&gt;(&lt;/span&gt;comma separated&lt;span style="color:#f92672"&gt;)&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;centos24,ci-test,cdecl
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Registering runner... succeeded runner&lt;span style="color:#f92672"&gt;=&lt;/span&gt;WpQDakzK
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Please enter the executor: shell, kubernetes, parallels, docker, docker-ssh, ssh, virtualbox, docker+machine, docker-ssh+machine, custom:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;shell
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Runner registered successfully. Feel free to start it, but &lt;span style="color:#66d9ef"&gt;if&lt;/span&gt; it&lt;span style="color:#960050;background-color:#1e0010"&gt;&amp;#39;&lt;/span&gt;s running already the config should be automatically reloaded!
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# inline &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo gitlab-runner register &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --non-interactive &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --url &lt;span style="color:#e6db74"&gt;&amp;#34;https://gitlab.com/&amp;#34;&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --registration-token &lt;span style="color:#e6db74"&gt;&amp;#34;PROJECT_REGISTRATION_TOKEN&amp;#34;&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --executor &lt;span style="color:#e6db74"&gt;&amp;#34;docker&amp;#34;&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --docker-image alpine:latest &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --description &lt;span style="color:#e6db74"&gt;&amp;#34;docker-runner&amp;#34;&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --tag-list &lt;span style="color:#e6db74"&gt;&amp;#34;docker&amp;#34;&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo gitlab-runner register &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --non-interactive &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --url &lt;span style="color:#e6db74"&gt;&amp;#34;http://centos.cdecl.net/&amp;#34;&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --registration-token &lt;span style="color:#e6db74"&gt;&amp;#34;PROJECT_REGISTRATION_TOKEN&amp;#34;&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --executor &lt;span style="color:#e6db74"&gt;&amp;#34;docker&amp;#34;&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --docker-image alpine &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --description &lt;span style="color:#e6db74"&gt;&amp;#34;docker-runner&amp;#34;&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --tag-list &lt;span style="color:#e6db74"&gt;&amp;#34;docker&amp;#34;&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --env &lt;span style="color:#e6db74"&gt;&amp;#34;DOCKER_TLS_CERTDIR=&amp;#34;&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --docker-privileged&lt;span style="color:#f92672"&gt;=&lt;/span&gt;true &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --docker-volumes &lt;span style="color:#e6db74"&gt;&amp;#34;/ansible:/ansible&amp;#34;&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --docker-extra-hosts &lt;span style="color:#e6db74"&gt;&amp;#34;centos.cdecl.net:192.168.0.20&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="pipeline-configuration-basic"&gt;Pipeline Configuration Basic&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;GitLab CI/CD Pipeline Configuration Reference
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://docs.gitlab.com/ee/ci/yaml/"&gt;https://docs.gitlab.com/ee/ci/yaml/&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Pipeline
+&lt;ul&gt;
+&lt;li&gt;기본적으로 git checkout 실행&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Github Action 과 다르게 매뉴얼 실행 버튼 존재&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;image&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;ubuntu&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;stages&lt;/span&gt;: &lt;span style="color:#75715e"&gt;# statge 정의 &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;build&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;test&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;deploy&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;before_script&lt;/span&gt;: &lt;span style="color:#75715e"&gt;# &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;echo &amp;#34;Before script section&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;echo &amp;#34;For example you might run an update here or install a build dependency&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;echo &amp;#34;Or perhaps you might print out some debugging details&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;after_script&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;echo &amp;#34;After script section&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;echo &amp;#34;For example you might do some cleanup here&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;build_stage&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;stage&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;build&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;script&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;echo &amp;#34;Do your build here&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;test_stage1&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;stage&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;test&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;script&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;echo &amp;#34;Do a test here&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;echo &amp;#34;For example run a test suite&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;test_stage2&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;stage&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;test&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;script&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;echo &amp;#34;Do another parallel test here&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;echo &amp;#34;For example run a lint test&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;deploy_stage&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;stage&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;deploy&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;script&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;echo &amp;#34;Do your deploy here&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;img loading="lazy" src="https://cdecl.github.io/images/2020-05-18-17-50-34.png"&gt;&lt;/p&gt;</description></item></channel></rss>

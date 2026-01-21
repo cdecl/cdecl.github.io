@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Formulae on cdeclog</title><link>https://cdecl.github.io/tags/formulae/</link><description>Recent content in Formulae on cdeclog</description><generator>Hugo -- 0.154.5</generator><language>ko-kr</language><lastBuildDate>Fri, 07 Jun 2024 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/formulae/index.xml" rel="self" type="application/rss+xml"/><item><title>Homebrew, Formulae와 Cask의 차이점</title><link>https://cdecl.github.io/devops/homebrew-formulae-cask/</link><pubDate>Fri, 07 Jun 2024 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/homebrew-formulae-cask/</guid><description>&lt;p&gt;Homebrew는 macOS와 Linux에서 소프트웨어를 쉽게 설치하고 관리할 수 있는 패키지 관리자.&lt;/p&gt;
+&lt;h2 id="homebrew"&gt;Homebrew&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://brew.sh/"&gt;https://brew.sh/&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;li&gt;Homebrew는 macOS와 Linux에서 소프트웨어 패키지를 간편하게 설치하고 관리할 수 있는 패키지 관리자&lt;/li&gt;
+&lt;li&gt;Homebrew에는 두 가지 주요 설치 방법인 &lt;code&gt;Formulae&lt;/code&gt;와 &lt;code&gt;Cask&lt;/code&gt;가 있습니다.&lt;/li&gt;
+&lt;li&gt;Formulae와 Cask의 차이점과 동일한 애플리케이션이 두 가지 방법으로 제공되는 예시를 설명&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="homebrew-설치"&gt;Homebrew 설치&lt;/h3&gt;
+&lt;h4 id="macos"&gt;macOS&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ brew --version &lt;span style="color:#75715e"&gt;# 설치 확인&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id="linux"&gt;Linux&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ eval &lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;/home/linuxbrew/.linuxbrew/bin/brew shellenv&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ brew --version &lt;span style="color:#75715e"&gt;# 설치 확인&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="homebrew-주요-명령어"&gt;Homebrew 주요 명령어&lt;/h3&gt;
+&lt;h4 id="formulae-설치-cli-애플리케이션"&gt;Formulae 설치 (CLI 애플리케이션)&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;brew install &amp;lt;package-name&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;예: &lt;code&gt;wget&lt;/code&gt; 설치&lt;/p&gt;</description></item></channel></rss>

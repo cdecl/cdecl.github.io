@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Make on cdeclog</title><link>https://cdecl.github.io/tags/make/</link><description>Recent content in Make on cdeclog</description><generator>Hugo -- 0.154.5</generator><language>ko-kr</language><lastBuildDate>Fri, 15 Nov 2024 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/make/index.xml" rel="self" type="application/rss+xml"/><item><title>모던 CMake 기본 가이드</title><link>https://cdecl.github.io/dev/modern-cmake-guide/</link><pubDate>Fri, 15 Nov 2024 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/modern-cmake-guide/</guid><description>&lt;p&gt;모던 CMake 기본 가이드: 타겟 중심의 현대적인 빌드 시스템&lt;/p&gt;
+&lt;h2 id="1-makefile-대비-cmake의-장점"&gt;1. Makefile 대비 CMake의 장점&lt;/h2&gt;
+&lt;h3 id="크로스-플랫폼-지원"&gt;크로스 플랫폼 지원&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Makefile은 Unix 계열 시스템에 특화되어 있지만, CMake는 Windows, Linux, macOS 등 다양한 플랫폼 지원&lt;/li&gt;
+&lt;li&gt;Visual Studio, Ninja, Unix Makefiles 등 다양한 빌드 시스템 생성 가능&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="타겟-중심의-의존성-관리"&gt;타겟 중심의 의존성 관리&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;명확한 의존성 전파 (PUBLIC, PRIVATE, INTERFACE)&lt;/li&gt;
+&lt;li&gt;자동 헤더 의존성 추적&lt;/li&gt;
+&lt;li&gt;현대적인 패키지 관리 (find_package)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="향상된-ide-지원"&gt;향상된 IDE 지원&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Visual Studio, CLion 등과 완벽한 통합&lt;/li&gt;
+&lt;li&gt;자동 완성 및 인텔리센스 지원&lt;/li&gt;
+&lt;li&gt;CMake 프리셋 지원&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="2-모던-cmake의-특징"&gt;2. 모던 CMake의 특징&lt;/h2&gt;
+&lt;h3 id="기존-cmake와의-주요-차이점"&gt;기존 CMake와의 주요 차이점&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;타겟 중심 접근: 전역 변수 대신 특정 타겟에 한정하여 빌드 옵션을 지정합니다.&lt;/li&gt;
+&lt;li&gt;개선된 의존성 관리: 빌드 의존성 문제를 해결하고 불필요한 참조를 줄입니다.&lt;/li&gt;
+&lt;li&gt;새로운 명령어 도입: target_link_libraries, target_include_directories 등의 새로운 명령어를 사용합니다.&lt;/li&gt;
+&lt;li&gt;PUBLIC, PRIVATE 키워드를 통한 세밀한 의존 관계 설정&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;CMake 3.0.0부터 모던 CMake의 기본 기능 지원&lt;/li&gt;
+&lt;li&gt;CMake 3.12+ 버전부터 &amp;ldquo;More Modern CMake&amp;rdquo; 기능 제공&lt;/li&gt;
+&lt;li&gt;CMake 3.15+ 버전 사용 권장&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;h3 id="타겟-중심-접근"&gt;타겟 중심 접근&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-cmake" data-lang="cmake"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 안티패턴 (사용하지 말 것)
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;include_directories(&lt;span style="color:#e6db74"&gt;include&lt;/span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;add_definitions(&lt;span style="color:#e6db74"&gt;-DSOME_DEFINE&lt;/span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;link_directories(&lt;span style="color:#e6db74"&gt;lib&lt;/span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 모던 패턴 (권장)
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;add_executable(&lt;span style="color:#e6db74"&gt;myapp&lt;/span&gt; &lt;span style="color:#e6db74"&gt;src/main.cpp&lt;/span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;target_include_directories(&lt;span style="color:#e6db74"&gt;myapp&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;PUBLIC&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;${&lt;/span&gt;CMAKE_CURRENT_SOURCE_DIR&lt;span style="color:#f92672"&gt;}&lt;/span&gt;&lt;span style="color:#e6db74"&gt;/include&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;target_compile_definitions(&lt;span style="color:#e6db74"&gt;myapp&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;PRIVATE&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;SOME_DEFINE&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;target_link_directories(&lt;span style="color:#e6db74"&gt;myapp&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;PRIVATE&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;${&lt;/span&gt;CMAKE_CURRENT_SOURCE_DIR&lt;span style="color:#f92672"&gt;}&lt;/span&gt;&lt;span style="color:#e6db74"&gt;/lib&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="범위와-전파"&gt;범위와 전파&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-cmake" data-lang="cmake"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 라이브러리 설정
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;add_library(&lt;span style="color:#e6db74"&gt;mylib&lt;/span&gt; &lt;span style="color:#e6db74"&gt;SHARED&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;src/lib.cpp&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;include/lib.h&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;target_include_directories(&lt;span style="color:#e6db74"&gt;mylib&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;PUBLIC&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;${&lt;/span&gt;CMAKE_CURRENT_SOURCE_DIR&lt;span style="color:#f92672"&gt;}&lt;/span&gt;&lt;span style="color:#e6db74"&gt;/include&lt;/span&gt; &lt;span style="color:#75715e"&gt;# 헤더는 공개
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;PRIVATE&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;${&lt;/span&gt;CMAKE_CURRENT_SOURCE_DIR&lt;span style="color:#f92672"&gt;}&lt;/span&gt;&lt;span style="color:#e6db74"&gt;/src&lt;/span&gt; &lt;span style="color:#75715e"&gt;# 구현은 비공개
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 실행 파일에서 라이브러리 사용
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;add_executable(&lt;span style="color:#e6db74"&gt;myapp&lt;/span&gt; &lt;span style="color:#e6db74"&gt;src/main.cpp&lt;/span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;target_link_libraries(&lt;span style="color:#e6db74"&gt;myapp&lt;/span&gt; &lt;span style="color:#e6db74"&gt;PRIVATE&lt;/span&gt; &lt;span style="color:#e6db74"&gt;mylib&lt;/span&gt;) &lt;span style="color:#75715e"&gt;# 자동으로 include 경로 전파
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="범위scope와-전파propagation의-개념"&gt;범위(Scope)와 전파(Propagation)의 개념&lt;/h3&gt;
+&lt;p&gt;CMake에서 범위는 특정 설정(컴파일 옵션, include 디렉토리 등)이 어디에 적용될지를 나타냅니다. 전파는 이러한 설정이 다른 타겟(target)으로 전달되는 방식을 정의합니다.&lt;/p&gt;</description></item></channel></rss>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Uv on cdeclog</title><link>https://cdecl.github.io/tags/uv/</link><description>Recent content in Uv on cdeclog</description><generator>Hugo -- 0.154.5</generator><language>ko-kr</language><lastBuildDate>Sun, 20 Jul 2025 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/uv/index.xml" rel="self" type="application/rss+xml"/><item><title>Python uv 프로젝트 구조</title><link>https://cdecl.github.io/dev/python-uv-project-structure/</link><pubDate>Sun, 20 Jul 2025 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/python-uv-project-structure/</guid><description>&lt;p&gt;uv를 활용한 현대적인 Python 프로젝트 구조, &lt;code&gt;src&lt;/code&gt; 레이아웃과 Flat 레이아웃의 차이점, 그리고 &lt;code&gt;uvx&lt;/code&gt;를 통한 원격 도구 실행 방법을 알아봅니다.&lt;/p&gt;
+&lt;h2 id="python-프로젝트-구조의-중요성"&gt;Python 프로젝트 구조의 중요성&lt;/h2&gt;
+&lt;p&gt;잘 구성된 프로젝트 디렉토리 구조는 코드의 유지보수성, 확장성, 그리고 협업 효율성을 크게 향상시킵니다. Python에서는 전통적으로 두 가지 주요 레이아웃이 사용됩니다: &lt;strong&gt;Flat 레이아웃&lt;/strong&gt;과 &lt;strong&gt;&lt;code&gt;src&lt;/code&gt; 레이아웃&lt;/strong&gt;. 현대적인 Python 프로젝트에서는 &lt;code&gt;src&lt;/code&gt; 레이아웃이 많은 이점을 제공하여 표준으로 자리 잡고 있습니다.&lt;/p&gt;
+&lt;h2 id="일반적인-python-프로젝트-디렉토리-구조"&gt;일반적인 Python 프로젝트 디렉토리 구조&lt;/h2&gt;
+&lt;p&gt;현대적인 Python 프로젝트는 일반적으로 다음과 같은 구조를 가집니다.&lt;/p&gt;</description></item><item><title>Python uv 101</title><link>https://cdecl.github.io/dev/python-uv/</link><pubDate>Sat, 15 Mar 2025 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/python-uv/</guid><description>&lt;p&gt;Python uv 가이드: 빠르고 강력한 패키지 관리 도구&lt;/p&gt;
+&lt;h2 id="1-python-uv란"&gt;1. Python uv란?&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;uv&lt;/code&gt;는 Astral에서 개발한 Python 패키지 및 프로젝트 관리 도구로, 기존 &lt;code&gt;pip&lt;/code&gt;와 &lt;code&gt;venv&lt;/code&gt;를 대체하거나 보완할 수 있도록 설계되었습니다. Rust로 작성되어 초고속 성능을 자랑하며, 통합적인 환경 관리와 의존성 해결 기능을 제공합니다. 주요 용도는 다음과 같습니다:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Python 패키지 설치 및 관리&lt;/li&gt;
+&lt;li&gt;가상 환경 생성 및 동기화&lt;/li&gt;
+&lt;li&gt;의존성 잠금 및 프로젝트 관리&lt;/li&gt;
+&lt;li&gt;기존 워크플로우 개선&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="주요-기능"&gt;주요 기능&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;초고속 성능:&lt;/strong&gt; &lt;code&gt;pip&lt;/code&gt;보다 10~100배 빠른 설치 속도&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;통합 도구:&lt;/strong&gt; 패키지 설치, 가상 환경 생성, 의존성 잠금을 단일 명령어로 처리&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;글로벌 캐시:&lt;/strong&gt; 동일한 의존성을 재사용해 디스크 공간 절약&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;호환성:&lt;/strong&gt; 기존 &lt;code&gt;pip&lt;/code&gt; 및 &lt;code&gt;venv&lt;/code&gt;와의 높은 호환성&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;code&gt;uv&lt;/code&gt;는 기존 Python 도구의 복잡성을 줄이고, 현대적인 개발 환경에 최적화된 대안을 제공합니다.&lt;/p&gt;</description></item></channel></rss>

@@ -1,0 +1,894 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>C++ on cdeclog</title><link>https://cdecl.github.io/tags/c++/</link><description>Recent content in C++ on cdeclog</description><generator>Hugo -- 0.154.5</generator><language>ko-kr</language><lastBuildDate>Sun, 07 Dec 2025 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/c++/index.xml" rel="self" type="application/rss+xml"/><item><title>락프리(Lock-Free) 알고리즘 이해하기</title><link>https://cdecl.github.io/dev/lock-free-algorithm/</link><pubDate>Sun, 07 Dec 2025 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/lock-free-algorithm/</guid><description>&lt;p&gt;멀티스레드 프로그래밍 환경에서 동시성 제어는 성능과 직결되는 매우 중요한 문제입니다. 이번 글에서는 전통적인 락 기반 동시성 제어의 한계를 극복하기 위해 등장한 &lt;strong&gt;락프리(Lock-Free) 알고리즘&lt;/strong&gt;에 대해 알아보고, 그 개념과 구현 방법, 그리고 장단점을 살펴보겠습니다.&lt;/p&gt;
+&lt;h2 id="락프리-알고리즘이란"&gt;락프리 알고리즘이란?&lt;/h2&gt;
+&lt;p&gt;**락프리(Lock-Free)**는 이름 그대로 &lt;strong&gt;&amp;ldquo;자물쇠(Lock) 없이&amp;rdquo;&lt;/strong&gt; 여러 스레드가 동시에 데이터를 처리하는 기술입니다.&lt;/p&gt;
+&lt;p&gt;쉽게 비유하자면 &lt;strong&gt;회전문&lt;/strong&gt;과 같습니다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;락(Lock)&lt;/strong&gt;: 한 번에 한 명만 들어갈 수 있는 화장실입니다. 누군가 안에 있으면 밖에서 열쇠를 받을 때까지 마냥 기다려야 합니다.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;락프리(Lock-Free)&lt;/strong&gt;: 여러 사람이 동시에 지나갈 수 있는 회전문입니다. 가끔 문이 꽉 차서 한 바퀴 더 돌아야 할 수도 있지만, 멈추지 않고 계속 움직일 수 있습니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;락프리는 시스템 전체가 멈추는 일(Deadlock) 없이, 누군가는 반드시 작업을 완료한다는 것을 보장합니다.&lt;/p&gt;</description></item><item><title>C++ std::format, std::print 사용법과 컴파일러 호환성</title><link>https://cdecl.github.io/dev/cpp-format-print/</link><pubDate>Thu, 22 May 2025 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/cpp-format-print/</guid><description>&lt;p&gt;C++20 std::format과 C++23 std::print: 현대적인 문자열 포매팅&lt;/p&gt;
+&lt;p&gt;C++20과 C++23은 문자열 포매팅을 현대화한 &lt;code&gt;std::format&lt;/code&gt;과 &lt;code&gt;std::print&lt;/code&gt;를 도입하며, 기존의 &lt;code&gt;printf&lt;/code&gt;나 &lt;code&gt;std::cout&lt;/code&gt;에 비해 안전하고 직관적인 API를 제공합니다. 이 글에서는 두 기능의 사용법, 컴파일러 호환성, 그리고 지원되지 않는 환경에서 &lt;code&gt;fmt&lt;/code&gt; 라이브러리 사용 방법을 다룹니다.&lt;/p&gt;
+&lt;h2 id="왜-새로운-포매팅-api가-중요한가"&gt;왜 새로운 포매팅 API가 중요한가?&lt;/h2&gt;
+&lt;p&gt;기존 C++ 문자열 포매팅 방법(&lt;code&gt;printf&lt;/code&gt;, &lt;code&gt;std::stringstream&lt;/code&gt;, &lt;code&gt;std::cout&lt;/code&gt;)은 다음과 같은 단점이 있습니다:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;안전성 부족&lt;/strong&gt;: &lt;code&gt;printf&lt;/code&gt;는 타입 안정성을 보장하지 않아 런타임 오류 발생 가능.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;복잡성&lt;/strong&gt;: &lt;code&gt;std::stringstream&lt;/code&gt;은 장황하고 성능 오버헤드 존재.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;가독성&lt;/strong&gt;: &lt;code&gt;std::cout&lt;/code&gt;은 연속적인 &lt;code&gt;&amp;lt;&amp;lt;&lt;/code&gt; 연산으로 코드가 길어짐.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;code&gt;std::format&lt;/code&gt;(C++20)과 &lt;code&gt;std::print&lt;/code&gt;(C++23)는 Python의 &lt;code&gt;str.format&lt;/code&gt;에서 영감을 받아 타입 안전성, 가독성, 성능을 개선했습니다. &lt;code&gt;fmt&lt;/code&gt; 라이브러리는 이를 보완하며, 최신 표준을 지원하지 않는 환경에서도 동일한 경험을 제공합니다.&lt;/p&gt;</description></item><item><title>C++ 메모리 할당기 - tcmalloc, jemalloc</title><link>https://cdecl.github.io/dev/c++-memory-tcmalloc/</link><pubDate>Thu, 15 May 2025 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/c++-memory-tcmalloc/</guid><description>&lt;p&gt;멀티스레드 최적화 힙 메모리 할당기: tcmalloc, jemalloc&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a href="https://cdecl.tistory.com/304"&gt;이글 UPDATE : https://cdecl.tistory.com/304&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id="왜-멀티스레드-메모리-할당기가-중요한가"&gt;왜 멀티스레드 메모리 할당기가 중요한가?&lt;/h2&gt;
+&lt;p&gt;기본 메모리 할당기(glibc의 &lt;code&gt;malloc&lt;/code&gt;, Windows의 &lt;code&gt;HeapAlloc&lt;/code&gt;)는 범용성을 목표로 설계되었지만, 멀티스레드 환경에서는 다음과 같은 문제로 성능이 저하됩니다:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;락 경합(Lock Contention)&lt;/strong&gt;: 다중 스레드가 동시에 메모리를 할당/해제할 때 락으로 인한 대기 시간 증가.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;메모리 단편화(Memory Fragmentation)&lt;/strong&gt;: 빈번한 할당/해제로 메모리 사용 효율 저하.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;ABI 호환성 문제&lt;/strong&gt;: 서로 다른 컴파일러나 표준 라이브러리 간 메모리 관리 방식 차이로 인한 런타임 오류.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;tcmalloc&lt;/strong&gt;, &lt;strong&gt;jemalloc&lt;/strong&gt;, &lt;strong&gt;mimalloc&lt;/strong&gt;은 스레드별 캐싱, 효율적인 메모리 관리, ABI 안정성을 고려한 설계로 이러한 문제를 해결합니다. 이들은 웹 브라우저(Chrome, Firefox), 데이터베이스(MySQL, RocksDB), 고성능 서버에서 널리 사용됩니다.&lt;/p&gt;</description></item><item><title>C++ 언어의 ABI 이슈 및 호환성 가이드</title><link>https://cdecl.github.io/dev/cpp-abi/</link><pubDate>Thu, 01 May 2025 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/cpp-abi/</guid><description>&lt;p&gt;C++ 언어의 ABI 이슈 및 호환성 가이드&lt;/p&gt;
+&lt;h2 id="1-abi란-무엇인가"&gt;1. ABI란 무엇인가?&lt;/h2&gt;
+&lt;p&gt;ABI(Application Binary Interface)는 컴파일된 바이너리 코드(오브젝트 파일, 라이브러리, 실행 파일 등)가 서로 상호작용할 수 있도록 정의된 규칙입니다. C++에서는 이름 맹글링, 호출 규약, 객체 레이아웃, 예외 처리 등이 포함됩니다. C++의 복잡한 기능(클래스, 템플릿, 예외 처리 등)으로 인해 ABI 이슈는 특히 중요하며, 서로 다른 컴파일러나 환경 간 호환성 문제를 자주 일으킵니다.&lt;/p&gt;
+&lt;h2 id="2-c-abi의-주요-이슈"&gt;2. C++ ABI의 주요 이슈&lt;/h2&gt;
+&lt;p&gt;C++는 언어의 복잡성으로 인해 다양한 ABI 이슈가 발생합니다. 아래는 주요 이슈와 구체적인 예입니다.&lt;/p&gt;</description></item><item><title>모던 CMake 기본 가이드</title><link>https://cdecl.github.io/dev/modern-cmake-guide/</link><pubDate>Fri, 15 Nov 2024 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/modern-cmake-guide/</guid><description>&lt;p&gt;모던 CMake 기본 가이드: 타겟 중심의 현대적인 빌드 시스템&lt;/p&gt;
+&lt;h2 id="1-makefile-대비-cmake의-장점"&gt;1. Makefile 대비 CMake의 장점&lt;/h2&gt;
+&lt;h3 id="크로스-플랫폼-지원"&gt;크로스 플랫폼 지원&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Makefile은 Unix 계열 시스템에 특화되어 있지만, CMake는 Windows, Linux, macOS 등 다양한 플랫폼 지원&lt;/li&gt;
+&lt;li&gt;Visual Studio, Ninja, Unix Makefiles 등 다양한 빌드 시스템 생성 가능&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="타겟-중심의-의존성-관리"&gt;타겟 중심의 의존성 관리&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;명확한 의존성 전파 (PUBLIC, PRIVATE, INTERFACE)&lt;/li&gt;
+&lt;li&gt;자동 헤더 의존성 추적&lt;/li&gt;
+&lt;li&gt;현대적인 패키지 관리 (find_package)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="향상된-ide-지원"&gt;향상된 IDE 지원&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Visual Studio, CLion 등과 완벽한 통합&lt;/li&gt;
+&lt;li&gt;자동 완성 및 인텔리센스 지원&lt;/li&gt;
+&lt;li&gt;CMake 프리셋 지원&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="2-모던-cmake의-특징"&gt;2. 모던 CMake의 특징&lt;/h2&gt;
+&lt;h3 id="기존-cmake와의-주요-차이점"&gt;기존 CMake와의 주요 차이점&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;타겟 중심 접근: 전역 변수 대신 특정 타겟에 한정하여 빌드 옵션을 지정합니다.&lt;/li&gt;
+&lt;li&gt;개선된 의존성 관리: 빌드 의존성 문제를 해결하고 불필요한 참조를 줄입니다.&lt;/li&gt;
+&lt;li&gt;새로운 명령어 도입: target_link_libraries, target_include_directories 등의 새로운 명령어를 사용합니다.&lt;/li&gt;
+&lt;li&gt;PUBLIC, PRIVATE 키워드를 통한 세밀한 의존 관계 설정&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;CMake 3.0.0부터 모던 CMake의 기본 기능 지원&lt;/li&gt;
+&lt;li&gt;CMake 3.12+ 버전부터 &amp;ldquo;More Modern CMake&amp;rdquo; 기능 제공&lt;/li&gt;
+&lt;li&gt;CMake 3.15+ 버전 사용 권장&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;h3 id="타겟-중심-접근"&gt;타겟 중심 접근&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-cmake" data-lang="cmake"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 안티패턴 (사용하지 말 것)
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;include_directories(&lt;span style="color:#e6db74"&gt;include&lt;/span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;add_definitions(&lt;span style="color:#e6db74"&gt;-DSOME_DEFINE&lt;/span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;link_directories(&lt;span style="color:#e6db74"&gt;lib&lt;/span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 모던 패턴 (권장)
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;add_executable(&lt;span style="color:#e6db74"&gt;myapp&lt;/span&gt; &lt;span style="color:#e6db74"&gt;src/main.cpp&lt;/span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;target_include_directories(&lt;span style="color:#e6db74"&gt;myapp&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;PUBLIC&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;${&lt;/span&gt;CMAKE_CURRENT_SOURCE_DIR&lt;span style="color:#f92672"&gt;}&lt;/span&gt;&lt;span style="color:#e6db74"&gt;/include&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;target_compile_definitions(&lt;span style="color:#e6db74"&gt;myapp&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;PRIVATE&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;SOME_DEFINE&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;target_link_directories(&lt;span style="color:#e6db74"&gt;myapp&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;PRIVATE&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;${&lt;/span&gt;CMAKE_CURRENT_SOURCE_DIR&lt;span style="color:#f92672"&gt;}&lt;/span&gt;&lt;span style="color:#e6db74"&gt;/lib&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="범위와-전파"&gt;범위와 전파&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-cmake" data-lang="cmake"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 라이브러리 설정
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;add_library(&lt;span style="color:#e6db74"&gt;mylib&lt;/span&gt; &lt;span style="color:#e6db74"&gt;SHARED&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;src/lib.cpp&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;include/lib.h&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;target_include_directories(&lt;span style="color:#e6db74"&gt;mylib&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;PUBLIC&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;${&lt;/span&gt;CMAKE_CURRENT_SOURCE_DIR&lt;span style="color:#f92672"&gt;}&lt;/span&gt;&lt;span style="color:#e6db74"&gt;/include&lt;/span&gt; &lt;span style="color:#75715e"&gt;# 헤더는 공개
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;PRIVATE&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;${&lt;/span&gt;CMAKE_CURRENT_SOURCE_DIR&lt;span style="color:#f92672"&gt;}&lt;/span&gt;&lt;span style="color:#e6db74"&gt;/src&lt;/span&gt; &lt;span style="color:#75715e"&gt;# 구현은 비공개
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 실행 파일에서 라이브러리 사용
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;add_executable(&lt;span style="color:#e6db74"&gt;myapp&lt;/span&gt; &lt;span style="color:#e6db74"&gt;src/main.cpp&lt;/span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;target_link_libraries(&lt;span style="color:#e6db74"&gt;myapp&lt;/span&gt; &lt;span style="color:#e6db74"&gt;PRIVATE&lt;/span&gt; &lt;span style="color:#e6db74"&gt;mylib&lt;/span&gt;) &lt;span style="color:#75715e"&gt;# 자동으로 include 경로 전파
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="범위scope와-전파propagation의-개념"&gt;범위(Scope)와 전파(Propagation)의 개념&lt;/h3&gt;
+&lt;p&gt;CMake에서 범위는 특정 설정(컴파일 옵션, include 디렉토리 등)이 어디에 적용될지를 나타냅니다. 전파는 이러한 설정이 다른 타겟(target)으로 전달되는 방식을 정의합니다.&lt;/p&gt;</description></item><item><title>C++ Lambda 표현식</title><link>https://cdecl.github.io/dev/c++-lambda/</link><pubDate>Tue, 14 Dec 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/c++-lambda/</guid><description>&lt;p&gt;C++14, C++17, C++20 버전별 Lambda 표현 정리&lt;/p&gt;
+&lt;h2 id="the-evolutions-of-lambdas-in-c14-c17-and-c20"&gt;The Evolutions of Lambdas in C++14, C++17 and C++20&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.fluentcpp.com/2021/12/13/the-evolutions-of-lambdas-in-c14-c17-and-c20/"&gt;https://www.fluentcpp.com/2021/12/13/the-evolutions-of-lambdas-in-c14-c17-and-c20/&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;li&gt;해당 글을 참고하여 예제 자체 작성&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="c14"&gt;C++14&lt;/h3&gt;
+&lt;h4 id="default-parameters"&gt;Default parameters&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-c++" data-lang="c++"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#include&lt;/span&gt; &lt;span style="color:#75715e"&gt;&amp;lt;iostream&amp;gt;&lt;/span&gt;&lt;span style="color:#75715e"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;using&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;namespace&lt;/span&gt; std;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;main&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;auto&lt;/span&gt; fn &lt;span style="color:#f92672"&gt;=&lt;/span&gt; [](&lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; a, &lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; b &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;return&lt;/span&gt; a &lt;span style="color:#f92672"&gt;+&lt;/span&gt; b;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; cout &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; fn(&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;) &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl; &lt;span style="color:#75715e"&gt;// 1
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; cout &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; fn(&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;, &lt;span style="color:#ae81ff"&gt;2&lt;/span&gt;) &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl; &lt;span style="color:#75715e"&gt;// 3
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id="template-parameters"&gt;Template parameters&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-c++" data-lang="c++"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#include&lt;/span&gt; &lt;span style="color:#75715e"&gt;&amp;lt;iostream&amp;gt;&lt;/span&gt;&lt;span style="color:#75715e"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#include&lt;/span&gt; &lt;span style="color:#75715e"&gt;&amp;lt;string&amp;gt;&lt;/span&gt;&lt;span style="color:#75715e"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#include&lt;/span&gt; &lt;span style="color:#75715e"&gt;&amp;lt;vector&amp;gt;&lt;/span&gt;&lt;span style="color:#75715e"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;using&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;namespace&lt;/span&gt; std;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;main&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;auto&lt;/span&gt; fn &lt;span style="color:#f92672"&gt;=&lt;/span&gt; [](&lt;span style="color:#66d9ef"&gt;auto&lt;/span&gt; &lt;span style="color:#f92672"&gt;&amp;amp;&amp;amp;&lt;/span&gt; c) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;return&lt;/span&gt; c.size();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; vector&lt;span style="color:#f92672"&gt;&amp;lt;&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;int&lt;/span&gt;&lt;span style="color:#f92672"&gt;&amp;gt;&lt;/span&gt; v &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;, &lt;span style="color:#ae81ff"&gt;2&lt;/span&gt;, &lt;span style="color:#ae81ff"&gt;3&lt;/span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; cout &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; fn(v) &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl; &lt;span style="color:#75715e"&gt;// 3
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; string s &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;12345&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; cout &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; fn(s) &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl; &lt;span style="color:#75715e"&gt;// 5
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id="generalised-capture"&gt;Generalised capture&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-c++" data-lang="c++"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#include&lt;/span&gt; &lt;span style="color:#75715e"&gt;&amp;lt;iostream&amp;gt;&lt;/span&gt;&lt;span style="color:#75715e"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#include&lt;/span&gt; &lt;span style="color:#75715e"&gt;&amp;lt;string&amp;gt;&lt;/span&gt;&lt;span style="color:#75715e"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;using&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;namespace&lt;/span&gt; std;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;main&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; string str &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;string&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;auto&lt;/span&gt; fn &lt;span style="color:#f92672"&gt;=&lt;/span&gt; [s &lt;span style="color:#f92672"&gt;=&lt;/span&gt; str &lt;span style="color:#f92672"&gt;+&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;_capture&amp;#34;&lt;/span&gt;s](string body) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; cout &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; s &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34; : &amp;#34;&lt;/span&gt; &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; body &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; fn(&lt;span style="color:#e6db74"&gt;&amp;#34;test&amp;#34;&lt;/span&gt;); &lt;span style="color:#75715e"&gt;// string_capture : test
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id="returning-a-lambda-from-a-function"&gt;Returning a lambda from a function&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-c++" data-lang="c++"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#include&lt;/span&gt; &lt;span style="color:#75715e"&gt;&amp;lt;iostream&amp;gt;&lt;/span&gt;&lt;span style="color:#75715e"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;using&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;namespace&lt;/span&gt; std;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;auto&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;getAdd&lt;/span&gt;(&lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; n)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;return&lt;/span&gt; [n](&lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; an) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;return&lt;/span&gt; n &lt;span style="color:#f92672"&gt;+&lt;/span&gt; an;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;main&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;auto&lt;/span&gt; fn &lt;span style="color:#f92672"&gt;=&lt;/span&gt; getAdd(&lt;span style="color:#ae81ff"&gt;10&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; cout &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; fn(&lt;span style="color:#ae81ff"&gt;20&lt;/span&gt;) &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;hr&gt;
+&lt;h3 id="c17"&gt;C++17&lt;/h3&gt;
+&lt;h4 id="constexpr"&gt;Constexpr&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-c++" data-lang="c++"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#include&lt;/span&gt; &lt;span style="color:#75715e"&gt;&amp;lt;iostream&amp;gt;&lt;/span&gt;&lt;span style="color:#75715e"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;using&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;namespace&lt;/span&gt; std;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;main&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;constexpr&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;auto&lt;/span&gt; fn &lt;span style="color:#f92672"&gt;=&lt;/span&gt; [](&lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; n){
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;return&lt;/span&gt; n &lt;span style="color:#f92672"&gt;+&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;10&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;static_assert&lt;/span&gt;(fn(&lt;span style="color:#ae81ff"&gt;10&lt;/span&gt;) &lt;span style="color:#f92672"&gt;==&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;20&lt;/span&gt;); &lt;span style="color:#75715e"&gt;// ok
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;static_assert&lt;/span&gt;(fn(&lt;span style="color:#ae81ff"&gt;20&lt;/span&gt;) &lt;span style="color:#f92672"&gt;==&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;20&lt;/span&gt;); &lt;span style="color:#75715e"&gt;// error: static assertion failed
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id="capturing-a-copy-of-this"&gt;Capturing a copy of *this&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;this 참조에 캡쳐가 아닌, *this 복사본 캡쳐&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-c++" data-lang="c++"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#include&lt;/span&gt; &lt;span style="color:#75715e"&gt;&amp;lt;iostream&amp;gt;&lt;/span&gt;&lt;span style="color:#75715e"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#include&lt;/span&gt; &lt;span style="color:#75715e"&gt;&amp;lt;memory&amp;gt;&lt;/span&gt;&lt;span style="color:#75715e"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#include&lt;/span&gt; &lt;span style="color:#75715e"&gt;&amp;lt;tuple&amp;gt;&lt;/span&gt;&lt;span style="color:#75715e"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;using&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;namespace&lt;/span&gt; std;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;class&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;item&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt;&lt;span style="color:#f92672"&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; item(&lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; n &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt;) &lt;span style="color:#f92672"&gt;:&lt;/span&gt; _value(n) {}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;auto&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;test&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; _value &lt;span style="color:#f92672"&gt;+=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// copy capture
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;auto&lt;/span&gt; fn1 &lt;span style="color:#f92672"&gt;=&lt;/span&gt; [&lt;span style="color:#f92672"&gt;*&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;this&lt;/span&gt;] { &lt;span style="color:#66d9ef"&gt;return&lt;/span&gt; _value; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;auto&lt;/span&gt; fn2 &lt;span style="color:#f92672"&gt;=&lt;/span&gt; [self &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#f92672"&gt;*&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;this&lt;/span&gt;] { &lt;span style="color:#66d9ef"&gt;return&lt;/span&gt; self._value; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// ref capture
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;auto&lt;/span&gt; fn3 &lt;span style="color:#f92672"&gt;=&lt;/span&gt; [&lt;span style="color:#66d9ef"&gt;this&lt;/span&gt;] { &lt;span style="color:#66d9ef"&gt;return&lt;/span&gt; _value; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; _value &lt;span style="color:#f92672"&gt;+=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; fn1(); &lt;span style="color:#75715e"&gt;// 11
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; fn2(); &lt;span style="color:#75715e"&gt;// 11
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; fn3(); &lt;span style="color:#75715e"&gt;// 12
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;return&lt;/span&gt; make_tuple(fn1, fn2, fn3);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;private&lt;/span&gt;&lt;span style="color:#f92672"&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; _value;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;main&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;auto&lt;/span&gt; it &lt;span style="color:#f92672"&gt;=&lt;/span&gt; make_shared&lt;span style="color:#f92672"&gt;&amp;lt;&lt;/span&gt;item&lt;span style="color:#f92672"&gt;&amp;gt;&lt;/span&gt;(&lt;span style="color:#ae81ff"&gt;10&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;auto&lt;/span&gt; tp &lt;span style="color:#f92672"&gt;=&lt;/span&gt; it&lt;span style="color:#f92672"&gt;-&amp;gt;&lt;/span&gt;test();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; it.reset();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; cout &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; get&lt;span style="color:#f92672"&gt;&amp;lt;&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;0&lt;/span&gt;&lt;span style="color:#f92672"&gt;&amp;gt;&lt;/span&gt;(tp)() &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; cout &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; get&lt;span style="color:#f92672"&gt;&amp;lt;&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;&lt;span style="color:#f92672"&gt;&amp;gt;&lt;/span&gt;(tp)() &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; cout &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; get&lt;span style="color:#f92672"&gt;&amp;lt;&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;2&lt;/span&gt;&lt;span style="color:#f92672"&gt;&amp;gt;&lt;/span&gt;(tp)() &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl; &lt;span style="color:#75715e"&gt;// ref memory error
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;hr&gt;
+&lt;h3 id="c20"&gt;C++20&lt;/h3&gt;
+&lt;h4 id="template-syntax-for-lambdas"&gt;Template syntax for lambdas&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-c++" data-lang="c++"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#include&lt;/span&gt; &lt;span style="color:#75715e"&gt;&amp;lt;iostream&amp;gt;&lt;/span&gt;&lt;span style="color:#75715e"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#include&lt;/span&gt; &lt;span style="color:#75715e"&gt;&amp;lt;vector&amp;gt;&lt;/span&gt;&lt;span style="color:#75715e"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;using&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;namespace&lt;/span&gt; std;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;main&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;auto&lt;/span&gt; fn &lt;span style="color:#f92672"&gt;=&lt;/span&gt; []&lt;span style="color:#f92672"&gt;&amp;lt;&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;typename&lt;/span&gt; T&lt;span style="color:#f92672"&gt;&amp;gt;&lt;/span&gt;(vector&lt;span style="color:#f92672"&gt;&amp;lt;&lt;/span&gt;T&lt;span style="color:#f92672"&gt;&amp;gt;&lt;/span&gt; &lt;span style="color:#f92672"&gt;&amp;amp;&lt;/span&gt;v) { &lt;span style="color:#66d9ef"&gt;return&lt;/span&gt; v.size(); };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; vector&lt;span style="color:#f92672"&gt;&amp;lt;&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;int&lt;/span&gt;&lt;span style="color:#f92672"&gt;&amp;gt;&lt;/span&gt; v &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;, &lt;span style="color:#ae81ff"&gt;2&lt;/span&gt;, &lt;span style="color:#ae81ff"&gt;3&lt;/span&gt;, &lt;span style="color:#ae81ff"&gt;4&lt;/span&gt;, &lt;span style="color:#ae81ff"&gt;5&lt;/span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; cout &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; fn(v) &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id="lambda-capture-of-parameter-pack"&gt;Lambda capture of parameter pack&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-c++" data-lang="c++"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#include&lt;/span&gt; &lt;span style="color:#75715e"&gt;&amp;lt;iostream&amp;gt;&lt;/span&gt;&lt;span style="color:#75715e"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#include&lt;/span&gt; &lt;span style="color:#75715e"&gt;&amp;lt;string&amp;gt;&lt;/span&gt;&lt;span style="color:#75715e"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;using&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;namespace&lt;/span&gt; std;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;template&lt;/span&gt; &lt;span style="color:#f92672"&gt;&amp;lt;&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;typename&lt;/span&gt;... Args&lt;span style="color:#f92672"&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;auto&lt;/span&gt; getAddFunc(Args&lt;span style="color:#f92672"&gt;&amp;amp;&amp;amp;&lt;/span&gt;... args){
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// by ref [&amp;amp;...args = std::forward&amp;lt;Args&amp;gt;(args)]
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// by value
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;return&lt;/span&gt; [...args &lt;span style="color:#f92672"&gt;=&lt;/span&gt; std&lt;span style="color:#f92672"&gt;::&lt;/span&gt;forward&lt;span style="color:#f92672"&gt;&amp;lt;&lt;/span&gt;Args&lt;span style="color:#f92672"&gt;&amp;gt;&lt;/span&gt;(args)] (&lt;span style="color:#66d9ef"&gt;auto&lt;/span&gt; &lt;span style="color:#f92672"&gt;&amp;amp;&amp;amp;&lt;/span&gt; init) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;return&lt;/span&gt; init &lt;span style="color:#f92672"&gt;+&lt;/span&gt; (args &lt;span style="color:#f92672"&gt;+&lt;/span&gt; ...);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;main&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;auto&lt;/span&gt; fn &lt;span style="color:#f92672"&gt;=&lt;/span&gt; getAddFunc(&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;, &lt;span style="color:#ae81ff"&gt;2&lt;/span&gt;, &lt;span style="color:#ae81ff"&gt;3&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; cout &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; fn(&lt;span style="color:#ae81ff"&gt;10&lt;/span&gt;) &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl; &lt;span style="color:#75715e"&gt;// 16
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;auto&lt;/span&gt; fns &lt;span style="color:#f92672"&gt;=&lt;/span&gt; getAddFunc(&lt;span style="color:#e6db74"&gt;&amp;#34;this &amp;#34;&lt;/span&gt;s, &lt;span style="color:#e6db74"&gt;&amp;#34;is &amp;#34;&lt;/span&gt;s, &lt;span style="color:#e6db74"&gt;&amp;#34;sample&amp;#34;&lt;/span&gt;s);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; cout &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; fns(&lt;span style="color:#e6db74"&gt;&amp;#34;note: &amp;#34;&lt;/span&gt;s) &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl; &lt;span style="color:#75715e"&gt;// note: this is sample
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description></item><item><title>C++20 Modules - gnu c++ test</title><link>https://cdecl.github.io/dev/c++-modules-gcc/</link><pubDate>Fri, 03 Sep 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/c++-modules-gcc/</guid><description>&lt;p&gt;C++ Modules Test Example (g++)&lt;/p&gt;
+&lt;h2 id="c20-modules"&gt;C++20 Modules&lt;/h2&gt;
+&lt;p&gt;C++20에 추가된 모듈 &lt;code&gt;Modules&lt;/code&gt; 기능은 기존의 헤더 파일 &lt;code&gt;#include&lt;/code&gt;로 인한 컴파일 시간 증가 문제를 해결하고, 필요한 로직(함수, 심볼)만을 내보내는(export) 방식을 통해 타 언어의 모듈 단위처럼 효율적인 라이브러리 관리를 지원합니다.&lt;/p&gt;
+&lt;h3 id="modules의-주요-장점"&gt;Modules의 주요 장점&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;컴파일 시간 단축&lt;/strong&gt;: 각 모듈은 한 번만 컴파일되며, 그 결과가 캐시됨&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;심볼 격리&lt;/strong&gt;: 모듈 내부의 심볼은 명시적으로 export하지 않는 한 외부에서 접근 불가&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;순환 의존성 방지&lt;/strong&gt;: 헤더 파일과 달리 명확한 의존성 그래프 형성&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;매크로 독립성&lt;/strong&gt;: 모듈은 매크로의 영향을 받지 않아 더 안정적인 코드 작성 가능&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;일종의 PCH(Precompiled Header)의 기능을 포함한 표준적인 모듈 관리 기능입니다.&lt;br&gt;
+현재 컴파일러마다 (MSVC, g++, Clang) Standard Library 지원과 모듈 사용 방법이 약간 상이합니다.&lt;/p&gt;</description></item><item><title>Httplib (cpp-httplib) Sample</title><link>https://cdecl.github.io/dev/cpp-httplib-sample/</link><pubDate>Wed, 18 Aug 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/cpp-httplib-sample/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/yhirose/cpp-httplib"&gt;https://github.com/yhirose/cpp-httplib&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;li&gt;A C++11 single-file header-only cross platform HTTP/HTTPS library.
+&lt;ul&gt;
+&lt;li&gt;This is a multi-threaded &amp;lsquo;blocking&amp;rsquo; HTTP library&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;header-only 라이브러리로 Server와 Client Http 지원&lt;/li&gt;
+&lt;li&gt;SSL을 위한 OpenSSL 필요&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;cpprestsdk&lt;/code&gt;비해 가볍고, 쉽게 사용 가능&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="httplib-package-install-w-vcpkg"&gt;Httplib package install (w/ vcpkg)&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/microsoft/vcpkg"&gt;https://github.com/microsoft/vcpkg&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;li&gt;vcpkg 통해서 패키지 설치&lt;/li&gt;
+&lt;li&gt;header-only로 바로 사용가능하나 OpenSSL 필요시 패키지 설치가 용이&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# --triplet=x64-windows-static&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ vcpkg.exe install cpp-httplib openssl --triplet&lt;span style="color:#f92672"&gt;=&lt;/span&gt;x64-windows-static
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;...
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;The package cpp-httplib:x64-windows-static is header only and can be used from CMake via:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; find_path&lt;span style="color:#f92672"&gt;(&lt;/span&gt;CPP_HTTPLIB_INCLUDE_DIRS &lt;span style="color:#e6db74"&gt;&amp;#34;httplib.h&amp;#34;&lt;/span&gt;&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; target_include_directories&lt;span style="color:#f92672"&gt;(&lt;/span&gt;main PRIVATE &lt;span style="color:#e6db74"&gt;${&lt;/span&gt;CPP_HTTPLIB_INCLUDE_DIRS&lt;span style="color:#e6db74"&gt;}&lt;/span&gt;&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;The package openssl is compatible with built-in CMake targets:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; find_package&lt;span style="color:#f92672"&gt;(&lt;/span&gt;OpenSSL REQUIRED&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; target_link_libraries&lt;span style="color:#f92672"&gt;(&lt;/span&gt;main PRIVATE OpenSSL::SSL OpenSSL::Crypto&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id="json-test"&gt;Json test&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/nlohmann/json"&gt;https://github.com/nlohmann/json&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;$ vcpkg.exe install nlohmann-json --triplet=x64-windows-static
+The package nlohmann-json:x64-windows-static provides CMake targets:
+find_package(nlohmann_json CONFIG REQUIRED)
+target_link_libraries(main PRIVATE nlohmann_json nlohmann_json::nlohmann_json)
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id="sample-code"&gt;Sample code&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;HTTPS 호출을 위해 &lt;code&gt;CPPHTTPLIB_OPENSSL_SUPPORT&lt;/code&gt; 매크로가 정의 되어 있어야 함
+&lt;ul&gt;
+&lt;li&gt;정의하지 않고 HTTPS 호출시 : &lt;code&gt;'https' scheme is not supported.&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;using namespace std;&lt;/code&gt; std namespace 노출시 byte 타입 정의 모호함으로 인한 에러 발생
+&lt;ul&gt;
+&lt;li&gt;표준 라이브러리 보다 먼저 선언되던가 &lt;code&gt;using namespace std;&lt;/code&gt;를 피해야 함&lt;/li&gt;
+&lt;li&gt;&amp;lsquo;byte&amp;rsquo;: 모호한 기호입니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-cpp" data-lang="cpp"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#define CPPHTTPLIB_OPENSSL_SUPPORT
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#include&lt;/span&gt; &lt;span style="color:#75715e"&gt;&amp;lt;httplib.h&amp;gt;&lt;/span&gt;&lt;span style="color:#75715e"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#include&lt;/span&gt; &lt;span style="color:#75715e"&gt;&amp;lt;iostream&amp;gt;&lt;/span&gt;&lt;span style="color:#75715e"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;using&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;namespace&lt;/span&gt; std;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#include&lt;/span&gt; &lt;span style="color:#75715e"&gt;&amp;lt;nlohmann/json.hpp&amp;gt;&lt;/span&gt;&lt;span style="color:#75715e"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;using&lt;/span&gt; json &lt;span style="color:#f92672"&gt;=&lt;/span&gt; nlohmann&lt;span style="color:#f92672"&gt;::&lt;/span&gt;json;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;void&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;HttpRequest&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; httplib&lt;span style="color:#f92672"&gt;::&lt;/span&gt;Client cli(&lt;span style="color:#e6db74"&gt;&amp;#34;https://httpbin.org&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;auto&lt;/span&gt; resp &lt;span style="color:#f92672"&gt;=&lt;/span&gt; cli.Get(&lt;span style="color:#e6db74"&gt;&amp;#34;/get&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; cout &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;status: &amp;#34;&lt;/span&gt; &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; resp&lt;span style="color:#f92672"&gt;-&amp;gt;&lt;/span&gt;status &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; cout &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; resp&lt;span style="color:#f92672"&gt;-&amp;gt;&lt;/span&gt;body &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;auto&lt;/span&gt; resp &lt;span style="color:#f92672"&gt;=&lt;/span&gt; cli.Post(&lt;span style="color:#e6db74"&gt;&amp;#34;/post&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; cout &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;status: &amp;#34;&lt;/span&gt; &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; resp&lt;span style="color:#f92672"&gt;-&amp;gt;&lt;/span&gt;status &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; cout &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; resp&lt;span style="color:#f92672"&gt;-&amp;gt;&lt;/span&gt;body &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;auto&lt;/span&gt; js &lt;span style="color:#f92672"&gt;=&lt;/span&gt; json&lt;span style="color:#f92672"&gt;::&lt;/span&gt;parse(resp&lt;span style="color:#f92672"&gt;-&amp;gt;&lt;/span&gt;body);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; cout &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;User-Agent: &amp;#34;&lt;/span&gt; &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; js[&lt;span style="color:#e6db74"&gt;&amp;#34;headers&amp;#34;&lt;/span&gt;][&lt;span style="color:#e6db74"&gt;&amp;#34;User-Agent&amp;#34;&lt;/span&gt;] &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;main&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;try&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; HttpRequest();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;catch&lt;/span&gt; (exception &lt;span style="color:#f92672"&gt;&amp;amp;&lt;/span&gt;e) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; cerr &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; e.what() &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;catch&lt;/span&gt; (...) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; cerr &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;catch ...&amp;#34;&lt;/span&gt; &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;return&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="cmakeliststxt"&gt;CMakeLists.txt&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-cmake" data-lang="cmake"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cmake_minimum_required(&lt;span style="color:#e6db74"&gt;VERSION&lt;/span&gt; &lt;span style="color:#e6db74"&gt;3.11&lt;/span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;project(&lt;span style="color:#e6db74"&gt;main&lt;/span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;set(&lt;span style="color:#e6db74"&gt;CMAKE_CXX_STANDARD&lt;/span&gt; &lt;span style="color:#e6db74"&gt;17&lt;/span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;add_executable(&lt;span style="color:#e6db74"&gt;main&lt;/span&gt; &lt;span style="color:#e6db74"&gt;main.cpp&lt;/span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;target_compile_options(&lt;span style="color:#e6db74"&gt;main&lt;/span&gt; &lt;span style="color:#e6db74"&gt;PRIVATE&lt;/span&gt; &lt;span style="color:#e6db74"&gt;/MT&lt;/span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;find_package(&lt;span style="color:#e6db74"&gt;OpenSSL&lt;/span&gt; &lt;span style="color:#e6db74"&gt;REQUIRED&lt;/span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;target_link_libraries(&lt;span style="color:#e6db74"&gt;main&lt;/span&gt; &lt;span style="color:#e6db74"&gt;PRIVATE&lt;/span&gt; &lt;span style="color:#e6db74"&gt;OpenSSL::SSL&lt;/span&gt; &lt;span style="color:#e6db74"&gt;OpenSSL::Crypto&lt;/span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;find_path(&lt;span style="color:#e6db74"&gt;CPP_HTTPLIB_INCLUDE_DIRS&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;httplib.h&amp;#34;&lt;/span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;target_include_directories(&lt;span style="color:#e6db74"&gt;main&lt;/span&gt; &lt;span style="color:#e6db74"&gt;PRIVATE&lt;/span&gt; &lt;span style="color:#f92672"&gt;${&lt;/span&gt;CPP_HTTPLIB_INCLUDE_DIRS&lt;span style="color:#f92672"&gt;}&lt;/span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;find_package(&lt;span style="color:#e6db74"&gt;nlohmann_json&lt;/span&gt; &lt;span style="color:#e6db74"&gt;CONFIG&lt;/span&gt; &lt;span style="color:#e6db74"&gt;REQUIRED&lt;/span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;target_link_libraries(&lt;span style="color:#e6db74"&gt;main&lt;/span&gt; &lt;span style="color:#e6db74"&gt;PRIVATE&lt;/span&gt; &lt;span style="color:#e6db74"&gt;nlohmann_json&lt;/span&gt; &lt;span style="color:#e6db74"&gt;nlohmann_json::nlohmann_json&lt;/span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ mkdir build &lt;span style="color:#f92672"&gt;&amp;amp;&amp;amp;&lt;/span&gt; cd build
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# x64-windows-static&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ cmake -G &lt;span style="color:#e6db74"&gt;&amp;#34;Visual Studio 16 2019&amp;#34;&lt;/span&gt; -A x64 .. -DCMAKE_TOOLCHAIN_FILE&lt;span style="color:#f92672"&gt;=&lt;/span&gt;D:/Lib/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET&lt;span style="color:#f92672"&gt;=&lt;/span&gt;x64-windows-static
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="build--run"&gt;Build &amp;amp; Run&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# build &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ echo cmake --build . --config Release &amp;gt; make.bat
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ make.bat
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# run&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ Release&lt;span style="color:#ae81ff"&gt;\m&lt;/span&gt;ain.exe
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;status: &lt;span style="color:#ae81ff"&gt;200&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;args&amp;#34;&lt;/span&gt;: &lt;span style="color:#f92672"&gt;{}&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;headers&amp;#34;&lt;/span&gt;: &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;Accept&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;*/*&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;Cache-Control&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;max-stale=0&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;Host&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;httpbin.org&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;User-Agent&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;cpp-httplib/0.9&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;X-Amzn-Trace-Id&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;Root=1-611dba9f-0bdb46bb04c05b410da75cf4&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;X-Bluecoat-Via&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;ce2cfae06b3f12b4&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;}&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;origin&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;xx.xx.xx.xx&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;url&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;https://httpbin.org/get&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;status: &lt;span style="color:#ae81ff"&gt;200&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;args&amp;#34;&lt;/span&gt;: &lt;span style="color:#f92672"&gt;{}&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;data&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;files&amp;#34;&lt;/span&gt;: &lt;span style="color:#f92672"&gt;{}&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;form&amp;#34;&lt;/span&gt;: &lt;span style="color:#f92672"&gt;{}&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;headers&amp;#34;&lt;/span&gt;: &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;Accept&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;*/*&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;Content-Length&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;0&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;Host&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;httpbin.org&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;User-Agent&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;cpp-httplib/0.9&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;X-Amzn-Trace-Id&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;Root=1-611dba9f-091d99a41e5b3c023550162f&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;X-Bluecoat-Via&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;ce2cfae06b3f12b4&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;}&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;json&amp;#34;&lt;/span&gt;: null,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;origin&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;xx.xx.xx.xx&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;url&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;https://httpbin.org/post&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;User-Agent: &lt;span style="color:#e6db74"&gt;&amp;#34;cpp-httplib/0.9&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description></item><item><title>Vcpkg Basic</title><link>https://cdecl.github.io/dev/vcpkg-basic/</link><pubDate>Wed, 18 Aug 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/vcpkg-basic/</guid><description>&lt;p&gt;&lt;a href="https://vcpkg.io/"&gt;https://vcpkg.io/&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;br&gt;
+Vcpkg helps you manage C and C++ libraries on Windows, Linux and MacOS. This tool and ecosystem are constantly evolving, and we always appreciate contributions!&lt;/p&gt;
+&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/microsoft/vcpkg"&gt;https://github.com/microsoft/vcpkg&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;li&gt;MS에서 만든 C++ Library Package 관리 (Cross Platform)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="vcpkg-install"&gt;Vcpkg install&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Git 이 필요하고, bootstrap-vcpkg 실행으로 필요한 툴을 다운로드(빌드)하는 작업을 수행
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;vcpkg.exe&lt;/code&gt; 생성&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ git clone https://github.com/microsoft/vcpkg
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ cd vcpkg
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# windows&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ bootstrap-vcpkg.bat
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# linux &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ ./bootstrap-vcpkg.sh
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="package-search--install"&gt;Package search &amp;amp; install&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;triplet&lt;/code&gt; : Target configuration set&lt;/li&gt;
+&lt;li&gt;설치시 &lt;code&gt;triplet&lt;/code&gt; 을 지정하지 않으면 설치되어 있는 기본 C++ Toolset 으로 지정
+&lt;ul&gt;
+&lt;li&gt;Windows의 경우 &lt;code&gt;x86-windows&lt;/code&gt; default&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id="주요-triplet-list"&gt;주요 Triplet list&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;vcpkg help triplet&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ vcpkg help triplet
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Available architecture triplets
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;VCPKG built-in triplets:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;...
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; x64-windows-static
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; x64-windows
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; x86-windows
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;...
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;VCPKG community triplets:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;...
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; x64-windows-static-md
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; x86-windows-static-md
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; x86-windows-static
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; x64-mingw-dynamic
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; x64-mingw-static
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; x86-mingw-dynamic
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; x86-mingw-static
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; x64-linux
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;...
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id="search"&gt;Search&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;vcpkg search&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Package search &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ vcpkg search fmt
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;fmt 7.1.3#5 Formatting library &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; C++. ...
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;The search result may be outdated. Run &lt;span style="color:#e6db74"&gt;`&lt;/span&gt;git pull&lt;span style="color:#e6db74"&gt;`&lt;/span&gt; to get the latest results.
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id="install"&gt;Install&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;vcpkg install&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;vcpkg search&lt;/code&gt; 에서 찾은 패키지를 triplet 을 지정하여 설치&lt;/li&gt;
+&lt;li&gt;설치가 완료되면 프로젝트 CMakeLists.txt 넣을 find_package 문 표시&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Package 별로 triplet 지정 &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ vcpkg.exe install fmt:x64-windows-static nlohmann-json:x64-windows-static
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# triplet 공통 지정 &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ vcpkg.exe install fmt nlohmann-json --triplet&lt;span style="color:#f92672"&gt;=&lt;/span&gt;x64-windows-static
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;...
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;The package fmt provides CMake targets:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; find_package&lt;span style="color:#f92672"&gt;(&lt;/span&gt;fmt CONFIG REQUIRED&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; target_link_libraries&lt;span style="color:#f92672"&gt;(&lt;/span&gt;main PRIVATE fmt::fmt&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;# Or use the header-only version&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; find_package&lt;span style="color:#f92672"&gt;(&lt;/span&gt;fmt CONFIG REQUIRED&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; target_link_libraries&lt;span style="color:#f92672"&gt;(&lt;/span&gt;main PRIVATE fmt::fmt-header-only&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;The package nlohmann-json:x64-windows-static provides CMake targets:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; find_package&lt;span style="color:#f92672"&gt;(&lt;/span&gt;nlohmann_json CONFIG REQUIRED&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; target_link_libraries&lt;span style="color:#f92672"&gt;(&lt;/span&gt;main PRIVATE nlohmann_json nlohmann_json::nlohmann_json&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id="설치된-리스트"&gt;설치된 리스트&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;vcpkg list&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Package installed list &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ vcpkg list
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;benchmark:x64-mingw-static 1.5.5 A library to support the benchmarking of functio...
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;benchmark:x64-windows-static 1.5.5 A library to support the benchmarking of functio...
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cpp-httplib:x64-mingw-static 0.9.1 A single file C++11 header-only HTTP/HTTPS serve...
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cpp-httplib:x64-windows-static 0.9.1 A single file C++11 header-only HTTP/HTTPS serve...
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;fmt:x64-windows 7.1.3#5 Formatting library &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; C++. It can be used as a ...
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;fmt:x64-windows-static 7.1.3#5 Formatting library &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; C++. It can be used as a ...
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;nlohmann-json:x64-mingw-static 3.9.1 JSON &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; Modern C++
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;nlohmann-json:x64-windows-static 3.9.1 JSON &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; Modern C++
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;openssl:x64-mingw-static 1.1.1k#8 OpenSSL is an open source project that provides ...
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;openssl:x64-windows-static 1.1.1k#8 OpenSSL is an open source project that provides ...
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;vcpkg-cmake-config:x64-windows 2021-05-22#1
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;vcpkg-cmake:x64-windows 2021-07-30
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;zlib:x64-mingw-static 1.2.11#11 A compression library
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;zlib:x64-windows-static 1.2.11#11 A compression library
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="integrate-install"&gt;Integrate install&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;vcpkg integrate install&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Windows Visual Studio에서 vcpkg 라이브러리를 별도 설정 없이 바로 사용&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ vcpkg integrate install
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Applied user-wide integration &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; this vcpkg root.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;All MSBuild C++ projects can now &lt;span style="color:#75715e"&gt;#include any installed libraries.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Linking will be handled automatically.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Installing new libraries will make them instantly available.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;CMake projects should use: &lt;span style="color:#e6db74"&gt;&amp;#34;-DCMAKE_TOOLCHAIN_FILE=D:/Lib/vcpkg/scripts/buildsystems/vcpkg.cmake&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="vcpkg-명령어"&gt;vcpkg 명령어&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Vcpkg package management program version 2021-08-12-85ab112d5ee102bc6eac8cdbbfdd173a71374e04&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ vcpkg help
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Commands:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; vcpkg search &lt;span style="color:#f92672"&gt;[&lt;/span&gt;pat&lt;span style="color:#f92672"&gt;]&lt;/span&gt; Search &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; packages available to be built
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; vcpkg install &amp;lt;pkg&amp;gt;... Install a package
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; vcpkg remove &amp;lt;pkg&amp;gt;... Uninstall a package
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; vcpkg remove --outdated Uninstall all out-of-date packages
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; vcpkg list List installed packages
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; vcpkg update Display list of packages &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; updating
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; vcpkg upgrade Rebuild all outdated packages
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; vcpkg x-history &amp;lt;pkg&amp;gt; &lt;span style="color:#f92672"&gt;(&lt;/span&gt;Experimental&lt;span style="color:#f92672"&gt;)&lt;/span&gt; Shows the history of CONTROL versions of a package
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; vcpkg hash &amp;lt;file&amp;gt; &lt;span style="color:#f92672"&gt;[&lt;/span&gt;alg&lt;span style="color:#f92672"&gt;]&lt;/span&gt; Hash a file by specific algorithm, default SHA512
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; vcpkg help topics Display the list of help topics
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; vcpkg help &amp;lt;topic&amp;gt; Display help &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; a specific topic
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; vcpkg integrate install Make installed packages available user-wide. Requires admin
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; privileges on first use
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; vcpkg integrate remove Remove user-wide integration
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; vcpkg integrate project Generate a referencing nuget package &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; individual VS project use
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; vcpkg integrate powershell Enable PowerShell tab-completion
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; vcpkg export &amp;lt;pkg&amp;gt;... &lt;span style="color:#f92672"&gt;[&lt;/span&gt;opt&lt;span style="color:#f92672"&gt;]&lt;/span&gt;... Exports a package
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; vcpkg edit &amp;lt;pkg&amp;gt; Open up a port &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; editing &lt;span style="color:#f92672"&gt;(&lt;/span&gt;uses %EDITOR%, default &lt;span style="color:#e6db74"&gt;&amp;#39;code&amp;#39;&lt;/span&gt;&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; vcpkg create &amp;lt;pkg&amp;gt; &amp;lt;url&amp;gt; &lt;span style="color:#f92672"&gt;[&lt;/span&gt;archivename&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Create a new package
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; vcpkg x-init-registry &amp;lt;path&amp;gt; Initializes a registry in the directory &amp;lt;path&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; vcpkg owns &amp;lt;pat&amp;gt; Search &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; files in installed packages
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; vcpkg depend-info &amp;lt;pkg&amp;gt;... Display a list of dependencies &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; packages
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; vcpkg env Creates a clean shell environment &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; development or compiling
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; vcpkg version Display version information
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; vcpkg contact Display contact information to send feedback
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;...
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;hr&gt;
+&lt;h3 id="1-내-프로젝트에서-사용-cmake-find_package"&gt;1. 내 프로젝트에서 사용 (CMake, find_package)&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;CMakeLists.txt 에 find_package 내용 추가&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id="cmakeliststxt"&gt;CMakeLists.txt&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-cmake" data-lang="cmake"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cmake_minimum_required(&lt;span style="color:#e6db74"&gt;VERSION&lt;/span&gt; &lt;span style="color:#e6db74"&gt;3.11&lt;/span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;project(&lt;span style="color:#e6db74"&gt;main&lt;/span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;set(&lt;span style="color:#e6db74"&gt;CMAKE_CXX_STANDARD&lt;/span&gt; &lt;span style="color:#e6db74"&gt;17&lt;/span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;add_executable(&lt;span style="color:#e6db74"&gt;main&lt;/span&gt; &lt;span style="color:#e6db74"&gt;main.cpp&lt;/span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;if(&lt;span style="color:#e6db74"&gt;MSVC&lt;/span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; target_compile_options(&lt;span style="color:#e6db74"&gt;main&lt;/span&gt; &lt;span style="color:#e6db74"&gt;PRIVATE&lt;/span&gt; &lt;span style="color:#e6db74"&gt;/MT&lt;/span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;else()&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; target_compile_options(&lt;span style="color:#e6db74"&gt;main&lt;/span&gt; &lt;span style="color:#e6db74"&gt;PRIVATE&lt;/span&gt; &lt;span style="color:#e6db74"&gt;-Wall&lt;/span&gt; &lt;span style="color:#e6db74"&gt;-O2&lt;/span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;endif()&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;find_package(&lt;span style="color:#e6db74"&gt;fmt&lt;/span&gt; &lt;span style="color:#e6db74"&gt;CONFIG&lt;/span&gt; &lt;span style="color:#e6db74"&gt;REQUIRED&lt;/span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;target_link_libraries(&lt;span style="color:#e6db74"&gt;main&lt;/span&gt; &lt;span style="color:#e6db74"&gt;PRIVATE&lt;/span&gt; &lt;span style="color:#e6db74"&gt;fmt::fmt&lt;/span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;find_package(&lt;span style="color:#e6db74"&gt;nlohmann_json&lt;/span&gt; &lt;span style="color:#e6db74"&gt;CONFIG&lt;/span&gt; &lt;span style="color:#e6db74"&gt;REQUIRED&lt;/span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;target_link_libraries(&lt;span style="color:#e6db74"&gt;main&lt;/span&gt; &lt;span style="color:#e6db74"&gt;PRIVATE&lt;/span&gt; &lt;span style="color:#e6db74"&gt;nlohmann_json&lt;/span&gt; &lt;span style="color:#e6db74"&gt;nlohmann_json::nlohmann_json&lt;/span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id="cmake-초기화"&gt;CMake 초기화&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;CMAKE_TOOLCHAIN_FILE&lt;/code&gt; 과 &lt;code&gt;VCPKG_TARGET_TRIPLET&lt;/code&gt; 을 지정하여 초기화
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;CMAKE_TOOLCHAIN_FILE&lt;/code&gt; : vcpkg/scripts/buildsystems/vcpkg.cmake&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ mkdir build &lt;span style="color:#f92672"&gt;&amp;amp;&amp;amp;&lt;/span&gt; cd build
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# windows msvc &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ cmake -G &lt;span style="color:#e6db74"&gt;&amp;#34;Visual Studio 16 2019&amp;#34;&lt;/span&gt; -A x64 .. -DCMAKE_TOOLCHAIN_FILE&lt;span style="color:#f92672"&gt;=&lt;/span&gt;D:/Lib/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET&lt;span style="color:#f92672"&gt;=&lt;/span&gt;x64-windows-static
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# windows mingw&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ cmake -G &lt;span style="color:#e6db74"&gt;&amp;#34;MSYS Makefiles&amp;#34;&lt;/span&gt; .. -DCMAKE_TOOLCHAIN_FILE&lt;span style="color:#f92672"&gt;=&lt;/span&gt;D:/Lib/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET&lt;span style="color:#f92672"&gt;=&lt;/span&gt;x64-mingw-static
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# linux : VCPKG_TARGET_TRIPLET 지정안함, defualt 사용 &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ cmake cmake .. -DCMAKE_TOOLCHAIN_FILE&lt;span style="color:#f92672"&gt;=&lt;/span&gt;~/lib/vcpkg/scripts/buildsystems/vcpkg.cmake
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id="build"&gt;Build&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# windows msvc : Release 모드 빌드 &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ cmake --build . --config&lt;span style="color:#f92672"&gt;=&lt;/span&gt;Release
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# run &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ Release&lt;span style="color:#ae81ff"&gt;\m&lt;/span&gt;ain.exe
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# mingw, linux &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ make
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ ./main
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="2-내-프로젝트에서-사용-라이브러리-수동으로-설정"&gt;2. 내 프로젝트에서 사용 (라이브러리 수동으로 설정)&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;CMake 수동 지정 : target_include_directories, target_link_directories, target_link_libraries 별도 지정&lt;/li&gt;
+&lt;li&gt;Makefile 사용 : &lt;code&gt;-I&lt;/code&gt; &lt;code&gt;-l&lt;/code&gt; &lt;code&gt;-L&lt;/code&gt; 등의 옵션 추가&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id="vcpkginstalledtriplet-디렉토리-참고"&gt;vcpkg/installed/&lt;code&gt;triplet&lt;/code&gt; 디렉토리 참고&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;수동으로 include, lib 등 지정 사용
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;triplet/include&lt;/code&gt; : header files&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;triplet/lib&lt;/code&gt; : static library&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;triplet/bin&lt;/code&gt; : shared library&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ tree vcpkg/installed -L &lt;span style="color:#ae81ff"&gt;3&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;vcpkg/installed
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;├── vcpkg
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;...
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;├── x64-mingw-static
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   ├── debug
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   │   └── lib
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   ├── include
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   │   ├── benchmark
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   │   ├── httplib.h
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   │   ├── nlohmann
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   │   ├── openssl
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   │   ├── zconf.h
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   │   └── zlib.h
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   ├── lib
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   │   ├── libbenchmark.a
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   │   ├── libbenchmark_main.a
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   │   ├── libcrypto.a
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   │   ├── libssl.a
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   │   ├── libzlib.a
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   │   └── pkgconfig
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   └── share
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   ├── benchmark
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   ├── cpp-httplib
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   ├── nlohmann-json
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   ├── nlohmann_json
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   ├── openssl
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   └── zlib
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;├── x64-windows
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   ├── bin
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   │   ├── fmt.dll
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   │   └── fmt.pdb
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   ├── debug
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   │   ├── bin
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   │   └── lib
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   ├── include
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   │   └── fmt
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   ├── lib
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   │   ├── fmt.lib
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   │   └── pkgconfig
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   └── share
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   ├── fmt
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   ├── vcpkg-cmake
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   └── vcpkg-cmake-config
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;└── x64-windows-static
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ├── debug
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; │   ├── lib
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; │   └── misc
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ├── include
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; │   ├── benchmark
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; │   ├── fmt
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; │   ├── httplib.h
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; │   ├── nlohmann
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; │   ├── openssl
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; │   ├── zconf.h
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; │   └── zlib.h
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ├── lib
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; │   ├── benchmark.lib
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; │   ├── benchmark_main.lib
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; │   ├── fmt.lib
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; │   ├── libcrypto.lib
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; │   ├── libssl.lib
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; │   ├── ossl_static.pdb
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; │   ├── pkgconfig
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; │   └── zlib.lib
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ├── misc
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; │   ├── CA.pl
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; │   └── tsget.pl
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ├── share
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; │   ├── benchmark
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; │   ├── cpp-httplib
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; │   ├── fmt
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; │   ├── nlohmann-json
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; │   ├── nlohmann_json
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; │   ├── openssl
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; │   └── zlib
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; └── tools
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; └── openssl
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description></item><item><title>C++ REST SDK(cpprestsdk) Sample</title><link>https://cdecl.github.io/dev/cpprestsdk-sample/</link><pubDate>Tue, 17 Aug 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/cpprestsdk-sample/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/Microsoft/cpprestsdk"&gt;https://github.com/Microsoft/cpprestsdk&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;li&gt;Microsoft에서 만든 클라이언트, 서버용 C++ HTTP 통신 모듈이며, JSON URI, 비동기, 웹소켓, oAuth 등을 지원&lt;/li&gt;
+&lt;li&gt;C++11의 비동기, 병렬 프로그램 모델 지원&lt;/li&gt;
+&lt;li&gt;크로스 플랫폼 지원 등..&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="cpprestsdk-package-install-w-vcpkg"&gt;cpprestsdk package install (w/ vcpkg)&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/microsoft/vcpkg"&gt;https://github.com/microsoft/vcpkg&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;li&gt;vcpkg 통해서 패키지 설치&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# --triplet=x64-windows-static&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ vcpkg.exe install cpprestsdk:x64-windows-static
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;...
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;The package cpprestsdk:x64-windows-static provides CMake targets:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; find_package&lt;span style="color:#f92672"&gt;(&lt;/span&gt;cpprestsdk CONFIG REQUIRED&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; target_link_libraries&lt;span style="color:#f92672"&gt;(&lt;/span&gt;main PRIVATE cpprestsdk::cpprest cpprestsdk::cpprestsdk_zlib_internal cpprestsdk::cpprestsdk_brotli_internal&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="sample-code"&gt;Sample code&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;U(&amp;quot;&amp;quot;) 는 _T(&amp;quot;&amp;quot;) 와 비슷한, UNICODE 및 MBCS 환경의 문자열 타입을 스위칭 해주는 매크로.
+&lt;ul&gt;
+&lt;li&gt;허나 U는 _T와는 다르게 _WIN32 환경이면 기본으로 _UTF16_STRINGS으로 정의되어 있어 프로젝트의 문자집합의 세팅과 관계 없이 UNICODE와 같은 환경으로 동작&lt;/li&gt;
+&lt;li&gt;리눅스 환경에서는 다른 설정을 해주지 않는 이상 char, std::string으로 정의&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;utility::string_t은 std::string과 std::wstring을 스위칭 해주는 타입&lt;/li&gt;
+&lt;li&gt;대체적인 패턴은, 동기는 .get(), 비동기는 then().wait() 조합으로 사용&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-cpp" data-lang="cpp"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#include&lt;/span&gt; &lt;span style="color:#75715e"&gt;&amp;lt;iostream&amp;gt;&lt;/span&gt;&lt;span style="color:#75715e"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;using&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;namespace&lt;/span&gt; std;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#include&lt;/span&gt; &lt;span style="color:#75715e"&gt;&amp;lt;cpprest/http_client.h&amp;gt;&lt;/span&gt;&lt;span style="color:#75715e"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#include&lt;/span&gt; &lt;span style="color:#75715e"&gt;&amp;lt;cpprest/filestream.h&amp;gt;&lt;/span&gt;&lt;span style="color:#75715e"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;using&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;namespace&lt;/span&gt; utility;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;using&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;namespace&lt;/span&gt; web;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;using&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;namespace&lt;/span&gt; web&lt;span style="color:#f92672"&gt;::&lt;/span&gt;http;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;using&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;namespace&lt;/span&gt; web&lt;span style="color:#f92672"&gt;::&lt;/span&gt;http&lt;span style="color:#f92672"&gt;::&lt;/span&gt;client;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;using&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;namespace&lt;/span&gt; concurrency&lt;span style="color:#f92672"&gt;::&lt;/span&gt;streams;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;void&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;HttpRequest&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; http_client client(U(&lt;span style="color:#e6db74"&gt;&amp;#34;http://httpbin.org/get&amp;#34;&lt;/span&gt;));
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; http_request req(methods&lt;span style="color:#f92672"&gt;::&lt;/span&gt;GET);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// sync request
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;auto&lt;/span&gt; resp &lt;span style="color:#f92672"&gt;=&lt;/span&gt; client.request(req).get();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; wcout &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; resp.status_code() &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34; : sync request&amp;#34;&lt;/span&gt; &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; wcout &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; resp.extract_string(true).get() &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// async request
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; client.request(req).then([&lt;span style="color:#f92672"&gt;=&lt;/span&gt;](http_response r){
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; wcout &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; r.status_code() &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34; : async request&amp;#34;&lt;/span&gt; &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; wcout &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; U(&lt;span style="color:#e6db74"&gt;&amp;#34;content-type : &amp;#34;&lt;/span&gt;) &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; r.headers().content_type() &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; r.extract_string(true).then([](string_t v) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; wcout &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; v &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }).wait();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }).wait();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// async request json
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; client.request(req).then([&lt;span style="color:#f92672"&gt;=&lt;/span&gt;](http_response r){
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; wcout &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; r.status_code() &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34; : async request json&amp;#34;&lt;/span&gt; &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; wcout &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; U(&lt;span style="color:#e6db74"&gt;&amp;#34;content-type : &amp;#34;&lt;/span&gt;) &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; r.headers().content_type() &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; r.extract_json(true).then([](json&lt;span style="color:#f92672"&gt;::&lt;/span&gt;value v) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; wcout &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; v &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }).wait();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }).wait();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;main&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// wcout.imbue(locale(&amp;#34;kor&amp;#34;)); // windows only
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; HttpRequest();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;return&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="cmakeliststxt"&gt;CMakeLists.txt&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-cmake" data-lang="cmake"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cmake_minimum_required(&lt;span style="color:#e6db74"&gt;VERSION&lt;/span&gt; &lt;span style="color:#e6db74"&gt;3.11&lt;/span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;project(&lt;span style="color:#e6db74"&gt;main&lt;/span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;add_executable(&lt;span style="color:#e6db74"&gt;main&lt;/span&gt; &lt;span style="color:#e6db74"&gt;main.cpp&lt;/span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;target_compile_options(&lt;span style="color:#e6db74"&gt;main&lt;/span&gt; &lt;span style="color:#e6db74"&gt;PRIVATE&lt;/span&gt; &lt;span style="color:#e6db74"&gt;/MT&lt;/span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;find_package(&lt;span style="color:#e6db74"&gt;cpprestsdk&lt;/span&gt; &lt;span style="color:#e6db74"&gt;CONFIG&lt;/span&gt; &lt;span style="color:#e6db74"&gt;REQUIRED&lt;/span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;target_link_libraries(&lt;span style="color:#e6db74"&gt;main&lt;/span&gt; &lt;span style="color:#e6db74"&gt;PRIVATE&lt;/span&gt; &lt;span style="color:#e6db74"&gt;cpprestsdk::cpprest&lt;/span&gt; &lt;span style="color:#e6db74"&gt;cpprestsdk::cpprestsdk_zlib_internal&lt;/span&gt; &lt;span style="color:#e6db74"&gt;cpprestsdk::cpprestsdk_brotli_internal&lt;/span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ mkdir build &lt;span style="color:#f92672"&gt;&amp;amp;&amp;amp;&lt;/span&gt; cd build
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# x64-windows-static&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ cmake -G &lt;span style="color:#e6db74"&gt;&amp;#34;Visual Studio 16 2019&amp;#34;&lt;/span&gt; -A x64 .. -DCMAKE_TOOLCHAIN_FILE&lt;span style="color:#f92672"&gt;=&lt;/span&gt;D:/Lib/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET&lt;span style="color:#f92672"&gt;=&lt;/span&gt;x64-windows-static
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="build--run"&gt;Build &amp;amp; Run&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# build &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ cmake --build . --config Release
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# run&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ Release&lt;span style="color:#ae81ff"&gt;\m&lt;/span&gt;ain.exe
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;200&lt;/span&gt; : sync request
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;args&amp;#34;&lt;/span&gt;: &lt;span style="color:#f92672"&gt;{}&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;headers&amp;#34;&lt;/span&gt;: &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;Cache-Control&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;max-stale=0&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;Host&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;httpbin.org&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;User-Agent&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;cpprestsdk/2.10.18&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;X-Amzn-Trace-Id&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;Root=1-611cbc68-27731b2a1cd55cbd682c517e&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;X-Bluecoat-Via&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;ce2cfae06b3f12b4&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;}&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;origin&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;xx.xx.xx.xx&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;url&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;http://httpbin.org/get&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;200&lt;/span&gt; : async request
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;content-type : application/json
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;args&amp;#34;&lt;/span&gt;: &lt;span style="color:#f92672"&gt;{}&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;headers&amp;#34;&lt;/span&gt;: &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;Cache-Control&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;max-stale=0&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;Host&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;httpbin.org&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;User-Agent&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;cpprestsdk/2.10.18&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;X-Amzn-Trace-Id&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;Root=1-611cbc68-27731b2a1cd55cbd682c517e&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;X-Bluecoat-Via&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;ce2cfae06b3f12b4&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;}&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;origin&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;xx.xx.xx.xx&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;url&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;http://httpbin.org/get&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;200&lt;/span&gt; : async request json
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;content-type : application/json
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;{&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;args&amp;#34;&lt;/span&gt;:&lt;span style="color:#f92672"&gt;{}&lt;/span&gt;,&lt;span style="color:#e6db74"&gt;&amp;#34;headers&amp;#34;&lt;/span&gt;:&lt;span style="color:#f92672"&gt;{&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;Cache-Control&amp;#34;&lt;/span&gt;:&lt;span style="color:#e6db74"&gt;&amp;#34;max-stale=0&amp;#34;&lt;/span&gt;,&lt;span style="color:#e6db74"&gt;&amp;#34;Host&amp;#34;&lt;/span&gt;:&lt;span style="color:#e6db74"&gt;&amp;#34;httpbin.org&amp;#34;&lt;/span&gt;,&lt;span style="color:#e6db74"&gt;&amp;#34;User-Agent&amp;#34;&lt;/span&gt;:&lt;span style="color:#e6db74"&gt;&amp;#34;cpprestsdk/2.10.18&amp;#34;&lt;/span&gt;,&lt;span style="color:#e6db74"&gt;&amp;#34;X-Amzn-Trace-Id&amp;#34;&lt;/span&gt;:&lt;span style="color:#e6db74"&gt;&amp;#34;Root=1-611cbc68-27731b2a1cd55cbd682c517e&amp;#34;&lt;/span&gt;,&lt;span style="color:#e6db74"&gt;&amp;#34;X-Bluecoat-Via&amp;#34;&lt;/span&gt;:&lt;span style="color:#e6db74"&gt;&amp;#34;ce2cfae06b3f12b4&amp;#34;&lt;/span&gt;&lt;span style="color:#f92672"&gt;}&lt;/span&gt;,&lt;span style="color:#e6db74"&gt;&amp;#34;origin&amp;#34;&lt;/span&gt;:&lt;span style="color:#e6db74"&gt;&amp;#34;180.xx.xx.xx&amp;#34;&lt;/span&gt;,&lt;span style="color:#e6db74"&gt;&amp;#34;url&amp;#34;&lt;/span&gt;:&lt;span style="color:#e6db74"&gt;&amp;#34;http://httpbin.org/get&amp;#34;&lt;/span&gt;&lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description></item><item><title>Makefile Simple Template</title><link>https://cdecl.github.io/dev/makefile-simple-template/</link><pubDate>Fri, 13 Aug 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/makefile-simple-template/</guid><description>&lt;p&gt;Makefile 간단한 범용 버전&lt;/p&gt;
+&lt;h2 id="makefile"&gt;Makefile&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;현재 디렉토리 모든 .cpp 파일 빌드&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-makefile" data-lang="makefile"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;CC &lt;span style="color:#f92672"&gt;=&lt;/span&gt; g++
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;CC_FLAGS &lt;span style="color:#f92672"&gt;=&lt;/span&gt; -std&lt;span style="color:#f92672"&gt;=&lt;/span&gt;c++11 -pedantic -Wall -O2
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;LD_LIBS &lt;span style="color:#f92672"&gt;=&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;EXEC &lt;span style="color:#f92672"&gt;=&lt;/span&gt; main
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;SOURCES &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;wildcard *.cpp&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;OBJECTS &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;SOURCES:.cpp&lt;span style="color:#f92672"&gt;=&lt;/span&gt;.o&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Main target
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;$(EXEC)&lt;/span&gt;&lt;span style="color:#f92672"&gt;:&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;OBJECTS&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;CC&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;OBJECTS&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt; -o &lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;EXEC&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;LD_LIBS&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;%.o&lt;/span&gt;&lt;span style="color:#f92672"&gt;:&lt;/span&gt; %.cpp
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;CC&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt; -c &lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;CC_FLAGS&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt; $&amp;lt; -o $@
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;clean&lt;/span&gt;&lt;span style="color:#f92672"&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; rm -f &lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;EXEC&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;OBJECTS&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description></item></channel></rss>

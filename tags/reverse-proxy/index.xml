@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Reverse Proxy on cdeclog</title><link>https://cdecl.github.io/tags/reverse-proxy/</link><description>Recent content in Reverse Proxy on cdeclog</description><generator>Hugo -- 0.154.5</generator><language>ko-kr</language><lastBuildDate>Sat, 05 Mar 2022 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/reverse-proxy/index.xml" rel="self" type="application/rss+xml"/><item><title>Traefik Proxy</title><link>https://cdecl.github.io/devops/traefik-proxy/</link><pubDate>Sat, 05 Mar 2022 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/traefik-proxy/</guid><description>&lt;p&gt;Docker 기반 서비스 자동 감지 및 요청을 처리하는 Reverse proxy&lt;/p&gt;
+&lt;h2 id="traefik-proxy"&gt;Traefik Proxy&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://doc.traefik.io/traefik/"&gt;https://doc.traefik.io/traefik/&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;li&gt;docker.sock 을 통해 Rule 기반 서비스를 찾고 요청을 처리함&lt;/li&gt;
+&lt;li&gt;Docker 이외에 Kubernetes, Docker Swarm, AWS, Mesos, Marathon 등을 지원&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="quick-start"&gt;Quick Start&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://doc.traefik.io/traefik/getting-started/quick-start/"&gt;https://doc.traefik.io/traefik/getting-started/quick-start/&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id="docker-composeyml"&gt;docker-compose.yml&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;reverse-proxy&lt;/code&gt; : traefik reverse proxy 서비스
+&lt;ul&gt;
+&lt;li&gt;Docker Out of Docker (DooD) 같은 형태로 서비스 감지&lt;/li&gt;
+&lt;li&gt;서비스와 같은 Docker network 내에 있어야 호출이 가능&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;whoami&lt;/code&gt; : Client 호출정보를 보여주는 간단한 서비스
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;labels&lt;/code&gt; 을 통해 &lt;code&gt;whoami&lt;/code&gt; 서비스 Rule 등록&lt;/li&gt;
+&lt;li&gt;Host 기반 Rule 적용 : &lt;code&gt;&amp;quot;traefik.http.routers.whoami.rule=Host(&lt;/code&gt;whoami.localhost&lt;code&gt;)&amp;quot;&lt;/code&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;traefik.http.routers.&amp;lt;router_name&amp;gt;.rule=&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://doc.traefik.io/traefik/routing/providers/docker/#routers"&gt;Docker Routers 규칙&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://doc.traefik.io/traefik/routing/routers/#rule"&gt;Rule 종류&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;서비스에 Port 가 노출 되어야 함 : Expose port (or Publish port)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;version&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#39;3&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;services&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;reverse-proxy&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;# The official v2 Traefik docker image&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;image&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;traefik:v2.6&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;# Enables the web UI and tells Traefik to listen to docker&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;command&lt;/span&gt;: --&lt;span style="color:#ae81ff"&gt;api.insecure=true --providers.docker&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;ports&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;# The HTTP port&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#e6db74"&gt;&amp;#34;80:80&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;# The Web UI (enabled by --api.insecure=true)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#e6db74"&gt;&amp;#34;8080:8080&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;volumes&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;# So that Traefik can listen to the Docker events&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;/var/run/docker.sock:/var/run/docker.sock&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;whoami&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;# A container that exposes an API to show its IP address&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;image&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;traefik/whoami&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;labels&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#e6db74"&gt;&amp;#34;traefik.http.routers.whoami.rule=Host(`whoami.localhost`)&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# reverse-proxy 서비스 시작 &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ docker-compose up -d reverse-proxy
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# whoami 서비스 시작&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ docker-compose up -d whoami
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ docker ps
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;e457ff5e01cb traefik/whoami &lt;span style="color:#e6db74"&gt;&amp;#34;/whoami&amp;#34;&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;59&lt;/span&gt; minutes ago Up &lt;span style="color:#ae81ff"&gt;59&lt;/span&gt; minutes 80/tcp traefik_whoami_1
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id="dashboard-router-확인"&gt;Dashboard Router 확인&lt;/h4&gt;
+&lt;p&gt;&lt;img loading="lazy" src="https://cdecl.github.io/images/2022-03-06-05-35-01.png"&gt;&lt;/p&gt;</description></item><item><title>HAProxy Basic</title><link>https://cdecl.github.io/devops/haproxy-basic/</link><pubDate>Mon, 22 Nov 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/haproxy-basic/</guid><description>&lt;p&gt;네트워크 &lt;code&gt;L4&lt;/code&gt;, &lt;code&gt;L7&lt;/code&gt; 기능 &lt;code&gt;Reverse proxy&lt;/code&gt; 및 &lt;code&gt;Load balancing&lt;/code&gt;, &lt;code&gt;HA&lt;/code&gt; 기능을 제공하는 최적화된 &lt;code&gt;S/W&lt;/code&gt;&lt;/p&gt;
+&lt;h2 id="haproxy-basic"&gt;HAProxy Basic&lt;/h2&gt;
+&lt;p&gt;공식 블로그인 만큼 가장 잘 정리된 링크로 상세 설명 대체&lt;/p&gt;
+&lt;h4 id="basic-configuration"&gt;Basic Configuration&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.haproxy.com/blog/haproxy-configuration-basics-load-balance-your-servers/"&gt;https://www.haproxy.com/blog/haproxy-configuration-basics-load-balance-your-servers/&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;li&gt;최소 설정 및 기본 항목에 대한 설명&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h5 id="설치-및-적용-centos-7"&gt;설치 및 적용 &lt;code&gt;centos 7&lt;/code&gt;&lt;/h5&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# install &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ sudo yum install haproxy
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# start&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ sudo systemctl start haproxy
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# status&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ sudo systemctl status haproxy
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;● haproxy.service - HAProxy Load Balancer
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Loaded: loaded &lt;span style="color:#f92672"&gt;(&lt;/span&gt;/usr/lib/systemd/system/haproxy.service; disabled; vendor preset: disabled&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Active: active &lt;span style="color:#f92672"&gt;(&lt;/span&gt;running&lt;span style="color:#f92672"&gt;)&lt;/span&gt; since 화 2021-11-23 13:55:48 KST; 5s ago
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Main PID: &lt;span style="color:#ae81ff"&gt;227598&lt;/span&gt; &lt;span style="color:#f92672"&gt;(&lt;/span&gt;haproxy-systemd&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Tasks: &lt;span style="color:#ae81ff"&gt;3&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Memory: 1.9M
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; CGroup: /system.slice/haproxy.service
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ├─227598 /usr/sbin/haproxy-systemd-wrapper -f /etc/haproxy/haproxy.cfg -p /run/haproxy.pid
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ├─227599 /usr/sbin/haproxy -f /etc/haproxy/haproxy.cfg -p /run/haproxy.pid -Ds
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; └─227600 /usr/sbin/haproxy -f /etc/haproxy/haproxy.cfg -p /run/haproxy.pid -Ds
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;...
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h5 id="버전-확인-지원-모듈-지원-polling-시스템-확인"&gt;버전 확인, 지원 모듈, 지원 polling 시스템 확인&lt;/h5&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;epoll&lt;/code&gt; 사용&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ haproxy -vv
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;HA-Proxy version 1.5.18 2016/05/10
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Copyright 2000-2016 Willy Tarreau &amp;lt;willy@haproxy.org&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Build options :
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; TARGET &lt;span style="color:#f92672"&gt;=&lt;/span&gt; linux2628
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; CPU &lt;span style="color:#f92672"&gt;=&lt;/span&gt; generic
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; CC &lt;span style="color:#f92672"&gt;=&lt;/span&gt; gcc
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; CFLAGS &lt;span style="color:#f92672"&gt;=&lt;/span&gt; -O2 -g -fno-strict-aliasing -DTCP_USER_TIMEOUT&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;18&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; OPTIONS &lt;span style="color:#f92672"&gt;=&lt;/span&gt; USE_LINUX_TPROXY&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; USE_GETADDRINFO&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; USE_ZLIB&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; USE_REGPARM&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; USE_OPENSSL&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; USE_PCRE&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Default settings :
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; maxconn &lt;span style="color:#f92672"&gt;=&lt;/span&gt; 2000, bufsize &lt;span style="color:#f92672"&gt;=&lt;/span&gt; 16384, maxrewrite &lt;span style="color:#f92672"&gt;=&lt;/span&gt; 8192, maxpollevents &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;200&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Encrypted password support via crypt&lt;span style="color:#f92672"&gt;(&lt;/span&gt;3&lt;span style="color:#f92672"&gt;)&lt;/span&gt;: yes
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Built with zlib version : 1.2.7
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Compression algorithms supported : identity, deflate, gzip
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Built with OpenSSL version : OpenSSL 1.0.2k-fips &lt;span style="color:#ae81ff"&gt;26&lt;/span&gt; Jan &lt;span style="color:#ae81ff"&gt;2017&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Running on OpenSSL version : OpenSSL 1.0.2k-fips &lt;span style="color:#ae81ff"&gt;26&lt;/span&gt; Jan &lt;span style="color:#ae81ff"&gt;2017&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;OpenSSL library supports TLS extensions : yes
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;OpenSSL library supports SNI : yes
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;OpenSSL library supports prefer-server-ciphers : yes
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Built with PCRE version : 8.32 2012-11-30
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;PCRE library supports JIT : no &lt;span style="color:#f92672"&gt;(&lt;/span&gt;USE_PCRE_JIT not set&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Built with transparent proxy support using: IP_TRANSPARENT IPV6_TRANSPARENT IP_FREEBIND
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Available polling systems :
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; epoll : pref&lt;span style="color:#f92672"&gt;=&lt;/span&gt;300, test result OK
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; poll : pref&lt;span style="color:#f92672"&gt;=&lt;/span&gt;200, test result OK
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;select&lt;/span&gt; : pref&lt;span style="color:#f92672"&gt;=&lt;/span&gt;150, test result OK
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Total: &lt;span style="color:#ae81ff"&gt;3&lt;/span&gt; &lt;span style="color:#f92672"&gt;(&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;3&lt;/span&gt; usable&lt;span style="color:#f92672"&gt;)&lt;/span&gt;, will use epoll.
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h5 id="기본설정--etchaproxyhaproxycfg"&gt;기본설정 : /etc/haproxy/haproxy.cfg&lt;/h5&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;global&lt;/code&gt; : 전역 설정&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;defaults&lt;/code&gt; : 디폴트 설정&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;frontend&lt;/code&gt; : &lt;code&gt;client&lt;/code&gt;로 부터 접속 정보, 5000 Port 대기&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;backend&lt;/code&gt; : 요청을 수행하는 서버로 전달, 3대의 서버로 전달&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;listen&lt;/code&gt; : &lt;code&gt;frontend&lt;/code&gt; + &lt;code&gt;backend&lt;/code&gt; 한꺼번에 정리할 수 있는 섹션, Stats Monitoring UI 설정&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex="0"&gt;&lt;code class="language-config" data-lang="config"&gt;global
+log 127.0.0.1 local2
+chroot /var/lib/haproxy
+pidfile /var/run/haproxy.pid
+maxconn 4000
+user haproxy
+group haproxy
+daemon
+# turn on stats unix socket
+stats socket /var/lib/haproxy/stats
+defaults
+mode http
+log global
+option httplog
+option dontlognull
+option http-server-close
+option forwardfor except 127.0.0.0/8
+option redispatch
+retries 3
+timeout http-request 10s
+timeout queue 1m
+timeout connect 10s
+timeout client 1m
+timeout server 1m
+timeout http-keep-alive 10s
+timeout check 10s
+maxconn 3000
+listen stats
+bind :8404
+stats enable
+stats uri /monitor
+stats refresh 5s
+frontend front_main
+bind :5000
+option forwardfor
+default_backend app
+backend app
+balance roundrobin
+server app1 192.168.28.15:30010 check
+server app2 192.168.28.16:30010 check
+server app3 192.168.28.17:30010 check
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;h3 id="ssl-인터페이스"&gt;SSL 인터페이스&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://serverfault.com/questions/738045/haproxy-to-terminate-ssl-also-send-ssl-to-backend-server"&gt;https://serverfault.com/questions/738045/haproxy-to-terminate-ssl-also-send-ssl-to-backend-server&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h5 id="frontend-ssl-bind"&gt;Frontend SSL Bind&lt;/h5&gt;
+&lt;pre tabindex="0"&gt;&lt;code class="language-config" data-lang="config"&gt;...
+frontend front_main
+bind :5443 ssl crt /cert/path/domain_keypem.pem
+option forwardfor
+default_backend app
+...
+&lt;/code&gt;&lt;/pre&gt;&lt;h5 id="backend-ssl-호출"&gt;Backend SSL 호출&lt;/h5&gt;
+&lt;pre tabindex="0"&gt;&lt;code class="language-config" data-lang="config"&gt;...
+backend app
+balance roundrobin
+mode http
+server app1 192.168.28.15:30443 ssl verify none
+server app2 192.168.28.16:30443 ssl verify none
+...
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;h4 id="four-essential-sections"&gt;Four Essential Sections&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.haproxy.com/blog/the-four-essential-sections-of-an-haproxy-configuration/"&gt;https://www.haproxy.com/blog/the-four-essential-sections-of-an-haproxy-configuration/&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;li&gt;4개의 기본 섹션 구조 설명&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex="0"&gt;&lt;code class="language-config" data-lang="config"&gt;global
+# global settings here
+defaults
+# defaults here
+frontend
+# a frontend that accepts requests from clients
+backend
+# servers that fulfill the requests
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;h4 id="기타"&gt;기타&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;SSL 설정 : &lt;a href="https://www.haproxy.com/blog/haproxy-ssl-termination/"&gt;https://www.haproxy.com/blog/haproxy-ssl-termination/&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;li&gt;통계 Web UI : &lt;a href="https://www.haproxy.com/blog/exploring-the-haproxy-stats-page/"&gt;https://www.haproxy.com/blog/exploring-the-haproxy-stats-page/&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img loading="lazy" src="https://cdecl.github.io/images/2021-11-23-14-46-19.png"&gt;&lt;/p&gt;</description></item></channel></rss>

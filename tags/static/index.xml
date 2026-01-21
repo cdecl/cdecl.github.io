@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Static on cdeclog</title><link>https://cdecl.github.io/tags/static/</link><description>Recent content in Static on cdeclog</description><generator>Hugo -- 0.154.5</generator><language>ko-kr</language><lastBuildDate>Sun, 25 Feb 2024 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/static/index.xml" rel="self" type="application/rss+xml"/><item><title>GNU C++로 정적 라이브러리 링크하는 방법</title><link>https://cdecl.github.io/dev/g++-static/</link><pubDate>Sun, 25 Feb 2024 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/g++-static/</guid><description>&lt;p&gt;GNU C++ 프로그램에서 정적 라이브러리를 링크하는 방법&lt;/p&gt;
+&lt;h2 id="정적-라이브러리-사용"&gt;정적 라이브러리 사용&lt;/h2&gt;
+&lt;h3 id="사용-시-고려-사항"&gt;사용 시 고려 사항&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;프로그램 크기 증가:&lt;/strong&gt; 정적 라이브러리를 사용하면 실행 파일 크기가 크게 증가할 수 있슴&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;라이브러리 업데이트:&lt;/strong&gt; 정적 라이브러리를 사용하면 라이브러리 업데이트 시 프로그램을 다시 컴파일해야 필요&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="사용-장점"&gt;사용 장점&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;운영 체제 의존성 감소:&lt;/strong&gt; 정적 라이브러리를 사용하면 프로그램 실행에 필요한 모든 라이브러리가 실행 파일에 포함되어 있어 운영 체제에 동일한 라이브러리가 설치되어 있지 않아도 프로그램을 실행&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;보안 강화:&lt;/strong&gt; 정적 라이브러리를 사용하면 공유 라이브러리 공격과 같은 보안 취약점에 대한 위험을 줄일 수 있음&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;성능 향상:&lt;/strong&gt; 정적 라이브러리를 사용하면 프로그램 실행 속도를 향상시킬 수 있음&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="정적-라이브러리-링크"&gt;정적 라이브러리 링크&lt;/h2&gt;
+&lt;h3 id="링크-옵션"&gt;링크 옵션&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;-static&lt;/strong&gt;
+&lt;ul&gt;
+&lt;li&gt;C 런타임 라이브러리뿐만 아니라 모든 외부 라이브러리를 정적으로 링크합니다.&lt;/li&gt;
+&lt;li&gt;실행 파일에 모든 필요한 라이브러리 코드를 포함시킵니다.&lt;/li&gt;
+&lt;li&gt;결과적으로 실행 파일의 크기가 크게 증가할 수 있습니다.&lt;/li&gt;
+&lt;li&gt;시스템 라이브러리에 대한 의존성을 제거하여 이식성을 높입니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;-static-libstdc++&lt;/strong&gt;
+&lt;ul&gt;
+&lt;li&gt;C++ 표준 라이브러리만 정적으로 링크합니다.&lt;/li&gt;
+&lt;li&gt;다른 시스템 라이브러리나 사용자 정의 라이브러리는 여전히 동적으로 링크될 수 있습니다.&lt;/li&gt;
+&lt;li&gt;-static 옵션보다 실행 파일 크기 증가가 덜합니다.&lt;/li&gt;
+&lt;li&gt;C++ ABI 호환성 문제를 해결하는 데 유용할 수 있습니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;g++ -static main.cpp -o myprogram
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="라이브러리-링크-지정-방법"&gt;라이브러리 링크 지정 방법&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;-l&lt;/strong&gt; 옵션 (일반적인 방법)
+&lt;ul&gt;
+&lt;li&gt;컴파일러에게 특정 라이브러리를 링크하도록 지시.
+&lt;ul&gt;
+&lt;li&gt;먼저 동적 라이브러리(.so 파일)를 찾습니다.&lt;/li&gt;
+&lt;li&gt;동적 라이브러리가 없으면 정적 라이브러리(.a 파일)를 찾습니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;표준 라이브러리 경로(예: /usr/lib, /lib)와 -L 옵션으로 지정된 추가 경로에서 라이브러리를 찾습니다.
+&lt;ul&gt;
+&lt;li&gt;정적 라이브러리를 명시적으로 지정하려면, 전체 파일 경로를 사용할 수 있습니다.&lt;/li&gt;
+&lt;li&gt;예: &lt;code&gt;g++ main.cpp /path/to/libmylib.a -o myprogram&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;뒤에 오는 라이브러리 이름은 관례에 따라 lib 접두사와 .a 확장자를 가진 정적 라이브러리 파일명&lt;/li&gt;
+&lt;li&gt;-static 옵션과 함께 사용 시
+&lt;ul&gt;
+&lt;li&gt;-static 옵션과 함께 -l을 사용하면, 링커는 오직 정적 라이브러리만을 찾습니다.&lt;/li&gt;
+&lt;li&gt;이 경우 정적 라이브러리가 없다면 링크 에러가 발생합니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;-Wl,&amp;ndash;whole-archive&lt;/strong&gt; 옵션
+&lt;ul&gt;
+&lt;li&gt;컴파일러에게 라이브러리에 있는 모든 객체 파일을 링크하도록 지시&lt;/li&gt;
+&lt;li&gt;이 옵션을 사용하면 라이브러리에 있는 모든 함수가 사용될 수 있음&lt;/li&gt;
+&lt;li&gt;주로 정적 라이브러리(.a)에 사용됩니다.&lt;/li&gt;
+&lt;li&gt;전역 객체의 생성자나 정적 초기화 함수가 반드시 링크되도록 보장합니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id="주요-차이점---l--wlwhole-archive"&gt;주요 차이점 : -l -Wl,&amp;ndash;whole-archive&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;-l은 선택적으로 필요한 부분만 링크하지만, &amp;ndash;whole-archive는 라이브러리 전체를 링크합니다.&lt;/li&gt;
+&lt;li&gt;-l은 동적/정적 라이브러리 모두에 사용 가능하지만, &amp;ndash;whole-archive는 주로 정적 라이브러리에 사용됩니다.&lt;/li&gt;
+&lt;li&gt;&amp;ndash;whole-archive를 사용하면 실행 파일 크기가 더 커질 수 있습니다.&lt;/li&gt;
+&lt;li&gt;-Wl,&amp;ndash;whole-archive는 플러그인 시스템이나 동적으로 로드되는 모듈을 구현할 때 특히 유용할 수 있습니다&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;g++ main.cpp -lstdc++ -Wl,--whole-archive my_lib.a -o myprogram
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="의존성-확인"&gt;의존성 확인&lt;/h3&gt;
+&lt;p&gt;실행 파일의 의존성을 확인하는 것은 프로그램이 어떤 라이브러리에 의존하고 있는지 파악하는 데 중요합니다. 이를 통해 정적 링킹이 제대로 되었는지, 혹은 동적 라이브러리에 대한 의존성이 있는지 확인할 수 있습니다.&lt;/p&gt;</description></item></channel></rss>

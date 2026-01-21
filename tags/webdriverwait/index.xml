@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>WebDriverWait on cdeclog</title><link>https://cdecl.github.io/tags/webdriverwait/</link><description>Recent content in WebDriverWait on cdeclog</description><generator>Hugo -- 0.154.5</generator><language>ko-kr</language><lastBuildDate>Thu, 01 Aug 2024 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/webdriverwait/index.xml" rel="self" type="application/rss+xml"/><item><title>Selenium 101</title><link>https://cdecl.github.io/dev/selenium-101/</link><pubDate>Thu, 01 Aug 2024 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/selenium-101/</guid><description>&lt;p&gt;Python Selenium 이용한 웹 스크래핑 방법, 웹 자동화&lt;/p&gt;
+&lt;h2 id="selenium-가이드-웹-자동화"&gt;Selenium 가이드: 웹 자동화&lt;/h2&gt;
+&lt;h3 id="1-selenium-이란"&gt;1. Selenium 이란?&lt;/h3&gt;
+&lt;p&gt;Selenium은 웹 브라우저 자동화를 위한 아래와 같은 용도&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;웹 애플리케이션 테스트 자동화&lt;/li&gt;
+&lt;li&gt;웹 스크래핑 및 데이터 추출&lt;/li&gt;
+&lt;li&gt;반복적인 웹 작업 자동화&lt;/li&gt;
+&lt;li&gt;크로스 브라우저 테스팅&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id="주요-기능"&gt;주요 기능&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;브라우저 제어: 다양한 브라우저에서 웹 페이지를 자동으로 로드하고 조작할 수 있습니다.&lt;/li&gt;
+&lt;li&gt;DOM 조작: 웹 페이지의 DOM 요소를 검색하고 조작할 수 있습니다.&lt;/li&gt;
+&lt;li&gt;폼 자동화: 폼을 자동으로 작성하고 제출할 수 있습니다.&lt;/li&gt;
+&lt;li&gt;스크린샷 캡처: 웹 페이지의 스크린샷을 캡처할 수 있습니다.&lt;/li&gt;
+&lt;li&gt;헤드리스 모드: 브라우저 창을 띄우지 않고 백그라운드에서 작업을 수행할 수 있습니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Selenium은 다양한 프로그래밍 언어를 지원하며, 웹 개발자와 QA 엔지니어들에게 필수적인 도구로 사용&lt;/p&gt;</description></item></channel></rss>

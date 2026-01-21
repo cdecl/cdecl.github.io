@@ -1,0 +1,106 @@
+<!doctype html><html lang=en dir=auto data-theme=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>MySQL BinLog | cdeclog</title><meta name=keywords content="mysql,binlog"><meta name=description content='MySQL BinLog (Binary Log) 설정 및 확인
+MySQL Binlog
+
+https://dev.mysql.com/doc/internals/en/binary-log-overview.html{:target="_blank"}
+https://dev.mysql.com/doc/refman/5.7/en/replication-options-binary-log.html{:target="_blank"}
+
+
+데이터 수정에 대한 정보를 포함하는 로그 파일 세트
+
+Binlog 를 사용하는 목적
+
+복제 : 마스터 복제 서버에서 슬레이브 서버로 보낼 명령문의 기록으로 사용
+데이터 복구 : 백업 파일이 복원된, 특정 시점 이후의 데이터 복구를 위해 사용
+
+Binlog 기록하는 방법 binlog-format
+
+STATEMENT : 이벤트에는 데이터 변경(삽입, 업데이트, 삭제)을 생성하는 SQL 문이 포함
+
+MySQL 5.7.7 이전 버전까지 Default
+
+
+ROW : 행 기반 로깅: 이벤트는 개별 행의 변경 사항을 설명합니다.
+
+MySQL 5.7.7 버전 부터 Default
+
+
+MIXED : 기본적으로 STATEMENT 로깅, 필요에 따라 자동으로 ROW 로깅으로 전환 일관성
+
+NDB Cluster 경우 Default
+
+
+
+
+STATEMENT 경우 ISOLATION LEVEL이 READ-COMMITTED 경우 복구시, Dirty Read 에 의한 일관성이 문제가 될 수 있음'><meta name=author content="Byung Kyu KIM"><link rel=canonical href=https://cdecl.github.io/devops/mysql-binlog/><link crossorigin=anonymous href=/assets/css/stylesheet.d980bb9fb2cba61af0aead0606b5eb221d7e358748ac394b60233d95d626c563.css integrity="sha256-2YC7n7LLphrwrq0GBrXrIh1+NYdIrDlLYCM9ldYmxWM=" rel="preload stylesheet" as=style><link rel=icon href=https://cdecl.github.io/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://cdecl.github.io/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://cdecl.github.io/favicon-32x32.png><link rel=apple-touch-icon href=https://cdecl.github.io/apple-touch-icon.png><link rel=mask-icon href=https://cdecl.github.io/safari-pinned-tab.svg><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><link rel=alternate hreflang=en href=https://cdecl.github.io/devops/mysql-binlog/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51);color-scheme:dark}.list{background:var(--theme)}.toc{background:var(--entry)}}@media(prefers-color-scheme:light){.list::-webkit-scrollbar-thumb{border-color:var(--code-bg)}}</style></noscript><script>localStorage.getItem("pref-theme")==="dark"?document.querySelector("html").dataset.theme="dark":localStorage.getItem("pref-theme")==="light"?document.querySelector("html").dataset.theme="light":window.matchMedia("(prefers-color-scheme: dark)").matches?document.querySelector("html").dataset.theme="dark":document.querySelector("html").dataset.theme="light"</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-VQQHHYPN7K"></script><script>var doNotTrack=!1,dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes";if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-VQQHHYPN7K")}</script><meta property="og:url" content="https://cdecl.github.io/devops/mysql-binlog/"><meta property="og:site_name" content="cdeclog"><meta property="og:title" content="MySQL BinLog"><meta property="og:description" content='MySQL BinLog (Binary Log) 설정 및 확인
+MySQL Binlog https://dev.mysql.com/doc/internals/en/binary-log-overview.html{:target="_blank"} https://dev.mysql.com/doc/refman/5.7/en/replication-options-binary-log.html{:target="_blank"} 데이터 수정에 대한 정보를 포함하는 로그 파일 세트
+Binlog 를 사용하는 목적 복제 : 마스터 복제 서버에서 슬레이브 서버로 보낼 명령문의 기록으로 사용 데이터 복구 : 백업 파일이 복원된, 특정 시점 이후의 데이터 복구를 위해 사용 Binlog 기록하는 방법 binlog-format STATEMENT : 이벤트에는 데이터 변경(삽입, 업데이트, 삭제)을 생성하는 SQL 문이 포함 MySQL 5.7.7 이전 버전까지 Default ROW : 행 기반 로깅: 이벤트는 개별 행의 변경 사항을 설명합니다. MySQL 5.7.7 버전 부터 Default MIXED : 기본적으로 STATEMENT 로깅, 필요에 따라 자동으로 ROW 로깅으로 전환 일관성 NDB Cluster 경우 Default STATEMENT 경우 ISOLATION LEVEL이 READ-COMMITTED 경우 복구시, Dirty Read 에 의한 일관성이 문제가 될 수 있음'><meta property="og:locale" content="ko-kr"><meta property="og:type" content="article"><meta property="article:section" content="devops"><meta property="article:published_time" content="2021-10-27T00:00:00+09:00"><meta property="article:modified_time" content="2021-10-27T00:00:00+09:00"><meta property="article:tag" content="Mysql"><meta property="article:tag" content="Binlog"><meta name=twitter:card content="summary"><meta name=twitter:title content="MySQL BinLog"><meta name=twitter:description content='MySQL BinLog (Binary Log) 설정 및 확인
+MySQL Binlog
+
+https://dev.mysql.com/doc/internals/en/binary-log-overview.html{:target="_blank"}
+https://dev.mysql.com/doc/refman/5.7/en/replication-options-binary-log.html{:target="_blank"}
+
+
+데이터 수정에 대한 정보를 포함하는 로그 파일 세트
+
+Binlog 를 사용하는 목적
+
+복제 : 마스터 복제 서버에서 슬레이브 서버로 보낼 명령문의 기록으로 사용
+데이터 복구 : 백업 파일이 복원된, 특정 시점 이후의 데이터 복구를 위해 사용
+
+Binlog 기록하는 방법 binlog-format
+
+STATEMENT : 이벤트에는 데이터 변경(삽입, 업데이트, 삭제)을 생성하는 SQL 문이 포함
+
+MySQL 5.7.7 이전 버전까지 Default
+
+
+ROW : 행 기반 로깅: 이벤트는 개별 행의 변경 사항을 설명합니다.
+
+MySQL 5.7.7 버전 부터 Default
+
+
+MIXED : 기본적으로 STATEMENT 로깅, 필요에 따라 자동으로 ROW 로깅으로 전환 일관성
+
+NDB Cluster 경우 Default
+
+
+
+
+STATEMENT 경우 ISOLATION LEVEL이 READ-COMMITTED 경우 복구시, Dirty Read 에 의한 일관성이 문제가 될 수 있음'><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Devops","item":"https://cdecl.github.io/devops/"},{"@type":"ListItem","position":2,"name":"MySQL BinLog","item":"https://cdecl.github.io/devops/mysql-binlog/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"MySQL BinLog","name":"MySQL BinLog","description":"MySQL BinLog (Binary Log) 설정 및 확인\nMySQL Binlog https://dev.mysql.com/doc/internals/en/binary-log-overview.html{:target=\u0026quot;_blank\u0026quot;} https://dev.mysql.com/doc/refman/5.7/en/replication-options-binary-log.html{:target=\u0026quot;_blank\u0026quot;} 데이터 수정에 대한 정보를 포함하는 로그 파일 세트\nBinlog 를 사용하는 목적 복제 : 마스터 복제 서버에서 슬레이브 서버로 보낼 명령문의 기록으로 사용 데이터 복구 : 백업 파일이 복원된, 특정 시점 이후의 데이터 복구를 위해 사용 Binlog 기록하는 방법 binlog-format STATEMENT : 이벤트에는 데이터 변경(삽입, 업데이트, 삭제)을 생성하는 SQL 문이 포함 MySQL 5.7.7 이전 버전까지 Default ROW : 행 기반 로깅: 이벤트는 개별 행의 변경 사항을 설명합니다. MySQL 5.7.7 버전 부터 Default MIXED : 기본적으로 STATEMENT 로깅, 필요에 따라 자동으로 ROW 로깅으로 전환 일관성 NDB Cluster 경우 Default STATEMENT 경우 ISOLATION LEVEL이 READ-COMMITTED 경우 복구시, Dirty Read 에 의한 일관성이 문제가 될 수 있음\n","keywords":["mysql","binlog"],"articleBody":"MySQL BinLog (Binary Log) 설정 및 확인\nMySQL Binlog https://dev.mysql.com/doc/internals/en/binary-log-overview.html{:target=\"_blank\"} https://dev.mysql.com/doc/refman/5.7/en/replication-options-binary-log.html{:target=\"_blank\"} 데이터 수정에 대한 정보를 포함하는 로그 파일 세트\nBinlog 를 사용하는 목적 복제 : 마스터 복제 서버에서 슬레이브 서버로 보낼 명령문의 기록으로 사용 데이터 복구 : 백업 파일이 복원된, 특정 시점 이후의 데이터 복구를 위해 사용 Binlog 기록하는 방법 binlog-format STATEMENT : 이벤트에는 데이터 변경(삽입, 업데이트, 삭제)을 생성하는 SQL 문이 포함 MySQL 5.7.7 이전 버전까지 Default ROW : 행 기반 로깅: 이벤트는 개별 행의 변경 사항을 설명합니다. MySQL 5.7.7 버전 부터 Default MIXED : 기본적으로 STATEMENT 로깅, 필요에 따라 자동으로 ROW 로깅으로 전환 일관성 NDB Cluster 경우 Default STATEMENT 경우 ISOLATION LEVEL이 READ-COMMITTED 경우 복구시, Dirty Read 에 의한 일관성이 문제가 될 수 있음\n주요 확인 및 설정 mysql\u003e show binary logs; +---------------+-----------+-----------+ | Log_name | File_size | Encrypted | +---------------+-----------+-----------+ | binlog.000018 | 178 | No | | binlog.000019 | 178 | No | | binlog.000020 | 178 | No | | binlog.000021 | 178 | No | | binlog.000022 | 1222 | No | | binlog.000023 | 155 | No | +---------------+-----------+-----------+ max_binlog_size Binlog 파일별 (binlog.000xxx) 로그 크기 defualt 1G binlog_expire_logs_seconds / expire_logs_days binlog_expire_logs_seconds : 로그 저장 기간 설정, 지난 로그는 자동 삭제 default 2592000 (30days) expire_logs_days : MySQL 8 이전 버전 사용, binlog_expire_logs_seconds 와 같이 사용 할 수 없음 MySQL 8 이전 버전에서는 default 0 으로 자동 삭제를 하지 않음 mysql\u003e show variables like '%expire_log%'; +----------------------------+---------+ | Variable_name | Value | +----------------------------+---------+ | binlog_expire_logs_seconds | 2592000 | | expire_logs_days | 0 | +----------------------------+---------+ my.cnf 설정 [mysqld] binlog_format = ROW # STATEMENT, MIXED max_binlog_size = 300M binlog_expire_logs_seconds = 604800 # 일주일 Binlog 추출 mysqlbinlog : Binlog 를 Text 형태로 덤프 # Basic $ mysqlbinlog binlog.000023 \u003e recover.sql # Database 지정 $ mysqlbinlog --database=dbname binlog.000023 \u003e recover.sql # 이벤트 시점 지정 $ mysqlbinlog --database=dbname --start-datetime=\"2021-10-28 01:00:00\" --stop-datetime=\"2021-10-28 12:00:00\" binlog.000023 \u003e recover.sql Binlog 반영 $ mysql -u root -p \u003c recover.sql 주의 : 데이터 삭제 등의 실수로 복구시에는, 삭제 쿼리도 같이 들어가 있어 해당 내용의 적절한 정리가 필요함\n","wordCount":"329","inLanguage":"en","datePublished":"2021-10-27T00:00:00+09:00","dateModified":"2021-10-27T00:00:00+09:00","author":{"@type":"Person","name":"Byung Kyu KIM"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://cdecl.github.io/devops/mysql-binlog/"},"publisher":{"@type":"Organization","name":"cdeclog","logo":{"@type":"ImageObject","url":"https://cdecl.github.io/favicon.ico"}}}</script></head><body id=top><header class=header><nav class=nav><div class=logo><a href=https://cdecl.github.io/ accesskey=h title="cdeclog (Alt + H)">cdeclog</a><div class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)" aria-label="Toggle theme">
+<svg id="moon" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+<svg id="sun" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu><li><a href=https://cdecl.github.io/archives/ title=Archive><span>Archive</span></a></li><li><a href=https://cdecl.github.io/search/ title="Search (Alt + /)" accesskey=/><span>Search</span></a></li><li><a href=https://cdecl.github.io/tags/ title=Tags><span>Tags</span></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><h1 class="post-title entry-hint-parent">MySQL BinLog</h1><div class=post-meta><span title='2021-10-27 00:00:00 +0900 KST'>October 27, 2021</span>&nbsp;·&nbsp;<span>Byung Kyu KIM</span></div></header><div class=toc><details open><summary accesskey=c title="(Alt + C)"><span class=details>Table of Contents</span></summary><div class=inner><ul><li><a href=#mysql-binlog aria-label="MySQL Binlog">MySQL Binlog</a><ul><li><a href=#binlog-%eb%a5%bc-%ec%82%ac%ec%9a%a9%ed%95%98%eb%8a%94-%eb%aa%a9%ec%a0%81 aria-label="Binlog 를 사용하는 목적">Binlog 를 사용하는 목적</a></li><li><a href=#binlog-%ea%b8%b0%eb%a1%9d%ed%95%98%eb%8a%94-%eb%b0%a9%eb%b2%95-binlog-format aria-label="Binlog 기록하는 방법 binlog-format">Binlog 기록하는 방법 binlog-format</a></li><li><a href=#%ec%a3%bc%ec%9a%94-%ed%99%95%ec%9d%b8-%eb%b0%8f-%ec%84%a4%ec%a0%95 aria-label="주요 확인 및 설정">주요 확인 및 설정</a><ul><ul><li><a href=#max_binlog_size aria-label=max_binlog_size>max_binlog_size</a></li><li><a href=#binlog_expire_logs_seconds---expire_logs_days aria-label="binlog_expire_logs_seconds / expire_logs_days">binlog_expire_logs_seconds / expire_logs_days</a></li></ul><li><a href=#mycnf-%ec%84%a4%ec%a0%95 aria-label="my.cnf 설정">my.cnf 설정</a></li></ul></li><li><a href=#binlog-%ec%b6%94%ec%b6%9c aria-label="Binlog 추출">Binlog 추출</a><ul><ul><li><a href=#binlog-%eb%b0%98%ec%98%81 aria-label="Binlog 반영">Binlog 반영</a></li></ul></li></ul></ul></li></ul></div></details></div><div class=post-content><p>MySQL BinLog (Binary Log) 설정 및 확인</p><h2 id=mysql-binlog>MySQL Binlog<a hidden class=anchor aria-hidden=true href=#mysql-binlog>#</a></h2><ul><li><a href=https://dev.mysql.com/doc/internals/en/binary-log-overview.html>https://dev.mysql.com/doc/internals/en/binary-log-overview.html</a>{:target="_blank"}</li><li><a href=https://dev.mysql.com/doc/refman/5.7/en/replication-options-binary-log.html>https://dev.mysql.com/doc/refman/5.7/en/replication-options-binary-log.html</a>{:target="_blank"}</li></ul><blockquote><p>데이터 수정에 대한 정보를 포함하는 로그 파일 세트</p></blockquote><h3 id=binlog-를-사용하는-목적>Binlog 를 사용하는 목적<a hidden class=anchor aria-hidden=true href=#binlog-를-사용하는-목적>#</a></h3><ul><li>복제 : 마스터 복제 서버에서 슬레이브 서버로 보낼 명령문의 기록으로 사용</li><li>데이터 복구 : 백업 파일이 복원된, 특정 시점 이후의 데이터 복구를 위해 사용</li></ul><h3 id=binlog-기록하는-방법-binlog-format>Binlog 기록하는 방법 <code>binlog-format</code><a hidden class=anchor aria-hidden=true href=#binlog-기록하는-방법-binlog-format>#</a></h3><ul><li><code>STATEMENT</code> : 이벤트에는 데이터 변경(삽입, 업데이트, 삭제)을 생성하는 SQL 문이 포함<ul><li><code>MySQL 5.7.7</code> 이전 버전까지 <code>Default</code></li></ul></li><li><code>ROW</code> : 행 기반 로깅: 이벤트는 개별 행의 변경 사항을 설명합니다.<ul><li><code>MySQL 5.7.7</code> 버전 부터 <code>Default</code></li></ul></li><li><code>MIXED</code> : 기본적으로 <code>STATEMENT</code> 로깅, 필요에 따라 자동으로 <code>ROW</code> 로깅으로 전환 <code>일관성</code><ul><li>NDB Cluster 경우 <code>Default</code></li></ul></li></ul><blockquote><p><code>STATEMENT</code> 경우 <code>ISOLATION LEVEL</code>이 <code>READ-COMMITTED</code> 경우 복구시, Dirty Read 에 의한 일관성이 문제가 될 수 있음</p></blockquote><hr><h3 id=주요-확인-및-설정>주요 확인 및 설정<a hidden class=anchor aria-hidden=true href=#주요-확인-및-설정>#</a></h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>mysql&gt; show binary logs;
+</span></span><span style=display:flex><span>+---------------+-----------+-----------+
+</span></span><span style=display:flex><span>| Log_name      | File_size | Encrypted |
+</span></span><span style=display:flex><span>+---------------+-----------+-----------+
+</span></span><span style=display:flex><span>| binlog.000018 |       <span style=color:#ae81ff>178</span> | No        |
+</span></span><span style=display:flex><span>| binlog.000019 |       <span style=color:#ae81ff>178</span> | No        |
+</span></span><span style=display:flex><span>| binlog.000020 |       <span style=color:#ae81ff>178</span> | No        |
+</span></span><span style=display:flex><span>| binlog.000021 |       <span style=color:#ae81ff>178</span> | No        |
+</span></span><span style=display:flex><span>| binlog.000022 |      <span style=color:#ae81ff>1222</span> | No        |
+</span></span><span style=display:flex><span>| binlog.000023 |       <span style=color:#ae81ff>155</span> | No        |
+</span></span><span style=display:flex><span>+---------------+-----------+-----------+
+</span></span></code></pre></div><h5 id=max_binlog_size><code>max_binlog_size</code><a hidden class=anchor aria-hidden=true href=#max_binlog_size>#</a></h5><ul><li>Binlog 파일별 (<code>binlog.000xxx</code>) 로그 크기 <code>defualt 1G</code></li></ul><h5 id=binlog_expire_logs_seconds---expire_logs_days><code>binlog_expire_logs_seconds</code> / <code>expire_logs_days</code><a hidden class=anchor aria-hidden=true href=#binlog_expire_logs_seconds---expire_logs_days>#</a></h5><ul><li><code>binlog_expire_logs_seconds</code> : 로그 저장 기간 설정, 지난 로그는 자동 삭제 <code>default 2592000 (30days)</code></li><li><code>expire_logs_days</code> : <code>MySQL 8</code> 이전 버전 사용, <code>binlog_expire_logs_seconds</code> 와 같이 사용 할 수 없음<ul><li><code>MySQL 8</code> 이전 버전에서는 <code>default 0</code> 으로 자동 삭제를 하지 않음</li></ul></li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>mysql&gt; show variables like <span style=color:#e6db74>&#39;%expire_log%&#39;</span>;
+</span></span><span style=display:flex><span>+----------------------------+---------+
+</span></span><span style=display:flex><span>| Variable_name              | Value   |
+</span></span><span style=display:flex><span>+----------------------------+---------+
+</span></span><span style=display:flex><span>| binlog_expire_logs_seconds | <span style=color:#ae81ff>2592000</span> |
+</span></span><span style=display:flex><span>| expire_logs_days           | <span style=color:#ae81ff>0</span>       |
+</span></span><span style=display:flex><span>+----------------------------+---------+
+</span></span></code></pre></div><h4 id=mycnf-설정><code>my.cnf</code> 설정<a hidden class=anchor aria-hidden=true href=#mycnf-설정>#</a></h4><pre tabindex=0><code class=language-conf data-lang=conf>[mysqld]
+binlog_format = ROW  # STATEMENT, MIXED
+max_binlog_size = 300M
+binlog_expire_logs_seconds = 604800  # 일주일
+</code></pre><hr><h3 id=binlog-추출>Binlog 추출<a hidden class=anchor aria-hidden=true href=#binlog-추출>#</a></h3><ul><li><code>mysqlbinlog</code> : <code>Binlog</code> 를 Text 형태로 덤프</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span><span style=color:#75715e># Basic </span>
+</span></span><span style=display:flex><span>$ mysqlbinlog binlog.000023 &gt; recover.sql
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Database 지정 </span>
+</span></span><span style=display:flex><span>$ mysqlbinlog --database<span style=color:#f92672>=</span>dbname binlog.000023 &gt; recover.sql
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 이벤트 시점 지정 </span>
+</span></span><span style=display:flex><span>$ mysqlbinlog --database<span style=color:#f92672>=</span>dbname --start-datetime<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;2021-10-28 01:00:00&#34;</span> --stop-datetime<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;2021-10-28 12:00:00&#34;</span> binlog.000023 &gt; recover.sql
+</span></span></code></pre></div><h5 id=binlog-반영>Binlog 반영<a hidden class=anchor aria-hidden=true href=#binlog-반영>#</a></h5><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>$ mysql -u root -p &lt; recover.sql
+</span></span></code></pre></div><blockquote><p>주의 : 데이터 삭제 등의 실수로 복구시에는, 삭제 쿼리도 같이 들어가 있어 해당 내용의 적절한 정리가 필요함</p></blockquote></div><footer class=post-footer><ul class=post-tags><li><a href=https://cdecl.github.io/tags/mysql/>Mysql</a></li><li><a href=https://cdecl.github.io/tags/binlog/>Binlog</a></li></ul></footer></article></main><footer class=footer><span>&copy; 2026 <a href=https://cdecl.github.io/>cdeclog</a></span> ·
+<span>Powered by
+<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
+<a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg viewBox="0 0 12 6" fill="currentColor"><path d="M12 6H0l6-6z"/></svg>
+</a><script>let menu=document.getElementById("menu");if(menu){const e=localStorage.getItem("menu-scroll-position");e&&(menu.scrollLeft=parseInt(e,10)),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}}document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{const e=document.querySelector("html");e.dataset.theme==="dark"?(e.dataset.theme="light",localStorage.setItem("pref-theme","light")):(e.dataset.theme="dark",localStorage.setItem("pref-theme","dark"))})</script></body></html>

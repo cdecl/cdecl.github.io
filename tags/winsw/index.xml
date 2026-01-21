@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Winsw on cdeclog</title><link>https://cdecl.github.io/tags/winsw/</link><description>Recent content in Winsw on cdeclog</description><generator>Hugo -- 0.154.5</generator><language>ko-kr</language><lastBuildDate>Fri, 10 Dec 2021 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/winsw/index.xml" rel="self" type="application/rss+xml"/><item><title>MinIO Windows Service 등록</title><link>https://cdecl.github.io/devops/minio-windows-service/</link><pubDate>Fri, 10 Dec 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/minio-windows-service/</guid><description>&lt;p&gt;MinIO Windows Service 등록&lt;/p&gt;
+&lt;h2 id="minio-service-등록"&gt;MinIO Service 등록&lt;/h2&gt;
+&lt;h3 id="winsw"&gt;WinSW&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/winsw/winsw"&gt;https://github.com/winsw/winsw&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;li&gt;Windows 실행 파일을 서비스로 래핑해주는 툴&lt;/li&gt;
+&lt;li&gt;.NET Framework / Core 기반 Windows 플랫폼에서 실행&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="minio-service"&gt;MinIO Service&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/minio/minio-service/tree/master/windows"&gt;https://github.com/minio/minio-service/tree/master/windows&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id="winsw-최신-release-다운로드-및-xml-설정-파일-작성"&gt;WinSW 최신 Release 다운로드 및 XML 설정 파일 작성&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# choco install curl&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 다운로드 &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ curl -LO https://github.com/winsw/winsw/releases/download/v2.11.0/WinSW-x64.exe
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# rename&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ move WinSW-x64.exe minio-service.exe
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;minio-service.xml&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-xml" data-lang="xml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;&amp;lt;service&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;lt;id&amp;gt;&lt;/span&gt;MinIO&lt;span style="color:#f92672"&gt;&amp;lt;/id&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;lt;name&amp;gt;&lt;/span&gt;MinIO&lt;span style="color:#f92672"&gt;&amp;lt;/name&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;lt;description&amp;gt;&lt;/span&gt;MinIO is a high performance object storage server&lt;span style="color:#f92672"&gt;&amp;lt;/description&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;lt;executable&amp;gt;&lt;/span&gt;minio.exe&lt;span style="color:#f92672"&gt;&amp;lt;/executable&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;lt;env&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;name=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;MINIO_ROOT_USER&amp;#34;&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;value=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;minio&amp;#34;&lt;/span&gt;&lt;span style="color:#f92672"&gt;/&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;lt;env&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;name=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;MINIO_ROOT_PASSWORD&amp;#34;&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;value=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;minio1234&amp;#34;&lt;/span&gt;&lt;span style="color:#f92672"&gt;/&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;lt;arguments&amp;gt;&lt;/span&gt;server d:\minio\data --console-address &amp;#34;:9001&amp;#34;&lt;span style="color:#f92672"&gt;&amp;lt;/arguments&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;lt;logmode&amp;gt;&lt;/span&gt;rotate&lt;span style="color:#f92672"&gt;&amp;lt;/logmode&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;&amp;lt;/service&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id="서비스-등록"&gt;서비스 등록&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;Administrator&lt;/code&gt; 권한으로 실행&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;minio&lt;/code&gt; 실행 파일 PATH 등록 or 같은 디렉토리에 위치&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# service install&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ minio-service.exe install
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;2021-12-09 15:57:24,987 INFO - Installing service &lt;span style="color:#e6db74"&gt;&amp;#39;MinIO (MinIO)&amp;#39;&lt;/span&gt;...
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;2021-12-09 15:57:25,085 INFO - Service &lt;span style="color:#e6db74"&gt;&amp;#39;MinIO (MinIO)&amp;#39;&lt;/span&gt; was installed successfully.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# service status&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ minio-service.exe status
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Stopped
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# service start &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ minio-service.exe start
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;2021-12-09 16:05:59,133 INFO - Starting service &lt;span style="color:#e6db74"&gt;&amp;#39;MinIO (MinIO)&amp;#39;&lt;/span&gt;...
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;2021-12-09 16:06:00,322 INFO - Service &lt;span style="color:#e6db74"&gt;&amp;#39;MinIO (MinIO)&amp;#39;&lt;/span&gt; started successfully.
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description></item></channel></rss>

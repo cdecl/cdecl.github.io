@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Git Branch on cdeclog</title><link>https://cdecl.github.io/tags/git-branch/</link><description>Recent content in Git Branch on cdeclog</description><generator>Hugo -- 0.154.5</generator><language>ko-kr</language><lastBuildDate>Wed, 23 Feb 2022 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/git-branch/index.xml" rel="self" type="application/rss+xml"/><item><title>Git Repository 복제, Branch 동기화 관리</title><link>https://cdecl.github.io/dev/git-mirror-branch/</link><pubDate>Wed, 23 Feb 2022 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/git-mirror-branch/</guid><description>&lt;h1 id="git-repository-복제-및-branch-관리-가이드"&gt;Git Repository 복제 및 Branch 관리 가이드&lt;/h1&gt;
+&lt;h2 id="git-repository-복제"&gt;Git Repository 복제&lt;/h2&gt;
+&lt;h3 id="remote--local-복제"&gt;Remote → Local 복제&lt;/h3&gt;
+&lt;p&gt;Git 저장소를 복제하는 방법에는 여러 가지가 있으며, 각각의 방식에 따라 다른 특징이 있습니다.&lt;/p&gt;
+&lt;h4 id="--mirror-복제의-특징"&gt;&lt;code&gt;--mirror&lt;/code&gt; 복제의 특징&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;git clone --mirror&lt;/code&gt;: Remote repository의 모든 참조(&lt;code&gt;refs&lt;/code&gt;)를 포함하여 Local에 저장&lt;/li&gt;
+&lt;li&gt;기본 &lt;code&gt;clone&lt;/code&gt;과 달리 작업 디렉토리 없이 저장소의 메타데이터 전체를 복제&lt;/li&gt;
+&lt;li&gt;주로 저장소 백업이나 완전한 미러링에 사용&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# mirror 복제&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ git clone --mirror https://github.com/cdecl/test
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ tree -d
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;└── test.git
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ├── branches
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ├── hooks
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ├── info
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ├── objects
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; │   ├── info
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; │   └── pack
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; └── refs
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ├── heads
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; └── tags
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;blockquote&gt;
+&lt;p&gt;💡 추가 정보:&lt;/p&gt;</description></item></channel></rss>

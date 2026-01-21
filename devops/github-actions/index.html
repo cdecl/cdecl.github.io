@@ -1,0 +1,459 @@
+<!doctype html><html lang=en dir=auto data-theme=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>Github Actions 101 | cdeclog</title><meta name=keywords content="github,workflow"><meta name=description content='Github Actions 101
+
+Github 에서 제공하는 Workflow 툴
+GitHub-hosted Runner or Self-Hosted Runner 에서 실행
+Actions 탭을 통해서 Template을 선택하고 Yaml 파일로 Task 내용을 기술
+
+.github/workflows 디렉토리 밑에 위치
+
+
+
+Runner 종류
+
+GitHub-hosted Runner : MS Azure 가상머신에서 실행
+
+Public Repository : 무료
+Private Repository : 2000분/월 무료
+
+
+Self-Hosted Runner : 자체 머신을 통해 Runner Hosting
+
+https://help.github.com/en/actions/hosting-your-own-runners/adding-self-hosted-runners{:target="_blank"}
+
+
+
+Actions Basic
+
+Actions Tab
+Workflow syntax for GitHub Actions
+
+https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions{:target="_blank"}
+
+
+awesome-actions
+
+https://github.com/sdras/awesome-actions{:target="_blank"}
+
+
+
+
+Workflow
+
+runs-on: Virtual machine
+
+ubuntu, macos, windows server 제공
+기본 Package or apps 가 등록되어 있음 : https://github.com/actions/virtual-environments{:target="_blank"}
+
+Ubuntu : https://github.com/actions/virtual-environments/blob/master/images/linux/Ubuntu1804-README.md{:target="_blank"}
+Windows Server : https://github.com/actions/virtual-environments/blob/master/images/win/Windows2019-Readme.md{:target="_blank"}
+
+
+
+
+steps :
+
+uses: 예약된 Actions 실행이나 Apps 통합을 통해 Apps 사용 환경 구성
+
+ex> uses: actions/checkout@v2 : git checkout 실행
+ex> uses: nuget/setup-nuget@v1 : nuget apps setup
+ex> uses: microsoft/setup-msbuild@v1 : msbuild setup
+
+
+run: run command 지정
+
+
+
+name: CI                            # workflow 이름 
+
+on:                                 # Triggers Event 
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:                            # Single job name
+    runs-on: ubuntu-latest          # virtual machine
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Run a one-line script
+      run: echo Hello, world!
+
+    - name: Run a multi-line script
+      run: |
+        echo Add other actions to build,
+        echo test, and deploy your project.
+Actions 예제
+Docker Build & Registry Push
+
+ubuntu-latest 이미지에는 Docker Daemon 활성화됨
+secrets 변수 : [Settings] - [Secrets] 에서 변수 세팅 (DOCKERHUB_PASS)
+
+${{ secrets.DOCKERHUB_PASS }}
+
+
+
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Build the Docker image
+      run: docker build . --tag cdecl/gcc-boost
+    - name: docker login
+      run: echo &#39;${{ secrets.DOCKERHUB_PASS }}&#39; | docker login -u cdecl --password-stdin
+    - name: docker push
+      run: docker push cdecl/gcc-boost
+'><meta name=author content="Byung Kyu KIM"><link rel=canonical href=https://cdecl.github.io/devops/github-actions/><link crossorigin=anonymous href=/assets/css/stylesheet.d980bb9fb2cba61af0aead0606b5eb221d7e358748ac394b60233d95d626c563.css integrity="sha256-2YC7n7LLphrwrq0GBrXrIh1+NYdIrDlLYCM9ldYmxWM=" rel="preload stylesheet" as=style><link rel=icon href=https://cdecl.github.io/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://cdecl.github.io/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://cdecl.github.io/favicon-32x32.png><link rel=apple-touch-icon href=https://cdecl.github.io/apple-touch-icon.png><link rel=mask-icon href=https://cdecl.github.io/safari-pinned-tab.svg><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><link rel=alternate hreflang=en href=https://cdecl.github.io/devops/github-actions/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51);color-scheme:dark}.list{background:var(--theme)}.toc{background:var(--entry)}}@media(prefers-color-scheme:light){.list::-webkit-scrollbar-thumb{border-color:var(--code-bg)}}</style></noscript><script>localStorage.getItem("pref-theme")==="dark"?document.querySelector("html").dataset.theme="dark":localStorage.getItem("pref-theme")==="light"?document.querySelector("html").dataset.theme="light":window.matchMedia("(prefers-color-scheme: dark)").matches?document.querySelector("html").dataset.theme="dark":document.querySelector("html").dataset.theme="light"</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-VQQHHYPN7K"></script><script>var doNotTrack=!1,dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes";if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-VQQHHYPN7K")}</script><meta property="og:url" content="https://cdecl.github.io/devops/github-actions/"><meta property="og:site_name" content="cdeclog"><meta property="og:title" content="Github Actions 101"><meta property="og:description" content='Github Actions 101 Github 에서 제공하는 Workflow 툴 GitHub-hosted Runner or Self-Hosted Runner 에서 실행 Actions 탭을 통해서 Template을 선택하고 Yaml 파일로 Task 내용을 기술 .github/workflows 디렉토리 밑에 위치 Runner 종류 GitHub-hosted Runner : MS Azure 가상머신에서 실행 Public Repository : 무료 Private Repository : 2000분/월 무료 Self-Hosted Runner : 자체 머신을 통해 Runner Hosting https://help.github.com/en/actions/hosting-your-own-runners/adding-self-hosted-runners{:target="_blank"} Actions Basic Actions Tab Workflow syntax for GitHub Actions https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions{:target="_blank"} awesome-actions https://github.com/sdras/awesome-actions{:target="_blank"} Workflow runs-on: Virtual machine ubuntu, macos, windows server 제공 기본 Package or apps 가 등록되어 있음 : https://github.com/actions/virtual-environments{:target="_blank"} Ubuntu : https://github.com/actions/virtual-environments/blob/master/images/linux/Ubuntu1804-README.md{:target="_blank"} Windows Server : https://github.com/actions/virtual-environments/blob/master/images/win/Windows2019-Readme.md{:target="_blank"} steps : uses: 예약된 Actions 실행이나 Apps 통합을 통해 Apps 사용 환경 구성 ex> uses: actions/checkout@v2 : git checkout 실행 ex> uses: nuget/setup-nuget@v1 : nuget apps setup ex> uses: microsoft/setup-msbuild@v1 : msbuild setup run: run command 지정 name: CI # workflow 이름 on: # Triggers Event push: branches: [ master ] pull_request: branches: [ master ] jobs: build: # Single job name runs-on: ubuntu-latest # virtual machine steps: - uses: actions/checkout@v2 - name: Run a one-line script run: echo Hello, world! - name: Run a multi-line script run: | echo Add other actions to build, echo test, and deploy your project. Actions 예제 Docker Build & Registry Push ubuntu-latest 이미지에는 Docker Daemon 활성화됨 secrets 변수 : [Settings] - [Secrets] 에서 변수 세팅 (DOCKERHUB_PASS) ${{ secrets.DOCKERHUB_PASS }} name: Docker Image CI on: push: branches: [ master ] jobs: build: runs-on: ubuntu-latest steps: - uses: actions/checkout@v2 - name: Build the Docker image run: docker build . --tag cdecl/gcc-boost - name: docker login run: echo &#39;${{ secrets.DOCKERHUB_PASS }}&#39; | docker login -u cdecl --password-stdin - name: docker push run: docker push cdecl/gcc-boost '><meta property="og:locale" content="ko-kr"><meta property="og:type" content="article"><meta property="article:section" content="devops"><meta property="article:published_time" content="2021-08-12T00:00:00+09:00"><meta property="article:modified_time" content="2021-08-12T00:00:00+09:00"><meta property="article:tag" content="Github"><meta property="article:tag" content="Workflow"><meta name=twitter:card content="summary"><meta name=twitter:title content="Github Actions 101"><meta name=twitter:description content='Github Actions 101
+
+Github 에서 제공하는 Workflow 툴
+GitHub-hosted Runner or Self-Hosted Runner 에서 실행
+Actions 탭을 통해서 Template을 선택하고 Yaml 파일로 Task 내용을 기술
+
+.github/workflows 디렉토리 밑에 위치
+
+
+
+Runner 종류
+
+GitHub-hosted Runner : MS Azure 가상머신에서 실행
+
+Public Repository : 무료
+Private Repository : 2000분/월 무료
+
+
+Self-Hosted Runner : 자체 머신을 통해 Runner Hosting
+
+https://help.github.com/en/actions/hosting-your-own-runners/adding-self-hosted-runners{:target="_blank"}
+
+
+
+Actions Basic
+
+Actions Tab
+Workflow syntax for GitHub Actions
+
+https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions{:target="_blank"}
+
+
+awesome-actions
+
+https://github.com/sdras/awesome-actions{:target="_blank"}
+
+
+
+
+Workflow
+
+runs-on: Virtual machine
+
+ubuntu, macos, windows server 제공
+기본 Package or apps 가 등록되어 있음 : https://github.com/actions/virtual-environments{:target="_blank"}
+
+Ubuntu : https://github.com/actions/virtual-environments/blob/master/images/linux/Ubuntu1804-README.md{:target="_blank"}
+Windows Server : https://github.com/actions/virtual-environments/blob/master/images/win/Windows2019-Readme.md{:target="_blank"}
+
+
+
+
+steps :
+
+uses: 예약된 Actions 실행이나 Apps 통합을 통해 Apps 사용 환경 구성
+
+ex> uses: actions/checkout@v2 : git checkout 실행
+ex> uses: nuget/setup-nuget@v1 : nuget apps setup
+ex> uses: microsoft/setup-msbuild@v1 : msbuild setup
+
+
+run: run command 지정
+
+
+
+name: CI                            # workflow 이름 
+
+on:                                 # Triggers Event 
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:                            # Single job name
+    runs-on: ubuntu-latest          # virtual machine
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Run a one-line script
+      run: echo Hello, world!
+
+    - name: Run a multi-line script
+      run: |
+        echo Add other actions to build,
+        echo test, and deploy your project.
+Actions 예제
+Docker Build & Registry Push
+
+ubuntu-latest 이미지에는 Docker Daemon 활성화됨
+secrets 변수 : [Settings] - [Secrets] 에서 변수 세팅 (DOCKERHUB_PASS)
+
+${{ secrets.DOCKERHUB_PASS }}
+
+
+
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Build the Docker image
+      run: docker build . --tag cdecl/gcc-boost
+    - name: docker login
+      run: echo &#39;${{ secrets.DOCKERHUB_PASS }}&#39; | docker login -u cdecl --password-stdin
+    - name: docker push
+      run: docker push cdecl/gcc-boost
+'><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Devops","item":"https://cdecl.github.io/devops/"},{"@type":"ListItem","position":2,"name":"Github Actions 101","item":"https://cdecl.github.io/devops/github-actions/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"Github Actions 101","name":"Github Actions 101","description":"Github Actions 101 Github 에서 제공하는 Workflow 툴 GitHub-hosted Runner or Self-Hosted Runner 에서 실행 Actions 탭을 통해서 Template을 선택하고 Yaml 파일로 Task 내용을 기술 .github/workflows 디렉토리 밑에 위치 Runner 종류 GitHub-hosted Runner : MS Azure 가상머신에서 실행 Public Repository : 무료 Private Repository : 2000분/월 무료 Self-Hosted Runner : 자체 머신을 통해 Runner Hosting https://help.github.com/en/actions/hosting-your-own-runners/adding-self-hosted-runners{:target=\u0026quot;_blank\u0026quot;} Actions Basic Actions Tab Workflow syntax for GitHub Actions https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions{:target=\u0026quot;_blank\u0026quot;} awesome-actions https://github.com/sdras/awesome-actions{:target=\u0026quot;_blank\u0026quot;} Workflow runs-on: Virtual machine ubuntu, macos, windows server 제공 기본 Package or apps 가 등록되어 있음 : https://github.com/actions/virtual-environments{:target=\u0026quot;_blank\u0026quot;} Ubuntu : https://github.com/actions/virtual-environments/blob/master/images/linux/Ubuntu1804-README.md{:target=\u0026quot;_blank\u0026quot;} Windows Server : https://github.com/actions/virtual-environments/blob/master/images/win/Windows2019-Readme.md{:target=\u0026quot;_blank\u0026quot;} steps : uses: 예약된 Actions 실행이나 Apps 통합을 통해 Apps 사용 환경 구성 ex\u0026gt; uses: actions/checkout@v2 : git checkout 실행 ex\u0026gt; uses: nuget/setup-nuget@v1 : nuget apps setup ex\u0026gt; uses: microsoft/setup-msbuild@v1 : msbuild setup run: run command 지정 name: CI # workflow 이름 on: # Triggers Event push: branches: [ master ] pull_request: branches: [ master ] jobs: build: # Single job name runs-on: ubuntu-latest # virtual machine steps: - uses: actions/checkout@v2 - name: Run a one-line script run: echo Hello, world! - name: Run a multi-line script run: | echo Add other actions to build, echo test, and deploy your project. Actions 예제 Docker Build \u0026amp; Registry Push ubuntu-latest 이미지에는 Docker Daemon 활성화됨 secrets 변수 : [Settings] - [Secrets] 에서 변수 세팅 (DOCKERHUB_PASS) ${{ secrets.DOCKERHUB_PASS }} name: Docker Image CI on: push: branches: [ master ] jobs: build: runs-on: ubuntu-latest steps: - uses: actions/checkout@v2 - name: Build the Docker image run: docker build . --tag cdecl/gcc-boost - name: docker login run: echo \u0026#39;${{ secrets.DOCKERHUB_PASS }}\u0026#39; | docker login -u cdecl --password-stdin - name: docker push run: docker push cdecl/gcc-boost ","keywords":["github","workflow"],"articleBody":"Github Actions 101 Github 에서 제공하는 Workflow 툴 GitHub-hosted Runner or Self-Hosted Runner 에서 실행 Actions 탭을 통해서 Template을 선택하고 Yaml 파일로 Task 내용을 기술 .github/workflows 디렉토리 밑에 위치 Runner 종류 GitHub-hosted Runner : MS Azure 가상머신에서 실행 Public Repository : 무료 Private Repository : 2000분/월 무료 Self-Hosted Runner : 자체 머신을 통해 Runner Hosting https://help.github.com/en/actions/hosting-your-own-runners/adding-self-hosted-runners{:target=\"_blank\"} Actions Basic Actions Tab Workflow syntax for GitHub Actions https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions{:target=\"_blank\"} awesome-actions https://github.com/sdras/awesome-actions{:target=\"_blank\"} Workflow runs-on: Virtual machine ubuntu, macos, windows server 제공 기본 Package or apps 가 등록되어 있음 : https://github.com/actions/virtual-environments{:target=\"_blank\"} Ubuntu : https://github.com/actions/virtual-environments/blob/master/images/linux/Ubuntu1804-README.md{:target=\"_blank\"} Windows Server : https://github.com/actions/virtual-environments/blob/master/images/win/Windows2019-Readme.md{:target=\"_blank\"} steps : uses: 예약된 Actions 실행이나 Apps 통합을 통해 Apps 사용 환경 구성 ex\u003e uses: actions/checkout@v2 : git checkout 실행 ex\u003e uses: nuget/setup-nuget@v1 : nuget apps setup ex\u003e uses: microsoft/setup-msbuild@v1 : msbuild setup run: run command 지정 name: CI # workflow 이름 on: # Triggers Event push: branches: [ master ] pull_request: branches: [ master ] jobs: build: # Single job name runs-on: ubuntu-latest # virtual machine steps: - uses: actions/checkout@v2 - name: Run a one-line script run: echo Hello, world! - name: Run a multi-line script run: | echo Add other actions to build, echo test, and deploy your project. Actions 예제 Docker Build \u0026 Registry Push ubuntu-latest 이미지에는 Docker Daemon 활성화됨 secrets 변수 : [Settings] - [Secrets] 에서 변수 세팅 (DOCKERHUB_PASS) ${{ secrets.DOCKERHUB_PASS }} name: Docker Image CI on: push: branches: [ master ] jobs: build: runs-on: ubuntu-latest steps: - uses: actions/checkout@v2 - name: Build the Docker image run: docker build . --tag cdecl/gcc-boost - name: docker login run: echo '${{ secrets.DOCKERHUB_PASS }}' | docker login -u cdecl --password-stdin - name: docker push run: docker push cdecl/gcc-boost MSBuild \u0026 Nuget Windows 서버 이미지 MSBuild 기반 빌드 msbuild 및 nuget setup uses: nuget/setup-nuget@v1 uses: microsoft/setup-msbuild@v1 name 단위의 run task시 current direcotry reset name: C/C++ CI on: push: branches: [ master ] jobs: build: runs-on: windows-2019 steps: - uses: actions/checkout@v2 - uses: nuget/setup-nuget@v1 - uses: microsoft/setup-msbuild@v1 - name: nuget restore run: | cd src nuget restore asb.sln - name: build run: | cd src msbuild asb.vcxproj /p:configuration=release /p:platform=x64 Container Image 활용 docker container (cdecl/gcc-boost)를 활용 Task 실행 container: cdecl/gcc-boost name: C/C++ CI on: push: branches: [ master ] jobs: build: runs-on: ubuntu-latest container: cdecl/gcc-boost steps: - uses: actions/checkout@v2 - name: check run: | g++ --version - name: make run: | cd src make Go build 및 Docker image registry Tag push only : push tags : ‘.’ CGO_ENABLED=0 : libc dynamic linked binary 비활성화를 위해 name: Go on: push: tags: '*.*' jobs: build: name: Build runs-on: ubuntu-latest steps: - name: Set up Go 1.x uses: actions/setup-go@v2 with: go-version: ^1.13 id: go - name: Check out code into the Go module directory uses: actions/checkout@v2 - name: Get dependencies run: | go get -v -t -d ./... - name: Build run: CGO_ENABLED=0 go build -v . - name: Build the Docker image run: docker build . --tag cdecl/go-sitecheck - name: docker login \u0026 push run: | echo '${{ secrets.DOCKERHUB_PASS }}' | docker login -u cdecl --password-stdin docker push cdecl/go-sitecheck Persisting workflow data using artifacts Artifacts 활용 지속적인 workflow 데이터 관리 actions/upload-artifact@v1 / actions/download-artifact@v1 순서보장을 위해 needs 사용 : 병렬수행 name: artifact test on: push: branches: [ master ] jobs: build-stage: runs-on: ubuntu-latest container: gcc steps: - uses: actions/checkout@v2 - name: check run: | mkdir output cat /etc/*-release \u003e output/release.txt - name: upload artifact uses: actions/upload-artifact@v1 with: name: output path: output test-stage: needs: build-stage runs-on: windows-latest steps: - uses: actions/checkout@v2 - name: download artifact uses: actions/download-artifact@v1 with: name: output - name: check run: | dir type output\\release.txt Manual trigger Events that trigger workflows https://docs.github.com/en/actions/learn-github-actions/events-that-trigger-workflows{:target=\"_blank\"} 특정 이벤트에 의한 실행이 아닌 매뉴얼로 버튼을 눌러 수행 workflow_dispatch on: workflow_dispatch: inputs: name: description: 'workflow start' Create release, upload asset file path 파일이 변경되면 trigger : .github/workflows/ccpp.yml create release : actions/create-release@v1 upload asset : actions/upload-release-asset@v1 참고 : https://github.com/cdecl/asb/blob/master/.github/workflows/ccpp.yml{:target=\"_blank\"} name: C/C++ CI on: push: paths: - '.github/workflows/ccpp.yml' jobs: build: runs-on: ubuntu-latest steps: - uses: actions/checkout@v2 - name: file run: | mkdir release cat 'data ' \u003e release/data.txt - name: upload artifact uses: actions/upload-artifact@v1 with: name: release-linux path: release build-release: needs: - build runs-on: ubuntu-latest steps: - name: download artifact uses: actions/download-artifact@v1 with: name: release-linux - name: zip run: | zip -r release.zip release - name: create release id: create_release env: GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} uses: actions/create-release@v1 with: tag_name: 'v1.0' release_name: Release v1.0 draft: false prerelease: false - name: upload release asset uses: actions/upload-release-asset@v1 env: GITHUB_TOKEN: ${{ secrets.TOKEN }} with: upload_url: ${{ steps.create_release.outputs.upload_url }} # create_release 의 결과 asset_path: ./release.zip asset_name: release.zip asset_content_type: application/zip ","wordCount":"747","inLanguage":"en","datePublished":"2021-08-12T00:00:00+09:00","dateModified":"2021-08-12T00:00:00+09:00","author":{"@type":"Person","name":"Byung Kyu KIM"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://cdecl.github.io/devops/github-actions/"},"publisher":{"@type":"Organization","name":"cdeclog","logo":{"@type":"ImageObject","url":"https://cdecl.github.io/favicon.ico"}}}</script></head><body id=top><header class=header><nav class=nav><div class=logo><a href=https://cdecl.github.io/ accesskey=h title="cdeclog (Alt + H)">cdeclog</a><div class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)" aria-label="Toggle theme">
+<svg id="moon" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+<svg id="sun" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu><li><a href=https://cdecl.github.io/archives/ title=Archive><span>Archive</span></a></li><li><a href=https://cdecl.github.io/search/ title="Search (Alt + /)" accesskey=/><span>Search</span></a></li><li><a href=https://cdecl.github.io/tags/ title=Tags><span>Tags</span></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><h1 class="post-title entry-hint-parent">Github Actions 101</h1><div class=post-meta><span title='2021-08-12 00:00:00 +0900 KST'>August 12, 2021</span>&nbsp;·&nbsp;<span>Byung Kyu KIM</span></div></header><div class=toc><details open><summary accesskey=c title="(Alt + C)"><span class=details>Table of Contents</span></summary><div class=inner><ul><li><a href=#github-actions-101 aria-label="Github Actions 101">Github Actions 101</a><ul><li><a href=#runner-%ec%a2%85%eb%a5%98 aria-label="Runner 종류">Runner 종류</a></li><li><a href=#actions-basic aria-label="Actions Basic">Actions Basic</a><ul><li><a href=#workflow aria-label=Workflow>Workflow</a></li></ul></li><li><a href=#actions-%ec%98%88%ec%a0%9c aria-label="Actions 예제">Actions 예제</a><ul><li><a href=#docker-build--registry-push aria-label="Docker Build & Registry Push">Docker Build & Registry Push</a></li><li><a href=#msbuild--nuget aria-label="MSBuild & Nuget">MSBuild & Nuget</a></li><li><a href=#container-image-%ed%99%9c%ec%9a%a9 aria-label="Container Image 활용">Container Image 활용</a></li><li><a href=#go-build-%eb%b0%8f-docker-image-registry aria-label="Go build 및 Docker image registry">Go build 및 Docker image registry</a></li><li><a href=#persisting-workflow-data-using-artifacts aria-label="Persisting workflow data using artifacts">Persisting workflow data using artifacts</a></li><li><a href=#manual-trigger aria-label="Manual trigger">Manual trigger</a></li><li><a href=#create-release-upload-asset-file aria-label="Create release, upload asset file">Create release, upload asset file</a></li></ul></li></ul></li></ul></div></details></div><div class=post-content><h1 id=github-actions-101>Github Actions 101<a hidden class=anchor aria-hidden=true href=#github-actions-101>#</a></h1><ul><li>Github 에서 제공하는 Workflow 툴</li><li>GitHub-hosted Runner or Self-Hosted Runner 에서 실행</li><li>Actions 탭을 통해서 Template을 선택하고 Yaml 파일로 Task 내용을 기술<ul><li>.github/workflows 디렉토리 밑에 위치</li></ul></li></ul><h2 id=runner-종류>Runner 종류<a hidden class=anchor aria-hidden=true href=#runner-종류>#</a></h2><ul><li>GitHub-hosted Runner : MS Azure 가상머신에서 실행<ul><li>Public Repository : 무료</li><li>Private Repository : 2000분/월 무료</li></ul></li><li>Self-Hosted Runner : 자체 머신을 통해 Runner Hosting<ul><li><a href=https://help.github.com/en/actions/hosting-your-own-runners/adding-self-hosted-runners>https://help.github.com/en/actions/hosting-your-own-runners/adding-self-hosted-runners</a>{:target="_blank"}</li></ul></li></ul><h2 id=actions-basic>Actions Basic<a hidden class=anchor aria-hidden=true href=#actions-basic>#</a></h2><ul><li>Actions Tab</li><li>Workflow syntax for GitHub Actions<ul><li><a href=https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions>https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions</a>{:target="_blank"}</li></ul></li><li>awesome-actions<ul><li><a href=https://github.com/sdras/awesome-actions>https://github.com/sdras/awesome-actions</a>{:target="_blank"}</li></ul></li></ul><p><img loading=lazy src=/images/2020-05-18-16-31-11.png></p><h3 id=workflow>Workflow<a hidden class=anchor aria-hidden=true href=#workflow>#</a></h3><ul><li>runs-on: Virtual machine<ul><li>ubuntu, macos, windows server 제공</li><li>기본 Package or apps 가 등록되어 있음 : <a href=https://github.com/actions/virtual-environments>https://github.com/actions/virtual-environments</a>{:target="_blank"}<ul><li>Ubuntu : <a href=https://github.com/actions/virtual-environments/blob/master/images/linux/Ubuntu1804-README.md>https://github.com/actions/virtual-environments/blob/master/images/linux/Ubuntu1804-README.md</a>{:target="_blank"}</li><li>Windows Server : <a href=https://github.com/actions/virtual-environments/blob/master/images/win/Windows2019-Readme.md>https://github.com/actions/virtual-environments/blob/master/images/win/Windows2019-Readme.md</a>{:target="_blank"}</li></ul></li></ul></li><li>steps :<ul><li>uses: 예약된 Actions 실행이나 Apps 통합을 통해 Apps 사용 환경 구성<ul><li>ex> uses: actions/checkout@v2 : git checkout 실행</li><li>ex> uses: nuget/setup-nuget@v1 : nuget apps setup</li><li>ex> uses: microsoft/setup-msbuild@v1 : msbuild setup</li></ul></li><li>run: run command 지정</li></ul></li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#f92672>name</span>: <span style=color:#ae81ff>CI                           </span> <span style=color:#75715e># workflow 이름 </span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>on</span>:                                 <span style=color:#75715e># Triggers Event </span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>push</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>branches</span>: [ <span style=color:#ae81ff>master ]</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>pull_request</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>branches</span>: [ <span style=color:#ae81ff>master ]</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>jobs</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>build</span>:                            <span style=color:#75715e># Single job name</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>runs-on</span>: <span style=color:#ae81ff>ubuntu-latest         </span> <span style=color:#75715e># virtual machine</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>steps</span>:
+</span></span><span style=display:flex><span>    - <span style=color:#f92672>uses</span>: <span style=color:#ae81ff>actions/checkout@v2</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Run a one-line script</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>run</span>: <span style=color:#ae81ff>echo Hello, world!</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Run a multi-line script</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>run</span>: |<span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        echo Add other actions to build,
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        echo test, and deploy your project.</span>
+</span></span></code></pre></div><h2 id=actions-예제>Actions 예제<a hidden class=anchor aria-hidden=true href=#actions-예제>#</a></h2><h3 id=docker-build--registry-push>Docker Build & Registry Push<a hidden class=anchor aria-hidden=true href=#docker-build--registry-push>#</a></h3><ul><li>ubuntu-latest 이미지에는 Docker Daemon 활성화됨</li><li>secrets 변수 : [Settings] - [Secrets] 에서 변수 세팅 (DOCKERHUB_PASS)<ul><li>${{ secrets.DOCKERHUB_PASS }}</li></ul></li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#f92672>name</span>: <span style=color:#ae81ff>Docker Image CI</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>on</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>push</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>branches</span>: [ <span style=color:#ae81ff>master ]</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>jobs</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>build</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>runs-on</span>: <span style=color:#ae81ff>ubuntu-latest</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>steps</span>:
+</span></span><span style=display:flex><span>    - <span style=color:#f92672>uses</span>: <span style=color:#ae81ff>actions/checkout@v2</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Build the Docker image</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>run</span>: <span style=color:#ae81ff>docker build . --tag cdecl/gcc-boost</span>
+</span></span><span style=display:flex><span>    - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>docker login</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>run</span>: <span style=color:#ae81ff>echo &#39;${{ secrets.DOCKERHUB_PASS }}&#39; | docker login -u cdecl --password-stdin</span>
+</span></span><span style=display:flex><span>    - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>docker push</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>run</span>: <span style=color:#ae81ff>docker push cdecl/gcc-boost</span>
+</span></span></code></pre></div><p><img loading=lazy src=/images/2020-05-18-14-40-10.png></p><h3 id=msbuild--nuget>MSBuild & Nuget<a hidden class=anchor aria-hidden=true href=#msbuild--nuget>#</a></h3><ul><li>Windows 서버 이미지 MSBuild 기반 빌드</li><li>msbuild 및 nuget setup<ul><li>uses: nuget/setup-nuget@v1<ul><li>uses: microsoft/setup-msbuild@v1</li></ul></li></ul></li><li>name 단위의 run task시 current direcotry reset</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#f92672>name</span>: <span style=color:#ae81ff>C/C++ CI</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>on</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>push</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>branches</span>: [ <span style=color:#ae81ff>master ]</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>jobs</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>build</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>runs-on</span>: <span style=color:#ae81ff>windows-2019</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>steps</span>:
+</span></span><span style=display:flex><span>    - <span style=color:#f92672>uses</span>: <span style=color:#ae81ff>actions/checkout@v2</span>
+</span></span><span style=display:flex><span>    - <span style=color:#f92672>uses</span>: <span style=color:#ae81ff>nuget/setup-nuget@v1</span>
+</span></span><span style=display:flex><span>    - <span style=color:#f92672>uses</span>: <span style=color:#ae81ff>microsoft/setup-msbuild@v1</span>
+</span></span><span style=display:flex><span>      
+</span></span><span style=display:flex><span>    - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>nuget restore </span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>run</span>: <span style=color:#ae81ff>| </span>
+</span></span><span style=display:flex><span>        <span style=color:#ae81ff>cd src </span>
+</span></span><span style=display:flex><span>        <span style=color:#ae81ff>nuget restore asb.sln</span>
+</span></span><span style=display:flex><span>        
+</span></span><span style=display:flex><span>    - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>build</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>run</span>: |<span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        cd src 
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        msbuild asb.vcxproj /p:configuration=release /p:platform=x64</span>
+</span></span></code></pre></div><h3 id=container-image-활용>Container Image 활용<a hidden class=anchor aria-hidden=true href=#container-image-활용>#</a></h3><ul><li>docker container (cdecl/gcc-boost)를 활용 Task 실행<ul><li>container: cdecl/gcc-boost</li></ul></li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#f92672>name</span>: <span style=color:#ae81ff>C/C++ CI</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>on</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>push</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>branches</span>: [ <span style=color:#ae81ff>master ]</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>jobs</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>build</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>runs-on</span>: <span style=color:#ae81ff>ubuntu-latest</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>container</span>: <span style=color:#ae81ff>cdecl/gcc-boost</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>steps</span>:
+</span></span><span style=display:flex><span>    - <span style=color:#f92672>uses</span>: <span style=color:#ae81ff>actions/checkout@v2</span>
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>check </span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>run</span>: <span style=color:#ae81ff>| </span>
+</span></span><span style=display:flex><span>        <span style=color:#ae81ff>g++ --version</span>
+</span></span><span style=display:flex><span>            
+</span></span><span style=display:flex><span>    - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>make </span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>run</span>: |<span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        cd src 
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        make</span>
+</span></span></code></pre></div><h3 id=go-build-및-docker-image-registry>Go build 및 Docker image registry<a hidden class=anchor aria-hidden=true href=#go-build-및-docker-image-registry>#</a></h3><ul><li>Tag push only : push tags : &lsquo;<em>.</em>&rsquo;</li><li>CGO_ENABLED=0 : libc dynamic linked binary 비활성화를 위해</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#f92672>name</span>: <span style=color:#ae81ff>Go</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>on</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>push</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>tags</span>: <span style=color:#e6db74>&#39;*.*&#39;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>jobs</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>build</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Build</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>runs-on</span>: <span style=color:#ae81ff>ubuntu-latest</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>steps</span>:
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Set up Go 1.x</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>uses</span>: <span style=color:#ae81ff>actions/setup-go@v2</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>with</span>:
+</span></span><span style=display:flex><span>        <span style=color:#f92672>go-version</span>: <span style=color:#ae81ff>^1.13</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>id</span>: <span style=color:#ae81ff>go</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Check out code into the Go module directory</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>uses</span>: <span style=color:#ae81ff>actions/checkout@v2</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Get dependencies</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>run</span>: |<span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        go get -v -t -d ./...</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Build</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>run</span>: <span style=color:#ae81ff>CGO_ENABLED=0 go build -v .</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Build the Docker image</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>run</span>: <span style=color:#ae81ff>docker build . --tag cdecl/go-sitecheck</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>docker login &amp; push</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>run</span>: <span style=color:#ae81ff>| </span>
+</span></span><span style=display:flex><span>        <span style=color:#ae81ff>echo &#39;${{ secrets.DOCKERHUB_PASS }}&#39; | docker login -u cdecl --password-stdin</span>
+</span></span><span style=display:flex><span>    <span style=color:#ae81ff>docker push cdecl/go-sitecheck</span>
+</span></span></code></pre></div><p><img loading=lazy src=/images/2020-05-18-15-24-33.png></p><h3 id=persisting-workflow-data-using-artifacts>Persisting workflow data using artifacts<a hidden class=anchor aria-hidden=true href=#persisting-workflow-data-using-artifacts>#</a></h3><ul><li>Artifacts 활용 지속적인 workflow 데이터 관리<ul><li>actions/upload-artifact@v1 / actions/download-artifact@v1</li></ul></li><li>순서보장을 위해 needs 사용 : 병렬수행</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#f92672>name</span>: <span style=color:#ae81ff>artifact test</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>on</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>push</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>branches</span>: [ <span style=color:#ae81ff>master ]</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>jobs</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>build-stage</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>runs-on</span>: <span style=color:#ae81ff>ubuntu-latest</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>container</span>: <span style=color:#ae81ff>gcc</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>steps</span>:
+</span></span><span style=display:flex><span>    - <span style=color:#f92672>uses</span>: <span style=color:#ae81ff>actions/checkout@v2</span>
+</span></span><span style=display:flex><span>    - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>check</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>run</span>: |<span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        mkdir output
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        cat /etc/*-release &gt; output/release.txt</span>
+</span></span><span style=display:flex><span>    - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>upload artifact</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>uses</span>: <span style=color:#ae81ff>actions/upload-artifact@v1</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>with</span>:
+</span></span><span style=display:flex><span>        <span style=color:#f92672>name</span>: <span style=color:#ae81ff>output</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>path</span>: <span style=color:#ae81ff>output</span>
+</span></span><span style=display:flex><span>      
+</span></span><span style=display:flex><span>  <span style=color:#f92672>test-stage</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>needs</span>: <span style=color:#ae81ff>build-stage</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>runs-on</span>: <span style=color:#ae81ff>windows-latest</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>steps</span>:
+</span></span><span style=display:flex><span>    - <span style=color:#f92672>uses</span>: <span style=color:#ae81ff>actions/checkout@v2</span>
+</span></span><span style=display:flex><span>    - <span style=color:#f92672>name</span>:  <span style=color:#ae81ff>download artifact</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>uses</span>: <span style=color:#ae81ff>actions/download-artifact@v1</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>with</span>:
+</span></span><span style=display:flex><span>        <span style=color:#f92672>name</span>: <span style=color:#ae81ff>output</span>
+</span></span><span style=display:flex><span>    - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>check</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>run</span>: |<span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        dir 
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        type output\release.txt</span>
+</span></span></code></pre></div><h3 id=manual-trigger>Manual trigger<a hidden class=anchor aria-hidden=true href=#manual-trigger>#</a></h3><ul><li>Events that trigger workflows<ul><li><a href=https://docs.github.com/en/actions/learn-github-actions/events-that-trigger-workflows>https://docs.github.com/en/actions/learn-github-actions/events-that-trigger-workflows</a>{:target="_blank"}</li></ul></li><li>특정 이벤트에 의한 실행이 아닌 매뉴얼로 버튼을 눌러 수행<ul><li><code>workflow_dispatch</code></li></ul></li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#f92672>on</span>: 
+</span></span><span style=display:flex><span>  <span style=color:#f92672>workflow_dispatch</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>inputs</span>:
+</span></span><span style=display:flex><span>      <span style=color:#f92672>name</span>:
+</span></span><span style=display:flex><span>        <span style=color:#f92672>description</span>: <span style=color:#e6db74>&#39;workflow start&#39;</span>
+</span></span></code></pre></div><p><img loading=lazy src=/images/2021-12-09-09-11-43.png></p><h3 id=create-release-upload-asset-file>Create release, upload asset file<a hidden class=anchor aria-hidden=true href=#create-release-upload-asset-file>#</a></h3><ul><li>path 파일이 변경되면 trigger : .github/workflows/ccpp.yml</li><li>create release : actions/create-release@v1</li><li>upload asset : actions/upload-release-asset@v1</li><li>참고 : <a href=https://github.com/cdecl/asb/blob/master/.github/workflows/ccpp.yml>https://github.com/cdecl/asb/blob/master/.github/workflows/ccpp.yml</a>{:target="_blank"}</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#f92672>name</span>: <span style=color:#ae81ff>C/C++ CI</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>on</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>push</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>paths</span>:
+</span></span><span style=display:flex><span>    - <span style=color:#e6db74>&#39;.github/workflows/ccpp.yml&#39;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>jobs</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>build</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>runs-on</span>: <span style=color:#ae81ff>ubuntu-latest</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>steps</span>:
+</span></span><span style=display:flex><span>    - <span style=color:#f92672>uses</span>: <span style=color:#ae81ff>actions/checkout@v2</span>
+</span></span><span style=display:flex><span>    - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>file </span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>run</span>: |<span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        mkdir release
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        cat &#39;data &#39; &gt; release/data.txt</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>upload artifact</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>uses</span>: <span style=color:#ae81ff>actions/upload-artifact@v1</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>with</span>:
+</span></span><span style=display:flex><span>        <span style=color:#f92672>name</span>: <span style=color:#ae81ff>release-linux</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>path</span>: <span style=color:#ae81ff>release</span>
+</span></span><span style=display:flex><span>             
+</span></span><span style=display:flex><span>  <span style=color:#f92672>build-release</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>needs</span>: 
+</span></span><span style=display:flex><span>      - <span style=color:#ae81ff>build</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>runs-on</span>: <span style=color:#ae81ff>ubuntu-latest</span>
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#f92672>steps</span>: 
+</span></span><span style=display:flex><span>    - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>download artifact</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>uses</span>: <span style=color:#ae81ff>actions/download-artifact@v1</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>with</span>:
+</span></span><span style=display:flex><span>        <span style=color:#f92672>name</span>: <span style=color:#ae81ff>release-linux      </span>
+</span></span><span style=display:flex><span>    - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>zip</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>run</span>: |<span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        zip -r release.zip release
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        </span>
+</span></span><span style=display:flex><span>    - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>create release</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>id</span>: <span style=color:#ae81ff>create_release</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>env</span>:
+</span></span><span style=display:flex><span>        <span style=color:#f92672>GITHUB_TOKEN</span>: <span style=color:#ae81ff>${{ secrets.GITHUB_TOKEN }}  </span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>uses</span>: <span style=color:#ae81ff>actions/create-release@v1</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>with</span>:
+</span></span><span style=display:flex><span>        <span style=color:#f92672>tag_name</span>: <span style=color:#e6db74>&#39;v1.0&#39;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>release_name</span>: <span style=color:#ae81ff>Release v1.0</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>draft</span>: <span style=color:#66d9ef>false</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>prerelease</span>: <span style=color:#66d9ef>false</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>upload release asset </span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>uses</span>: <span style=color:#ae81ff>actions/upload-release-asset@v1</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>env</span>:
+</span></span><span style=display:flex><span>        <span style=color:#f92672>GITHUB_TOKEN</span>: <span style=color:#ae81ff>${{ secrets.TOKEN }}</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>with</span>:
+</span></span><span style=display:flex><span>        <span style=color:#f92672>upload_url</span>: <span style=color:#ae81ff>${{ steps.create_release.outputs.upload_url }} </span> <span style=color:#75715e># create_release 의 결과 </span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>asset_path</span>: <span style=color:#ae81ff>./release.zip</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>asset_name</span>: <span style=color:#ae81ff>release.zip</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>asset_content_type</span>: <span style=color:#ae81ff>application/zip</span>
+</span></span></code></pre></div><p><img loading=lazy src=/images/2020-05-21-01-28-36.png></p></div><footer class=post-footer><ul class=post-tags><li><a href=https://cdecl.github.io/tags/github/>Github</a></li><li><a href=https://cdecl.github.io/tags/workflow/>Workflow</a></li></ul></footer></article></main><footer class=footer><span>&copy; 2026 <a href=https://cdecl.github.io/>cdeclog</a></span> ·
+<span>Powered by
+<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
+<a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg viewBox="0 0 12 6" fill="currentColor"><path d="M12 6H0l6-6z"/></svg>
+</a><script>let menu=document.getElementById("menu");if(menu){const e=localStorage.getItem("menu-scroll-position");e&&(menu.scrollLeft=parseInt(e,10)),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}}document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{const e=document.querySelector("html");e.dataset.theme==="dark"?(e.dataset.theme="light",localStorage.setItem("pref-theme","light")):(e.dataset.theme="dark",localStorage.setItem("pref-theme","dark"))})</script></body></html>

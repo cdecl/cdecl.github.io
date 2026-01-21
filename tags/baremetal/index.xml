@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Baremetal on cdeclog</title><link>https://cdecl.github.io/tags/baremetal/</link><description>Recent content in Baremetal on cdeclog</description><generator>Hugo -- 0.154.5</generator><language>ko-kr</language><lastBuildDate>Mon, 13 Sep 2021 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/baremetal/index.xml" rel="self" type="application/rss+xml"/><item><title>Kubernetes install with kubespray</title><link>https://cdecl.github.io/devops/kubernetes-install-kubespray/</link><pubDate>Mon, 13 Sep 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/kubernetes-install-kubespray/</guid><description>&lt;p&gt;Kubespray 를 이용한 Kubernetes 설치 (Baremetal)&lt;/p&gt;
+&lt;h2 id="사전준비"&gt;사전준비&lt;/h2&gt;
+&lt;h3 id="서버-노드-준비"&gt;서버 노드 준비&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;3대 Node&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;192.168.28.15
+192.168.28.16
+192.168.28.17
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 :target="_blank" id="서버-노드-환경설정--kubernetes-101-참고"&gt;서버 노드 환경설정 : &lt;a href="https://cdecl.github.io/devops/kubernetes-101/"&gt;kubernetes-101 참고&lt;/a&gt;&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Swap 영역을 비활성화&lt;/li&gt;
+&lt;li&gt;SELinux Disable&lt;/li&gt;
+&lt;li&gt;방화벽 Disable&lt;/li&gt;
+&lt;li&gt;브릿지 네트워크 할성화&lt;/li&gt;
+&lt;li&gt;설치 노드에서의 ssh 접속 허용 : SSH 키복사 &lt;code&gt;ssh-copy-id&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="설치-준비"&gt;설치 준비&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Git : Repository Clone&lt;/li&gt;
+&lt;li&gt;Python3 : Inventory 및 환경 설정을 위한 스크립트 실행&lt;/li&gt;
+&lt;li&gt;Ansible : 원격 실행(설치) &lt;code&gt;ansible-playbook&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Repository clone 및 Python package install&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ git clone https://github.com/kubernetes-sigs/kubespray
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ cd kubespray
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Package install&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ pip3 install -r requirements.txt
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;hr&gt;
+&lt;h2 id="설치-방법-1--inventory_builder"&gt;설치 방법 1 : &lt;code&gt;inventory_builder&lt;/code&gt;&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;code&gt;inventory_builder&lt;/code&gt; Python script 활용 inventory 구성 및 설치&lt;/p&gt;</description></item></channel></rss>

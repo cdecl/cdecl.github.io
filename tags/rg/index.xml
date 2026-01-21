@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Rg on cdeclog</title><link>https://cdecl.github.io/tags/rg/</link><description>Recent content in Rg on cdeclog</description><generator>Hugo -- 0.154.5</generator><language>ko-kr</language><lastBuildDate>Wed, 27 Jul 2022 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/rg/index.xml" rel="self" type="application/rss+xml"/><item><title>ripgrep, rg</title><link>https://cdecl.github.io/devops/ripgrep/</link><pubDate>Wed, 27 Jul 2022 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/ripgrep/</guid><description>&lt;p&gt;하위 디렉토리에서 정규식 패턴을 재귀적으로 검색하는 라인 지향 검색 도구&lt;/p&gt;
+&lt;h2 id="ripgrep"&gt;ripgrep&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/BurntSushi/ripgrep"&gt;https://github.com/BurntSushi/ripgrep&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;li&gt;rust로 만들어진 크로스플랫폼 지향 &lt;code&gt;grep&lt;/code&gt; 대체도구&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="특징"&gt;특징&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;코드 검색에 특화되고 기본적으로 재귀적 디렉토리 검색 사용&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;자동 필터링 : 기본적으로 디렉토리를 검색할 때 아래 조건은 검색하지 않음&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;.gitignore&lt;/code&gt; &lt;code&gt;.ignore&lt;/code&gt; &lt;code&gt;.rgignore&lt;/code&gt; 명시되어 있는 파일은 기본적으로 검색하지 않음 → &lt;code&gt;--no-ignore&lt;/code&gt; 로 회피&lt;/li&gt;
+&lt;li&gt;숨겨진 파일 및 디렉토리 → &lt;code&gt;--hidden&lt;/code&gt; 로 회피&lt;/li&gt;
+&lt;li&gt;바이너리 파일 (ripgrep은 NUL바이트 있으면 바이너리로 간주) → &lt;code&gt;--text&lt;/code&gt;, &lt;code&gt;-a&lt;/code&gt; 로 회피&lt;/li&gt;
+&lt;li&gt;심볼릭 링크 연결 → &lt;code&gt;--follow&lt;/code&gt;, &lt;code&gt;-L&lt;/code&gt; 로 연결&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;전체 필터링을 회피하기 (단계별) → &lt;code&gt;-u&lt;/code&gt; or &lt;code&gt;-uu&lt;/code&gt; or &lt;code&gt;-uuu&lt;/code&gt; (quivalent to &amp;lsquo;grep -r&amp;rsquo;)&lt;/p&gt;</description></item></channel></rss>

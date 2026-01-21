@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Os Bacup on cdeclog</title><link>https://cdecl.github.io/tags/os-bacup/</link><description>Recent content in Os Bacup on cdeclog</description><generator>Hugo -- 0.154.5</generator><language>ko-kr</language><lastBuildDate>Mon, 07 Feb 2022 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/os-bacup/index.xml" rel="self" type="application/rss+xml"/><item><title>ReaR (Relax &amp; Recover) Basic</title><link>https://cdecl.github.io/devops/rear-basic/</link><pubDate>Mon, 07 Feb 2022 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/rear-basic/</guid><description>&lt;p&gt;ReaR(Relax &amp;amp; Recover), Linux 재해 복구 도구&lt;/p&gt;
+&lt;h2 id="rear"&gt;ReaR&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://relax-and-recover.org/"&gt;https://relax-and-recover.org/&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;li&gt;Manual Page : &lt;a href="https://github.com/rear/rear/blob/master/doc/rear.8.adoc"&gt;https://github.com/rear/rear/blob/master/doc/rear.8.adoc&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;li&gt;OS의 부팅 가능한 복구 시스템 구성, 시스템 파일 백업 및 복구 지원&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="simple-example"&gt;Simple Example&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;NFS 백업 서버 구성&lt;/li&gt;
+&lt;li&gt;ReaR 백업 및 복구 테스트&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;centos7&lt;/code&gt;, &lt;code&gt;Hyper-v&lt;/code&gt; 환경 테스트&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://access.redhat.com/solutions/2115051"&gt;https://access.redhat.com/solutions/2115051&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id="backup용-nfs-서버-구성"&gt;Backup용 NFS 서버 구성&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;백업서버 NFS 구성&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# nfs-utils 설치 &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ sudo yum install nfs-utils
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 디렉토리 생성 &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ sudo mkdir -p /storage/rear
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# nfs 서버 설정 &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ cat /etc/exports
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;/storage *&lt;span style="color:#f92672"&gt;(&lt;/span&gt;rw,sync,no_root_squash&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# nfs-server start &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# sudo systemctl enable nfs-server&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ sudo systemctl start nfs-server
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id="대상-서버-구성"&gt;대상 서버 구성&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;RaaR 설치 및 구성&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# nfs clients &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ sudo yum install nfs-utils
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# ReaR 설치 &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo yum install nfs-utils
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 필요에 따라 아래 모듈 설치&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# rear -d -v mkbackup 시 해당 모듈이 없다고 나오면&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# WARNING: /usr/lib/grub/x86_64-efi/moddep.lst not found, grub2-mkimage will likely fail. &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Please install the grub2-efi-x64-modules package to fix this.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ sudo yum install grub2-efi-x64-modules
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h5 id="raar-설정"&gt;RaaR 설정&lt;/h5&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/rear/rear/blob/master/doc/user-guide/03-configuration.adoc"&gt;https://github.com/rear/rear/blob/master/doc/user-guide/03-configuration.adoc&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;/etc/rear/local.conf&lt;/code&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;OUTPUT&lt;/code&gt; : Rescue media, BOOT용 이미지
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;ISO&lt;/code&gt; : ISO BOOT 이미지 생성&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;BACKUP&lt;/code&gt;, &lt;code&gt;BACKUP_URL&lt;/code&gt; : Backup/Restore strategy, 시스템파일 및 백업 데이터 종류 및 위치 지정
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;NETFS&lt;/code&gt; : Use Relax-and-Recover internal backup with tar or rsync (or similar)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;BACKUP_URL&lt;/code&gt; 경로 및 HostName 폴더에 생성&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;BACKUP_PROG_EXCLUDE&lt;/code&gt; : 백업 제외 경로 지정&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex="0"&gt;&lt;code class="language-conf" data-lang="conf"&gt;# /etc/rear/local.conf
+OUTPUT=ISO
+OUTPUT_URL=nfs://192.168.137.100/storage/rear
+BACKUP=NETFS
+BACKUP_URL=nfs://192.168.137.100/storage/rear
+# BACKUP_TYPE=incremental
+# FULLBACKUPDAY=Sun
+# BACKUP_PROG_EXCLUDE=(&amp;#39;/syslogs/logs/*&amp;#39; &amp;#39;/var/log/*&amp;#39;)
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;h4 id="backup-실행"&gt;Backup 실행&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;mkbackup&lt;/code&gt; : create rescue media and backup system&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;mkbackuponly&lt;/code&gt; : backup system without creating rescue media&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;mkrescue&lt;/code&gt; : create rescue media only&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;## verbose mode&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# -d : debug mode 의 경우 /tmp 밑에 파일을 지우지 않음&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ sudo rear -v mkbackup
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;Backup 데이터 확인&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Backup 서버&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ hostname -I
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;192.168.137.100
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# hostname 디렉토리별로 백업 &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ tree /storage
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;/storage
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;└── rear
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ├── node1
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; │   ├── README
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; │   ├── VERSION
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; │   ├── backup.log
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; │   ├── backup.tar.gz
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; │   ├── rear-node1.iso
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; │   └── rear-node1.log
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; └── node2
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ├── README
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ├── VERSION
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ├── backup.log
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ├── backup.tar.gz
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ├── rear-node2.iso
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; └── rear-node2.log
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;hr&gt;
+&lt;h4 id="복구-실행"&gt;복구 실행&lt;/h4&gt;
+&lt;blockquote&gt;
+&lt;p&gt;백업된 rescue media (iso)로 부팅을 한 후, 복구 모드로 실행&lt;/p&gt;</description></item></channel></rss>

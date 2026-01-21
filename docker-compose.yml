@@ -1,0 +1,15 @@
+services:
+  jekyll:
+    image: minimal-mistakes:latest
+    container_name: blog
+    ports:
+      - 4000:4000
+    command: bash -c "bundle install && jekyll serve --force_polling --host 0.0.0.0"
+    volumes:
+      - ./:/srv/jekyll
+    environment:
+      - LANG=ko_KR.UTF-8
+      - LANGUAGE=ko_KR
+      - TZ=Asia/Seoul
+      - LC_ALL=ko_KR.UTF-8
+    restart: unless-stopped

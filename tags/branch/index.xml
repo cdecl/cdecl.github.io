@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Branch on cdeclog</title><link>https://cdecl.github.io/tags/branch/</link><description>Recent content in Branch on cdeclog</description><generator>Hugo -- 0.154.5</generator><language>ko-kr</language><lastBuildDate>Tue, 30 Dec 2025 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/branch/index.xml" rel="self" type="application/rss+xml"/><item><title>사례로 보는 Git 트러블 슈팅</title><link>https://cdecl.github.io/dev/git-troubleshooting-examples/</link><pubDate>Tue, 30 Dec 2025 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/git-troubleshooting-examples/</guid><description>&lt;p&gt;Git은 강력하지만, 복잡한 상황에서는 개발자를 당황하게 만드는 경우가 많습니다. &amp;ldquo;앗, 방금 뭘 한 거지?&amp;rdquo; 싶은 순간은 누구에게나 찾아옵니다. 이 글에서는 &lt;code&gt;checkout&lt;/code&gt;, &lt;code&gt;stash&lt;/code&gt;, &lt;code&gt;branch&lt;/code&gt; 등 핵심 명령어를 중심으로, 실제 현업에서 자주 겪는 20가지 트러블 슈팅 사례와 해결 방안을 구체적으로 정리했습니다.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id="part-1-checkout-관련-문제---코드가-뒤섞였어요"&gt;Part 1: &lt;code&gt;checkout&lt;/code&gt; 관련 문제 - &amp;ldquo;코드가 뒤섞였어요!&amp;rdquo;&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;checkout&lt;/code&gt;은 브랜치를 바꾸거나 특정 버전으로 돌아갈 때 사용하지만, 이 과정에서 많은 실수가 발생합니다.&lt;/p&gt;
+&lt;h4 id="사례-1-다른-브랜치로-이동하려는데-작업하던-내용이-있어서-막힐-때"&gt;사례 1: 다른 브랜치로 이동하려는데, 작업하던 내용이 있어서 막힐 때&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;문제 상황:&lt;/strong&gt; &lt;code&gt;feature/new-login&lt;/code&gt; 브랜치에서 작업하던 중, 급하게 &lt;code&gt;hotfix/bug-report&lt;/code&gt; 브랜치로 이동해야 합니다. &lt;code&gt;git checkout hotfix/bug-report&lt;/code&gt;를 입력하니 &amp;ldquo;error: Your local changes to the following files would be overwritten by checkout&amp;hellip;&amp;rdquo; 메시지가 나옵니다.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;해결 방안:&lt;/strong&gt; 아직 커밋하기 애매한 작업 내용을 임시 저장 공간(&lt;code&gt;stash&lt;/code&gt;)에 저장합니다.
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 현재 작업 내용을 스택에 임시 저장&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git stash
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&amp;gt; &lt;span style="color:#e6db74"&gt;`&lt;/span&gt;git stash&lt;span style="color:#e6db74"&gt;`&lt;/span&gt;: 현재 작업 디렉터리의 변경된 파일&lt;span style="color:#f92672"&gt;(&lt;/span&gt;Tracked files&lt;span style="color:#f92672"&gt;)&lt;/span&gt;을 임시로 스택에 저장합니다. &lt;span style="color:#e6db74"&gt;`&lt;/span&gt;push&lt;span style="color:#e6db74"&gt;`&lt;/span&gt;, &lt;span style="color:#e6db74"&gt;`&lt;/span&gt;pop&lt;span style="color:#e6db74"&gt;`&lt;/span&gt;, &lt;span style="color:#e6db74"&gt;`&lt;/span&gt;apply&lt;span style="color:#e6db74"&gt;`&lt;/span&gt;, &lt;span style="color:#e6db74"&gt;`&lt;/span&gt;list&lt;span style="color:#e6db74"&gt;`&lt;/span&gt; 등의 하위 명령어를 통해 관리할 수 있습니다.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 원하는 브랜치로 이동하여 작업 수행&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git checkout hotfix/bug-report
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# ... 핫픽스 작업 ...&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git commit -m &lt;span style="color:#e6db74"&gt;&amp;#34;Fix: Critical bug&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git push origin hotfix/bug-report
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 원래 브랜치로 복귀&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git checkout feature/new-login
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 임시 저장했던 작업 내용 다시 적용&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git stash pop
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id="사례-2-실수로-파일을-삭제했는데-커밋은-아직-안-했을-때-rm-atxt"&gt;사례 2: 실수로 파일을 삭제했는데, 커밋은 아직 안 했을 때 (&lt;code&gt;rm a.txt&lt;/code&gt;)&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;문제 상황:&lt;/strong&gt; &lt;code&gt;git rm&lt;/code&gt;이 아닌 &lt;code&gt;rm&lt;/code&gt; 명령어로 파일을 삭제했습니다. &lt;code&gt;git status&lt;/code&gt;에 &amp;ldquo;deleted: a.txt&amp;quot;로 표시됩니다.&lt;/p&gt;</description></item></channel></rss>

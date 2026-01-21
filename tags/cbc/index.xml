@@ -1,0 +1,440 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Cbc on cdeclog</title><link>https://cdecl.github.io/tags/cbc/</link><description>Recent content in Cbc on cdeclog</description><generator>Hugo -- 0.154.5</generator><language>ko-kr</language><lastBuildDate>Sat, 28 Aug 2021 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/cbc/index.xml" rel="self" type="application/rss+xml"/><item><title>CryotoPP Example</title><link>https://cdecl.github.io/dev/cryptopp-example/</link><pubDate>Sat, 28 Aug 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/cryptopp-example/</guid><description>&lt;h2 id="cryptopp"&gt;CryptoPP&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.cryptopp.com/"&gt;https://www.cryptopp.com/&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://cdecl.tistory.com/277"&gt;Crypto++ 사용하기, 예제&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://cdecl.github.io/dev/crypto-for-develop/"&gt;암호화 지식 (개발자)&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;기존 작성한 내용(5.6 버전)의 최신화(8.5 버전) : 빌드 이슈&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id="package-설치"&gt;Package 설치&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;vcpkg 사용 : 8.5.0&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;$ ./vcpkg install cryptopp
+Computing installation plan...
+The following packages will be built and installed:
+cryptopp[core]:arm64-osx -&amp;gt; 8.5.0
+...
+The package cryptopp:arm64-osx provides CMake targets:
+find_package(cryptopp CONFIG REQUIRED)
+target_link_libraries(main PRIVATE cryptopp-static)
+&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
+&lt;li&gt;CMakeLists.txt&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;cmake_minimum_required(VERSION 3.11)
+project(main)
+set(CMAKE_CXX_STANDARD 17)
+add_executable(main main.cpp)
+target_compile_options(main PRIVATE -Wall -O2)
+find_package(cryptopp CONFIG REQUIRED)
+target_link_libraries(main PRIVATE cryptopp-static)
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id="build"&gt;Build&lt;/h4&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;$ mkdir build &amp;amp;&amp;amp; cd build
+$ cmake .. -DCMAKE_TOOLCHAIN_FILE=&amp;lt;PATH&amp;gt;/vcpkg/scripts/buildsystems/vcpkg.cmake
+$ build
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;h3 id="example"&gt;Example&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;기본 Flow&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;- Encryption : StringSource -&amp;gt; StreamTransformationFilter(Encryptor) -&amp;gt; Base64Encoder(StringSink)
+- Decryption : StringSource -&amp;gt; Base64Decoder -&amp;gt; StreamTransformationFilter(Decryptor, StringSink)
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id="과거-버전과의-이슈"&gt;과거 버전과의 이슈&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;std::byte&lt;/code&gt;의 표준화 이전에 작성된 라이브러리라, byte 타입 충돌
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.cryptopp.com/wiki/Modes_of_Operation"&gt;https://www.cryptopp.com/wiki/Modes_of_Operation&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;li&gt;KEY, IV 를 정의하기 위해 &lt;code&gt;CryptoPP::SecByteBlock&lt;/code&gt; 타입 사용&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-cpp" data-lang="cpp"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#include&lt;/span&gt; &lt;span style="color:#75715e"&gt;&amp;lt;iostream&amp;gt;&lt;/span&gt;&lt;span style="color:#75715e"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#include&lt;/span&gt; &lt;span style="color:#75715e"&gt;&amp;lt;algorithm&amp;gt;&lt;/span&gt;&lt;span style="color:#75715e"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;using&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;namespace&lt;/span&gt; std;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#include&lt;/span&gt; &lt;span style="color:#75715e"&gt;&amp;lt;cryptopp/cryptlib.h&amp;gt;&lt;/span&gt;&lt;span style="color:#75715e"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#include&lt;/span&gt; &lt;span style="color:#75715e"&gt;&amp;lt;cryptopp/base64.h&amp;gt;&lt;/span&gt;&lt;span style="color:#75715e"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#include&lt;/span&gt; &lt;span style="color:#75715e"&gt;&amp;lt;cryptopp/aes.h&amp;gt;&lt;/span&gt;&lt;span style="color:#75715e"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#include&lt;/span&gt; &lt;span style="color:#75715e"&gt;&amp;lt;cryptopp/seed.h&amp;gt;&lt;/span&gt;&lt;span style="color:#75715e"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#include&lt;/span&gt; &lt;span style="color:#75715e"&gt;&amp;lt;cryptopp/des.h&amp;gt;&lt;/span&gt;&lt;span style="color:#75715e"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#include&lt;/span&gt; &lt;span style="color:#75715e"&gt;&amp;lt;cryptopp/modes.h&amp;gt;&lt;/span&gt;&lt;span style="color:#75715e"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#include&lt;/span&gt; &lt;span style="color:#75715e"&gt;&amp;lt;cryptopp/filters.h&amp;gt;&lt;/span&gt;&lt;span style="color:#75715e"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;template&lt;/span&gt; &lt;span style="color:#f92672"&gt;&amp;lt;&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;class&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;EncryptorType&lt;/span&gt;&lt;span style="color:#f92672"&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;std&lt;span style="color:#f92672"&gt;::&lt;/span&gt;string Encrypt(EncryptorType &lt;span style="color:#f92672"&gt;&amp;amp;&lt;/span&gt;encryptor, &lt;span style="color:#66d9ef"&gt;const&lt;/span&gt; std&lt;span style="color:#f92672"&gt;::&lt;/span&gt;string &lt;span style="color:#f92672"&gt;&amp;amp;&lt;/span&gt;PlainText)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; std&lt;span style="color:#f92672"&gt;::&lt;/span&gt;string CipherText;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; CryptoPP&lt;span style="color:#f92672"&gt;::&lt;/span&gt;StringSource(PlainText, true,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; CryptoPP&lt;span style="color:#f92672"&gt;::&lt;/span&gt;StreamTransformationFilter(
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; encryptor, &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; CryptoPP&lt;span style="color:#f92672"&gt;::&lt;/span&gt;Base64Encoder(&lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; CryptoPP&lt;span style="color:#f92672"&gt;::&lt;/span&gt;StringSink(CipherText), false) &lt;span style="color:#75715e"&gt;/* default padding */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; )
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; );
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;return&lt;/span&gt; CipherText;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;template&lt;/span&gt; &lt;span style="color:#f92672"&gt;&amp;lt;&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;class&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;DecryptorType&lt;/span&gt;&lt;span style="color:#f92672"&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;std&lt;span style="color:#f92672"&gt;::&lt;/span&gt;string Decrypt(DecryptorType &lt;span style="color:#f92672"&gt;&amp;amp;&lt;/span&gt;decryptor, &lt;span style="color:#66d9ef"&gt;const&lt;/span&gt; std&lt;span style="color:#f92672"&gt;::&lt;/span&gt;string &lt;span style="color:#f92672"&gt;&amp;amp;&lt;/span&gt;EncText)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; std&lt;span style="color:#f92672"&gt;::&lt;/span&gt;string PlainText;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; CryptoPP&lt;span style="color:#f92672"&gt;::&lt;/span&gt;StringSource(EncText, true,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; CryptoPP&lt;span style="color:#f92672"&gt;::&lt;/span&gt;Base64Decoder(
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; CryptoPP&lt;span style="color:#f92672"&gt;::&lt;/span&gt;StreamTransformationFilter(
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; decryptor, &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; CryptoPP&lt;span style="color:#f92672"&gt;::&lt;/span&gt;StringSink(PlainText)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; )
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; )
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; );
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;return&lt;/span&gt; PlainText;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;main&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;using&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;namespace&lt;/span&gt; std;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;using&lt;/span&gt; AES &lt;span style="color:#f92672"&gt;=&lt;/span&gt; CryptoPP&lt;span style="color:#f92672"&gt;::&lt;/span&gt;AES;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; CryptoPP&lt;span style="color:#f92672"&gt;::&lt;/span&gt;SecByteBlock KEY(AES&lt;span style="color:#f92672"&gt;::&lt;/span&gt;DEFAULT_KEYLENGTH);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; CryptoPP&lt;span style="color:#f92672"&gt;::&lt;/span&gt;SecByteBlock IV(AES&lt;span style="color:#f92672"&gt;::&lt;/span&gt;DEFAULT_KEYLENGTH);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// 임의 값 초기화
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; (&lt;span style="color:#66d9ef"&gt;auto&lt;/span&gt; &lt;span style="color:#f92672"&gt;&amp;amp;&lt;/span&gt;c : KEY) c &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; (&lt;span style="color:#66d9ef"&gt;auto&lt;/span&gt; &lt;span style="color:#f92672"&gt;&amp;amp;&lt;/span&gt;c : IV) c &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; CryptoPP&lt;span style="color:#f92672"&gt;::&lt;/span&gt;CBC_Mode&lt;span style="color:#f92672"&gt;&amp;lt;&lt;/span&gt;AES&lt;span style="color:#f92672"&gt;&amp;gt;::&lt;/span&gt;Encryption Encryptor { KEY, KEY.size(), IV };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; CryptoPP&lt;span style="color:#f92672"&gt;::&lt;/span&gt;CBC_Mode&lt;span style="color:#f92672"&gt;&amp;lt;&lt;/span&gt;AES&lt;span style="color:#f92672"&gt;&amp;gt;::&lt;/span&gt;Decryption Decryptor { KEY, KEY.size(), IV };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;try&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; string sText &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;Plain Text&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; string sEnc, sDec;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; sEnc &lt;span style="color:#f92672"&gt;=&lt;/span&gt; Encrypt(Encryptor, sText);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; cout &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; sText &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34; -&amp;gt; &amp;#34;&lt;/span&gt; &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; sEnc &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; sDec &lt;span style="color:#f92672"&gt;=&lt;/span&gt; Decrypt(Decryptor, sEnc);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; cout &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; sEnc &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34; -&amp;gt; &amp;#34;&lt;/span&gt; &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; sDec &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;catch&lt;/span&gt; (exception &lt;span style="color:#f92672"&gt;&amp;amp;&lt;/span&gt;ex) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; cerr &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; ex.what() &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;return&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ ./main
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Plain Text -&amp;gt; MtiafY0csWZJZzsRNfE8cA&lt;span style="color:#f92672"&gt;==&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;MtiafY0csWZJZzsRNfE8cA&lt;span style="color:#f92672"&gt;==&lt;/span&gt; -&amp;gt; Plain Text
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description></item><item><title>암호화 지식 (개발자를 위한 가이드)</title><link>https://cdecl.github.io/dev/crypto-for-develop/</link><pubDate>Fri, 13 Aug 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/crypto-for-develop/</guid><description>&lt;p&gt;현대 소프트웨어 개발에서 암호화는 필수적인 보안 요소입니다. 이 글에서는 개발자가 알아야 할 핵심 암호화 개념과 실제 구현 시 고려사항을 다룹니다.&lt;/p&gt;
+&lt;h2 id="암호화-알고리즘-선택-시-고려사항"&gt;암호화 알고리즘 선택 시 고려사항&lt;/h2&gt;
+&lt;p&gt;암호화 구현 시 다음 요소들을 신중히 고려해야 합니다:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;대칭형 vs 비대칭형 암호화&lt;/li&gt;
+&lt;li&gt;알고리즘 종류와 보안 강도&lt;/li&gt;
+&lt;li&gt;운영 모드의 특성과 용도&lt;/li&gt;
+&lt;li&gt;패딩 방식&lt;/li&gt;
+&lt;li&gt;키 관리 전략&lt;/li&gt;
+&lt;li&gt;성능과 보안의 균형&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id="대칭형-vs-비대칭형-암호화"&gt;대칭형 vs 비대칭형 암호화&lt;/h2&gt;
+&lt;h3 id="대칭형-암호화"&gt;대칭형 암호화&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;정의&lt;/strong&gt;: 동일한 키로 암호화와 복호화를 수행&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;장점&lt;/strong&gt;:
+&lt;ul&gt;
+&lt;li&gt;빠른 처리 속도&lt;/li&gt;
+&lt;li&gt;적은 컴퓨팅 리소스 요구&lt;/li&gt;
+&lt;li&gt;대용량 데이터 처리에 적합&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;단점&lt;/strong&gt;:
+&lt;ul&gt;
+&lt;li&gt;키 공유의 어려움&lt;/li&gt;
+&lt;li&gt;많은 통신 상대와의 키 관리 복잡성&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="비대칭형-암호화"&gt;비대칭형 암호화&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;정의&lt;/strong&gt;: 공개키와 개인키를 사용하는 방식&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;장점&lt;/strong&gt;:
+&lt;ul&gt;
+&lt;li&gt;안전한 키 교환&lt;/li&gt;
+&lt;li&gt;디지털 서명 가능&lt;/li&gt;
+&lt;li&gt;부인 방지 기능&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;단점&lt;/strong&gt;:
+&lt;ul&gt;
+&lt;li&gt;느린 처리 속도&lt;/li&gt;
+&lt;li&gt;높은 컴퓨팅 리소스 요구&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="주요-대칭형-블록-알고리즘"&gt;주요 대칭형 블록 알고리즘&lt;/h2&gt;
+&lt;h3 id="des-data-encryption-standard"&gt;DES (Data Encryption Standard)&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;블록 크기&lt;/strong&gt;: 64비트&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;키 길이&lt;/strong&gt;: 56비트&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;특징&lt;/strong&gt;:
+&lt;ul&gt;
+&lt;li&gt;역사적으로 중요한 알고리즘&lt;/li&gt;
+&lt;li&gt;현재는 보안 강도 부족으로 새로운 시스템에는 권장되지 않음&lt;/li&gt;
+&lt;li&gt;레거시 시스템 호환성을 위해 알아둘 필요 있음&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="3-des-triple-des"&gt;3-DES (Triple DES)&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;키 길이&lt;/strong&gt;:
+&lt;ul&gt;
+&lt;li&gt;2-키 3-DES: 112비트&lt;/li&gt;
+&lt;li&gt;3-키 3-DES: 168비트&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;특징&lt;/strong&gt;:
+&lt;ul&gt;
+&lt;li&gt;DES를 3회 적용하여 보안성 향상&lt;/li&gt;
+&lt;li&gt;DES 대비 약 3배 느린 처리 속도&lt;/li&gt;
+&lt;li&gt;여전히 안전하나 점차 AES로 대체 중&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="aes-advanced-encryption-standard"&gt;AES (Advanced Encryption Standard)&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;블록 크기&lt;/strong&gt;: 128비트&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;키 길이&lt;/strong&gt;: 128/192/256비트&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;특징&lt;/strong&gt;:
+&lt;ul&gt;
+&lt;li&gt;현대 암호화의 표준&lt;/li&gt;
+&lt;li&gt;뛰어난 성능과 보안성&lt;/li&gt;
+&lt;li&gt;하드웨어 가속 지원으로 고성능&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;권장 사용 사례&lt;/strong&gt;:
+&lt;ul&gt;
+&lt;li&gt;새로운 시스템 개발 시 기본 선택&lt;/li&gt;
+&lt;li&gt;클라우드 서비스의 데이터 암호화&lt;/li&gt;
+&lt;li&gt;금융 거래 보안&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="seed"&gt;SEED&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;블록 크기&lt;/strong&gt;: 128비트&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;키 길이&lt;/strong&gt;: 128비트&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;특징&lt;/strong&gt;:
+&lt;ul&gt;
+&lt;li&gt;한국 표준 암호화 알고리즘&lt;/li&gt;
+&lt;li&gt;국제 표준 인증&lt;/li&gt;
+&lt;li&gt;국내 공공기관 시스템에서 널리 사용&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="주요-비대칭형공개키-알고리즘"&gt;주요 비대칭형(공개키) 알고리즘&lt;/h2&gt;
+&lt;h3 id="rsa-rivest-shamir-adleman"&gt;RSA (Rivest-Shamir-Adleman)&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;키 길이&lt;/strong&gt;: 2048/3072/4096비트 권장&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;특징&lt;/strong&gt;:
+&lt;ul&gt;
+&lt;li&gt;가장 널리 사용되는 비대칭 암호화 알고리즘&lt;/li&gt;
+&lt;li&gt;소인수분해의 어려움을 기반으로 한 보안성&lt;/li&gt;
+&lt;li&gt;디지털 서명과 암호화 모두 지원&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;장점&lt;/strong&gt;:
+&lt;ul&gt;
+&lt;li&gt;구현이 상대적으로 단순&lt;/li&gt;
+&lt;li&gt;높은 보안성&lt;/li&gt;
+&lt;li&gt;폭넓은 라이브러리 지원&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;단점&lt;/strong&gt;:
+&lt;ul&gt;
+&lt;li&gt;긴 키 길이 필요&lt;/li&gt;
+&lt;li&gt;느린 처리 속도&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;주요 용도&lt;/strong&gt;:
+&lt;ul&gt;
+&lt;li&gt;SSL/TLS 인증서&lt;/li&gt;
+&lt;li&gt;디지털 서명&lt;/li&gt;
+&lt;li&gt;키 교환&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="ecc-elliptic-curve-cryptography"&gt;ECC (Elliptic Curve Cryptography)&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;키 길이&lt;/strong&gt;: 256/384/521비트&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;특징&lt;/strong&gt;:
+&lt;ul&gt;
+&lt;li&gt;타원곡선의 이산대수 문제를 기반&lt;/li&gt;
+&lt;li&gt;RSA 대비 짧은 키 길이로 동등한 보안성 제공&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;장점&lt;/strong&gt;:
+&lt;ul&gt;
+&lt;li&gt;짧은 키 길이&lt;/li&gt;
+&lt;li&gt;빠른 처리 속도&lt;/li&gt;
+&lt;li&gt;낮은 리소스 요구사항&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;단점&lt;/strong&gt;:
+&lt;ul&gt;
+&lt;li&gt;구현의 복잡성&lt;/li&gt;
+&lt;li&gt;특허 문제 (일부 알고리즘)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;주요 용도&lt;/strong&gt;:
+&lt;ul&gt;
+&lt;li&gt;모바일 기기의 암호화&lt;/li&gt;
+&lt;li&gt;IoT 디바이스&lt;/li&gt;
+&lt;li&gt;블록체인/암호화폐&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="dsa-digital-signature-algorithm"&gt;DSA (Digital Signature Algorithm)&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;키 길이&lt;/strong&gt;: 2048/3072비트 권장&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;특징&lt;/strong&gt;:
+&lt;ul&gt;
+&lt;li&gt;디지털 서명 전용 알고리즘&lt;/li&gt;
+&lt;li&gt;NIST FIPS 186 표준&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;장점&lt;/strong&gt;:
+&lt;ul&gt;
+&lt;li&gt;서명 생성이 RSA보다 빠름&lt;/li&gt;
+&lt;li&gt;미국 정부 표준&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;단점&lt;/strong&gt;:
+&lt;ul&gt;
+&lt;li&gt;서명 검증이 RSA보다 느림&lt;/li&gt;
+&lt;li&gt;암호화 기능 없음&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;주요 용도&lt;/strong&gt;:
+&lt;ul&gt;
+&lt;li&gt;전자서명&lt;/li&gt;
+&lt;li&gt;인증서 서명&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="elgamal"&gt;ElGamal&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;특징&lt;/strong&gt;:
+&lt;ul&gt;
+&lt;li&gt;이산대수의 어려움을 기반&lt;/li&gt;
+&lt;li&gt;DSA의 기반이 되는 알고리즘&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;장점&lt;/strong&gt;:
+&lt;ul&gt;
+&lt;li&gt;학술적 검증이 잘된 알고리즘&lt;/li&gt;
+&lt;li&gt;확률적 암호화로 높은 보안성&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;단점&lt;/strong&gt;:
+&lt;ul&gt;
+&lt;li&gt;암호문 크기가 평문의 2배&lt;/li&gt;
+&lt;li&gt;처리 속도가 느림&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;주요 용도&lt;/strong&gt;:
+&lt;ul&gt;
+&lt;li&gt;PGP 등의 암호화 시스템&lt;/li&gt;
+&lt;li&gt;하이브리드 암호 시스템&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="블록-암호화-운영-모드"&gt;블록 암호화 운영 모드&lt;/h2&gt;
+&lt;h3 id="ecb-electronic-codebook"&gt;ECB (Electronic Codebook)&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;동작 방식&lt;/strong&gt;: 각 블록을 독립적으로 암호화&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;장점&lt;/strong&gt;:
+&lt;ul&gt;
+&lt;li&gt;단순한 구현&lt;/li&gt;
+&lt;li&gt;병렬 처리 가능&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;단점&lt;/strong&gt;:
+&lt;ul&gt;
+&lt;li&gt;패턴이 그대로 노출될 수 있음&lt;/li&gt;
+&lt;li&gt;데이터 무결성 보장 없음&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;사용 권장 사례&lt;/strong&gt;:
+&lt;ul&gt;
+&lt;li&gt;매우 짧은 데이터 (단일 블록)&lt;/li&gt;
+&lt;li&gt;암호화 키 자체의 암호화&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="cbc-cipher-block-chaining"&gt;CBC (Cipher Block Chaining)&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;동작 방식&lt;/strong&gt;: 이전 블록의 암호문과 현재 평문을 XOR&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;특징&lt;/strong&gt;:
+&lt;ul&gt;
+&lt;li&gt;IV(Initial Vector) 필요&lt;/li&gt;
+&lt;li&gt;순차적 처리 필요&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;장점&lt;/strong&gt;:
+&lt;ul&gt;
+&lt;li&gt;높은 보안성&lt;/li&gt;
+&lt;li&gt;오류 전파 제한적&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;사용 권장 사례&lt;/strong&gt;:
+&lt;ul&gt;
+&lt;li&gt;일반적인 데이터 암호화&lt;/li&gt;
+&lt;li&gt;메시지 인증이 필요한 경우&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="기타-운영-모드"&gt;기타 운영 모드&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;CFB (Cipher Feedback)&lt;/strong&gt;
+&lt;ul&gt;
+&lt;li&gt;스트림 암호처럼 동작&lt;/li&gt;
+&lt;li&gt;실시간 암호화에 적합&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;OFB (Output Feedback)&lt;/strong&gt;
+&lt;ul&gt;
+&lt;li&gt;미리 키스트림 생성 가능&lt;/li&gt;
+&lt;li&gt;노이즈가 많은 채널에 적합&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;CTR (Counter)&lt;/strong&gt;
+&lt;ul&gt;
+&lt;li&gt;병렬 처리 가능&lt;/li&gt;
+&lt;li&gt;랜덤 액세스 가능&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="패딩-padding-방식"&gt;패딩 (Padding) 방식&lt;/h2&gt;
+&lt;h3 id="no_padding"&gt;NO_PADDING&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;패딩 없음&lt;/li&gt;
+&lt;li&gt;데이터가 블록 크기의 배수일 때만 사용 가능&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="zeros_padding"&gt;ZEROS_PADDING&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;남는 공간을 0으로 채움&lt;/li&gt;
+&lt;li&gt;구현이 단순하나 특정 상황에서 모호성 발생 가능&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="pkcs7_padding-default_padding"&gt;PKCS7_PADDING (DEFAULT_PADDING)&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;가장 널리 사용되는 표준 패딩 방식&lt;/li&gt;
+&lt;li&gt;패딩 바이트 값이 패딩 길이와 동일&lt;/li&gt;
+&lt;li&gt;예시:
+&lt;pre tabindex="0"&gt;&lt;code&gt;블록 크기: 8바이트
+데이터: &amp;#34;HELLO&amp;#34;
+패딩 후: &amp;#34;HELLO\x03\x03\x03&amp;#34;
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="one_and_zeros_padding"&gt;ONE_AND_ZEROS_PADDING&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;첫 바이트는 0x80, 나머지는 0x00&lt;/li&gt;
+&lt;li&gt;패딩의 시작과 끝이 명확함&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="하이브리드-암호-시스템"&gt;하이브리드 암호 시스템&lt;/h2&gt;
+&lt;p&gt;실제 응용에서는 대칭형과 비대칭형 암호화를 결합하여 사용하는 경우가 많습니다.&lt;/p&gt;</description></item></channel></rss>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Commit on cdeclog</title><link>https://cdecl.github.io/tags/commit/</link><description>Recent content in Commit on cdeclog</description><generator>Hugo -- 0.154.5</generator><language>ko-kr</language><lastBuildDate>Sun, 16 Mar 2025 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/commit/index.xml" rel="self" type="application/rss+xml"/><item><title>Git 시맨틱 커밋 메시지</title><link>https://cdecl.github.io/dev/semantic-commit-message/</link><pubDate>Sun, 16 Mar 2025 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/semantic-commit-message/</guid><description>&lt;p&gt;Git 시맨틱 커밋 메시지 가이드&lt;/p&gt;
+&lt;h2 id="시맨틱-커밋-메시지란"&gt;시맨틱 커밋 메시지란?&lt;/h2&gt;
+&lt;p&gt;시맨틱 커밋 메시지는 커밋의 목적과 의도를 명확하게 전달하기 위한 규칙입니다. 이 규칙을 따르면 프로젝트의 히스토리를 쉽게 이해하고 자동화된 도구를 활용할 수 있습니다.&lt;/p&gt;
+&lt;h2 id="기본-구조"&gt;기본 구조&lt;/h2&gt;
+&lt;p&gt;시맨틱 커밋 메시지의 기본 구조는 다음과 같습니다:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;&amp;lt;type&amp;gt;[optional scope]: &amp;lt;description&amp;gt;
+[optional body]
+[optional footer(s)]
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id="주요-타입"&gt;주요 타입&lt;/h2&gt;
+&lt;p&gt;커밋 메시지는 다음 타입 중 하나로 시작해야 합니다:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;feat&lt;/strong&gt;: 새로운 기능 추가&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;fix&lt;/strong&gt;: 버그 수정&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;docs&lt;/strong&gt;: 문서 변경&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;style&lt;/strong&gt;: 코드 포맷팅, 세미콜론 누락 등 (코드 변경 없음)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;refactor&lt;/strong&gt;: 코드 리팩토링&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;test&lt;/strong&gt;: 테스트 코드 추가 또는 수정&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;chore&lt;/strong&gt;: 빌드 프로세스 또는 보조 도구 변경&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="모범-사례"&gt;모범 사례&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;제목은 50자 이내로 제한합니다.&lt;/li&gt;
+&lt;li&gt;제목의 첫 글자만 대문자로 씁니다.&lt;/li&gt;
+&lt;li&gt;제목 끝에 마침표를 넣지 않습니다.&lt;/li&gt;
+&lt;li&gt;제목과 본문 사이에 빈 줄을 넣습니다.&lt;/li&gt;
+&lt;li&gt;본문은 72자마다 줄바꿈합니다.&lt;/li&gt;
+&lt;li&gt;명령형 현재 시제를 사용합니다 (예: &amp;ldquo;변경&amp;rdquo;, &amp;ldquo;수정함&amp;rdquo; 대신 &amp;ldquo;변경하다&amp;rdquo;).&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id="예시"&gt;예시&lt;/h2&gt;
+&lt;p&gt;좋은 커밋 메시지 예시:&lt;/p&gt;</description></item></channel></rss>

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>SQL*Loader on cdeclog</title><link>https://cdecl.github.io/tags/sqlloader/</link><description>Recent content in SQL*Loader on cdeclog</description><generator>Hugo -- 0.154.5</generator><language>ko-kr</language><lastBuildDate>Mon, 18 Oct 2021 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/sqlloader/index.xml" rel="self" type="application/rss+xml"/><item><title>Oracle, Sqlldr</title><link>https://cdecl.github.io/devops/oracle-sqlldr/</link><pubDate>Mon, 18 Oct 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/oracle-sqlldr/</guid><description>&lt;p&gt;Oracle 대량 Bulk Insert Tool&lt;/p&gt;
+&lt;h2 id="구성요소"&gt;구성요소&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Control File : &lt;code&gt;sqlldr&lt;/code&gt; 명령행을 실행하기 위한 제어, 설정 파일&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;sqlldr&lt;/code&gt; : SQL*Loader, Oracle 데이터 Insert Tool&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="control-file-기본-구성"&gt;Control File 기본 구성&lt;/h3&gt;
+&lt;pre tabindex="0"&gt;&lt;code class="language-conf" data-lang="conf"&gt;OPTIONS (DIRECT=TRUE,ERRORS=100000,readsize=204800000)
+LOAD DATA
+CHARACTERSET AL32UTF8
+INFILE &amp;#39;infile/${CTL_INFILE}.csv&amp;#39;
+TRUNCATE INTO TABLE ${CTL_TABLE}
+FIELDS TERMINATED BY &amp;#39;,&amp;#39; OPTIONALLY ENCLOSED BY &amp;#34; &amp;#34;
+TRAILING NULLCOLS
+( ${CTL_TABLE_COLS} )
+&lt;/code&gt;&lt;/pre&gt;&lt;h5 id="options-direct"&gt;OPTIONS DIRECT&lt;/h5&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;ERRORS&lt;/code&gt; : 허용하는 에러수, &lt;code&gt;default 50&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;DIRECT=TRUE&lt;/code&gt; : Direct Path, 쿼리를 실행하지 않고 메모리에 블록을 만들어 테이블에 저장&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h5 id="load-data"&gt;LOAD DATA&lt;/h5&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;INFILE&lt;/code&gt; : 데이터 파일, 다수의 파일 등록 가능&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h5 id="truncate-into-table"&gt;&lt;code&gt;TRUNCATE&lt;/code&gt; INTO TABLE&lt;/h5&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;INSERT&lt;/code&gt; : 신규 데이터, 데이터 존재하면 에러&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;APPEND&lt;/code&gt; : 중복되지 않은 데이터 추가&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;REPLACE&lt;/code&gt;, &lt;code&gt;TRUNCATE&lt;/code&gt;: 모든 행을 지우고 추가&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h5 id="fields-terminated"&gt;FIELDS TERMINATED&lt;/h5&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;FIELDS TERMINATED&lt;/code&gt; : 필드 구분자&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ENCLOSED BY &amp;quot; &amp;quot;&lt;/code&gt; : 텍스트 한정자&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h5 id="-ctl_table_cols-"&gt;( ${CTL_TABLE_COLS} )&lt;/h5&gt;
+&lt;ul&gt;
+&lt;li&gt;테이블 컬럼 리스트&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;DATE&lt;/code&gt; &lt;code&gt;TIMESTAMP&lt;/code&gt; 이나 &lt;code&gt;NULL&lt;/code&gt; 처리 등의 가공이 필요 할 수 있음&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="control-file-sample"&gt;Control File Sample&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sql" data-lang="sql"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;CREATE&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;TABLE&lt;/span&gt; IPMAN (
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; IP varchar2(&lt;span style="color:#ae81ff"&gt;128&lt;/span&gt;),
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; SERVERNAME varchar2(&lt;span style="color:#ae81ff"&gt;128&lt;/span&gt;),
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ETC varchar2(&lt;span style="color:#ae81ff"&gt;128&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;pre tabindex="0"&gt;&lt;code class="language-conf" data-lang="conf"&gt;OPTIONS (DIRECT=TRUE,ERRORS=100000,readsize=204800000)
+LOAD DATA
+CHARACTERSET AL32UTF8
+INFILE &amp;#39;infile/IPMAN.csv&amp;#39;
+TRUNCATE INTO TABLE IPMAN
+FIELDS TERMINATED BY &amp;#39;,&amp;#39; OPTIONALLY ENCLOSED BY &amp;#34; &amp;#34;
+TRAILING NULLCOLS
+( IP &amp;#34;NVL(:IP, &amp;#39; &amp;#39;)&amp;#34; , SERVERNAME &amp;#34;NVL(:SERVERNAME, &amp;#39; &amp;#39;)&amp;#34; , ETC &amp;#34;NVL(:ETC, &amp;#39; &amp;#39;)&amp;#34; )
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id="sqlldr-실행"&gt;SQLLDR 실행&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Control File 설정으로 SQL*Loader 실행&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ sqlldr &lt;span style="color:#e6db74"&gt;&amp;#39;dev/&amp;lt;PASSWD&amp;gt;@&amp;lt;SERVER&amp;gt;:1521/&amp;lt;SID&amp;gt;&amp;#39;&lt;/span&gt; control&lt;span style="color:#f92672"&gt;=&lt;/span&gt;ctl/IPMAN.ctl log&lt;span style="color:#f92672"&gt;=&lt;/span&gt;log/IPMAN.log bad&lt;span style="color:#f92672"&gt;=&lt;/span&gt;log/IPMAN.bad
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;hr&gt;
+&lt;h3 id="control-file-자동-생성-스크립트"&gt;Control File 자동 생성 스크립트&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;ctl.sh&lt;/code&gt; : 테이블 이름으로 스키마를 쿼리하여 Control File 생성 및 sqlldr 명령어 출력&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ctl.template&lt;/code&gt; : Control File 템플릿, &lt;code&gt;envsubst&lt;/code&gt; 명령으로 내용 치환&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h5 id="ctlsh"&gt;ctl.sh&lt;/h5&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#!/bin/bash
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;if&lt;/span&gt; &lt;span style="color:#f92672"&gt;[[&lt;/span&gt; -z &lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;$1&lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt; &lt;span style="color:#f92672"&gt;]]&lt;/span&gt;; &lt;span style="color:#66d9ef"&gt;then&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; echo &lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;$0&lt;span style="color:#e6db74"&gt; [TABLE_NAME]&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; exit -1
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;fi&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;TABLE_NM&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;$1&lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;echo &lt;span style="color:#e6db74"&gt;&amp;#34;TABLE NAME: &amp;#34;&lt;/span&gt; $TABLE_NM
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;FD_LIST&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;sqlplus -s &lt;span style="color:#e6db74"&gt;${&lt;/span&gt;CTL_CONN&lt;span style="color:#e6db74"&gt;}&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;lt;&amp;lt; SQLEOF
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;set pagesize 0 feedback off verify off heading off echo off
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;SELECT (CASE WHEN DATA_TYPE = &amp;#39;DATE&amp;#39; OR DATA_TYPE LIKE &amp;#39;TIMESTAMP%&amp;#39; THEN COLUMN_NAME || &amp;#39; TIMESTAMP &amp;#34;YYYY-MM-DD HH24:MI:SS.FF3&amp;#34; @&amp;#39;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; WHEN DATA_TYPE = &amp;#39;NUMBER&amp;#39; THEN COLUMN_NAME || &amp;#39; &amp;#34;NVL(:&amp;#39; || COLUMN_NAME || &amp;#39;, 0)&amp;#34; @&amp;#39;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; WHEN DATA_LENGTH &amp;gt; 255 THEN COLUMN_NAME || &amp;#39; CHAR(65535) @&amp;#39;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; ELSE COLUMN_NAME || &amp;#39; &amp;#34;NVL(:&amp;#39; || COLUMN_NAME || &amp;#39;, &amp;#39;&amp;#39; &amp;#39;&amp;#39;)&amp;#34; @&amp;#39; END) COLUMN_NAME
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;FROM user_tab_cols
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;WHERE table_name = &amp;#39;${TABLE_NM}&amp;#39;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;AND column_id IS NOT NULL
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;ORDER BY COLUMN_ID;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;exit;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;SQLEOF&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;FD_LIST&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;`&lt;/span&gt;echo &lt;span style="color:#e6db74"&gt;${&lt;/span&gt;FD_LIST&lt;span style="color:#e6db74"&gt;}&lt;/span&gt; | sed &lt;span style="color:#e6db74"&gt;&amp;#39;s/@/,/g&amp;#39;&lt;/span&gt;&lt;span style="color:#e6db74"&gt;`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;FD_LIST&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;${&lt;/span&gt;FD_LIST%*,*&lt;span style="color:#e6db74"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;export CTL_INFILE&lt;span style="color:#f92672"&gt;=&lt;/span&gt;$TABLE_NM
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;export CTL_TABLE&lt;span style="color:#f92672"&gt;=&lt;/span&gt;$TABLE_NM
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;export CTL_TABLE_COLS&lt;span style="color:#f92672"&gt;=&lt;/span&gt;$FD_LIST
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;envsubst &amp;lt; ctl.template &amp;gt; ctl/$CTL_TABLE.ctl
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;echo sqlldr &lt;span style="color:#ae81ff"&gt;\$&lt;/span&gt;&lt;span style="color:#f92672"&gt;{&lt;/span&gt;CTL_CONN&lt;span style="color:#f92672"&gt;}&lt;/span&gt; control&lt;span style="color:#f92672"&gt;=&lt;/span&gt;ctl/&lt;span style="color:#e6db74"&gt;${&lt;/span&gt;CTL_TABLE&lt;span style="color:#e6db74"&gt;}&lt;/span&gt;.ctl log&lt;span style="color:#f92672"&gt;=&lt;/span&gt;log/&lt;span style="color:#e6db74"&gt;${&lt;/span&gt;CTL_TABLE&lt;span style="color:#e6db74"&gt;}&lt;/span&gt;.log bad&lt;span style="color:#f92672"&gt;=&lt;/span&gt;log/&lt;span style="color:#e6db74"&gt;${&lt;/span&gt;CTL_TABLE&lt;span style="color:#e6db74"&gt;}&lt;/span&gt;.bad
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h5 id="ctltemplate"&gt;ctl.template&lt;/h5&gt;
+&lt;pre tabindex="0"&gt;&lt;code class="language-conf" data-lang="conf"&gt;OPTIONS (DIRECT=TRUE,ERRORS=100000,readsize=204800000)
+LOAD DATA
+CHARACTERSET AL32UTF8
+INFILE &amp;#39;infile/${CTL_INFILE}.csv&amp;#39;
+TRUNCATE INTO TABLE ${CTL_TABLE}
+FIELDS TERMINATED BY &amp;#39;,&amp;#39; OPTIONALLY ENCLOSED BY &amp;#34; &amp;#34;
+TRAILING NULLCOLS
+( ${CTL_TABLE_COLS} )
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id="실행-예시"&gt;실행 예시&lt;/h4&gt;
+&lt;h5 id="ctl_conn-db-연결-환경변수-세팅"&gt;&lt;code&gt;CTL_CONN&lt;/code&gt; DB 연결 환경변수 세팅&lt;/h5&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# infile : Data Directory / ctl : Control File / log : Log&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ mkdir -p infile ctl log
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# DB 연결 변수 &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ export CTL_CONN&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#39;dev/&amp;lt;PASSWD&amp;gt;@&amp;lt;SERVER&amp;gt;:1521/&amp;lt;SID&amp;gt;&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h5 id="테이블-명으로-control-file-생성-및-sqlldr-명령어-출력"&gt;테이블 명으로 Control File 생성 및 &lt;code&gt;sqlldr&lt;/code&gt; 명령어 출력&lt;/h5&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ ./ctl.sh IPMAN
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;TABLE NAME: IPMAN
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sqlldr &lt;span style="color:#e6db74"&gt;${&lt;/span&gt;CTL_CONN&lt;span style="color:#e6db74"&gt;}&lt;/span&gt; control&lt;span style="color:#f92672"&gt;=&lt;/span&gt;ctl/IPMAN.ctl log&lt;span style="color:#f92672"&gt;=&lt;/span&gt;log/IPMAN.log bad&lt;span style="color:#f92672"&gt;=&lt;/span&gt;log/IPMAN.bad
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h5 id="sqlldr-명령-실행"&gt;&lt;code&gt;sqlldr&lt;/code&gt; 명령 실행&lt;/h5&gt;
+&lt;ul&gt;
+&lt;li&gt;infile path : &lt;code&gt;infile/테이블명.csv&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;log=&lt;/code&gt; : 실행 로그&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;bad=&lt;/code&gt; : 실패 데이터&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ sqlldr &lt;span style="color:#e6db74"&gt;${&lt;/span&gt;CTL_CONN&lt;span style="color:#e6db74"&gt;}&lt;/span&gt; control&lt;span style="color:#f92672"&gt;=&lt;/span&gt;ctl/IPMAN.ctl log&lt;span style="color:#f92672"&gt;=&lt;/span&gt;log/IPMAN.log bad&lt;span style="color:#f92672"&gt;=&lt;/span&gt;log/IPMAN.bad
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;SQL*Loader: Release 21.0.0.0.0 - Production on Tue Oct &lt;span style="color:#ae81ff"&gt;19&lt;/span&gt; 11:36:00 &lt;span style="color:#ae81ff"&gt;2021&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Version 21.3.0.0.0
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Copyright &lt;span style="color:#f92672"&gt;(&lt;/span&gt;c&lt;span style="color:#f92672"&gt;)&lt;/span&gt; 1982, 2021, Oracle and/or its affiliates. All rights reserved.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Path used: Direct
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Load completed - logical record count 200.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Table IPMAN:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ae81ff"&gt;199&lt;/span&gt; Rows successfully loaded.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Check the log file:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; log/IPMAN.log
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; more information about the load.
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description></item></channel></rss>

@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Github on cdeclog</title><link>https://cdecl.github.io/tags/github/</link><description>Recent content in Github on cdeclog</description><generator>Hugo -- 0.154.5</generator><language>ko-kr</language><lastBuildDate>Thu, 11 Dec 2025 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/github/index.xml" rel="self" type="application/rss+xml"/><item><title>Github에서 사용되는 주요 라이선스 종류 및 허용, 제약 사항</title><link>https://cdecl.github.io/dev/github-open-source-licenses/</link><pubDate>Thu, 11 Dec 2025 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/github-open-source-licenses/</guid><description>&lt;p&gt;오픈 소스 프로젝트를 시작하거나 기여할 때 가장 먼저 고려해야 할 것 중 하나는 **라이선스(License)**입니다. Github에는 수많은 프로젝트가 존재하며, 각 프로젝트는 코드 사용에 대한 권리와 의무를 규정하는 라이선스를 가지고 있습니다.&lt;/p&gt;
+&lt;p&gt;라이선스를 제대로 이해하지 못하고 코드를 사용하면 법적 분쟁에 휘말릴 수 있습니다. 이 글에서는 Github에서 가장 널리 사용되는 주요 오픈 소스 라이선스들의 특징과 허용 범위, 제약 사항을 정리해 봅니다.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id="1-mit-라이선스-mit-license"&gt;1. MIT 라이선스 (MIT License)&lt;/h2&gt;
+&lt;p&gt;MIT 라이선스는 가장 단순하고 제한이 적은 라이선스 중 하나로, Github에서 가장 많이 사용되는 라이선스입니다.&lt;/p&gt;</description></item><item><title>Act - Run your GitHub Actions locally</title><link>https://cdecl.github.io/devops/act/</link><pubDate>Wed, 26 Apr 2023 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/act/</guid><description>&lt;p&gt;로컬 머신에서 Gitub Actions를 실행할 수 있는 도구&lt;/p&gt;
+&lt;h2 id="act"&gt;Act&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/nektos/act/"&gt;https://github.com/nektos/act/&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;.github/workflows/&lt;/code&gt; 에서 GitHub Actions를 읽고 로컬 환경 실행&lt;/li&gt;
+&lt;li&gt;Docker 기반 컨테이너로 운영
+&lt;ul&gt;
+&lt;li&gt;macOS 에서는 Docker Desktop 필요&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Linux, MacOS, Windows 지원&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="설치-및-실행"&gt;설치 및 실행&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ brew install act
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;actions-test/.github/workflows/simple.yml&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# This is a basic workflow to help you get started with Actions&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;name&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;CI&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;on&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;workflow_dispatch&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;jobs&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;build&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;runs-on&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;ubuntu-latest&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;steps&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;# - uses: actions/checkout@v3&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#f92672"&gt;name&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;echo test&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;run&lt;/span&gt;: |&lt;span style="color:#e6db74"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; cat /etc/*-release&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ git clone https://github.com/cdecl/actions-test
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ cd actions-test
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ act
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;[&lt;/span&gt;CI/build&lt;span style="color:#f92672"&gt;]&lt;/span&gt; 🚀 Start image&lt;span style="color:#f92672"&gt;=&lt;/span&gt;catthehacker/ubuntu:act-latest
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;[&lt;/span&gt;CI/build&lt;span style="color:#f92672"&gt;]&lt;/span&gt; 🐳 docker pull image&lt;span style="color:#f92672"&gt;=&lt;/span&gt;catthehacker/ubuntu:act-latest platform&lt;span style="color:#f92672"&gt;=&lt;/span&gt; username&lt;span style="color:#f92672"&gt;=&lt;/span&gt; forcePull&lt;span style="color:#f92672"&gt;=&lt;/span&gt;true
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;[&lt;/span&gt;CI/build&lt;span style="color:#f92672"&gt;]&lt;/span&gt; 🐳 docker create image&lt;span style="color:#f92672"&gt;=&lt;/span&gt;catthehacker/ubuntu:act-latest platform&lt;span style="color:#f92672"&gt;=&lt;/span&gt; entrypoint&lt;span style="color:#f92672"&gt;=[&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;tail&amp;#34;&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;-f&amp;#34;&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;/dev/null&amp;#34;&lt;/span&gt;&lt;span style="color:#f92672"&gt;]&lt;/span&gt; cmd&lt;span style="color:#f92672"&gt;=[]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;[&lt;/span&gt;CI/build&lt;span style="color:#f92672"&gt;]&lt;/span&gt; 🐳 docker run image&lt;span style="color:#f92672"&gt;=&lt;/span&gt;catthehacker/ubuntu:act-latest platform&lt;span style="color:#f92672"&gt;=&lt;/span&gt; entrypoint&lt;span style="color:#f92672"&gt;=[&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;tail&amp;#34;&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;-f&amp;#34;&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;/dev/null&amp;#34;&lt;/span&gt;&lt;span style="color:#f92672"&gt;]&lt;/span&gt; cmd&lt;span style="color:#f92672"&gt;=[]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;[&lt;/span&gt;CI/build&lt;span style="color:#f92672"&gt;]&lt;/span&gt; ⭐ Run Main echo test
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;[&lt;/span&gt;CI/build&lt;span style="color:#f92672"&gt;]&lt;/span&gt; 🐳 docker exec cmd&lt;span style="color:#f92672"&gt;=[&lt;/span&gt;bash --noprofile --norc -e -o pipefail /var/run/act/workflow/0&lt;span style="color:#f92672"&gt;]&lt;/span&gt; user&lt;span style="color:#f92672"&gt;=&lt;/span&gt; workdir&lt;span style="color:#f92672"&gt;=&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| DISTRIB_ID&lt;span style="color:#f92672"&gt;=&lt;/span&gt;Ubuntu
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| DISTRIB_RELEASE&lt;span style="color:#f92672"&gt;=&lt;/span&gt;22.04
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| DISTRIB_CODENAME&lt;span style="color:#f92672"&gt;=&lt;/span&gt;jammy
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| DISTRIB_DESCRIPTION&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;Ubuntu 22.04.2 LTS&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| PRETTY_NAME&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;Ubuntu 22.04.2 LTS&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| NAME&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;Ubuntu&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| VERSION_ID&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;22.04&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| VERSION&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;22.04.2 LTS (Jammy Jellyfish)&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| VERSION_CODENAME&lt;span style="color:#f92672"&gt;=&lt;/span&gt;jammy
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| ID&lt;span style="color:#f92672"&gt;=&lt;/span&gt;ubuntu
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| ID_LIKE&lt;span style="color:#f92672"&gt;=&lt;/span&gt;debian
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| HOME_URL&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;https://www.ubuntu.com/&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| SUPPORT_URL&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;https://help.ubuntu.com/&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| BUG_REPORT_URL&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;https://bugs.launchpad.net/ubuntu/&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| PRIVACY_POLICY_URL&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;https://www.ubuntu.com/legal/terms-and-policies/privacy-policy&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| UBUNTU_CODENAME&lt;span style="color:#f92672"&gt;=&lt;/span&gt;jammy
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;[&lt;/span&gt;CI/build&lt;span style="color:#f92672"&gt;]&lt;/span&gt; ✅ Success - Main echo test
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;[&lt;/span&gt;CI/build&lt;span style="color:#f92672"&gt;]&lt;/span&gt; 🏁 Job succeeded
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;Secret 및 Env 적용&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-ini" data-lang="ini"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;VAR1&lt;/span&gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;1111&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;VAR2&lt;/span&gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;2222&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ act --env-file my.env --secret-file my.secrets
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;blockquote&gt;
+&lt;p&gt;Github Actions 와 모든것이 호환되지는 않음 (e.g. 스케쥴)
+테스트 및 개발 용도로 사용 적합&lt;/p&gt;</description></item><item><title>Github Actions 101</title><link>https://cdecl.github.io/devops/github-actions/</link><pubDate>Thu, 12 Aug 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/github-actions/</guid><description>&lt;h1 id="github-actions-101"&gt;Github Actions 101&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;Github 에서 제공하는 Workflow 툴&lt;/li&gt;
+&lt;li&gt;GitHub-hosted Runner or Self-Hosted Runner 에서 실행&lt;/li&gt;
+&lt;li&gt;Actions 탭을 통해서 Template을 선택하고 Yaml 파일로 Task 내용을 기술
+&lt;ul&gt;
+&lt;li&gt;.github/workflows 디렉토리 밑에 위치&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="runner-종류"&gt;Runner 종류&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;GitHub-hosted Runner : MS Azure 가상머신에서 실행
+&lt;ul&gt;
+&lt;li&gt;Public Repository : 무료&lt;/li&gt;
+&lt;li&gt;Private Repository : 2000분/월 무료&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Self-Hosted Runner : 자체 머신을 통해 Runner Hosting
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://help.github.com/en/actions/hosting-your-own-runners/adding-self-hosted-runners"&gt;https://help.github.com/en/actions/hosting-your-own-runners/adding-self-hosted-runners&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="actions-basic"&gt;Actions Basic&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Actions Tab&lt;/li&gt;
+&lt;li&gt;Workflow syntax for GitHub Actions
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions"&gt;https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;awesome-actions
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/sdras/awesome-actions"&gt;https://github.com/sdras/awesome-actions&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img loading="lazy" src="https://cdecl.github.io/images/2020-05-18-16-31-11.png"&gt;&lt;/p&gt;
+&lt;h3 id="workflow"&gt;Workflow&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;runs-on: Virtual machine
+&lt;ul&gt;
+&lt;li&gt;ubuntu, macos, windows server 제공&lt;/li&gt;
+&lt;li&gt;기본 Package or apps 가 등록되어 있음 : &lt;a href="https://github.com/actions/virtual-environments"&gt;https://github.com/actions/virtual-environments&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}
+&lt;ul&gt;
+&lt;li&gt;Ubuntu : &lt;a href="https://github.com/actions/virtual-environments/blob/master/images/linux/Ubuntu1804-README.md"&gt;https://github.com/actions/virtual-environments/blob/master/images/linux/Ubuntu1804-README.md&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;li&gt;Windows Server : &lt;a href="https://github.com/actions/virtual-environments/blob/master/images/win/Windows2019-Readme.md"&gt;https://github.com/actions/virtual-environments/blob/master/images/win/Windows2019-Readme.md&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;steps :
+&lt;ul&gt;
+&lt;li&gt;uses: 예약된 Actions 실행이나 Apps 통합을 통해 Apps 사용 환경 구성
+&lt;ul&gt;
+&lt;li&gt;ex&amp;gt; uses: actions/checkout@v2 : git checkout 실행&lt;/li&gt;
+&lt;li&gt;ex&amp;gt; uses: nuget/setup-nuget@v1 : nuget apps setup&lt;/li&gt;
+&lt;li&gt;ex&amp;gt; uses: microsoft/setup-msbuild@v1 : msbuild setup&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;run: run command 지정&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;name&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;CI &lt;/span&gt; &lt;span style="color:#75715e"&gt;# workflow 이름 &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;on&lt;/span&gt;: &lt;span style="color:#75715e"&gt;# Triggers Event &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;push&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;branches&lt;/span&gt;: [ &lt;span style="color:#ae81ff"&gt;master ]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;pull_request&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;branches&lt;/span&gt;: [ &lt;span style="color:#ae81ff"&gt;master ]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;jobs&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;build&lt;/span&gt;: &lt;span style="color:#75715e"&gt;# Single job name&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;runs-on&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;ubuntu-latest &lt;/span&gt; &lt;span style="color:#75715e"&gt;# virtual machine&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;steps&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#f92672"&gt;uses&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;actions/checkout@v2&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#f92672"&gt;name&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;Run a one-line script&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;run&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;echo Hello, world!&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#f92672"&gt;name&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;Run a multi-line script&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;run&lt;/span&gt;: |&lt;span style="color:#e6db74"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; echo Add other actions to build,
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; echo test, and deploy your project.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="actions-예제"&gt;Actions 예제&lt;/h2&gt;
+&lt;h3 id="docker-build--registry-push"&gt;Docker Build &amp;amp; Registry Push&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;ubuntu-latest 이미지에는 Docker Daemon 활성화됨&lt;/li&gt;
+&lt;li&gt;secrets 변수 : [Settings] - [Secrets] 에서 변수 세팅 (DOCKERHUB_PASS)
+&lt;ul&gt;
+&lt;li&gt;${{ secrets.DOCKERHUB_PASS }}&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;name&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;Docker Image CI&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;on&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;push&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;branches&lt;/span&gt;: [ &lt;span style="color:#ae81ff"&gt;master ]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;jobs&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;build&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;runs-on&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;ubuntu-latest&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;steps&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#f92672"&gt;uses&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;actions/checkout@v2&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#f92672"&gt;name&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;Build the Docker image&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;run&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;docker build . --tag cdecl/gcc-boost&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#f92672"&gt;name&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;docker login&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;run&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;echo &amp;#39;${{ secrets.DOCKERHUB_PASS }}&amp;#39; | docker login -u cdecl --password-stdin&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#f92672"&gt;name&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;docker push&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;run&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;docker push cdecl/gcc-boost&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;img loading="lazy" src="https://cdecl.github.io/images/2020-05-18-14-40-10.png"&gt;&lt;/p&gt;</description></item></channel></rss>

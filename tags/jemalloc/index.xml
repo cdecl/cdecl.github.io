@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Jemalloc on cdeclog</title><link>https://cdecl.github.io/tags/jemalloc/</link><description>Recent content in Jemalloc on cdeclog</description><generator>Hugo -- 0.154.5</generator><language>ko-kr</language><lastBuildDate>Thu, 15 May 2025 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/jemalloc/index.xml" rel="self" type="application/rss+xml"/><item><title>C++ 메모리 할당기 - tcmalloc, jemalloc</title><link>https://cdecl.github.io/dev/c++-memory-tcmalloc/</link><pubDate>Thu, 15 May 2025 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/c++-memory-tcmalloc/</guid><description>&lt;p&gt;멀티스레드 최적화 힙 메모리 할당기: tcmalloc, jemalloc&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a href="https://cdecl.tistory.com/304"&gt;이글 UPDATE : https://cdecl.tistory.com/304&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id="왜-멀티스레드-메모리-할당기가-중요한가"&gt;왜 멀티스레드 메모리 할당기가 중요한가?&lt;/h2&gt;
+&lt;p&gt;기본 메모리 할당기(glibc의 &lt;code&gt;malloc&lt;/code&gt;, Windows의 &lt;code&gt;HeapAlloc&lt;/code&gt;)는 범용성을 목표로 설계되었지만, 멀티스레드 환경에서는 다음과 같은 문제로 성능이 저하됩니다:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;락 경합(Lock Contention)&lt;/strong&gt;: 다중 스레드가 동시에 메모리를 할당/해제할 때 락으로 인한 대기 시간 증가.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;메모리 단편화(Memory Fragmentation)&lt;/strong&gt;: 빈번한 할당/해제로 메모리 사용 효율 저하.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;ABI 호환성 문제&lt;/strong&gt;: 서로 다른 컴파일러나 표준 라이브러리 간 메모리 관리 방식 차이로 인한 런타임 오류.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;tcmalloc&lt;/strong&gt;, &lt;strong&gt;jemalloc&lt;/strong&gt;, &lt;strong&gt;mimalloc&lt;/strong&gt;은 스레드별 캐싱, 효율적인 메모리 관리, ABI 안정성을 고려한 설계로 이러한 문제를 해결합니다. 이들은 웹 브라우저(Chrome, Firefox), 데이터베이스(MySQL, RocksDB), 고성능 서버에서 널리 사용됩니다.&lt;/p&gt;</description></item></channel></rss>
