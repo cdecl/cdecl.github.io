@@ -19,7 +19,9 @@ description = "cdecl's Development Blog - Dev, DevOps, Etc."
 defaultTheme = "auto"
 displayFullLangName = true
 ShowToc = true
-TocOpen = true
+TocOpen = false
+TocSidebar = true
+
 
 [params.homeInfoParams]
 Title = "cdeclog"
