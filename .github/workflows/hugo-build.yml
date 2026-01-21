@@ -20,8 +20,6 @@ jobs:
           hugo-version: 'latest'
           extended: true # PaperMod requires the extended version
 
-
-
       - name: Build Hugo site
         run: hugo --minify
 
