@@ -1,0 +1,91 @@
+baseURL = 'https://cdecl.github.io/'
+languageCode = 'ko-kr'
+title = 'cdeclog'
+theme = 'PaperMod'
+timeZone = "Asia/Seoul"
+
+[services.googleAnalytics]
+  id = "G-VQQHHYPN7K"
+
+[outputs]
+home = ['HTML', 'RSS', 'JSON']
+
+[pagination]
+pagerSize = 10
+
+[params]
+author = "Byung Kyu KIM"
+description = "cdecl's Development Blog - Dev, DevOps, Etc."
+defaultTheme = "auto"
+displayFullLangName = true
+ShowToc = true
+TocOpen = true
+
+[params.homeInfoParams]
+Title = "cdeclog"
+Content = "Bright size life ✔ Write down what comes to mind"
+
+[[params.socialIcons]]
+name = "github"
+url = "https://github.com/cdecl"
+
+
+[[params.socialIcons]]
+name = "website" # Using 'website' or 'link' as a generic icon
+url = "https://cdecl.tistory.com/"
+
+[params.comments]
+  enable = true
+  [params.comments.utterances]
+    repo = "cdecl/cdeclog" # Assuming this is the correct repo
+    issueTerm = "pathname"
+    theme = "github-dark"
+
+[params.profileMode]
+enabled = false
+
+[params.cover]
+hiddenInList = false
+hiddenInSingle = false
+
+[params.ToC]
+enable = true
+auto = true
+
+[frontmatter]
+date = [':filename', ':default']
+
+[permalinks.page]
+posts = "/:sections[last]/:slug/"
+
+[taxonomies]
+tag = "tags"
+category = "categories"
+
+[markup]
+tableOfContents = { startLevel = 2, endLevel = 6 }
+
+[markup.goldmark.renderer]
+unsafe = true
+hardWraps = false
+
+[outputFormats.searchindex]
+mediaType = "application/json"
+baseName = "searchindex"
+
+ignoreLogs = ["warning-goldmark-raw-html"]
+
+[[menu.main]]
+    name = "Archive"
+    url = "archives/"
+    weight = 10
+
+[[menu.main]]
+    name = "Search"
+    url = "search/"
+    weight = 20
+
+[[menu.main]]
+    name = "Tags"
+    url = "tags/"
+    weight = 30
