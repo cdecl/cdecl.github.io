@@ -24,45 +24,45 @@ macOS용 마우스 커스터마이징 도구로, 스크롤 방향, 속도, 버�
 &lt;ul&gt;
 &lt;li&gt;xcode 없이 개발툴 설치&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ xcode-select --install
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ xcode-select --install
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;blockquote&gt;
 &lt;p&gt;&lt;code&gt;clang&lt;/code&gt; 이 설치되고 &lt;code&gt;gcc&lt;/code&gt;로 심볼링 링크 걸려 있음&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ gcc -v
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Configured with: --prefix&lt;span style="color:#f92672"&gt;=&lt;/span&gt;/Library/Developer/CommandLineTools/usr --with-gxx-include-dir&lt;span style="color:#f92672"&gt;=&lt;/span&gt;/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/4.2.1
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Apple clang version 12.0.5 &lt;span style="color:#f92672"&gt;(&lt;/span&gt;clang-1205.0.22.11&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ gcc -v
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Configured with: --prefix&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;/Library/Developer/CommandLineTools/usr --with-gxx-include-dir&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/4.2.1
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Apple clang version 12.0.5 &lt;span style="color:#ff79c6"&gt;(&lt;/span&gt;clang-1205.0.22.11&lt;span style="color:#ff79c6"&gt;)&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Target: arm64-apple-darwin20.6.0
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Thread model: posix
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;InstalledDir: /Library/Developer/CommandLineTools/usr/bin
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="gcc-g-설치"&gt;GCC (G++) 설치&lt;/h3&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 특정 버전으로 설치 가능 &lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ brew search gcc
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;==&lt;/span&gt;&amp;gt; Formulae
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# 특정 버전으로 설치 가능 &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ brew search &lt;span style="color:#8be9fd;font-style:italic"&gt;gcc&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;==&lt;/span&gt;&amp;gt; Formulae
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;gcc gcc@5 gcc@8 libgccjit ghc ncc
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;gcc@10 gcc@6 gcc@9 x86_64-elf-gcc scc
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;gcc@4.9 gcc@7 i686-elf-gcc grc tcc
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;==&lt;/span&gt;&amp;gt; Casks
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;gcc@4.9 gcc@7 i686-elf-gcc grc &lt;span style="color:#8be9fd;font-style:italic"&gt;tcc&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;==&lt;/span&gt;&amp;gt; Casks
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;gcc-arm-embedded
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 기본(최신) 버전 설치 &lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ brew install gcc
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;==&lt;/span&gt;&amp;gt; Auto-updated Homebrew!
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Updated &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; tap &lt;span style="color:#f92672"&gt;(&lt;/span&gt;homebrew/core&lt;span style="color:#f92672"&gt;)&lt;/span&gt;.
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;==&lt;/span&gt;&amp;gt; Updated Formulae
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Updated &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; formula.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# 기본(최신) 버전 설치 &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ brew install &lt;span style="color:#8be9fd;font-style:italic"&gt;gcc&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;==&lt;/span&gt;&amp;gt; Auto-updated Homebrew!
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Updated &lt;span style="color:#bd93f9"&gt;1&lt;/span&gt; tap &lt;span style="color:#ff79c6"&gt;(&lt;/span&gt;homebrew/core&lt;span style="color:#ff79c6"&gt;)&lt;/span&gt;.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;==&lt;/span&gt;&amp;gt; Updated Formulae
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Updated &lt;span style="color:#bd93f9"&gt;1&lt;/span&gt; formula.
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;==&lt;/span&gt;&amp;gt; Downloading https://ghcr.io/v2/homebrew/core/gcc/manifests/11.2.0
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;==&lt;/span&gt;&amp;gt; Downloading https://ghcr.io/v2/homebrew/core/gcc/manifests/11.2.0
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Already downloaded: /Users/cdecl/Library/Caches/Homebrew/downloads/210783e77b227b8210d559abfe3514cdb95c915619fa3f785ad212120d6a36f9--gcc-11.2.0.bottle_manifest.json
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;==&lt;/span&gt;&amp;gt; Downloading https://ghcr.io/v2/homebrew/core/gcc/blobs/sha256:23ec727fa684a9f65cf9f55d61d208486d5202fb6112585a01426a
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;==&lt;/span&gt;&amp;gt; Downloading https://ghcr.io/v2/homebrew/core/gcc/blobs/sha256:23ec727fa684a9f65cf9f55d61d208486d5202fb6112585a01426a
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Already downloaded: /Users/cdecl/Library/Caches/Homebrew/downloads/8d1fae8a356d50aa911004b768eff64c241e170ce9be66e684b819fc4f67fc7c--gcc--11.2.0.arm64_big_sur.bottle.tar.gz
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;==&lt;/span&gt;&amp;gt; Pouring gcc--11.2.0.arm64_big_sur.bottle.tar.gz
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;==&lt;/span&gt;&amp;gt; Pouring gcc--11.2.0.arm64_big_sur.bottle.tar.gz
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;🍺 /opt/homebrew/Cellar/gcc/11.2.0: 1,412 files, 339.5MB
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id="심볼릭링크-설정-및-path-설정"&gt;심볼릭링크 설정 및 PATH 설정&lt;/h4&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ cd /opt/homebrew/Cellar/gcc/11.2.0
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ &lt;span style="color:#8be9fd;font-style:italic"&gt;cd&lt;/span&gt; /opt/homebrew/Cellar/gcc/11.2.0
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ ls -l
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;...
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;-rwxr-xr-x &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; cdecl admin 1.7M &lt;span style="color:#ae81ff"&gt;8&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;28&lt;/span&gt; 13:41 g++-11
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;-rwxr-xr-x &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; cdecl admin 1.7M &lt;span style="color:#ae81ff"&gt;8&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;28&lt;/span&gt; 13:41 gcc-11
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;-rwxr-xr-x &lt;span style="color:#bd93f9"&gt;1&lt;/span&gt; cdecl admin 1.7M &lt;span style="color:#bd93f9"&gt;8&lt;/span&gt; &lt;span style="color:#bd93f9"&gt;28&lt;/span&gt; 13:41 g++-11
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;-rwxr-xr-x &lt;span style="color:#bd93f9"&gt;1&lt;/span&gt; cdecl admin 1.7M &lt;span style="color:#bd93f9"&gt;8&lt;/span&gt; &lt;span style="color:#bd93f9"&gt;28&lt;/span&gt; 13:41 gcc-11
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;...
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ ln -s g++-11 g++
@@ -71,15 +71,15 @@ macOS용 마우스 커스터마이징 도구로, 스크롤 방향, 속도, 버�
 &lt;li&gt;.zshrc or .bashrc&lt;/li&gt;
 &lt;/ul&gt;
 &lt;pre tabindex="0"&gt;&lt;code&gt;export PATH=/opt/homebrew/Cellar/gcc/11.2.0/bin:$PATH
-&lt;/code&gt;&lt;/pre&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ g++ -v
+&lt;/code&gt;&lt;/pre&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ g++ -v
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Using built-in specs.
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;COLLECT_GCC&lt;span style="color:#f92672"&gt;=&lt;/span&gt;g++
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;COLLECT_LTO_WRAPPER&lt;span style="color:#f92672"&gt;=&lt;/span&gt;/opt/homebrew/Cellar/gcc/11.2.0/libexec/gcc/aarch64-apple-darwin20/11.1.0/lto-wrapper
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;COLLECT_GCC&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;g++
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;COLLECT_LTO_WRAPPER&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;/opt/homebrew/Cellar/gcc/11.2.0/libexec/gcc/aarch64-apple-darwin20/11.1.0/lto-wrapper
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Target: aarch64-apple-darwin20
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Configured with: ../configure --prefix&lt;span style="color:#f92672"&gt;=&lt;/span&gt;/opt/homebrew/Cellar/gcc/11.2.0 --libdir&lt;span style="color:#f92672"&gt;=&lt;/span&gt;/opt/homebrew/Cellar/gcc/11.2.0/lib/gcc/11 --disable-nls --enable-checking&lt;span style="color:#f92672"&gt;=&lt;/span&gt;release --enable-languages&lt;span style="color:#f92672"&gt;=&lt;/span&gt;c,c++,objc,obj-c++,fortran --program-suffix&lt;span style="color:#f92672"&gt;=&lt;/span&gt;-11 --with-gmp&lt;span style="color:#f92672"&gt;=&lt;/span&gt;/opt/homebrew/opt/gmp --with-mpfr&lt;span style="color:#f92672"&gt;=&lt;/span&gt;/opt/homebrew/opt/mpfr --with-mpc&lt;span style="color:#f92672"&gt;=&lt;/span&gt;/opt/homebrew/opt/libmpc --with-isl&lt;span style="color:#f92672"&gt;=&lt;/span&gt;/opt/homebrew/opt/isl --with-zstd&lt;span style="color:#f92672"&gt;=&lt;/span&gt;/opt/homebrew/opt/zstd --with-pkgversion&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#39;Homebrew GCC 11.2.0&amp;#39;&lt;/span&gt; --with-bugurl&lt;span style="color:#f92672"&gt;=&lt;/span&gt;https://github.com/Homebrew/homebrew-core/issues --build&lt;span style="color:#f92672"&gt;=&lt;/span&gt;aarch64-apple-darwin20 --with-system-zlib --disable-multilib --with-native-system-header-dir&lt;span style="color:#f92672"&gt;=&lt;/span&gt;/usr/include --with-sysroot&lt;span style="color:#f92672"&gt;=&lt;/span&gt;/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Configured with: ../configure --prefix&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;/opt/homebrew/Cellar/gcc/11.2.0 --libdir&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;/opt/homebrew/Cellar/gcc/11.2.0/lib/gcc/11 --disable-nls --enable-checking&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;release --enable-languages&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;c,c++,objc,obj-c++,fortran --program-suffix&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;-11 --with-gmp&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;/opt/homebrew/opt/gmp --with-mpfr&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;/opt/homebrew/opt/mpfr --with-mpc&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;/opt/homebrew/opt/libmpc --with-isl&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;/opt/homebrew/opt/isl --with-zstd&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;/opt/homebrew/opt/zstd --with-pkgversion&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;&lt;span style="color:#f1fa8c"&gt;&amp;#39;Homebrew GCC 11.2.0&amp;#39;&lt;/span&gt; --with-bugurl&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;https://github.com/Homebrew/homebrew-core/issues --build&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;aarch64-apple-darwin20 --with-system-zlib --disable-multilib --with-native-system-header-dir&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;/usr/include --with-sysroot&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Thread model: posix
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Supported LTO compression algorithms: zlib zstd
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;gcc version 11.1.0 &lt;span style="color:#f92672"&gt;(&lt;/span&gt;Homebrew GCC 11.2.0&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;gcc version 11.1.0 &lt;span style="color:#ff79c6"&gt;(&lt;/span&gt;Homebrew GCC 11.2.0&lt;span style="color:#ff79c6"&gt;)&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="windows"&gt;Windows&lt;/h2&gt;
 &lt;h3 id="chocolatey"&gt;chocolatey&lt;/h3&gt;
 &lt;ul&gt;

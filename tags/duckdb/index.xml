@@ -23,19 +23,19 @@
 &lt;li&gt;DuckDB에서 CSV 파일을 읽어와 테이블 생성&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://duckdb.org/docs/extensions/mysql"&gt;MySQL Extension&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sql" data-lang="sql"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;CREATE&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;TABLE&lt;/span&gt; csv_table &lt;span style="color:#66d9ef"&gt;AS&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;SELECT&lt;/span&gt; &lt;span style="color:#f92672"&gt;*&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;FROM&lt;/span&gt; read_csv_auto(&lt;span style="color:#e6db74"&gt;&amp;#39;your_csv_file&amp;#39;&lt;/span&gt;);
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sql" data-lang="sql"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;CREATE&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;TABLE&lt;/span&gt; csv_table &lt;span style="color:#ff79c6"&gt;AS&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;SELECT&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;*&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;FROM&lt;/span&gt; read_csv_auto(&lt;span style="color:#f1fa8c"&gt;&amp;#39;your_csv_file&amp;#39;&lt;/span&gt;);
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;DuckDB에서 MySQL에 연결합니다. 다음과 같은 명령어를 사용할 수 있습니다.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sql" data-lang="sql"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;INSTALL MySQL;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;LOAD&lt;/span&gt; MySQL;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sql" data-lang="sql"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;INSTALL MySQL;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;LOAD&lt;/span&gt; MySQL;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ATTACH &lt;span style="color:#e6db74"&gt;&amp;#39;host=localhost user=root port=0 database=etldb&amp;#39;&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;AS&lt;/span&gt; mysqldb (&lt;span style="color:#66d9ef"&gt;TYPE&lt;/span&gt; mysql)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ATTACH &lt;span style="color:#f1fa8c"&gt;&amp;#39;host=localhost user=root port=0 database=etldb&amp;#39;&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;AS&lt;/span&gt; mysqldb (&lt;span style="color:#ff79c6"&gt;TYPE&lt;/span&gt; mysql)
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;USE mysqldb;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;DuckDB에서 MySQL로 데이터를 적재합니다. 다음과 같은 명령어를 사용할 수 있습니다.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sql" data-lang="sql"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;CREATE&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;TABLE&lt;/span&gt; mysqldb.etldb.csvtbl &lt;span style="color:#66d9ef"&gt;AS&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;SELECT&lt;/span&gt; &lt;span style="color:#f92672"&gt;*&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;FROM&lt;/span&gt; csv_table;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sql" data-lang="sql"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;CREATE&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;TABLE&lt;/span&gt; mysqldb.etldb.csvtbl &lt;span style="color:#ff79c6"&gt;AS&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;SELECT&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;*&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;FROM&lt;/span&gt; csv_table;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="참고"&gt;참고&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="https://cdecl.github.io/devops/mysql-load-data/"&gt;MySQL LOAD DATA&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;

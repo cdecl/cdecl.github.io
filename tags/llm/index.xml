@@ -17,28 +17,28 @@ OLLAMA는 텍스트 생성, 번역, 질문 응답 등 다양한 AI 애플리케�
 &lt;li&gt;다운로드 : &lt;a href="https://ollama.ai/download"&gt;https://ollama.ai/download&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
 &lt;li&gt;설치 및 활용 가능한 모델 : &lt;a href="https://ollama.ai/library"&gt;https://ollama.ai/library&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ ollama
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ ollama
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Usage:
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ollama &lt;span style="color:#f92672"&gt;[&lt;/span&gt;flags&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ollama &lt;span style="color:#f92672"&gt;[&lt;/span&gt;command&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ollama &lt;span style="color:#ff79c6"&gt;[&lt;/span&gt;flags&lt;span style="color:#ff79c6"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ollama &lt;span style="color:#ff79c6"&gt;[&lt;/span&gt;command&lt;span style="color:#ff79c6"&gt;]&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Available Commands:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; serve Start ollama
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; create Create a model from a Modelfile
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; show Show information &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; a model
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; show Show information &lt;span style="color:#ff79c6"&gt;for&lt;/span&gt; a model
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; run Run a model
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; pull Pull a model from a registry
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; push Push a model to a registry
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; list List models
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; cp Copy a model
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; rm Remove a model
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; help Help about any command
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#8be9fd;font-style:italic"&gt;help&lt;/span&gt; Help about any &lt;span style="color:#8be9fd;font-style:italic"&gt;command&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Flags:
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; -h, --help help &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; ollama
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; -h, --help &lt;span style="color:#8be9fd;font-style:italic"&gt;help&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;for&lt;/span&gt; ollama
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; -v, --version Show version information
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Use &lt;span style="color:#e6db74"&gt;&amp;#34;ollama [command] --help&amp;#34;&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; more information about a command.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Use &lt;span style="color:#f1fa8c"&gt;&amp;#34;ollama [command] --help&amp;#34;&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;for&lt;/span&gt; more information about a command.
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="mistral-모델-설치"&gt;mistral 모델 설치&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="https://ollama.ai/library/mistral"&gt;https://ollama.ai/library/mistral&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;

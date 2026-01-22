@@ -638,36 +638,36 @@ forget 주요 인수
 - securely, by careful use of cryptography in every part of the process
 - verifiably, enabling you to make sure that your files can be restored when needed
 - freely - restic is entirely free to use and completely open source
-</code></pre><h3 id=install>Install<a hidden class=anchor aria-hidden=true href=#install>#</a></h3><ul><li>Package 설치 및 Binary 지원<ul><li>Package : <a href=https://restic.readthedocs.io/en/stable/020_installation.html>https://restic.readthedocs.io/en/stable/020_installation.html</a>{:target="_blank"}</li><li>Binary : <a href=https://github.com/restic/restic/releases/tag/v0.12.1>https://github.com/restic/restic/releases/tag/v0.12.1</a>{:target="_blank"}</li></ul></li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>$ curl -LO https://github.com/restic/restic/releases/download/v0.12.1/restic_0.12.1_linux_amd64.bz2
+</code></pre><h3 id=install>Install<a hidden class=anchor aria-hidden=true href=#install>#</a></h3><ul><li>Package 설치 및 Binary 지원<ul><li>Package : <a href=https://restic.readthedocs.io/en/stable/020_installation.html>https://restic.readthedocs.io/en/stable/020_installation.html</a>{:target="_blank"}</li><li>Binary : <a href=https://github.com/restic/restic/releases/tag/v0.12.1>https://github.com/restic/restic/releases/tag/v0.12.1</a>{:target="_blank"}</li></ul></li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>$ curl -LO https://github.com/restic/restic/releases/download/v0.12.1/restic_0.12.1_linux_amd64.bz2
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#75715e># install bzip2</span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># install bzip2</span>
 </span></span><span style=display:flex><span>$ sudo yum install bzip2 -y
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>$ bunzip2 restic_0.12.1_linux_amd64.bz2
 </span></span><span style=display:flex><span>$ mv restic_0.12.1_linux_amd64 restic
 </span></span><span style=display:flex><span>$ sudo mv restic /usr/local/bin
-</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>$ restic
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>$ restic
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>restic is a backup program which allows saving multiple revisions of files and
 </span></span><span style=display:flex><span>directories in an encrypted repository stored on different backends.
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>Usage:
-</span></span><span style=display:flex><span>  restic <span style=color:#f92672>[</span>command<span style=color:#f92672>]</span>
+</span></span><span style=display:flex><span>  restic <span style=color:#ff79c6>[</span>command<span style=color:#ff79c6>]</span>
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>Available Commands:
 </span></span><span style=display:flex><span>  backup        Create a new backup of files and/or directories
-</span></span><span style=display:flex><span>  cache         Operate on local cache directories
+</span></span><span style=display:flex><span>  cache         Operate on <span style=color:#8be9fd;font-style:italic>local</span> cache directories
 </span></span><span style=display:flex><span>  cat           Print internal objects to stdout
-</span></span><span style=display:flex><span>  check         Check the repository <span style=color:#66d9ef>for</span> errors
+</span></span><span style=display:flex><span>  check         Check the repository <span style=color:#ff79c6>for</span> errors
 </span></span><span style=display:flex><span>  copy          Copy snapshots from one repository to another
 </span></span><span style=display:flex><span>  diff          Show differences between two snapshots
 </span></span><span style=display:flex><span>  dump          Print a backed-up file to stdout
 </span></span><span style=display:flex><span>  find          Find a file, a directory or restic IDs
 </span></span><span style=display:flex><span>  forget        Remove snapshots from the repository
-</span></span><span style=display:flex><span>  generate      Generate manual pages and auto-completion files <span style=color:#f92672>(</span>bash, fish, zsh<span style=color:#f92672>)</span>
-</span></span><span style=display:flex><span>  help          Help about any command
+</span></span><span style=display:flex><span>  generate      Generate manual pages and auto-completion files <span style=color:#ff79c6>(</span>bash, fish, zsh<span style=color:#ff79c6>)</span>
+</span></span><span style=display:flex><span>  <span style=color:#8be9fd;font-style:italic>help</span>          Help about any <span style=color:#8be9fd;font-style:italic>command</span>
 </span></span><span style=display:flex><span>  init          Initialize a new repository
-</span></span><span style=display:flex><span>  key           Manage keys <span style=color:#f92672>(</span>passwords<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>  key           Manage keys <span style=color:#ff79c6>(</span>passwords<span style=color:#ff79c6>)</span>
 </span></span><span style=display:flex><span>  list          List objects in the repository
 </span></span><span style=display:flex><span>  ls            List files in a snapshot
 </span></span><span style=display:flex><span>  migrate       Apply migrations
@@ -683,10 +683,10 @@ forget 주요 인수
 </span></span><span style=display:flex><span>  unlock        Remove locks other processes created
 </span></span><span style=display:flex><span>  version       Print version information
 </span></span><span style=display:flex><span>....
-</span></span></code></pre></div><hr><h3 id=backup--restore>Backup & Restore<a hidden class=anchor aria-hidden=true href=#backup--restore>#</a></h3><h5 id=backup-repository-생성>Backup Repository 생성<a hidden class=anchor aria-hidden=true href=#backup-repository-생성>#</a></h5><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span><span style=color:#75715e># Repository 접근을 위한 패드워스 필요, 일단 1111</span>
-</span></span><span style=display:flex><span><span style=color:#75715e># -r, --repo repository repository to backup to or restore from (default: $RESTIC_REPOSITORY)</span>
+</span></span></code></pre></div><hr><h3 id=backup--restore>Backup & Restore<a hidden class=anchor aria-hidden=true href=#backup--restore>#</a></h3><h5 id=backup-repository-생성>Backup Repository 생성<a hidden class=anchor aria-hidden=true href=#backup-repository-생성>#</a></h5><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span><span style=color:#6272a4># Repository 접근을 위한 패드워스 필요, 일단 1111</span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># -r, --repo repository repository to backup to or restore from (default: $RESTIC_REPOSITORY)</span>
 </span></span><span style=display:flex><span>$ restic init -r repo
-</span></span><span style=display:flex><span>enter password <span style=color:#66d9ef>for</span> new repository:
+</span></span><span style=display:flex><span>enter password <span style=color:#ff79c6>for</span> new repository:
 </span></span><span style=display:flex><span>enter password again:
 </span></span><span style=display:flex><span>created restic repository 7f3cfb3e9a at repo
 </span></span><span style=display:flex><span>
@@ -694,36 +694,36 @@ forget 주요 인수
 </span></span><span style=display:flex><span>the repository. Losing your password means that your data is
 </span></span><span style=display:flex><span>irrecoverably lost.
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#75715e># password 파일 생성, -p 옵션으로 지정 </span>
-</span></span><span style=display:flex><span>$ echo <span style=color:#ae81ff>1111</span> &gt; passwd
-</span></span></code></pre></div><h5 id=backup--snapshots-생성>Backup : snapshots 생성<a hidden class=anchor aria-hidden=true href=#backup--snapshots-생성>#</a></h5><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span><span style=color:#75715e># Backup </span>
-</span></span><span style=display:flex><span><span style=color:#75715e># restic -r &lt;repository&gt; -p &lt;passwd file&gt; backup &lt;Source&gt;</span>
-</span></span><span style=display:flex><span><span style=color:#75715e># -p, --password-file file  file to read the repository password from (default: $RESTIC_PASSWORD_FILE)</span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># password 파일 생성, -p 옵션으로 지정 </span>
+</span></span><span style=display:flex><span>$ <span style=color:#8be9fd;font-style:italic>echo</span> <span style=color:#bd93f9>1111</span> &gt; passwd
+</span></span></code></pre></div><h5 id=backup--snapshots-생성>Backup : snapshots 생성<a hidden class=anchor aria-hidden=true href=#backup--snapshots-생성>#</a></h5><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span><span style=color:#6272a4># Backup </span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># restic -r &lt;repository&gt; -p &lt;passwd file&gt; backup &lt;Source&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># -p, --password-file file  file to read the repository password from (default: $RESTIC_PASSWORD_FILE)</span>
 </span></span><span style=display:flex><span>$ restic -r repo -p passwd backup /home/cdecl/temp/mvcapp
 </span></span><span style=display:flex><span>repository e4ccc49d opened successfully, password is correct
-</span></span><span style=display:flex><span>no parent snapshot found, will read all files
+</span></span><span style=display:flex><span>no parent snapshot found, will <span style=color:#8be9fd;font-style:italic>read</span> all files
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>Files:          <span style=color:#ae81ff>79</span> new,     <span style=color:#ae81ff>0</span> changed,     <span style=color:#ae81ff>0</span> unmodified
-</span></span><span style=display:flex><span>Dirs:           <span style=color:#ae81ff>40</span> new,     <span style=color:#ae81ff>0</span> changed,     <span style=color:#ae81ff>0</span> unmodified
+</span></span><span style=display:flex><span>Files:          <span style=color:#bd93f9>79</span> new,     <span style=color:#bd93f9>0</span> changed,     <span style=color:#bd93f9>0</span> unmodified
+</span></span><span style=display:flex><span>Dirs:           <span style=color:#bd93f9>40</span> new,     <span style=color:#bd93f9>0</span> changed,     <span style=color:#bd93f9>0</span> unmodified
 </span></span><span style=display:flex><span>Added to the repo: 4.854 MiB
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>processed <span style=color:#ae81ff>79</span> files, 4.811 MiB in 0:00
+</span></span><span style=display:flex><span>processed <span style=color:#bd93f9>79</span> files, 4.811 MiB in 0:00
 </span></span><span style=display:flex><span>snapshot 9aff8447 saved
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#75715e># 파일생성 및 다시백업 </span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 파일생성 및 다시백업 </span>
 </span></span><span style=display:flex><span>$ touch /home/cdecl/temp/mvcapp/test.txt
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>$ restic -r repo -p passwd backup /home/cdecl/temp/mvcapp
 </span></span><span style=display:flex><span>repository e4ccc49d opened successfully, password is correct
 </span></span><span style=display:flex><span>using parent snapshot 9aff8447
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>Files:           <span style=color:#ae81ff>1</span> new,     <span style=color:#ae81ff>0</span> changed,    <span style=color:#ae81ff>79</span> unmodified
-</span></span><span style=display:flex><span>Dirs:            <span style=color:#ae81ff>0</span> new,     <span style=color:#ae81ff>4</span> changed,    <span style=color:#ae81ff>36</span> unmodified
+</span></span><span style=display:flex><span>Files:           <span style=color:#bd93f9>1</span> new,     <span style=color:#bd93f9>0</span> changed,    <span style=color:#bd93f9>79</span> unmodified
+</span></span><span style=display:flex><span>Dirs:            <span style=color:#bd93f9>0</span> new,     <span style=color:#bd93f9>4</span> changed,    <span style=color:#bd93f9>36</span> unmodified
 </span></span><span style=display:flex><span>Added to the repo: 7.742 KiB
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>processed <span style=color:#ae81ff>80</span> files, 4.811 MiB in 0:00
+</span></span><span style=display:flex><span>processed <span style=color:#bd93f9>80</span> files, 4.811 MiB in 0:00
 </span></span><span style=display:flex><span>snapshot f4b94d9b saved
-</span></span></code></pre></div><h5 id=snapshots-확인>Snapshots 확인<a hidden class=anchor aria-hidden=true href=#snapshots-확인>#</a></h5><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span><span style=color:#75715e># snapshots 2개 화인 확인</span>
+</span></span></code></pre></div><h5 id=snapshots-확인>Snapshots 확인<a hidden class=anchor aria-hidden=true href=#snapshots-확인>#</a></h5><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span><span style=color:#6272a4># snapshots 2개 화인 확인</span>
 </span></span><span style=display:flex><span>$ restic -r repo -p passwd snapshots
 </span></span><span style=display:flex><span>repository e4ccc49d opened successfully, password is correct
 </span></span><span style=display:flex><span>ID        Time                 Host        Tags        Paths
@@ -731,32 +731,32 @@ forget 주요 인수
 </span></span><span style=display:flex><span>9aff8447  2021-11-25 15:17:52  centos1                 /home/cdecl/temp/mvcapp
 </span></span><span style=display:flex><span>f4b94d9b  2021-11-25 15:22:24  centos1                 /home/cdecl/temp/mvcapp
 </span></span><span style=display:flex><span>------------------------------------------------------------------------------
-</span></span><span style=display:flex><span><span style=color:#ae81ff>2</span> snapshots
-</span></span></code></pre></div><ul><li>Snapshots 비교</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>$ restic -r repo -p passwd diff 9aff8447 f4b94d9b
+</span></span><span style=display:flex><span><span style=color:#bd93f9>2</span> snapshots
+</span></span></code></pre></div><ul><li>Snapshots 비교</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>$ restic -r repo -p passwd diff 9aff8447 f4b94d9b
 </span></span><span style=display:flex><span>repository e4ccc49d opened successfully, password is correct
 </span></span><span style=display:flex><span>comparing snapshot 9aff8447 to f4b94d9b:
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>+    /home/cdecl/temp/mvcapp/test.txt
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>Files:           <span style=color:#ae81ff>1</span> new,     <span style=color:#ae81ff>0</span> removed,     <span style=color:#ae81ff>0</span> changed
-</span></span><span style=display:flex><span>Dirs:            <span style=color:#ae81ff>0</span> new,     <span style=color:#ae81ff>0</span> removed
-</span></span><span style=display:flex><span>Others:          <span style=color:#ae81ff>0</span> new,     <span style=color:#ae81ff>0</span> removed
-</span></span><span style=display:flex><span>Data Blobs:      <span style=color:#ae81ff>0</span> new,     <span style=color:#ae81ff>0</span> removed
-</span></span><span style=display:flex><span>Tree Blobs:      <span style=color:#ae81ff>5</span> new,     <span style=color:#ae81ff>5</span> removed
+</span></span><span style=display:flex><span>Files:           <span style=color:#bd93f9>1</span> new,     <span style=color:#bd93f9>0</span> removed,     <span style=color:#bd93f9>0</span> changed
+</span></span><span style=display:flex><span>Dirs:            <span style=color:#bd93f9>0</span> new,     <span style=color:#bd93f9>0</span> removed
+</span></span><span style=display:flex><span>Others:          <span style=color:#bd93f9>0</span> new,     <span style=color:#bd93f9>0</span> removed
+</span></span><span style=display:flex><span>Data Blobs:      <span style=color:#bd93f9>0</span> new,     <span style=color:#bd93f9>0</span> removed
+</span></span><span style=display:flex><span>Tree Blobs:      <span style=color:#bd93f9>5</span> new,     <span style=color:#bd93f9>5</span> removed
 </span></span><span style=display:flex><span>  Added:   7.742 KiB
 </span></span><span style=display:flex><span>  Removed: 7.456 KiB
-</span></span></code></pre></div><h5 id=restore--snapshots-에서-복원>Restore : Snapshots 에서 복원<a hidden class=anchor aria-hidden=true href=#restore--snapshots-에서-복원>#</a></h5><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span><span style=color:#75715e># restic -r &lt;repository&gt; -p &lt;passwd file&gt; restore &lt;snapshots id&gt; -t &lt;Target&gt;</span>
+</span></span></code></pre></div><h5 id=restore--snapshots-에서-복원>Restore : Snapshots 에서 복원<a hidden class=anchor aria-hidden=true href=#restore--snapshots-에서-복원>#</a></h5><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span><span style=color:#6272a4># restic -r &lt;repository&gt; -p &lt;passwd file&gt; restore &lt;snapshots id&gt; -t &lt;Target&gt;</span>
 </span></span><span style=display:flex><span>$ restic -r repo -p passwd restore 9aff8447 -t restore-mvcapp
 </span></span><span style=display:flex><span>repository e4ccc49d opened successfully, password is correct
-</span></span><span style=display:flex><span>restoring &lt;Snapshot 9aff8447 of <span style=color:#f92672>[</span>/home/cdecl/temp/mvcapp<span style=color:#f92672>]</span> at 2021-11-25 15:17:52.115925352 
+</span></span><span style=display:flex><span>restoring &lt;Snapshot 9aff8447 of <span style=color:#ff79c6>[</span>/home/cdecl/temp/mvcapp<span style=color:#ff79c6>]</span> at 2021-11-25 15:17:52.115925352 
 </span></span><span style=display:flex><span> +0900 KST by cdecl@centos1&gt; to restore-mvcapp
 </span></span></code></pre></div><h3 id=minio--rclone-backend-지원>MinIO & RClone Backend 지원<a hidden class=anchor aria-hidden=true href=#minio--rclone-backend-지원>#</a></h3><ul><li><a href=https://restic.readthedocs.io/en/stable/030_preparing_a_new_repo.html>https://restic.readthedocs.io/en/stable/030_preparing_a_new_repo.html</a>{:target="_blank"}</li></ul><pre tabindex=0><code>Local, SFTP, REST Server, Amazon S3, Minio Server, Microsoft Azure Blob Storage, 
 Google Cloud Storage, Other Services via rclone 등 지원
-</code></pre><h5 id=minio-repository-만들기>MinIO Repository 만들기<a hidden class=anchor aria-hidden=true href=#minio-repository-만들기>#</a></h5><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>$ export AWS_ACCESS_KEY_ID<span style=color:#f92672>=</span>key
-</span></span><span style=display:flex><span>$ export AWS_SECRET_ACCESS_KEY<span style=color:#f92672>=</span>passwd
+</code></pre><h5 id=minio-repository-만들기>MinIO Repository 만들기<a hidden class=anchor aria-hidden=true href=#minio-repository-만들기>#</a></h5><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>$ <span style=color:#8be9fd;font-style:italic>export</span> <span style=color:#8be9fd;font-style:italic>AWS_ACCESS_KEY_ID</span><span style=color:#ff79c6>=</span>key
+</span></span><span style=display:flex><span>$ <span style=color:#8be9fd;font-style:italic>export</span> <span style=color:#8be9fd;font-style:italic>AWS_SECRET_ACCESS_KEY</span><span style=color:#ff79c6>=</span>passwd
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>$  restic init -r s3:http://minio.server:9000/restic
-</span></span><span style=display:flex><span>enter password <span style=color:#66d9ef>for</span> new repository:
+</span></span><span style=display:flex><span>enter password <span style=color:#ff79c6>for</span> new repository:
 </span></span><span style=display:flex><span>enter password again:
 </span></span><span style=display:flex><span>created restic repository 65a27250da at s3:http://minio.server:9000/restic
 </span></span><span style=display:flex><span>
@@ -765,29 +765,29 @@ Google Cloud Storage, Other Services via rclone 등 지원
 </span></span><span style=display:flex><span>irrecoverably lost.
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#75715e># Backup</span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># Backup</span>
 </span></span><span style=display:flex><span>$ restic -r s3:http://minio.server:9000/restic -p passwd backup /home/cdecl/temp/mvcapp
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#75715e># snapshots</span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># snapshots</span>
 </span></span><span style=display:flex><span>$ restic -r s3:http://minio.server:9000/restic -p passwd snapshots
 </span></span><span style=display:flex><span>repository 65a27250 opened successfully, password is correct
 </span></span><span style=display:flex><span>ID        Time                 Host        Tags        Paths
 </span></span><span style=display:flex><span>------------------------------------------------------------------------------
 </span></span><span style=display:flex><span>73d37fbd  2021-11-25 15:37:34  centos1                 /home/cdecl/temp/mvcapp
 </span></span><span style=display:flex><span>------------------------------------------------------------------------------
-</span></span><span style=display:flex><span><span style=color:#ae81ff>1</span> snapshots
-</span></span></code></pre></div><h5 id=rclone-backend-로-사용>RClone Backend 로 사용<a hidden class=anchor aria-hidden=true href=#rclone-backend-로-사용>#</a></h5><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>$ rclone config show
-</span></span><span style=display:flex><span><span style=color:#f92672>[</span>infradb<span style=color:#f92672>]</span>
-</span></span><span style=display:flex><span>type <span style=color:#f92672>=</span> s3
-</span></span><span style=display:flex><span>env_auth <span style=color:#f92672>=</span> false
-</span></span><span style=display:flex><span>access_key_id <span style=color:#f92672>=</span> key
-</span></span><span style=display:flex><span>secret_access_key <span style=color:#f92672>=</span> passwd
-</span></span><span style=display:flex><span>region <span style=color:#f92672>=</span> us-east-1
-</span></span><span style=display:flex><span>endpoint <span style=color:#f92672>=</span> http://minio.server:9000
+</span></span><span style=display:flex><span><span style=color:#bd93f9>1</span> snapshots
+</span></span></code></pre></div><h5 id=rclone-backend-로-사용>RClone Backend 로 사용<a hidden class=anchor aria-hidden=true href=#rclone-backend-로-사용>#</a></h5><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>$ rclone config show
+</span></span><span style=display:flex><span><span style=color:#ff79c6>[</span>infradb<span style=color:#ff79c6>]</span>
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>type</span> <span style=color:#ff79c6>=</span> s3
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>env_auth</span> <span style=color:#ff79c6>=</span> <span style=color:#8be9fd;font-style:italic>false</span>
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>access_key_id</span> <span style=color:#ff79c6>=</span> key
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>secret_access_key</span> <span style=color:#ff79c6>=</span> passwd
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>region</span> <span style=color:#ff79c6>=</span> us-east-1
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>endpoint</span> <span style=color:#ff79c6>=</span> http://minio.server:9000
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#75715e># rclone config 사용 respository 만들기 </span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># rclone config 사용 respository 만들기 </span>
 </span></span><span style=display:flex><span>$ restic init -r rclone:infradb:restic
-</span></span><span style=display:flex><span>enter password <span style=color:#66d9ef>for</span> new repository:
+</span></span><span style=display:flex><span>enter password <span style=color:#ff79c6>for</span> new repository:
 </span></span><span style=display:flex><span>enter password again:
 </span></span><span style=display:flex><span>created restic repository ce850667c9 at rclone:infradb:restic
 </span></span><span style=display:flex><span>
@@ -795,12 +795,12 @@ Google Cloud Storage, Other Services via rclone 등 지원
 </span></span><span style=display:flex><span>the repository. Losing your password means that your data is
 </span></span><span style=display:flex><span>irrecoverably lost.
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#75715e># Backup</span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># Backup</span>
 </span></span><span style=display:flex><span>$ restic -r rclone:infradb:restic -p passwd backup /home/cdecl/temp/mvcapp
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#75715e># snapshots</span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># snapshots</span>
 </span></span><span style=display:flex><span>$ restic -r rclone:infradb:restic -p passwd snapshots
-</span></span></code></pre></div><hr><h4 id=snapshots-관리>Snapshots 관리<a hidden class=anchor aria-hidden=true href=#snapshots-관리>#</a></h4><ul><li><a href=https://restic.readthedocs.io/en/stable/060_forget.html>https://restic.readthedocs.io/en/stable/060_forget.html</a>{:target="_blank"}</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>$ restic -r rclone:infradb:restic -p passwd snapshots
+</span></span></code></pre></div><hr><h4 id=snapshots-관리>Snapshots 관리<a hidden class=anchor aria-hidden=true href=#snapshots-관리>#</a></h4><ul><li><a href=https://restic.readthedocs.io/en/stable/060_forget.html>https://restic.readthedocs.io/en/stable/060_forget.html</a>{:target="_blank"}</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>$ restic -r rclone:infradb:restic -p passwd snapshots
 </span></span><span style=display:flex><span>repository ce850667 opened successfully, password is correct
 </span></span><span style=display:flex><span>ID        Time                 Host        Tags        Paths
 </span></span><span style=display:flex><span>------------------------------------------------------------------------------
@@ -811,52 +811,52 @@ Google Cloud Storage, Other Services via rclone 등 지원
 </span></span><span style=display:flex><span>eb1e56c7  2021-11-25 15:44:54  centos1                 /home/cdecl/temp/mvcapp
 </span></span><span style=display:flex><span>d81b3d2a  2021-11-25 15:44:55  centos1                 /home/cdecl/temp/mvcapp
 </span></span><span style=display:flex><span>------------------------------------------------------------------------------
-</span></span><span style=display:flex><span><span style=color:#ae81ff>6</span> snapshots
+</span></span><span style=display:flex><span><span style=color:#bd93f9>6</span> snapshots
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#75715e># snapshots 1개 지우기</span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># snapshots 1개 지우기</span>
 </span></span><span style=display:flex><span>$ restic -r rclone:infradb:restic -p passwd forget d81b3d2a
 </span></span><span style=display:flex><span>repository ce850667 opened successfully, password is correct
-</span></span><span style=display:flex><span><span style=color:#f92672>[</span>0:00<span style=color:#f92672>]</span> 100.00%  <span style=color:#ae81ff>1</span> / <span style=color:#ae81ff>1</span> files deleted
+</span></span><span style=display:flex><span><span style=color:#ff79c6>[</span>0:00<span style=color:#ff79c6>]</span> 100.00%  <span style=color:#bd93f9>1</span> / <span style=color:#bd93f9>1</span> files deleted
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#75715e># 스냅샷의 파일에서 참조한 데이터는 여전히 저장소에 저장</span>
-</span></span><span style=display:flex><span><span style=color:#75715e># 참조되지 않은 데이터를 정리하려면 prune 명령 실행</span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 스냅샷의 파일에서 참조한 데이터는 여전히 저장소에 저장</span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 참조되지 않은 데이터를 정리하려면 prune 명령 실행</span>
 </span></span><span style=display:flex><span>$ restic -r rclone:infradb:restic -p passwd prune
 </span></span><span style=display:flex><span>repository ce850667 opened successfully, password is correct
 </span></span><span style=display:flex><span>loading indexes...
 </span></span><span style=display:flex><span>loading all snapshots...
-</span></span><span style=display:flex><span>finding data that is still in use <span style=color:#66d9ef>for</span> <span style=color:#ae81ff>5</span> snapshots
-</span></span><span style=display:flex><span><span style=color:#f92672>[</span>0:00<span style=color:#f92672>]</span> 100.00%  <span style=color:#ae81ff>5</span> / <span style=color:#ae81ff>5</span> snapshots
+</span></span><span style=display:flex><span>finding data that is still in use <span style=color:#ff79c6>for</span> <span style=color:#bd93f9>5</span> snapshots
+</span></span><span style=display:flex><span><span style=color:#ff79c6>[</span>0:00<span style=color:#ff79c6>]</span> 100.00%  <span style=color:#bd93f9>5</span> / <span style=color:#bd93f9>5</span> snapshots
 </span></span><span style=display:flex><span>searching used packs...
-</span></span><span style=display:flex><span>collecting packs <span style=color:#66d9ef>for</span> deletion and repacking
-</span></span><span style=display:flex><span><span style=color:#f92672>[</span>0:00<span style=color:#f92672>]</span> 100.00%  <span style=color:#ae81ff>9</span> / <span style=color:#ae81ff>9</span> packs processed
+</span></span><span style=display:flex><span>collecting packs <span style=color:#ff79c6>for</span> deletion and repacking
+</span></span><span style=display:flex><span><span style=color:#ff79c6>[</span>0:00<span style=color:#ff79c6>]</span> 100.00%  <span style=color:#bd93f9>9</span> / <span style=color:#bd93f9>9</span> packs processed
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>to repack:            <span style=color:#ae81ff>0</span> blobs / <span style=color:#ae81ff>0</span> B
-</span></span><span style=display:flex><span>this removes          <span style=color:#ae81ff>0</span> blobs / <span style=color:#ae81ff>0</span> B
-</span></span><span style=display:flex><span>to delete:            <span style=color:#ae81ff>2</span> blobs / <span style=color:#ae81ff>1004</span> B
-</span></span><span style=display:flex><span>total prune:          <span style=color:#ae81ff>2</span> blobs / <span style=color:#ae81ff>1004</span> B
-</span></span><span style=display:flex><span>remaining:          <span style=color:#ae81ff>125</span> blobs / 4.862 MiB
-</span></span><span style=display:flex><span>unused size after prune: <span style=color:#ae81ff>0</span> B <span style=color:#f92672>(</span>0.00% of remaining size<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>to repack:            <span style=color:#bd93f9>0</span> blobs / <span style=color:#bd93f9>0</span> B
+</span></span><span style=display:flex><span>this removes          <span style=color:#bd93f9>0</span> blobs / <span style=color:#bd93f9>0</span> B
+</span></span><span style=display:flex><span>to delete:            <span style=color:#bd93f9>2</span> blobs / <span style=color:#bd93f9>1004</span> B
+</span></span><span style=display:flex><span>total prune:          <span style=color:#bd93f9>2</span> blobs / <span style=color:#bd93f9>1004</span> B
+</span></span><span style=display:flex><span>remaining:          <span style=color:#bd93f9>125</span> blobs / 4.862 MiB
+</span></span><span style=display:flex><span>unused size after prune: <span style=color:#bd93f9>0</span> B <span style=color:#ff79c6>(</span>0.00% of remaining size<span style=color:#ff79c6>)</span>
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>rebuilding index
-</span></span><span style=display:flex><span><span style=color:#f92672>[</span>0:00<span style=color:#f92672>]</span> 100.00%  <span style=color:#ae81ff>8</span> / <span style=color:#ae81ff>8</span> packs processed
+</span></span><span style=display:flex><span><span style=color:#ff79c6>[</span>0:00<span style=color:#ff79c6>]</span> 100.00%  <span style=color:#bd93f9>8</span> / <span style=color:#bd93f9>8</span> packs processed
 </span></span><span style=display:flex><span>deleting obsolete index files
-</span></span><span style=display:flex><span><span style=color:#f92672>[</span>0:00<span style=color:#f92672>]</span> 100.00%  <span style=color:#ae81ff>6</span> / <span style=color:#ae81ff>6</span> files deleted
-</span></span><span style=display:flex><span>removing <span style=color:#ae81ff>1</span> old packs
-</span></span><span style=display:flex><span><span style=color:#f92672>[</span>0:00<span style=color:#f92672>]</span> 100.00%  <span style=color:#ae81ff>1</span> / <span style=color:#ae81ff>1</span> files deleted
-</span></span><span style=display:flex><span><span style=color:#66d9ef>done</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>[</span>0:00<span style=color:#ff79c6>]</span> 100.00%  <span style=color:#bd93f9>6</span> / <span style=color:#bd93f9>6</span> files deleted
+</span></span><span style=display:flex><span>removing <span style=color:#bd93f9>1</span> old packs
+</span></span><span style=display:flex><span><span style=color:#ff79c6>[</span>0:00<span style=color:#ff79c6>]</span> 100.00%  <span style=color:#bd93f9>1</span> / <span style=color:#bd93f9>1</span> files deleted
+</span></span><span style=display:flex><span><span style=color:#ff79c6>done</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#75715e># 최근 1개만 놔두고 snapshots 삭제 및 prune</span>
-</span></span><span style=display:flex><span>$ restic -r rclone:infradb:restic -p passwd forget --keep-last <span style=color:#ae81ff>1</span> --prune
+</span></span><span style=display:flex><span><span style=color:#6272a4># 최근 1개만 놔두고 snapshots 삭제 및 prune</span>
+</span></span><span style=display:flex><span>$ restic -r rclone:infradb:restic -p passwd forget --keep-last <span style=color:#bd93f9>1</span> --prune
 </span></span><span style=display:flex><span>repository ce850667 opened successfully, password is correct
-</span></span><span style=display:flex><span>Applying Policy: keep <span style=color:#ae81ff>1</span> latest snapshots
-</span></span><span style=display:flex><span>keep <span style=color:#ae81ff>1</span> snapshots:
+</span></span><span style=display:flex><span>Applying Policy: keep <span style=color:#bd93f9>1</span> latest snapshots
+</span></span><span style=display:flex><span>keep <span style=color:#bd93f9>1</span> snapshots:
 </span></span><span style=display:flex><span>ID        Time                 Host        Tags        Reasons        Paths
 </span></span><span style=display:flex><span>---------------------------------------------------------------------------------------------
 </span></span><span style=display:flex><span>eb1e56c7  2021-11-25 15:44:54  centos1                 last snapshot  /home/cdecl/temp/mvcapp
 </span></span><span style=display:flex><span>---------------------------------------------------------------------------------------------
-</span></span><span style=display:flex><span><span style=color:#ae81ff>1</span> snapshots
+</span></span><span style=display:flex><span><span style=color:#bd93f9>1</span> snapshots
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>remove <span style=color:#ae81ff>4</span> snapshots:
+</span></span><span style=display:flex><span>remove <span style=color:#bd93f9>4</span> snapshots:
 </span></span><span style=display:flex><span>ID        Time                 Host        Tags        Paths
 </span></span><span style=display:flex><span>------------------------------------------------------------------------------
 </span></span><span style=display:flex><span>a3737738  2021-11-25 15:44:05  centos1                 /home/cdecl/temp/mvcapp
@@ -864,43 +864,43 @@ Google Cloud Storage, Other Services via rclone 등 지원
 </span></span><span style=display:flex><span>0e83568a  2021-11-25 15:44:51  centos1                 /home/cdecl/temp/mvcapp
 </span></span><span style=display:flex><span>4041e3ca  2021-11-25 15:44:53  centos1                 /home/cdecl/temp/mvcapp
 </span></span><span style=display:flex><span>------------------------------------------------------------------------------
-</span></span><span style=display:flex><span><span style=color:#ae81ff>4</span> snapshots
+</span></span><span style=display:flex><span><span style=color:#bd93f9>4</span> snapshots
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#f92672>[</span>0:00<span style=color:#f92672>]</span> 100.00%  <span style=color:#ae81ff>4</span> / <span style=color:#ae81ff>4</span> files deleted
-</span></span><span style=display:flex><span><span style=color:#ae81ff>4</span> snapshots have been removed, running prune
+</span></span><span style=display:flex><span><span style=color:#ff79c6>[</span>0:00<span style=color:#ff79c6>]</span> 100.00%  <span style=color:#bd93f9>4</span> / <span style=color:#bd93f9>4</span> files deleted
+</span></span><span style=display:flex><span><span style=color:#bd93f9>4</span> snapshots have been removed, running prune
 </span></span><span style=display:flex><span>loading indexes...
 </span></span><span style=display:flex><span>loading all snapshots...
-</span></span><span style=display:flex><span>finding data that is still in use <span style=color:#66d9ef>for</span> <span style=color:#ae81ff>1</span> snapshots
-</span></span><span style=display:flex><span><span style=color:#f92672>[</span>0:00<span style=color:#f92672>]</span> 100.00%  <span style=color:#ae81ff>1</span> / <span style=color:#ae81ff>1</span> snapshots
+</span></span><span style=display:flex><span>finding data that is still in use <span style=color:#ff79c6>for</span> <span style=color:#bd93f9>1</span> snapshots
+</span></span><span style=display:flex><span><span style=color:#ff79c6>[</span>0:00<span style=color:#ff79c6>]</span> 100.00%  <span style=color:#bd93f9>1</span> / <span style=color:#bd93f9>1</span> snapshots
 </span></span><span style=display:flex><span>searching used packs...
-</span></span><span style=display:flex><span>collecting packs <span style=color:#66d9ef>for</span> deletion and repacking
-</span></span><span style=display:flex><span><span style=color:#f92672>[</span>0:00<span style=color:#f92672>]</span> 100.00%  <span style=color:#ae81ff>8</span> / <span style=color:#ae81ff>8</span> packs processed
+</span></span><span style=display:flex><span>collecting packs <span style=color:#ff79c6>for</span> deletion and repacking
+</span></span><span style=display:flex><span><span style=color:#ff79c6>[</span>0:00<span style=color:#ff79c6>]</span> 100.00%  <span style=color:#bd93f9>8</span> / <span style=color:#bd93f9>8</span> packs processed
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>to repack:           <span style=color:#ae81ff>39</span> blobs / 47.305 KiB
-</span></span><span style=display:flex><span>this removes          <span style=color:#ae81ff>2</span> blobs / <span style=color:#ae81ff>1007</span> B
-</span></span><span style=display:flex><span>to delete:            <span style=color:#ae81ff>6</span> blobs / 2.950 KiB
-</span></span><span style=display:flex><span>total prune:          <span style=color:#ae81ff>8</span> blobs / 3.934 KiB
-</span></span><span style=display:flex><span>remaining:          <span style=color:#ae81ff>117</span> blobs / 4.858 MiB
-</span></span><span style=display:flex><span>unused size after prune: <span style=color:#ae81ff>0</span> B <span style=color:#f92672>(</span>0.00% of remaining size<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>to repack:           <span style=color:#bd93f9>39</span> blobs / 47.305 KiB
+</span></span><span style=display:flex><span>this removes          <span style=color:#bd93f9>2</span> blobs / <span style=color:#bd93f9>1007</span> B
+</span></span><span style=display:flex><span>to delete:            <span style=color:#bd93f9>6</span> blobs / 2.950 KiB
+</span></span><span style=display:flex><span>total prune:          <span style=color:#bd93f9>8</span> blobs / 3.934 KiB
+</span></span><span style=display:flex><span>remaining:          <span style=color:#bd93f9>117</span> blobs / 4.858 MiB
+</span></span><span style=display:flex><span>unused size after prune: <span style=color:#bd93f9>0</span> B <span style=color:#ff79c6>(</span>0.00% of remaining size<span style=color:#ff79c6>)</span>
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>repacking packs
-</span></span><span style=display:flex><span><span style=color:#f92672>[</span>0:00<span style=color:#f92672>]</span> 100.00%  <span style=color:#ae81ff>2</span> / <span style=color:#ae81ff>2</span> packs repacked
+</span></span><span style=display:flex><span><span style=color:#ff79c6>[</span>0:00<span style=color:#ff79c6>]</span> 100.00%  <span style=color:#bd93f9>2</span> / <span style=color:#bd93f9>2</span> packs repacked
 </span></span><span style=display:flex><span>rebuilding index
-</span></span><span style=display:flex><span><span style=color:#f92672>[</span>0:00<span style=color:#f92672>]</span> 100.00%  <span style=color:#ae81ff>5</span> / <span style=color:#ae81ff>5</span> packs processed
+</span></span><span style=display:flex><span><span style=color:#ff79c6>[</span>0:00<span style=color:#ff79c6>]</span> 100.00%  <span style=color:#bd93f9>5</span> / <span style=color:#bd93f9>5</span> packs processed
 </span></span><span style=display:flex><span>deleting obsolete index files
-</span></span><span style=display:flex><span><span style=color:#f92672>[</span>0:00<span style=color:#f92672>]</span> 100.00%  <span style=color:#ae81ff>1</span> / <span style=color:#ae81ff>1</span> files deleted
-</span></span><span style=display:flex><span>removing <span style=color:#ae81ff>5</span> old packs
-</span></span><span style=display:flex><span><span style=color:#f92672>[</span>0:00<span style=color:#f92672>]</span> 100.00%  <span style=color:#ae81ff>5</span> / <span style=color:#ae81ff>5</span> files deleted
-</span></span><span style=display:flex><span><span style=color:#66d9ef>done</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>[</span>0:00<span style=color:#ff79c6>]</span> 100.00%  <span style=color:#bd93f9>1</span> / <span style=color:#bd93f9>1</span> files deleted
+</span></span><span style=display:flex><span>removing <span style=color:#bd93f9>5</span> old packs
+</span></span><span style=display:flex><span><span style=color:#ff79c6>[</span>0:00<span style=color:#ff79c6>]</span> 100.00%  <span style=color:#bd93f9>5</span> / <span style=color:#bd93f9>5</span> files deleted
+</span></span><span style=display:flex><span><span style=color:#ff79c6>done</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#75715e># snapshots 확인</span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># snapshots 확인</span>
 </span></span><span style=display:flex><span>$ restic -r rclone:infradb:restic -p passwd snapshots
 </span></span><span style=display:flex><span>repository ce850667 opened successfully, password is correct
 </span></span><span style=display:flex><span>ID        Time                 Host        Tags        Paths
 </span></span><span style=display:flex><span>------------------------------------------------------------------------------
 </span></span><span style=display:flex><span>eb1e56c7  2021-11-25 15:44:54  centos1                 /home/cdecl/temp/mvcapp
 </span></span><span style=display:flex><span>------------------------------------------------------------------------------
-</span></span><span style=display:flex><span><span style=color:#ae81ff>1</span> snapshots
+</span></span><span style=display:flex><span><span style=color:#bd93f9>1</span> snapshots
 </span></span></code></pre></div><ul><li>forget 주요 인수</li></ul><pre tabindex=0><code>--keep-last n never delete the n last (most recent) snapshots
 --keep-hourly n for the last n hours in which a snapshot was made, keep only the last snapshot for each hour.
 --keep-daily n for the last n days which have one or more snapshots, only keep the last one for that day.
@@ -912,4 +912,4 @@ Google Cloud Storage, Other Services via rclone 등 지원
 <span>Powered by
 <a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
 <a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg viewBox="0 0 12 6" fill="currentColor"><path d="M12 6H0l6-6z"/></svg>
-</a><script>let menu=document.getElementById("menu");if(menu){const e=localStorage.getItem("menu-scroll-position");e&&(menu.scrollLeft=parseInt(e,10)),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}}document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{const e=document.querySelector("html");e.dataset.theme==="dark"?(e.dataset.theme="light",localStorage.setItem("pref-theme","light")):(e.dataset.theme="dark",localStorage.setItem("pref-theme","dark"))})</script></body></html>
+</a><script>let menu=document.getElementById("menu");if(menu){const e=localStorage.getItem("menu-scroll-position");e&&(menu.scrollLeft=parseInt(e,10)),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}}document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{const e=document.querySelector("html");e.dataset.theme==="dark"?(e.dataset.theme="light",localStorage.setItem("pref-theme","light")):(e.dataset.theme="dark",localStorage.setItem("pref-theme","dark"))})</script><script>document.querySelectorAll("pre > code").forEach(e=>{const n=e.parentNode.parentNode,t=document.createElement("button");t.classList.add("copy-code"),t.innerHTML="copy";function s(){t.innerHTML="copied!",setTimeout(()=>{t.innerHTML="copy"},2e3)}t.addEventListener("click",t=>{if("clipboard"in navigator){navigator.clipboard.writeText(e.textContent),s();return}const n=document.createRange();n.selectNodeContents(e);const o=window.getSelection();o.removeAllRanges(),o.addRange(n);try{document.execCommand("copy"),s()}catch{}o.removeRange(n)}),n.classList.contains("highlight")?n.appendChild(t):n.parentNode.firstChild==n||(e.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName=="TABLE"?e.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(t):e.parentNode.appendChild(t))})</script></body></html>

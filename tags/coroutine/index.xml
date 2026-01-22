@@ -22,30 +22,30 @@
 &lt;li&gt;&lt;code&gt;await&lt;/code&gt;는 다른 코루틴의 실행이 완료될 때까지 대기&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;asyncio.sleep()&lt;/code&gt;은 I/O 작업을 시뮬레이션하는 용도로 자주 사용됨&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-python" data-lang="python"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;import&lt;/span&gt; asyncio
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;from&lt;/span&gt; datetime &lt;span style="color:#f92672"&gt;import&lt;/span&gt; datetime
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-python" data-lang="python"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;import&lt;/span&gt; asyncio
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;from&lt;/span&gt; datetime &lt;span style="color:#ff79c6"&gt;import&lt;/span&gt; datetime
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;def&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;time_log&lt;/span&gt;(step):
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; print(datetime&lt;span style="color:#f92672"&gt;.&lt;/span&gt;now()&lt;span style="color:#f92672"&gt;.&lt;/span&gt;strftime(&lt;span style="color:#e6db74"&gt;&amp;#39;%H:%M:%S&amp;#39;&lt;/span&gt;), step)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;def&lt;/span&gt; &lt;span style="color:#50fa7b"&gt;time_log&lt;/span&gt;(step):
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#8be9fd;font-style:italic"&gt;print&lt;/span&gt;(datetime&lt;span style="color:#ff79c6"&gt;.&lt;/span&gt;now()&lt;span style="color:#ff79c6"&gt;.&lt;/span&gt;strftime(&lt;span style="color:#f1fa8c"&gt;&amp;#39;%H:%M:%S&amp;#39;&lt;/span&gt;), step)
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;async&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;def&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;async_sleep&lt;/span&gt;():
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;await&lt;/span&gt; asyncio&lt;span style="color:#f92672"&gt;.&lt;/span&gt;sleep(&lt;span style="color:#ae81ff"&gt;2&lt;/span&gt;)
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; time_log(&lt;span style="color:#e6db74"&gt;&amp;#39;async_sleep&amp;#39;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;async&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;def&lt;/span&gt; &lt;span style="color:#50fa7b"&gt;async_sleep&lt;/span&gt;():
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;await&lt;/span&gt; asyncio&lt;span style="color:#ff79c6"&gt;.&lt;/span&gt;sleep(&lt;span style="color:#bd93f9"&gt;2&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; time_log(&lt;span style="color:#f1fa8c"&gt;&amp;#39;async_sleep&amp;#39;&lt;/span&gt;)
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;async&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;def&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;async_execute&lt;/span&gt;():
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; time_log(&lt;span style="color:#e6db74"&gt;&amp;#39;start&amp;#39;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;async&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;def&lt;/span&gt; &lt;span style="color:#50fa7b"&gt;async_execute&lt;/span&gt;():
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; time_log(&lt;span style="color:#f1fa8c"&gt;&amp;#39;start&amp;#39;&lt;/span&gt;)
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;await&lt;/span&gt; async_sleep()
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;await&lt;/span&gt; async_sleep()
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;await&lt;/span&gt; async_sleep()
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;await&lt;/span&gt; async_sleep()
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; time_log(&lt;span style="color:#e6db74"&gt;&amp;#39;end&amp;#39;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; time_log(&lt;span style="color:#f1fa8c"&gt;&amp;#39;end&amp;#39;&lt;/span&gt;)
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;def&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;main&lt;/span&gt;():
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; asyncio&lt;span style="color:#f92672"&gt;.&lt;/span&gt;run(async_execute())
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;def&lt;/span&gt; &lt;span style="color:#50fa7b"&gt;main&lt;/span&gt;():
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; asyncio&lt;span style="color:#ff79c6"&gt;.&lt;/span&gt;run(async_execute())
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;if&lt;/span&gt; __name__ &lt;span style="color:#f92672"&gt;==&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;__main__&amp;#39;&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;if&lt;/span&gt; &lt;span style="color:#8be9fd;font-style:italic"&gt;__name__&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;==&lt;/span&gt; &lt;span style="color:#f1fa8c"&gt;&amp;#39;__main__&amp;#39;&lt;/span&gt;:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; main()
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;[&lt;/span&gt;Running&lt;span style="color:#f92672"&gt;]&lt;/span&gt; set PYTHONIOENCODING&lt;span style="color:#f92672"&gt;=&lt;/span&gt;utf8 &lt;span style="color:#f92672"&gt;&amp;amp;&amp;amp;&lt;/span&gt; python -u tempCodeRunnerFile.python
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;[&lt;/span&gt;Running&lt;span style="color:#ff79c6"&gt;]&lt;/span&gt; &lt;span style="color:#8be9fd;font-style:italic"&gt;set&lt;/span&gt; &lt;span style="color:#8be9fd;font-style:italic"&gt;PYTHONIOENCODING&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;utf8 &lt;span style="color:#ff79c6"&gt;&amp;amp;&amp;amp;&lt;/span&gt; python -u tempCodeRunnerFile.python
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;11:39:00 start
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;11:39:02 async_sleep
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;11:39:04 async_sleep

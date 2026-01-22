@@ -16,19 +16,19 @@
 &lt;li&gt;vcpkg 통해서 패키지 설치&lt;/li&gt;
 &lt;li&gt;header-only로 바로 사용가능하나 OpenSSL 필요시 패키지 설치가 용이&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# --triplet=x64-windows-static&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ vcpkg.exe install cpp-httplib openssl --triplet&lt;span style="color:#f92672"&gt;=&lt;/span&gt;x64-windows-static
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# --triplet=x64-windows-static&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ vcpkg.exe install cpp-httplib openssl --triplet&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;x64-windows-static
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;...
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;The package cpp-httplib:x64-windows-static is header only and can be used from CMake via:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; find_path&lt;span style="color:#f92672"&gt;(&lt;/span&gt;CPP_HTTPLIB_INCLUDE_DIRS &lt;span style="color:#e6db74"&gt;&amp;#34;httplib.h&amp;#34;&lt;/span&gt;&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; target_include_directories&lt;span style="color:#f92672"&gt;(&lt;/span&gt;main PRIVATE &lt;span style="color:#e6db74"&gt;${&lt;/span&gt;CPP_HTTPLIB_INCLUDE_DIRS&lt;span style="color:#e6db74"&gt;}&lt;/span&gt;&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; find_path&lt;span style="color:#ff79c6"&gt;(&lt;/span&gt;CPP_HTTPLIB_INCLUDE_DIRS &lt;span style="color:#f1fa8c"&gt;&amp;#34;httplib.h&amp;#34;&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; target_include_directories&lt;span style="color:#ff79c6"&gt;(&lt;/span&gt;main PRIVATE &lt;span style="color:#f1fa8c"&gt;${&lt;/span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;CPP_HTTPLIB_INCLUDE_DIRS&lt;/span&gt;&lt;span style="color:#f1fa8c"&gt;}&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;)&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;The package openssl is compatible with built-in CMake targets:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; find_package&lt;span style="color:#f92672"&gt;(&lt;/span&gt;OpenSSL REQUIRED&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; target_link_libraries&lt;span style="color:#f92672"&gt;(&lt;/span&gt;main PRIVATE OpenSSL::SSL OpenSSL::Crypto&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; find_package&lt;span style="color:#ff79c6"&gt;(&lt;/span&gt;OpenSSL REQUIRED&lt;span style="color:#ff79c6"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; target_link_libraries&lt;span style="color:#ff79c6"&gt;(&lt;/span&gt;main PRIVATE OpenSSL::SSL OpenSSL::Crypto&lt;span style="color:#ff79c6"&gt;)&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id="json-test"&gt;Json test&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="https://github.com/nlohmann/json"&gt;https://github.com/nlohmann/json&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
@@ -51,109 +51,109 @@ target_link_libraries(main PRIVATE nlohmann_json nlohmann_json::nlohmann_json)
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-cpp" data-lang="cpp"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#define CPPHTTPLIB_OPENSSL_SUPPORT
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#include&lt;/span&gt; &lt;span style="color:#75715e"&gt;&amp;lt;httplib.h&amp;gt;&lt;/span&gt;&lt;span style="color:#75715e"&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#include&lt;/span&gt; &lt;span style="color:#75715e"&gt;&amp;lt;iostream&amp;gt;&lt;/span&gt;&lt;span style="color:#75715e"&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;using&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;namespace&lt;/span&gt; std;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-cpp" data-lang="cpp"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;#define CPPHTTPLIB_OPENSSL_SUPPORT
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;#include&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;&amp;lt;httplib.h&amp;gt;&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;#include&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;&amp;lt;iostream&amp;gt;&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;using&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;namespace&lt;/span&gt; std;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#include&lt;/span&gt; &lt;span style="color:#75715e"&gt;&amp;lt;nlohmann/json.hpp&amp;gt;&lt;/span&gt;&lt;span style="color:#75715e"&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;using&lt;/span&gt; json &lt;span style="color:#f92672"&gt;=&lt;/span&gt; nlohmann&lt;span style="color:#f92672"&gt;::&lt;/span&gt;json;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;#include&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;&amp;lt;nlohmann/json.hpp&amp;gt;&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;using&lt;/span&gt; json &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; nlohmann&lt;span style="color:#ff79c6"&gt;::&lt;/span&gt;json;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;void&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;HttpRequest&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8be9fd"&gt;void&lt;/span&gt; &lt;span style="color:#50fa7b"&gt;HttpRequest&lt;/span&gt;()
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; httplib&lt;span style="color:#f92672"&gt;::&lt;/span&gt;Client cli(&lt;span style="color:#e6db74"&gt;&amp;#34;https://httpbin.org&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; httplib&lt;span style="color:#ff79c6"&gt;::&lt;/span&gt;Client cli(&lt;span style="color:#f1fa8c"&gt;&amp;#34;https://httpbin.org&amp;#34;&lt;/span&gt;);
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; {
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;auto&lt;/span&gt; resp &lt;span style="color:#f92672"&gt;=&lt;/span&gt; cli.Get(&lt;span style="color:#e6db74"&gt;&amp;#34;/get&amp;#34;&lt;/span&gt;);
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; cout &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;status: &amp;#34;&lt;/span&gt; &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; resp&lt;span style="color:#f92672"&gt;-&amp;gt;&lt;/span&gt;status &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; cout &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; resp&lt;span style="color:#f92672"&gt;-&amp;gt;&lt;/span&gt;body &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;auto&lt;/span&gt; resp &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; cli.Get(&lt;span style="color:#f1fa8c"&gt;&amp;#34;/get&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; cout &lt;span style="color:#ff79c6"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style="color:#f1fa8c"&gt;&amp;#34;status: &amp;#34;&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;&amp;lt;&amp;lt;&lt;/span&gt; resp&lt;span style="color:#ff79c6"&gt;-&amp;gt;&lt;/span&gt;status &lt;span style="color:#ff79c6"&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; cout &lt;span style="color:#ff79c6"&gt;&amp;lt;&amp;lt;&lt;/span&gt; resp&lt;span style="color:#ff79c6"&gt;-&amp;gt;&lt;/span&gt;body &lt;span style="color:#ff79c6"&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; {
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;auto&lt;/span&gt; resp &lt;span style="color:#f92672"&gt;=&lt;/span&gt; cli.Post(&lt;span style="color:#e6db74"&gt;&amp;#34;/post&amp;#34;&lt;/span&gt;);
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; cout &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;status: &amp;#34;&lt;/span&gt; &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; resp&lt;span style="color:#f92672"&gt;-&amp;gt;&lt;/span&gt;status &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; cout &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; resp&lt;span style="color:#f92672"&gt;-&amp;gt;&lt;/span&gt;body &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;auto&lt;/span&gt; resp &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; cli.Post(&lt;span style="color:#f1fa8c"&gt;&amp;#34;/post&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; cout &lt;span style="color:#ff79c6"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style="color:#f1fa8c"&gt;&amp;#34;status: &amp;#34;&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;&amp;lt;&amp;lt;&lt;/span&gt; resp&lt;span style="color:#ff79c6"&gt;-&amp;gt;&lt;/span&gt;status &lt;span style="color:#ff79c6"&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; cout &lt;span style="color:#ff79c6"&gt;&amp;lt;&amp;lt;&lt;/span&gt; resp&lt;span style="color:#ff79c6"&gt;-&amp;gt;&lt;/span&gt;body &lt;span style="color:#ff79c6"&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;auto&lt;/span&gt; js &lt;span style="color:#f92672"&gt;=&lt;/span&gt; json&lt;span style="color:#f92672"&gt;::&lt;/span&gt;parse(resp&lt;span style="color:#f92672"&gt;-&amp;gt;&lt;/span&gt;body);
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; cout &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;User-Agent: &amp;#34;&lt;/span&gt; &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; js[&lt;span style="color:#e6db74"&gt;&amp;#34;headers&amp;#34;&lt;/span&gt;][&lt;span style="color:#e6db74"&gt;&amp;#34;User-Agent&amp;#34;&lt;/span&gt;] &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;auto&lt;/span&gt; js &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; json&lt;span style="color:#ff79c6"&gt;::&lt;/span&gt;parse(resp&lt;span style="color:#ff79c6"&gt;-&amp;gt;&lt;/span&gt;body);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; cout &lt;span style="color:#ff79c6"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style="color:#f1fa8c"&gt;&amp;#34;User-Agent: &amp;#34;&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;&amp;lt;&amp;lt;&lt;/span&gt; js[&lt;span style="color:#f1fa8c"&gt;&amp;#34;headers&amp;#34;&lt;/span&gt;][&lt;span style="color:#f1fa8c"&gt;&amp;#34;User-Agent&amp;#34;&lt;/span&gt;] &lt;span style="color:#ff79c6"&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;main&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8be9fd"&gt;int&lt;/span&gt; &lt;span style="color:#50fa7b"&gt;main&lt;/span&gt;()
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;try&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;try&lt;/span&gt; {
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; HttpRequest();
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;catch&lt;/span&gt; (exception &lt;span style="color:#f92672"&gt;&amp;amp;&lt;/span&gt;e) {
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; cerr &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; e.what() &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;catch&lt;/span&gt; (exception &lt;span style="color:#ff79c6"&gt;&amp;amp;&lt;/span&gt;e) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; cerr &lt;span style="color:#ff79c6"&gt;&amp;lt;&amp;lt;&lt;/span&gt; e.what() &lt;span style="color:#ff79c6"&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;catch&lt;/span&gt; (...) {
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; cerr &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;catch ...&amp;#34;&lt;/span&gt; &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;catch&lt;/span&gt; (...) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; cerr &lt;span style="color:#ff79c6"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style="color:#f1fa8c"&gt;&amp;#34;catch ...&amp;#34;&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;return&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;return&lt;/span&gt; &lt;span style="color:#bd93f9"&gt;0&lt;/span&gt;;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="cmakeliststxt"&gt;CMakeLists.txt&lt;/h3&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-cmake" data-lang="cmake"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cmake_minimum_required(&lt;span style="color:#e6db74"&gt;VERSION&lt;/span&gt; &lt;span style="color:#e6db74"&gt;3.11&lt;/span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;project(&lt;span style="color:#e6db74"&gt;main&lt;/span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;set(&lt;span style="color:#e6db74"&gt;CMAKE_CXX_STANDARD&lt;/span&gt; &lt;span style="color:#e6db74"&gt;17&lt;/span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;add_executable(&lt;span style="color:#e6db74"&gt;main&lt;/span&gt; &lt;span style="color:#e6db74"&gt;main.cpp&lt;/span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;target_compile_options(&lt;span style="color:#e6db74"&gt;main&lt;/span&gt; &lt;span style="color:#e6db74"&gt;PRIVATE&lt;/span&gt; &lt;span style="color:#e6db74"&gt;/MT&lt;/span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;find_package(&lt;span style="color:#e6db74"&gt;OpenSSL&lt;/span&gt; &lt;span style="color:#e6db74"&gt;REQUIRED&lt;/span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;target_link_libraries(&lt;span style="color:#e6db74"&gt;main&lt;/span&gt; &lt;span style="color:#e6db74"&gt;PRIVATE&lt;/span&gt; &lt;span style="color:#e6db74"&gt;OpenSSL::SSL&lt;/span&gt; &lt;span style="color:#e6db74"&gt;OpenSSL::Crypto&lt;/span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;find_path(&lt;span style="color:#e6db74"&gt;CPP_HTTPLIB_INCLUDE_DIRS&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;httplib.h&amp;#34;&lt;/span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;target_include_directories(&lt;span style="color:#e6db74"&gt;main&lt;/span&gt; &lt;span style="color:#e6db74"&gt;PRIVATE&lt;/span&gt; &lt;span style="color:#f92672"&gt;${&lt;/span&gt;CPP_HTTPLIB_INCLUDE_DIRS&lt;span style="color:#f92672"&gt;}&lt;/span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;find_package(&lt;span style="color:#e6db74"&gt;nlohmann_json&lt;/span&gt; &lt;span style="color:#e6db74"&gt;CONFIG&lt;/span&gt; &lt;span style="color:#e6db74"&gt;REQUIRED&lt;/span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;target_link_libraries(&lt;span style="color:#e6db74"&gt;main&lt;/span&gt; &lt;span style="color:#e6db74"&gt;PRIVATE&lt;/span&gt; &lt;span style="color:#e6db74"&gt;nlohmann_json&lt;/span&gt; &lt;span style="color:#e6db74"&gt;nlohmann_json::nlohmann_json&lt;/span&gt;)&lt;span style="color:#960050;background-color:#1e0010"&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ mkdir build &lt;span style="color:#f92672"&gt;&amp;amp;&amp;amp;&lt;/span&gt; cd build
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-cmake" data-lang="cmake"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;cmake_minimum_required&lt;/span&gt;(&lt;span style="color:#f1fa8c"&gt;VERSION&lt;/span&gt; &lt;span style="color:#f1fa8c"&gt;3.11&lt;/span&gt;)
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# x64-windows-static&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ cmake -G &lt;span style="color:#e6db74"&gt;&amp;#34;Visual Studio 16 2019&amp;#34;&lt;/span&gt; -A x64 .. -DCMAKE_TOOLCHAIN_FILE&lt;span style="color:#f92672"&gt;=&lt;/span&gt;D:/Lib/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET&lt;span style="color:#f92672"&gt;=&lt;/span&gt;x64-windows-static
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;project&lt;/span&gt;(&lt;span style="color:#f1fa8c"&gt;main&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;set&lt;/span&gt;(&lt;span style="color:#f1fa8c"&gt;CMAKE_CXX_STANDARD&lt;/span&gt; &lt;span style="color:#f1fa8c"&gt;17&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;add_executable&lt;/span&gt;(&lt;span style="color:#f1fa8c"&gt;main&lt;/span&gt; &lt;span style="color:#f1fa8c"&gt;main.cpp&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;target_compile_options&lt;/span&gt;(&lt;span style="color:#f1fa8c"&gt;main&lt;/span&gt; &lt;span style="color:#f1fa8c"&gt;PRIVATE&lt;/span&gt; &lt;span style="color:#f1fa8c"&gt;/MT&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;find_package&lt;/span&gt;(&lt;span style="color:#f1fa8c"&gt;OpenSSL&lt;/span&gt; &lt;span style="color:#f1fa8c"&gt;REQUIRED&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;target_link_libraries&lt;/span&gt;(&lt;span style="color:#f1fa8c"&gt;main&lt;/span&gt; &lt;span style="color:#f1fa8c"&gt;PRIVATE&lt;/span&gt; &lt;span style="color:#f1fa8c"&gt;OpenSSL::SSL&lt;/span&gt; &lt;span style="color:#f1fa8c"&gt;OpenSSL::Crypto&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;find_path&lt;/span&gt;(&lt;span style="color:#f1fa8c"&gt;CPP_HTTPLIB_INCLUDE_DIRS&lt;/span&gt; &lt;span style="color:#f1fa8c"&gt;&amp;#34;httplib.h&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;target_include_directories&lt;/span&gt;(&lt;span style="color:#f1fa8c"&gt;main&lt;/span&gt; &lt;span style="color:#f1fa8c"&gt;PRIVATE&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;${&lt;/span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;CPP_HTTPLIB_INCLUDE_DIRS&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;}&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;find_package&lt;/span&gt;(&lt;span style="color:#f1fa8c"&gt;nlohmann_json&lt;/span&gt; &lt;span style="color:#f1fa8c"&gt;CONFIG&lt;/span&gt; &lt;span style="color:#f1fa8c"&gt;REQUIRED&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;target_link_libraries&lt;/span&gt;(&lt;span style="color:#f1fa8c"&gt;main&lt;/span&gt; &lt;span style="color:#f1fa8c"&gt;PRIVATE&lt;/span&gt; &lt;span style="color:#f1fa8c"&gt;nlohmann_json&lt;/span&gt; &lt;span style="color:#f1fa8c"&gt;nlohmann_json::nlohmann_json&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ mkdir build &lt;span style="color:#ff79c6"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span style="color:#8be9fd;font-style:italic"&gt;cd&lt;/span&gt; build
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# x64-windows-static&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ cmake -G &lt;span style="color:#f1fa8c"&gt;&amp;#34;Visual Studio 16 2019&amp;#34;&lt;/span&gt; -A x64 .. -DCMAKE_TOOLCHAIN_FILE&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;D:/Lib/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;x64-windows-static
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="build--run"&gt;Build &amp;amp; Run&lt;/h3&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# build &lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ echo cmake --build . --config Release &amp;gt; make.bat
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# build &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ &lt;span style="color:#8be9fd;font-style:italic"&gt;echo&lt;/span&gt; cmake --build . --config Release &amp;gt; make.bat
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ make.bat
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# run&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ Release&lt;span style="color:#ae81ff"&gt;\m&lt;/span&gt;ain.exe
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;status: &lt;span style="color:#ae81ff"&gt;200&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;{&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;args&amp;#34;&lt;/span&gt;: &lt;span style="color:#f92672"&gt;{}&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;headers&amp;#34;&lt;/span&gt;: &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;Accept&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;*/*&amp;#34;&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;Cache-Control&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;max-stale=0&amp;#34;&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;Host&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;httpbin.org&amp;#34;&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;User-Agent&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;cpp-httplib/0.9&amp;#34;&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;X-Amzn-Trace-Id&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;Root=1-611dba9f-0bdb46bb04c05b410da75cf4&amp;#34;&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;X-Bluecoat-Via&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;ce2cfae06b3f12b4&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;}&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;origin&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;xx.xx.xx.xx&amp;#34;&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;url&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;https://httpbin.org/get&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# run&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ Release&lt;span style="color:#f1fa8c"&gt;\m&lt;/span&gt;ain.exe
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;status: &lt;span style="color:#bd93f9"&gt;200&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f1fa8c"&gt;&amp;#34;args&amp;#34;&lt;/span&gt;: &lt;span style="color:#ff79c6"&gt;{}&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f1fa8c"&gt;&amp;#34;headers&amp;#34;&lt;/span&gt;: &lt;span style="color:#ff79c6"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f1fa8c"&gt;&amp;#34;Accept&amp;#34;&lt;/span&gt;: &lt;span style="color:#f1fa8c"&gt;&amp;#34;*/*&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f1fa8c"&gt;&amp;#34;Cache-Control&amp;#34;&lt;/span&gt;: &lt;span style="color:#f1fa8c"&gt;&amp;#34;max-stale=0&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f1fa8c"&gt;&amp;#34;Host&amp;#34;&lt;/span&gt;: &lt;span style="color:#f1fa8c"&gt;&amp;#34;httpbin.org&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f1fa8c"&gt;&amp;#34;User-Agent&amp;#34;&lt;/span&gt;: &lt;span style="color:#f1fa8c"&gt;&amp;#34;cpp-httplib/0.9&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f1fa8c"&gt;&amp;#34;X-Amzn-Trace-Id&amp;#34;&lt;/span&gt;: &lt;span style="color:#f1fa8c"&gt;&amp;#34;Root=1-611dba9f-0bdb46bb04c05b410da75cf4&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f1fa8c"&gt;&amp;#34;X-Bluecoat-Via&amp;#34;&lt;/span&gt;: &lt;span style="color:#f1fa8c"&gt;&amp;#34;ce2cfae06b3f12b4&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;}&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f1fa8c"&gt;&amp;#34;origin&amp;#34;&lt;/span&gt;: &lt;span style="color:#f1fa8c"&gt;&amp;#34;xx.xx.xx.xx&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f1fa8c"&gt;&amp;#34;url&amp;#34;&lt;/span&gt;: &lt;span style="color:#f1fa8c"&gt;&amp;#34;https://httpbin.org/get&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;status: &lt;span style="color:#ae81ff"&gt;200&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;{&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;args&amp;#34;&lt;/span&gt;: &lt;span style="color:#f92672"&gt;{}&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;data&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;&amp;#34;&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;files&amp;#34;&lt;/span&gt;: &lt;span style="color:#f92672"&gt;{}&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;form&amp;#34;&lt;/span&gt;: &lt;span style="color:#f92672"&gt;{}&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;headers&amp;#34;&lt;/span&gt;: &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;Accept&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;*/*&amp;#34;&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;Content-Length&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;0&amp;#34;&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;Host&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;httpbin.org&amp;#34;&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;User-Agent&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;cpp-httplib/0.9&amp;#34;&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;X-Amzn-Trace-Id&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;Root=1-611dba9f-091d99a41e5b3c023550162f&amp;#34;&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;X-Bluecoat-Via&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;ce2cfae06b3f12b4&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;}&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;json&amp;#34;&lt;/span&gt;: null,
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;origin&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;xx.xx.xx.xx&amp;#34;&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;url&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;https://httpbin.org/post&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;status: &lt;span style="color:#bd93f9"&gt;200&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f1fa8c"&gt;&amp;#34;args&amp;#34;&lt;/span&gt;: &lt;span style="color:#ff79c6"&gt;{}&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f1fa8c"&gt;&amp;#34;data&amp;#34;&lt;/span&gt;: &lt;span style="color:#f1fa8c"&gt;&amp;#34;&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f1fa8c"&gt;&amp;#34;files&amp;#34;&lt;/span&gt;: &lt;span style="color:#ff79c6"&gt;{}&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f1fa8c"&gt;&amp;#34;form&amp;#34;&lt;/span&gt;: &lt;span style="color:#ff79c6"&gt;{}&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f1fa8c"&gt;&amp;#34;headers&amp;#34;&lt;/span&gt;: &lt;span style="color:#ff79c6"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f1fa8c"&gt;&amp;#34;Accept&amp;#34;&lt;/span&gt;: &lt;span style="color:#f1fa8c"&gt;&amp;#34;*/*&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f1fa8c"&gt;&amp;#34;Content-Length&amp;#34;&lt;/span&gt;: &lt;span style="color:#f1fa8c"&gt;&amp;#34;0&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f1fa8c"&gt;&amp;#34;Host&amp;#34;&lt;/span&gt;: &lt;span style="color:#f1fa8c"&gt;&amp;#34;httpbin.org&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f1fa8c"&gt;&amp;#34;User-Agent&amp;#34;&lt;/span&gt;: &lt;span style="color:#f1fa8c"&gt;&amp;#34;cpp-httplib/0.9&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f1fa8c"&gt;&amp;#34;X-Amzn-Trace-Id&amp;#34;&lt;/span&gt;: &lt;span style="color:#f1fa8c"&gt;&amp;#34;Root=1-611dba9f-091d99a41e5b3c023550162f&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f1fa8c"&gt;&amp;#34;X-Bluecoat-Via&amp;#34;&lt;/span&gt;: &lt;span style="color:#f1fa8c"&gt;&amp;#34;ce2cfae06b3f12b4&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;}&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f1fa8c"&gt;&amp;#34;json&amp;#34;&lt;/span&gt;: null,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f1fa8c"&gt;&amp;#34;origin&amp;#34;&lt;/span&gt;: &lt;span style="color:#f1fa8c"&gt;&amp;#34;xx.xx.xx.xx&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f1fa8c"&gt;&amp;#34;url&amp;#34;&lt;/span&gt;: &lt;span style="color:#f1fa8c"&gt;&amp;#34;https://httpbin.org/post&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;User-Agent: &lt;span style="color:#e6db74"&gt;&amp;#34;cpp-httplib/0.9&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;User-Agent: &lt;span style="color:#f1fa8c"&gt;&amp;#34;cpp-httplib/0.9&amp;#34;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description></item></channel></rss>

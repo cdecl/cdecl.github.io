@@ -20,73 +20,73 @@
 &lt;ul&gt;
 &lt;li&gt;alpine 이미지 활용 테스트&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ docker run -it --rm --privileged --name&lt;span style="color:#f92672"&gt;=&lt;/span&gt;dind alpine
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ docker run -it --rm --privileged --name&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;dind alpine
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;Docker 설치 및 실행&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 설치&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# 설치&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ apk add docker
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;fetch http://dl-cdn.alpinelinux.org/alpine/v3.14/main/x86_64/APKINDEX.tar.gz
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;fetch http://dl-cdn.alpinelinux.org/alpine/v3.14/community/x86_64/APKINDEX.tar.gz
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;(&lt;/span&gt;1/13&lt;span style="color:#f92672"&gt;)&lt;/span&gt; Installing ca-certificates &lt;span style="color:#f92672"&gt;(&lt;/span&gt;20191127-r5&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;(&lt;/span&gt;1/13&lt;span style="color:#ff79c6"&gt;)&lt;/span&gt; Installing ca-certificates &lt;span style="color:#ff79c6"&gt;(&lt;/span&gt;20191127-r5&lt;span style="color:#ff79c6"&gt;)&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;...
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;(&lt;/span&gt;13/13&lt;span style="color:#f92672"&gt;)&lt;/span&gt; Installing docker &lt;span style="color:#f92672"&gt;(&lt;/span&gt;20.10.7-r2&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;(&lt;/span&gt;13/13&lt;span style="color:#ff79c6"&gt;)&lt;/span&gt; Installing docker &lt;span style="color:#ff79c6"&gt;(&lt;/span&gt;20.10.7-r2&lt;span style="color:#ff79c6"&gt;)&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Executing docker-20.10.7-r2.pre-install
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Executing busybox-1.33.1-r3.trigger
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Executing ca-certificates-20191127-r5.trigger
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;OK: &lt;span style="color:#ae81ff"&gt;253&lt;/span&gt; MiB in &lt;span style="color:#ae81ff"&gt;27&lt;/span&gt; packages
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;OK: &lt;span style="color:#bd93f9"&gt;253&lt;/span&gt; MiB in &lt;span style="color:#bd93f9"&gt;27&lt;/span&gt; packages
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 실행&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# 실행&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ dockerd 2&amp;gt; /dev/null &amp;amp;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ ps -ef
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;PID USER TIME COMMAND
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; root 0:00 /bin/sh
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ae81ff"&gt;125&lt;/span&gt; root 0:00 dockerd
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ae81ff"&gt;133&lt;/span&gt; root 0:00 containerd --config /var/run/docker/containerd/containerd.toml --log-le
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ae81ff"&gt;260&lt;/span&gt; root 0:00 ps -ef
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#bd93f9"&gt;1&lt;/span&gt; root 0:00 /bin/sh
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#bd93f9"&gt;125&lt;/span&gt; root 0:00 dockerd
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#bd93f9"&gt;133&lt;/span&gt; root 0:00 containerd --config /var/run/docker/containerd/containerd.toml --log-le
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#bd93f9"&gt;260&lt;/span&gt; root 0:00 ps -ef
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;Docker in Docker 테스트&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ cat /etc/*-release
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ cat /etc/*-release
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;3.14.2
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;NAME&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;Alpine Linux&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ID&lt;span style="color:#f92672"&gt;=&lt;/span&gt;alpine
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;VERSION_ID&lt;span style="color:#f92672"&gt;=&lt;/span&gt;3.14.2
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;PRETTY_NAME&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;Alpine Linux v3.14&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;HOME_URL&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;https://alpinelinux.org/&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;BUG_REPORT_URL&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;https://bugs.alpinelinux.org/&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;NAME&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;&lt;span style="color:#f1fa8c"&gt;&amp;#34;Alpine Linux&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;ID&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;alpine
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;VERSION_ID&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;3.14.2
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;PRETTY_NAME&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;&lt;span style="color:#f1fa8c"&gt;&amp;#34;Alpine Linux v3.14&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;HOME_URL&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;&lt;span style="color:#f1fa8c"&gt;&amp;#34;https://alpinelinux.org/&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;BUG_REPORT_URL&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;&lt;span style="color:#f1fa8c"&gt;&amp;#34;https://bugs.alpinelinux.org/&amp;#34;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ docker run --rm ubuntu cat /etc/*-release
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cat: /etc/alpine-release: No such file or directory
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;NAME&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;Ubuntu&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;VERSION&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;20.04.3 LTS (Focal Fossa)&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ID&lt;span style="color:#f92672"&gt;=&lt;/span&gt;ubuntu
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ID_LIKE&lt;span style="color:#f92672"&gt;=&lt;/span&gt;debian
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;PRETTY_NAME&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;Ubuntu 20.04.3 LTS&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;VERSION_ID&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;20.04&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;HOME_URL&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;https://www.ubuntu.com/&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;SUPPORT_URL&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;https://help.ubuntu.com/&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;BUG_REPORT_URL&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;https://bugs.launchpad.net/ubuntu/&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;PRIVACY_POLICY_URL&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;https://www.ubuntu.com/legal/terms-and-policies/privacy-policy&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;VERSION_CODENAME&lt;span style="color:#f92672"&gt;=&lt;/span&gt;focal
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;UBUNTU_CODENAME&lt;span style="color:#f92672"&gt;=&lt;/span&gt;focal
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;NAME&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;&lt;span style="color:#f1fa8c"&gt;&amp;#34;Ubuntu&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;VERSION&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;&lt;span style="color:#f1fa8c"&gt;&amp;#34;20.04.3 LTS (Focal Fossa)&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;ID&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;ubuntu
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;ID_LIKE&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;debian
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;PRETTY_NAME&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;&lt;span style="color:#f1fa8c"&gt;&amp;#34;Ubuntu 20.04.3 LTS&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;VERSION_ID&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;&lt;span style="color:#f1fa8c"&gt;&amp;#34;20.04&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;HOME_URL&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;&lt;span style="color:#f1fa8c"&gt;&amp;#34;https://www.ubuntu.com/&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;SUPPORT_URL&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;&lt;span style="color:#f1fa8c"&gt;&amp;#34;https://help.ubuntu.com/&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;BUG_REPORT_URL&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;&lt;span style="color:#f1fa8c"&gt;&amp;#34;https://bugs.launchpad.net/ubuntu/&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;PRIVACY_POLICY_URL&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;&lt;span style="color:#f1fa8c"&gt;&amp;#34;https://www.ubuntu.com/legal/terms-and-policies/privacy-policy&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;VERSION_CODENAME&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;focal
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;UBUNTU_CODENAME&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;focal
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ docker run --rm centos cat /etc/*-release
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cat: /etc/alpine-release: No such file or directory
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;NAME&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;CentOS Linux&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;VERSION&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;8&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ID&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;centos&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ID_LIKE&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;rhel fedora&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;VERSION_ID&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;8&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;PLATFORM_ID&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;platform:el8&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;PRETTY_NAME&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;CentOS Linux 8&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ANSI_COLOR&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;0;31&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;CPE_NAME&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;cpe:/o:centos:centos:8&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;HOME_URL&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;https://centos.org/&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;BUG_REPORT_URL&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;https://bugs.centos.org/&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;CENTOS_MANTISBT_PROJECT&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;CentOS-8&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;CENTOS_MANTISBT_PROJECT_VERSION&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;8&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;NAME&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;&lt;span style="color:#f1fa8c"&gt;&amp;#34;CentOS Linux&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;VERSION&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;&lt;span style="color:#f1fa8c"&gt;&amp;#34;8&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;ID&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;&lt;span style="color:#f1fa8c"&gt;&amp;#34;centos&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;ID_LIKE&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;&lt;span style="color:#f1fa8c"&gt;&amp;#34;rhel fedora&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;VERSION_ID&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;&lt;span style="color:#f1fa8c"&gt;&amp;#34;8&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;PLATFORM_ID&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;&lt;span style="color:#f1fa8c"&gt;&amp;#34;platform:el8&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;PRETTY_NAME&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;&lt;span style="color:#f1fa8c"&gt;&amp;#34;CentOS Linux 8&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;ANSI_COLOR&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;&lt;span style="color:#f1fa8c"&gt;&amp;#34;0;31&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;CPE_NAME&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;&lt;span style="color:#f1fa8c"&gt;&amp;#34;cpe:/o:centos:centos:8&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;HOME_URL&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;&lt;span style="color:#f1fa8c"&gt;&amp;#34;https://centos.org/&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;BUG_REPORT_URL&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;&lt;span style="color:#f1fa8c"&gt;&amp;#34;https://bugs.centos.org/&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;CENTOS_MANTISBT_PROJECT&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;&lt;span style="color:#f1fa8c"&gt;&amp;#34;CentOS-8&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;CENTOS_MANTISBT_PROJECT_VERSION&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;&lt;span style="color:#f1fa8c"&gt;&amp;#34;8&amp;#34;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="docker-out-of-docker--dood"&gt;Docker out of Docker : &lt;code&gt;DooD&lt;/code&gt;&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;--privileged&lt;/code&gt; 사용의 피하기위한 방법&lt;/li&gt;
@@ -101,35 +101,35 @@
 &lt;li&gt;docker daemon 에서 인터페이스용으로 노출한 unix domain socket&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3 id="docker-ouf-of-docker-실행"&gt;Docker ouf of Docker 실행&lt;/h3&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# volume 으로 docker.sock 을 연결 &lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ docker run -it --rm -v /var/run/docker.sock:/var/run/docker.sock --name&lt;span style="color:#f92672"&gt;=&lt;/span&gt;dood alpine
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# volume 으로 docker.sock 을 연결 &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ docker run -it --rm -v /var/run/docker.sock:/var/run/docker.sock --name&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;dood alpine
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;Docker 설치 및 실행&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 설치&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# 설치&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ apk add docker
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;fetch http://dl-cdn.alpinelinux.org/alpine/v3.14/main/x86_64/APKINDEX.tar.gz
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;fetch http://dl-cdn.alpinelinux.org/alpine/v3.14/community/x86_64/APKINDEX.tar.gz
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;(&lt;/span&gt;1/13&lt;span style="color:#f92672"&gt;)&lt;/span&gt; Installing ca-certificates &lt;span style="color:#f92672"&gt;(&lt;/span&gt;20191127-r5&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;(&lt;/span&gt;1/13&lt;span style="color:#ff79c6"&gt;)&lt;/span&gt; Installing ca-certificates &lt;span style="color:#ff79c6"&gt;(&lt;/span&gt;20191127-r5&lt;span style="color:#ff79c6"&gt;)&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;...
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;(&lt;/span&gt;13/13&lt;span style="color:#f92672"&gt;)&lt;/span&gt; Installing docker &lt;span style="color:#f92672"&gt;(&lt;/span&gt;20.10.7-r2&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;(&lt;/span&gt;13/13&lt;span style="color:#ff79c6"&gt;)&lt;/span&gt; Installing docker &lt;span style="color:#ff79c6"&gt;(&lt;/span&gt;20.10.7-r2&lt;span style="color:#ff79c6"&gt;)&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Executing docker-20.10.7-r2.pre-install
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Executing busybox-1.33.1-r3.trigger
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Executing ca-certificates-20191127-r5.trigger
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;OK: &lt;span style="color:#ae81ff"&gt;253&lt;/span&gt; MiB in &lt;span style="color:#ae81ff"&gt;27&lt;/span&gt; packages
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;OK: &lt;span style="color:#bd93f9"&gt;253&lt;/span&gt; MiB in &lt;span style="color:#bd93f9"&gt;27&lt;/span&gt; packages
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 호스트머신에서 명령을 실행 하므로 자신의 컨테이너가 보임 &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# 호스트머신에서 명령을 실행 하므로 자신의 컨테이너가 보임 &lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ docker ps
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;1a391d12768c alpine &lt;span style="color:#e6db74"&gt;&amp;#34;/bin/sh&amp;#34;&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;2&lt;/span&gt; minutes ago Up &lt;span style="color:#ae81ff"&gt;2&lt;/span&gt; minutes dood
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;1a391d12768c alpine &lt;span style="color:#f1fa8c"&gt;&amp;#34;/bin/sh&amp;#34;&lt;/span&gt; &lt;span style="color:#bd93f9"&gt;2&lt;/span&gt; minutes ago Up &lt;span style="color:#bd93f9"&gt;2&lt;/span&gt; minutes dood
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ docker run -d --rm --name&lt;span style="color:#f92672"&gt;=&lt;/span&gt;ubuntu ubuntu sleep &lt;span style="color:#ae81ff"&gt;10&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ docker run -d --rm --name&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;ubuntu ubuntu sleep &lt;span style="color:#bd93f9"&gt;10&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;d14cfc9ff9cd2b4faecfed5af9e1e1b6dd4a7d1497bed4a6d34faaad64a442f9
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 자신의 컨테이너와 동일한 환경에서의 별도 docker 실행 확인&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# 자신의 컨테이너와 동일한 환경에서의 별도 docker 실행 확인&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ docker ps
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;d14cfc9ff9cd ubuntu &lt;span style="color:#e6db74"&gt;&amp;#34;sleep 10&amp;#34;&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;3&lt;/span&gt; seconds ago Up &lt;span style="color:#ae81ff"&gt;2&lt;/span&gt; seconds ubuntu
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;1a391d12768c alpine &lt;span style="color:#e6db74"&gt;&amp;#34;/bin/sh&amp;#34;&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;6&lt;/span&gt; minutes ago Up &lt;span style="color:#ae81ff"&gt;6&lt;/span&gt; minutes dood
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;d14cfc9ff9cd ubuntu &lt;span style="color:#f1fa8c"&gt;&amp;#34;sleep 10&amp;#34;&lt;/span&gt; &lt;span style="color:#bd93f9"&gt;3&lt;/span&gt; seconds ago Up &lt;span style="color:#bd93f9"&gt;2&lt;/span&gt; seconds ubuntu
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;1a391d12768c alpine &lt;span style="color:#f1fa8c"&gt;&amp;#34;/bin/sh&amp;#34;&lt;/span&gt; &lt;span style="color:#bd93f9"&gt;6&lt;/span&gt; minutes ago Up &lt;span style="color:#bd93f9"&gt;6&lt;/span&gt; minutes dood
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description></item></channel></rss>

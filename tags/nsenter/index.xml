@@ -7,39 +7,39 @@
 &lt;/li&gt;
 &lt;li&gt;docker container는 bridge 네트워크 기반으로 운영이 되므로 Host Network 에서는 노출이 안됨&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# docker 실행 &lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ docker run -d -p 8081:80 --name&lt;span style="color:#f92672"&gt;=&lt;/span&gt;mvcapp cdecl/mvcapp
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# docker 실행 &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ docker run -d -p 8081:80 --name&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;mvcapp cdecl/mvcapp
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;4fafaf418f84bf6541a1301b4422f825c58fa20b11d1190e87a3e23eea7a6825
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Host 에서는 publsh port (listen) 정보만 노출&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ netstat -ntl | grep &lt;span style="color:#ae81ff"&gt;8081&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;tcp6 &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt; :::8081 :::* LISTEN
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# Host 에서는 publsh port (listen) 정보만 노출&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ netstat -ntl | grep &lt;span style="color:#bd93f9"&gt;8081&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;tcp6 &lt;span style="color:#bd93f9"&gt;0&lt;/span&gt; &lt;span style="color:#bd93f9"&gt;0&lt;/span&gt; :::8081 :::* LISTEN
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# ip 현황&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# ip 현황&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ ip a
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;...
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;2: eth0: &amp;lt;BROADCAST,MULTICAST,UP,LOWER_UP&amp;gt; mtu &lt;span style="color:#ae81ff"&gt;1500&lt;/span&gt; qdisc mq state UP group default qlen &lt;span style="color:#ae81ff"&gt;1000&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;2: eth0: &amp;lt;BROADCAST,MULTICAST,UP,LOWER_UP&amp;gt; mtu &lt;span style="color:#bd93f9"&gt;1500&lt;/span&gt; qdisc mq state UP group default qlen &lt;span style="color:#bd93f9"&gt;1000&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; link/ether 00:15:5d:3a:4a:00 brd ff:ff:ff:ff:ff:ff
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; inet 192.168.137.100/24 brd 192.168.137.255 scope global noprefixroute eth0
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; valid_lft forever preferred_lft forever
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;4: docker0: &amp;lt;BROADCAST,MULTICAST,UP,LOWER_UP&amp;gt; mtu &lt;span style="color:#ae81ff"&gt;1500&lt;/span&gt; qdisc noqueue state UP group default &amp;lt;-- docker bridge
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;4: docker0: &amp;lt;BROADCAST,MULTICAST,UP,LOWER_UP&amp;gt; mtu &lt;span style="color:#bd93f9"&gt;1500&lt;/span&gt; qdisc noqueue state UP group default &amp;lt;-- docker bridge
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; link/ether 02:42:58:c6:1b:23 brd ff:ff:ff:ff:ff:ff
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; inet 10.1.0.1/24 brd 10.1.0.255 scope global docker0
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; valid_lft forever preferred_lft forever
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;...
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# bridge network &lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ docker inspect -f &lt;span style="color:#e6db74"&gt;&amp;#39;{{.NetworkSettings.Gateway}}&amp;#39;&lt;/span&gt; mvcapp
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# bridge network &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ docker inspect -f &lt;span style="color:#f1fa8c"&gt;&amp;#39;{{.NetworkSettings.Gateway}}&amp;#39;&lt;/span&gt; mvcapp
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;10.1.0.1
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 라우팅 정보&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# 라우팅 정보&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ netstat -r
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Kernel IP routing table
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Destination Gateway Genmask Flags MSS Window irtt Iface
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;default gateway 0.0.0.0 UG &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt; eth0
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;10.1.0.0 0.0.0.0 255.255.255.0 U &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt; docker0 &amp;lt;-- docker bridge
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;10.42.0.0 0.0.0.0 255.255.255.0 U &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt; cni0
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;192.168.137.0 0.0.0.0 255.255.255.0 U &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt; eth0
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;default gateway 0.0.0.0 UG &lt;span style="color:#bd93f9"&gt;0&lt;/span&gt; &lt;span style="color:#bd93f9"&gt;0&lt;/span&gt; &lt;span style="color:#bd93f9"&gt;0&lt;/span&gt; eth0
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;10.1.0.0 0.0.0.0 255.255.255.0 U &lt;span style="color:#bd93f9"&gt;0&lt;/span&gt; &lt;span style="color:#bd93f9"&gt;0&lt;/span&gt; &lt;span style="color:#bd93f9"&gt;0&lt;/span&gt; docker0 &amp;lt;-- docker bridge
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;10.42.0.0 0.0.0.0 255.255.255.0 U &lt;span style="color:#bd93f9"&gt;0&lt;/span&gt; &lt;span style="color:#bd93f9"&gt;0&lt;/span&gt; &lt;span style="color:#bd93f9"&gt;0&lt;/span&gt; cni0
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;192.168.137.0 0.0.0.0 255.255.255.0 U &lt;span style="color:#bd93f9"&gt;0&lt;/span&gt; &lt;span style="color:#bd93f9"&gt;0&lt;/span&gt; &lt;span style="color:#bd93f9"&gt;0&lt;/span&gt; eth0
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="nsenter"&gt;nsenter&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="https://github.com/jpetazzo/nsenter"&gt;https://github.com/jpetazzo/nsenter&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;

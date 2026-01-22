@@ -7,17 +7,17 @@
 &lt;li&gt;최소 설정 및 기본 항목에 대한 설명&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h5 id="설치-및-적용-centos-7"&gt;설치 및 적용 &lt;code&gt;centos 7&lt;/code&gt;&lt;/h5&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# install &lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# install &lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ sudo yum install haproxy
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# start&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# start&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ sudo systemctl start haproxy
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# status&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# status&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ sudo systemctl status haproxy
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;● haproxy.service - HAProxy Load Balancer
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Loaded: loaded &lt;span style="color:#f92672"&gt;(&lt;/span&gt;/usr/lib/systemd/system/haproxy.service; disabled; vendor preset: disabled&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Active: active &lt;span style="color:#f92672"&gt;(&lt;/span&gt;running&lt;span style="color:#f92672"&gt;)&lt;/span&gt; since 화 2021-11-23 13:55:48 KST; 5s ago
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Main PID: &lt;span style="color:#ae81ff"&gt;227598&lt;/span&gt; &lt;span style="color:#f92672"&gt;(&lt;/span&gt;haproxy-systemd&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Tasks: &lt;span style="color:#ae81ff"&gt;3&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Loaded: loaded &lt;span style="color:#ff79c6"&gt;(&lt;/span&gt;/usr/lib/systemd/system/haproxy.service; disabled; vendor preset: disabled&lt;span style="color:#ff79c6"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Active: active &lt;span style="color:#ff79c6"&gt;(&lt;/span&gt;running&lt;span style="color:#ff79c6"&gt;)&lt;/span&gt; since 화 2021-11-23 13:55:48 KST; 5s ago
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Main PID: &lt;span style="color:#bd93f9"&gt;227598&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;(&lt;/span&gt;haproxy-systemd&lt;span style="color:#ff79c6"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Tasks: &lt;span style="color:#bd93f9"&gt;3&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Memory: 1.9M
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; CGroup: /system.slice/haproxy.service
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ├─227598 /usr/sbin/haproxy-systemd-wrapper -f /etc/haproxy/haproxy.cfg -p /run/haproxy.pid
@@ -28,37 +28,37 @@
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;epoll&lt;/code&gt; 사용&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ haproxy -vv
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ haproxy -vv
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;HA-Proxy version 1.5.18 2016/05/10
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Copyright 2000-2016 Willy Tarreau &amp;lt;willy@haproxy.org&amp;gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Build options :
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; TARGET &lt;span style="color:#f92672"&gt;=&lt;/span&gt; linux2628
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; CPU &lt;span style="color:#f92672"&gt;=&lt;/span&gt; generic
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; CC &lt;span style="color:#f92672"&gt;=&lt;/span&gt; gcc
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; CFLAGS &lt;span style="color:#f92672"&gt;=&lt;/span&gt; -O2 -g -fno-strict-aliasing -DTCP_USER_TIMEOUT&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;18&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; OPTIONS &lt;span style="color:#f92672"&gt;=&lt;/span&gt; USE_LINUX_TPROXY&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; USE_GETADDRINFO&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; USE_ZLIB&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; USE_REGPARM&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; USE_OPENSSL&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; USE_PCRE&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#8be9fd;font-style:italic"&gt;TARGET&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; linux2628
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#8be9fd;font-style:italic"&gt;CPU&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; generic
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#8be9fd;font-style:italic"&gt;CC&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; gcc
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#8be9fd;font-style:italic"&gt;CFLAGS&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; -O2 -g -fno-strict-aliasing -DTCP_USER_TIMEOUT&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;&lt;span style="color:#bd93f9"&gt;18&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#8be9fd;font-style:italic"&gt;OPTIONS&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; &lt;span style="color:#8be9fd;font-style:italic"&gt;USE_LINUX_TPROXY&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;&lt;span style="color:#bd93f9"&gt;1&lt;/span&gt; &lt;span style="color:#8be9fd;font-style:italic"&gt;USE_GETADDRINFO&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;&lt;span style="color:#bd93f9"&gt;1&lt;/span&gt; &lt;span style="color:#8be9fd;font-style:italic"&gt;USE_ZLIB&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;&lt;span style="color:#bd93f9"&gt;1&lt;/span&gt; &lt;span style="color:#8be9fd;font-style:italic"&gt;USE_REGPARM&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;&lt;span style="color:#bd93f9"&gt;1&lt;/span&gt; &lt;span style="color:#8be9fd;font-style:italic"&gt;USE_OPENSSL&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;&lt;span style="color:#bd93f9"&gt;1&lt;/span&gt; &lt;span style="color:#8be9fd;font-style:italic"&gt;USE_PCRE&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;&lt;span style="color:#bd93f9"&gt;1&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Default settings :
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; maxconn &lt;span style="color:#f92672"&gt;=&lt;/span&gt; 2000, bufsize &lt;span style="color:#f92672"&gt;=&lt;/span&gt; 16384, maxrewrite &lt;span style="color:#f92672"&gt;=&lt;/span&gt; 8192, maxpollevents &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;200&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#8be9fd;font-style:italic"&gt;maxconn&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; 2000, &lt;span style="color:#8be9fd;font-style:italic"&gt;bufsize&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; 16384, &lt;span style="color:#8be9fd;font-style:italic"&gt;maxrewrite&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; 8192, &lt;span style="color:#8be9fd;font-style:italic"&gt;maxpollevents&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; &lt;span style="color:#bd93f9"&gt;200&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Encrypted password support via crypt&lt;span style="color:#f92672"&gt;(&lt;/span&gt;3&lt;span style="color:#f92672"&gt;)&lt;/span&gt;: yes
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Encrypted password support via crypt&lt;span style="color:#ff79c6"&gt;(&lt;/span&gt;3&lt;span style="color:#ff79c6"&gt;)&lt;/span&gt;: yes
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Built with zlib version : 1.2.7
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Compression algorithms supported : identity, deflate, gzip
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Built with OpenSSL version : OpenSSL 1.0.2k-fips &lt;span style="color:#ae81ff"&gt;26&lt;/span&gt; Jan &lt;span style="color:#ae81ff"&gt;2017&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Running on OpenSSL version : OpenSSL 1.0.2k-fips &lt;span style="color:#ae81ff"&gt;26&lt;/span&gt; Jan &lt;span style="color:#ae81ff"&gt;2017&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Built with OpenSSL version : OpenSSL 1.0.2k-fips &lt;span style="color:#bd93f9"&gt;26&lt;/span&gt; Jan &lt;span style="color:#bd93f9"&gt;2017&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Running on OpenSSL version : OpenSSL 1.0.2k-fips &lt;span style="color:#bd93f9"&gt;26&lt;/span&gt; Jan &lt;span style="color:#bd93f9"&gt;2017&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;OpenSSL library supports TLS extensions : yes
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;OpenSSL library supports SNI : yes
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;OpenSSL library supports prefer-server-ciphers : yes
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Built with PCRE version : 8.32 2012-11-30
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;PCRE library supports JIT : no &lt;span style="color:#f92672"&gt;(&lt;/span&gt;USE_PCRE_JIT not set&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;PCRE library supports JIT : no &lt;span style="color:#ff79c6"&gt;(&lt;/span&gt;USE_PCRE_JIT not &lt;span style="color:#8be9fd;font-style:italic"&gt;set&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;)&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Built with transparent proxy support using: IP_TRANSPARENT IPV6_TRANSPARENT IP_FREEBIND
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Available polling systems :
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; epoll : pref&lt;span style="color:#f92672"&gt;=&lt;/span&gt;300, test result OK
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; poll : pref&lt;span style="color:#f92672"&gt;=&lt;/span&gt;200, test result OK
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;select&lt;/span&gt; : pref&lt;span style="color:#f92672"&gt;=&lt;/span&gt;150, test result OK
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Total: &lt;span style="color:#ae81ff"&gt;3&lt;/span&gt; &lt;span style="color:#f92672"&gt;(&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;3&lt;/span&gt; usable&lt;span style="color:#f92672"&gt;)&lt;/span&gt;, will use epoll.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; epoll : &lt;span style="color:#8be9fd;font-style:italic"&gt;pref&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;300, &lt;span style="color:#8be9fd;font-style:italic"&gt;test&lt;/span&gt; result OK
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; poll : &lt;span style="color:#8be9fd;font-style:italic"&gt;pref&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;200, &lt;span style="color:#8be9fd;font-style:italic"&gt;test&lt;/span&gt; result OK
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;select&lt;/span&gt; : &lt;span style="color:#8be9fd;font-style:italic"&gt;pref&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;150, &lt;span style="color:#8be9fd;font-style:italic"&gt;test&lt;/span&gt; result OK
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Total: &lt;span style="color:#bd93f9"&gt;3&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;(&lt;/span&gt;&lt;span style="color:#bd93f9"&gt;3&lt;/span&gt; usable&lt;span style="color:#ff79c6"&gt;)&lt;/span&gt;, will use epoll.
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h5 id="기본설정--etchaproxyhaproxycfg"&gt;기본설정 : /etc/haproxy/haproxy.cfg&lt;/h5&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;global&lt;/code&gt; : 전역 설정&lt;/li&gt;

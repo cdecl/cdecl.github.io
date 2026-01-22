@@ -20,36 +20,36 @@
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ curl -LO https://github.com/restic/restic/releases/download/v0.12.1/restic_0.12.1_linux_amd64.bz2
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ curl -LO https://github.com/restic/restic/releases/download/v0.12.1/restic_0.12.1_linux_amd64.bz2
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# install bzip2&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# install bzip2&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ sudo yum install bzip2 -y
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ bunzip2 restic_0.12.1_linux_amd64.bz2
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ mv restic_0.12.1_linux_amd64 restic
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ sudo mv restic /usr/local/bin
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ restic
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ restic
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;restic is a backup program which allows saving multiple revisions of files and
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;directories in an encrypted repository stored on different backends.
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Usage:
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; restic &lt;span style="color:#f92672"&gt;[&lt;/span&gt;command&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; restic &lt;span style="color:#ff79c6"&gt;[&lt;/span&gt;command&lt;span style="color:#ff79c6"&gt;]&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Available Commands:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; backup Create a new backup of files and/or directories
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; cache Operate on local cache directories
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; cache Operate on &lt;span style="color:#8be9fd;font-style:italic"&gt;local&lt;/span&gt; cache directories
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; cat Print internal objects to stdout
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; check Check the repository &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; errors
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; check Check the repository &lt;span style="color:#ff79c6"&gt;for&lt;/span&gt; errors
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; copy Copy snapshots from one repository to another
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; diff Show differences between two snapshots
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; dump Print a backed-up file to stdout
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; find Find a file, a directory or restic IDs
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; forget Remove snapshots from the repository
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; generate Generate manual pages and auto-completion files &lt;span style="color:#f92672"&gt;(&lt;/span&gt;bash, fish, zsh&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; help Help about any command
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; generate Generate manual pages and auto-completion files &lt;span style="color:#ff79c6"&gt;(&lt;/span&gt;bash, fish, zsh&lt;span style="color:#ff79c6"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#8be9fd;font-style:italic"&gt;help&lt;/span&gt; Help about any &lt;span style="color:#8be9fd;font-style:italic"&gt;command&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; init Initialize a new repository
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; key Manage keys &lt;span style="color:#f92672"&gt;(&lt;/span&gt;passwords&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; key Manage keys &lt;span style="color:#ff79c6"&gt;(&lt;/span&gt;passwords&lt;span style="color:#ff79c6"&gt;)&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; list List objects in the repository
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ls List files in a snapshot
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; migrate Apply migrations
@@ -68,10 +68,10 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;hr&gt;
 &lt;h3 id="backup--restore"&gt;Backup &amp;amp; Restore&lt;/h3&gt;
 &lt;h5 id="backup-repository-생성"&gt;Backup Repository 생성&lt;/h5&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Repository 접근을 위한 패드워스 필요, 일단 1111&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# -r, --repo repository repository to backup to or restore from (default: $RESTIC_REPOSITORY)&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# Repository 접근을 위한 패드워스 필요, 일단 1111&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# -r, --repo repository repository to backup to or restore from (default: $RESTIC_REPOSITORY)&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ restic init -r repo
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;enter password &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; new repository:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;enter password &lt;span style="color:#ff79c6"&gt;for&lt;/span&gt; new repository:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;enter password again:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;created restic repository 7f3cfb3e9a at repo
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
@@ -79,38 +79,38 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;the repository. Losing your password means that your data is
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;irrecoverably lost.
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# password 파일 생성, -p 옵션으로 지정 &lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ echo &lt;span style="color:#ae81ff"&gt;1111&lt;/span&gt; &amp;gt; passwd
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# password 파일 생성, -p 옵션으로 지정 &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ &lt;span style="color:#8be9fd;font-style:italic"&gt;echo&lt;/span&gt; &lt;span style="color:#bd93f9"&gt;1111&lt;/span&gt; &amp;gt; passwd
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h5 id="backup--snapshots-생성"&gt;Backup : snapshots 생성&lt;/h5&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Backup &lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# restic -r &amp;lt;repository&amp;gt; -p &amp;lt;passwd file&amp;gt; backup &amp;lt;Source&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# -p, --password-file file file to read the repository password from (default: $RESTIC_PASSWORD_FILE)&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# Backup &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# restic -r &amp;lt;repository&amp;gt; -p &amp;lt;passwd file&amp;gt; backup &amp;lt;Source&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# -p, --password-file file file to read the repository password from (default: $RESTIC_PASSWORD_FILE)&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ restic -r repo -p passwd backup /home/cdecl/temp/mvcapp
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;repository e4ccc49d opened successfully, password is correct
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;no parent snapshot found, will read all files
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;no parent snapshot found, will &lt;span style="color:#8be9fd;font-style:italic"&gt;read&lt;/span&gt; all files
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Files: &lt;span style="color:#ae81ff"&gt;79&lt;/span&gt; new, &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt; changed, &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt; unmodified
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Dirs: &lt;span style="color:#ae81ff"&gt;40&lt;/span&gt; new, &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt; changed, &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt; unmodified
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Files: &lt;span style="color:#bd93f9"&gt;79&lt;/span&gt; new, &lt;span style="color:#bd93f9"&gt;0&lt;/span&gt; changed, &lt;span style="color:#bd93f9"&gt;0&lt;/span&gt; unmodified
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Dirs: &lt;span style="color:#bd93f9"&gt;40&lt;/span&gt; new, &lt;span style="color:#bd93f9"&gt;0&lt;/span&gt; changed, &lt;span style="color:#bd93f9"&gt;0&lt;/span&gt; unmodified
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Added to the repo: 4.854 MiB
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;processed &lt;span style="color:#ae81ff"&gt;79&lt;/span&gt; files, 4.811 MiB in 0:00
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;processed &lt;span style="color:#bd93f9"&gt;79&lt;/span&gt; files, 4.811 MiB in 0:00
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;snapshot 9aff8447 saved
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 파일생성 및 다시백업 &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# 파일생성 및 다시백업 &lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ touch /home/cdecl/temp/mvcapp/test.txt
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ restic -r repo -p passwd backup /home/cdecl/temp/mvcapp
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;repository e4ccc49d opened successfully, password is correct
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;using parent snapshot 9aff8447
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Files: &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; new, &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt; changed, &lt;span style="color:#ae81ff"&gt;79&lt;/span&gt; unmodified
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Dirs: &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt; new, &lt;span style="color:#ae81ff"&gt;4&lt;/span&gt; changed, &lt;span style="color:#ae81ff"&gt;36&lt;/span&gt; unmodified
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Files: &lt;span style="color:#bd93f9"&gt;1&lt;/span&gt; new, &lt;span style="color:#bd93f9"&gt;0&lt;/span&gt; changed, &lt;span style="color:#bd93f9"&gt;79&lt;/span&gt; unmodified
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Dirs: &lt;span style="color:#bd93f9"&gt;0&lt;/span&gt; new, &lt;span style="color:#bd93f9"&gt;4&lt;/span&gt; changed, &lt;span style="color:#bd93f9"&gt;36&lt;/span&gt; unmodified
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Added to the repo: 7.742 KiB
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;processed &lt;span style="color:#ae81ff"&gt;80&lt;/span&gt; files, 4.811 MiB in 0:00
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;processed &lt;span style="color:#bd93f9"&gt;80&lt;/span&gt; files, 4.811 MiB in 0:00
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;snapshot f4b94d9b saved
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h5 id="snapshots-확인"&gt;Snapshots 확인&lt;/h5&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# snapshots 2개 화인 확인&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# snapshots 2개 화인 확인&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ restic -r repo -p passwd snapshots
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;repository e4ccc49d opened successfully, password is correct
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ID Time Host Tags Paths
@@ -118,28 +118,28 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;9aff8447 2021-11-25 15:17:52 centos1 /home/cdecl/temp/mvcapp
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;f4b94d9b 2021-11-25 15:22:24 centos1 /home/cdecl/temp/mvcapp
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;------------------------------------------------------------------------------
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;2&lt;/span&gt; snapshots
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#bd93f9"&gt;2&lt;/span&gt; snapshots
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;Snapshots 비교&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ restic -r repo -p passwd diff 9aff8447 f4b94d9b
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ restic -r repo -p passwd diff 9aff8447 f4b94d9b
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;repository e4ccc49d opened successfully, password is correct
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;comparing snapshot 9aff8447 to f4b94d9b:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;+ /home/cdecl/temp/mvcapp/test.txt
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Files: &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; new, &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt; removed, &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt; changed
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Dirs: &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt; new, &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt; removed
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Others: &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt; new, &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt; removed
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Data Blobs: &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt; new, &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt; removed
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Tree Blobs: &lt;span style="color:#ae81ff"&gt;5&lt;/span&gt; new, &lt;span style="color:#ae81ff"&gt;5&lt;/span&gt; removed
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Files: &lt;span style="color:#bd93f9"&gt;1&lt;/span&gt; new, &lt;span style="color:#bd93f9"&gt;0&lt;/span&gt; removed, &lt;span style="color:#bd93f9"&gt;0&lt;/span&gt; changed
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Dirs: &lt;span style="color:#bd93f9"&gt;0&lt;/span&gt; new, &lt;span style="color:#bd93f9"&gt;0&lt;/span&gt; removed
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Others: &lt;span style="color:#bd93f9"&gt;0&lt;/span&gt; new, &lt;span style="color:#bd93f9"&gt;0&lt;/span&gt; removed
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Data Blobs: &lt;span style="color:#bd93f9"&gt;0&lt;/span&gt; new, &lt;span style="color:#bd93f9"&gt;0&lt;/span&gt; removed
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Tree Blobs: &lt;span style="color:#bd93f9"&gt;5&lt;/span&gt; new, &lt;span style="color:#bd93f9"&gt;5&lt;/span&gt; removed
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Added: 7.742 KiB
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Removed: 7.456 KiB
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h5 id="restore--snapshots-에서-복원"&gt;Restore : Snapshots 에서 복원&lt;/h5&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# restic -r &amp;lt;repository&amp;gt; -p &amp;lt;passwd file&amp;gt; restore &amp;lt;snapshots id&amp;gt; -t &amp;lt;Target&amp;gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# restic -r &amp;lt;repository&amp;gt; -p &amp;lt;passwd file&amp;gt; restore &amp;lt;snapshots id&amp;gt; -t &amp;lt;Target&amp;gt;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ restic -r repo -p passwd restore 9aff8447 -t restore-mvcapp
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;repository e4ccc49d opened successfully, password is correct
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;restoring &amp;lt;Snapshot 9aff8447 of &lt;span style="color:#f92672"&gt;[&lt;/span&gt;/home/cdecl/temp/mvcapp&lt;span style="color:#f92672"&gt;]&lt;/span&gt; at 2021-11-25 15:17:52.115925352
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;restoring &amp;lt;Snapshot 9aff8447 of &lt;span style="color:#ff79c6"&gt;[&lt;/span&gt;/home/cdecl/temp/mvcapp&lt;span style="color:#ff79c6"&gt;]&lt;/span&gt; at 2021-11-25 15:17:52.115925352
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; +0900 KST by cdecl@centos1&amp;gt; to restore-mvcapp
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="minio--rclone-backend-지원"&gt;MinIO &amp;amp; RClone Backend 지원&lt;/h3&gt;
 &lt;ul&gt;
@@ -148,11 +148,11 @@
 &lt;pre tabindex="0"&gt;&lt;code&gt;Local, SFTP, REST Server, Amazon S3, Minio Server, Microsoft Azure Blob Storage,
 Google Cloud Storage, Other Services via rclone 등 지원
 &lt;/code&gt;&lt;/pre&gt;&lt;h5 id="minio-repository-만들기"&gt;MinIO Repository 만들기&lt;/h5&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ export AWS_ACCESS_KEY_ID&lt;span style="color:#f92672"&gt;=&lt;/span&gt;key
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ export AWS_SECRET_ACCESS_KEY&lt;span style="color:#f92672"&gt;=&lt;/span&gt;passwd
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ &lt;span style="color:#8be9fd;font-style:italic"&gt;export&lt;/span&gt; &lt;span style="color:#8be9fd;font-style:italic"&gt;AWS_ACCESS_KEY_ID&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;key
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ &lt;span style="color:#8be9fd;font-style:italic"&gt;export&lt;/span&gt; &lt;span style="color:#8be9fd;font-style:italic"&gt;AWS_SECRET_ACCESS_KEY&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;passwd
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ restic init -r s3:http://minio.server:9000/restic
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;enter password &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; new repository:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;enter password &lt;span style="color:#ff79c6"&gt;for&lt;/span&gt; new repository:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;enter password again:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;created restic repository 65a27250da at s3:http://minio.server:9000/restic
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
@@ -161,30 +161,30 @@ Google Cloud Storage, Other Services via rclone 등 지원
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;irrecoverably lost.
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Backup&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# Backup&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ restic -r s3:http://minio.server:9000/restic -p passwd backup /home/cdecl/temp/mvcapp
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# snapshots&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# snapshots&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ restic -r s3:http://minio.server:9000/restic -p passwd snapshots
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;repository 65a27250 opened successfully, password is correct
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ID Time Host Tags Paths
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;------------------------------------------------------------------------------
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;73d37fbd 2021-11-25 15:37:34 centos1 /home/cdecl/temp/mvcapp
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;------------------------------------------------------------------------------
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; snapshots
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#bd93f9"&gt;1&lt;/span&gt; snapshots
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h5 id="rclone-backend-로-사용"&gt;RClone Backend 로 사용&lt;/h5&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ rclone config show
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;[&lt;/span&gt;infradb&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;type &lt;span style="color:#f92672"&gt;=&lt;/span&gt; s3
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;env_auth &lt;span style="color:#f92672"&gt;=&lt;/span&gt; false
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;access_key_id &lt;span style="color:#f92672"&gt;=&lt;/span&gt; key
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;secret_access_key &lt;span style="color:#f92672"&gt;=&lt;/span&gt; passwd
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;region &lt;span style="color:#f92672"&gt;=&lt;/span&gt; us-east-1
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;endpoint &lt;span style="color:#f92672"&gt;=&lt;/span&gt; http://minio.server:9000
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ rclone config show
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;[&lt;/span&gt;infradb&lt;span style="color:#ff79c6"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;type&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; s3
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;env_auth&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; &lt;span style="color:#8be9fd;font-style:italic"&gt;false&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;access_key_id&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; key
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;secret_access_key&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; passwd
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;region&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; us-east-1
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;endpoint&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; http://minio.server:9000
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# rclone config 사용 respository 만들기 &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# rclone config 사용 respository 만들기 &lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ restic init -r rclone:infradb:restic
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;enter password &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; new repository:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;enter password &lt;span style="color:#ff79c6"&gt;for&lt;/span&gt; new repository:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;enter password again:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;created restic repository ce850667c9 at rclone:infradb:restic
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
@@ -192,17 +192,17 @@ Google Cloud Storage, Other Services via rclone 등 지원
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;the repository. Losing your password means that your data is
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;irrecoverably lost.
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Backup&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# Backup&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ restic -r rclone:infradb:restic -p passwd backup /home/cdecl/temp/mvcapp
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# snapshots&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# snapshots&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ restic -r rclone:infradb:restic -p passwd snapshots
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;hr&gt;
 &lt;h4 id="snapshots-관리"&gt;Snapshots 관리&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="https://restic.readthedocs.io/en/stable/060_forget.html"&gt;https://restic.readthedocs.io/en/stable/060_forget.html&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ restic -r rclone:infradb:restic -p passwd snapshots
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ restic -r rclone:infradb:restic -p passwd snapshots
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;repository ce850667 opened successfully, password is correct
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ID Time Host Tags Paths
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;------------------------------------------------------------------------------
@@ -213,52 +213,52 @@ Google Cloud Storage, Other Services via rclone 등 지원
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;eb1e56c7 2021-11-25 15:44:54 centos1 /home/cdecl/temp/mvcapp
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;d81b3d2a 2021-11-25 15:44:55 centos1 /home/cdecl/temp/mvcapp
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;------------------------------------------------------------------------------
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;6&lt;/span&gt; snapshots
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#bd93f9"&gt;6&lt;/span&gt; snapshots
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# snapshots 1개 지우기&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# snapshots 1개 지우기&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ restic -r rclone:infradb:restic -p passwd forget d81b3d2a
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;repository ce850667 opened successfully, password is correct
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;[&lt;/span&gt;0:00&lt;span style="color:#f92672"&gt;]&lt;/span&gt; 100.00% &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; / &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; files deleted
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;[&lt;/span&gt;0:00&lt;span style="color:#ff79c6"&gt;]&lt;/span&gt; 100.00% &lt;span style="color:#bd93f9"&gt;1&lt;/span&gt; / &lt;span style="color:#bd93f9"&gt;1&lt;/span&gt; files deleted
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 스냅샷의 파일에서 참조한 데이터는 여전히 저장소에 저장&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 참조되지 않은 데이터를 정리하려면 prune 명령 실행&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# 스냅샷의 파일에서 참조한 데이터는 여전히 저장소에 저장&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# 참조되지 않은 데이터를 정리하려면 prune 명령 실행&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ restic -r rclone:infradb:restic -p passwd prune
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;repository ce850667 opened successfully, password is correct
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;loading indexes...
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;loading all snapshots...
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;finding data that is still in use &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;5&lt;/span&gt; snapshots
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;[&lt;/span&gt;0:00&lt;span style="color:#f92672"&gt;]&lt;/span&gt; 100.00% &lt;span style="color:#ae81ff"&gt;5&lt;/span&gt; / &lt;span style="color:#ae81ff"&gt;5&lt;/span&gt; snapshots
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;finding data that is still in use &lt;span style="color:#ff79c6"&gt;for&lt;/span&gt; &lt;span style="color:#bd93f9"&gt;5&lt;/span&gt; snapshots
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;[&lt;/span&gt;0:00&lt;span style="color:#ff79c6"&gt;]&lt;/span&gt; 100.00% &lt;span style="color:#bd93f9"&gt;5&lt;/span&gt; / &lt;span style="color:#bd93f9"&gt;5&lt;/span&gt; snapshots
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;searching used packs...
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;collecting packs &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; deletion and repacking
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;[&lt;/span&gt;0:00&lt;span style="color:#f92672"&gt;]&lt;/span&gt; 100.00% &lt;span style="color:#ae81ff"&gt;9&lt;/span&gt; / &lt;span style="color:#ae81ff"&gt;9&lt;/span&gt; packs processed
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;collecting packs &lt;span style="color:#ff79c6"&gt;for&lt;/span&gt; deletion and repacking
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;[&lt;/span&gt;0:00&lt;span style="color:#ff79c6"&gt;]&lt;/span&gt; 100.00% &lt;span style="color:#bd93f9"&gt;9&lt;/span&gt; / &lt;span style="color:#bd93f9"&gt;9&lt;/span&gt; packs processed
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;to repack: &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt; blobs / &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt; B
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;this removes &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt; blobs / &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt; B
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;to delete: &lt;span style="color:#ae81ff"&gt;2&lt;/span&gt; blobs / &lt;span style="color:#ae81ff"&gt;1004&lt;/span&gt; B
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;total prune: &lt;span style="color:#ae81ff"&gt;2&lt;/span&gt; blobs / &lt;span style="color:#ae81ff"&gt;1004&lt;/span&gt; B
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;remaining: &lt;span style="color:#ae81ff"&gt;125&lt;/span&gt; blobs / 4.862 MiB
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;unused size after prune: &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt; B &lt;span style="color:#f92672"&gt;(&lt;/span&gt;0.00% of remaining size&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;to repack: &lt;span style="color:#bd93f9"&gt;0&lt;/span&gt; blobs / &lt;span style="color:#bd93f9"&gt;0&lt;/span&gt; B
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;this removes &lt;span style="color:#bd93f9"&gt;0&lt;/span&gt; blobs / &lt;span style="color:#bd93f9"&gt;0&lt;/span&gt; B
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;to delete: &lt;span style="color:#bd93f9"&gt;2&lt;/span&gt; blobs / &lt;span style="color:#bd93f9"&gt;1004&lt;/span&gt; B
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;total prune: &lt;span style="color:#bd93f9"&gt;2&lt;/span&gt; blobs / &lt;span style="color:#bd93f9"&gt;1004&lt;/span&gt; B
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;remaining: &lt;span style="color:#bd93f9"&gt;125&lt;/span&gt; blobs / 4.862 MiB
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;unused size after prune: &lt;span style="color:#bd93f9"&gt;0&lt;/span&gt; B &lt;span style="color:#ff79c6"&gt;(&lt;/span&gt;0.00% of remaining size&lt;span style="color:#ff79c6"&gt;)&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;rebuilding index
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;[&lt;/span&gt;0:00&lt;span style="color:#f92672"&gt;]&lt;/span&gt; 100.00% &lt;span style="color:#ae81ff"&gt;8&lt;/span&gt; / &lt;span style="color:#ae81ff"&gt;8&lt;/span&gt; packs processed
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;[&lt;/span&gt;0:00&lt;span style="color:#ff79c6"&gt;]&lt;/span&gt; 100.00% &lt;span style="color:#bd93f9"&gt;8&lt;/span&gt; / &lt;span style="color:#bd93f9"&gt;8&lt;/span&gt; packs processed
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;deleting obsolete index files
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;[&lt;/span&gt;0:00&lt;span style="color:#f92672"&gt;]&lt;/span&gt; 100.00% &lt;span style="color:#ae81ff"&gt;6&lt;/span&gt; / &lt;span style="color:#ae81ff"&gt;6&lt;/span&gt; files deleted
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;removing &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; old packs
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;[&lt;/span&gt;0:00&lt;span style="color:#f92672"&gt;]&lt;/span&gt; 100.00% &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; / &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; files deleted
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;done&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;[&lt;/span&gt;0:00&lt;span style="color:#ff79c6"&gt;]&lt;/span&gt; 100.00% &lt;span style="color:#bd93f9"&gt;6&lt;/span&gt; / &lt;span style="color:#bd93f9"&gt;6&lt;/span&gt; files deleted
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;removing &lt;span style="color:#bd93f9"&gt;1&lt;/span&gt; old packs
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;[&lt;/span&gt;0:00&lt;span style="color:#ff79c6"&gt;]&lt;/span&gt; 100.00% &lt;span style="color:#bd93f9"&gt;1&lt;/span&gt; / &lt;span style="color:#bd93f9"&gt;1&lt;/span&gt; files deleted
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;done&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 최근 1개만 놔두고 snapshots 삭제 및 prune&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ restic -r rclone:infradb:restic -p passwd forget --keep-last &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; --prune
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# 최근 1개만 놔두고 snapshots 삭제 및 prune&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ restic -r rclone:infradb:restic -p passwd forget --keep-last &lt;span style="color:#bd93f9"&gt;1&lt;/span&gt; --prune
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;repository ce850667 opened successfully, password is correct
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Applying Policy: keep &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; latest snapshots
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;keep &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; snapshots:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Applying Policy: keep &lt;span style="color:#bd93f9"&gt;1&lt;/span&gt; latest snapshots
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;keep &lt;span style="color:#bd93f9"&gt;1&lt;/span&gt; snapshots:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ID Time Host Tags Reasons Paths
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;---------------------------------------------------------------------------------------------
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;eb1e56c7 2021-11-25 15:44:54 centos1 last snapshot /home/cdecl/temp/mvcapp
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;---------------------------------------------------------------------------------------------
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; snapshots
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#bd93f9"&gt;1&lt;/span&gt; snapshots
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;remove &lt;span style="color:#ae81ff"&gt;4&lt;/span&gt; snapshots:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;remove &lt;span style="color:#bd93f9"&gt;4&lt;/span&gt; snapshots:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ID Time Host Tags Paths
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;------------------------------------------------------------------------------
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;a3737738 2021-11-25 15:44:05 centos1 /home/cdecl/temp/mvcapp
@@ -266,43 +266,43 @@ Google Cloud Storage, Other Services via rclone 등 지원
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;0e83568a 2021-11-25 15:44:51 centos1 /home/cdecl/temp/mvcapp
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;4041e3ca 2021-11-25 15:44:53 centos1 /home/cdecl/temp/mvcapp
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;------------------------------------------------------------------------------
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;4&lt;/span&gt; snapshots
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#bd93f9"&gt;4&lt;/span&gt; snapshots
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;[&lt;/span&gt;0:00&lt;span style="color:#f92672"&gt;]&lt;/span&gt; 100.00% &lt;span style="color:#ae81ff"&gt;4&lt;/span&gt; / &lt;span style="color:#ae81ff"&gt;4&lt;/span&gt; files deleted
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;4&lt;/span&gt; snapshots have been removed, running prune
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;[&lt;/span&gt;0:00&lt;span style="color:#ff79c6"&gt;]&lt;/span&gt; 100.00% &lt;span style="color:#bd93f9"&gt;4&lt;/span&gt; / &lt;span style="color:#bd93f9"&gt;4&lt;/span&gt; files deleted
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#bd93f9"&gt;4&lt;/span&gt; snapshots have been removed, running prune
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;loading indexes...
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;loading all snapshots...
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;finding data that is still in use &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; snapshots
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;[&lt;/span&gt;0:00&lt;span style="color:#f92672"&gt;]&lt;/span&gt; 100.00% &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; / &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; snapshots
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;finding data that is still in use &lt;span style="color:#ff79c6"&gt;for&lt;/span&gt; &lt;span style="color:#bd93f9"&gt;1&lt;/span&gt; snapshots
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;[&lt;/span&gt;0:00&lt;span style="color:#ff79c6"&gt;]&lt;/span&gt; 100.00% &lt;span style="color:#bd93f9"&gt;1&lt;/span&gt; / &lt;span style="color:#bd93f9"&gt;1&lt;/span&gt; snapshots
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;searching used packs...
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;collecting packs &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; deletion and repacking
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;[&lt;/span&gt;0:00&lt;span style="color:#f92672"&gt;]&lt;/span&gt; 100.00% &lt;span style="color:#ae81ff"&gt;8&lt;/span&gt; / &lt;span style="color:#ae81ff"&gt;8&lt;/span&gt; packs processed
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;collecting packs &lt;span style="color:#ff79c6"&gt;for&lt;/span&gt; deletion and repacking
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;[&lt;/span&gt;0:00&lt;span style="color:#ff79c6"&gt;]&lt;/span&gt; 100.00% &lt;span style="color:#bd93f9"&gt;8&lt;/span&gt; / &lt;span style="color:#bd93f9"&gt;8&lt;/span&gt; packs processed
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;to repack: &lt;span style="color:#ae81ff"&gt;39&lt;/span&gt; blobs / 47.305 KiB
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;this removes &lt;span style="color:#ae81ff"&gt;2&lt;/span&gt; blobs / &lt;span style="color:#ae81ff"&gt;1007&lt;/span&gt; B
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;to delete: &lt;span style="color:#ae81ff"&gt;6&lt;/span&gt; blobs / 2.950 KiB
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;total prune: &lt;span style="color:#ae81ff"&gt;8&lt;/span&gt; blobs / 3.934 KiB
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;remaining: &lt;span style="color:#ae81ff"&gt;117&lt;/span&gt; blobs / 4.858 MiB
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;unused size after prune: &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt; B &lt;span style="color:#f92672"&gt;(&lt;/span&gt;0.00% of remaining size&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;to repack: &lt;span style="color:#bd93f9"&gt;39&lt;/span&gt; blobs / 47.305 KiB
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;this removes &lt;span style="color:#bd93f9"&gt;2&lt;/span&gt; blobs / &lt;span style="color:#bd93f9"&gt;1007&lt;/span&gt; B
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;to delete: &lt;span style="color:#bd93f9"&gt;6&lt;/span&gt; blobs / 2.950 KiB
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;total prune: &lt;span style="color:#bd93f9"&gt;8&lt;/span&gt; blobs / 3.934 KiB
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;remaining: &lt;span style="color:#bd93f9"&gt;117&lt;/span&gt; blobs / 4.858 MiB
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;unused size after prune: &lt;span style="color:#bd93f9"&gt;0&lt;/span&gt; B &lt;span style="color:#ff79c6"&gt;(&lt;/span&gt;0.00% of remaining size&lt;span style="color:#ff79c6"&gt;)&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;repacking packs
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;[&lt;/span&gt;0:00&lt;span style="color:#f92672"&gt;]&lt;/span&gt; 100.00% &lt;span style="color:#ae81ff"&gt;2&lt;/span&gt; / &lt;span style="color:#ae81ff"&gt;2&lt;/span&gt; packs repacked
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;[&lt;/span&gt;0:00&lt;span style="color:#ff79c6"&gt;]&lt;/span&gt; 100.00% &lt;span style="color:#bd93f9"&gt;2&lt;/span&gt; / &lt;span style="color:#bd93f9"&gt;2&lt;/span&gt; packs repacked
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;rebuilding index
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;[&lt;/span&gt;0:00&lt;span style="color:#f92672"&gt;]&lt;/span&gt; 100.00% &lt;span style="color:#ae81ff"&gt;5&lt;/span&gt; / &lt;span style="color:#ae81ff"&gt;5&lt;/span&gt; packs processed
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;[&lt;/span&gt;0:00&lt;span style="color:#ff79c6"&gt;]&lt;/span&gt; 100.00% &lt;span style="color:#bd93f9"&gt;5&lt;/span&gt; / &lt;span style="color:#bd93f9"&gt;5&lt;/span&gt; packs processed
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;deleting obsolete index files
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;[&lt;/span&gt;0:00&lt;span style="color:#f92672"&gt;]&lt;/span&gt; 100.00% &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; / &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; files deleted
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;removing &lt;span style="color:#ae81ff"&gt;5&lt;/span&gt; old packs
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;[&lt;/span&gt;0:00&lt;span style="color:#f92672"&gt;]&lt;/span&gt; 100.00% &lt;span style="color:#ae81ff"&gt;5&lt;/span&gt; / &lt;span style="color:#ae81ff"&gt;5&lt;/span&gt; files deleted
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;done&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;[&lt;/span&gt;0:00&lt;span style="color:#ff79c6"&gt;]&lt;/span&gt; 100.00% &lt;span style="color:#bd93f9"&gt;1&lt;/span&gt; / &lt;span style="color:#bd93f9"&gt;1&lt;/span&gt; files deleted
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;removing &lt;span style="color:#bd93f9"&gt;5&lt;/span&gt; old packs
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;[&lt;/span&gt;0:00&lt;span style="color:#ff79c6"&gt;]&lt;/span&gt; 100.00% &lt;span style="color:#bd93f9"&gt;5&lt;/span&gt; / &lt;span style="color:#bd93f9"&gt;5&lt;/span&gt; files deleted
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;done&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# snapshots 확인&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# snapshots 확인&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ restic -r rclone:infradb:restic -p passwd snapshots
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;repository ce850667 opened successfully, password is correct
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ID Time Host Tags Paths
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;------------------------------------------------------------------------------
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;eb1e56c7 2021-11-25 15:44:54 centos1 /home/cdecl/temp/mvcapp
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;------------------------------------------------------------------------------
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; snapshots
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#bd93f9"&gt;1&lt;/span&gt; snapshots
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;forget 주요 인수&lt;/li&gt;
 &lt;/ul&gt;

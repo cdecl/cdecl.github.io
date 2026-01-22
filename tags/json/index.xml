@@ -12,33 +12,33 @@
 &lt;li&gt;NDJSON은 MongoDB나 Elasticsearch 등에서 사용되는 데이터 형식&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3 id="json-배열에서-csv-데이터-변환"&gt;Json 배열에서 CSV 데이터 변환&lt;/h3&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-json" data-lang="json"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;[
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-json" data-lang="json"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;[
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; {
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;fs&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;/dev/mapper/vgubuntu-root&amp;#34;&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;ext4&amp;#34;&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;size&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;915G&amp;#34;&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;used&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;135G&amp;#34;&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;avail&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;734G&amp;#34;&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;usedpercentage&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;16%&amp;#34;&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;mounted&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;/&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;&amp;#34;fs&amp;#34;&lt;/span&gt;: &lt;span style="color:#f1fa8c"&gt;&amp;#34;/dev/mapper/vgubuntu-root&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style="color:#f1fa8c"&gt;&amp;#34;ext4&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;&amp;#34;size&amp;#34;&lt;/span&gt;: &lt;span style="color:#f1fa8c"&gt;&amp;#34;915G&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;&amp;#34;used&amp;#34;&lt;/span&gt;: &lt;span style="color:#f1fa8c"&gt;&amp;#34;135G&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;&amp;#34;avail&amp;#34;&lt;/span&gt;: &lt;span style="color:#f1fa8c"&gt;&amp;#34;734G&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;&amp;#34;usedpercentage&amp;#34;&lt;/span&gt;: &lt;span style="color:#f1fa8c"&gt;&amp;#34;16%&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;&amp;#34;mounted&amp;#34;&lt;/span&gt;: &lt;span style="color:#f1fa8c"&gt;&amp;#34;/&amp;#34;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; },
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; {
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;fs&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;/dev/nvme0n1p2&amp;#34;&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;ext4&amp;#34;&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;size&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;1.4G&amp;#34;&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;used&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;378M&amp;#34;&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;avail&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;939M&amp;#34;&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;usedpercentage&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;29%&amp;#34;&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;mounted&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;/boot&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;&amp;#34;fs&amp;#34;&lt;/span&gt;: &lt;span style="color:#f1fa8c"&gt;&amp;#34;/dev/nvme0n1p2&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style="color:#f1fa8c"&gt;&amp;#34;ext4&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;&amp;#34;size&amp;#34;&lt;/span&gt;: &lt;span style="color:#f1fa8c"&gt;&amp;#34;1.4G&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;&amp;#34;used&amp;#34;&lt;/span&gt;: &lt;span style="color:#f1fa8c"&gt;&amp;#34;378M&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;&amp;#34;avail&amp;#34;&lt;/span&gt;: &lt;span style="color:#f1fa8c"&gt;&amp;#34;939M&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;&amp;#34;usedpercentage&amp;#34;&lt;/span&gt;: &lt;span style="color:#f1fa8c"&gt;&amp;#34;29%&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;&amp;#34;mounted&amp;#34;&lt;/span&gt;: &lt;span style="color:#f1fa8c"&gt;&amp;#34;/boot&amp;#34;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; },
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; {
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;fs&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;/dev/nvme0n1p1&amp;#34;&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;vfat&amp;#34;&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;size&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;511M&amp;#34;&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;used&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;30M&amp;#34;&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;avail&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;482M&amp;#34;&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;usedpercentage&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;6%&amp;#34;&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;mounted&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;/boot/efi&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;&amp;#34;fs&amp;#34;&lt;/span&gt;: &lt;span style="color:#f1fa8c"&gt;&amp;#34;/dev/nvme0n1p1&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style="color:#f1fa8c"&gt;&amp;#34;vfat&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;&amp;#34;size&amp;#34;&lt;/span&gt;: &lt;span style="color:#f1fa8c"&gt;&amp;#34;511M&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;&amp;#34;used&amp;#34;&lt;/span&gt;: &lt;span style="color:#f1fa8c"&gt;&amp;#34;30M&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;&amp;#34;avail&amp;#34;&lt;/span&gt;: &lt;span style="color:#f1fa8c"&gt;&amp;#34;482M&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;&amp;#34;usedpercentage&amp;#34;&lt;/span&gt;: &lt;span style="color:#f1fa8c"&gt;&amp;#34;6%&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;&amp;#34;mounted&amp;#34;&lt;/span&gt;: &lt;span style="color:#f1fa8c"&gt;&amp;#34;/boot/efi&amp;#34;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;]
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id="header-추출"&gt;Header 추출&lt;/h4&gt;
@@ -51,38 +51,38 @@
 &lt;li&gt;array : 배열&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3 id="example"&gt;Example&lt;/h3&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-json" data-lang="json"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{&lt;span style="color:#f92672"&gt;&amp;#34;id&amp;#34;&lt;/span&gt;:&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;,&lt;span style="color:#f92672"&gt;&amp;#34;name&amp;#34;&lt;/span&gt;:&lt;span style="color:#e6db74"&gt;&amp;#34;Alice&amp;#34;&lt;/span&gt;}
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{&lt;span style="color:#f92672"&gt;&amp;#34;id&amp;#34;&lt;/span&gt;:&lt;span style="color:#ae81ff"&gt;2&lt;/span&gt;,&lt;span style="color:#f92672"&gt;&amp;#34;name&amp;#34;&lt;/span&gt;:&lt;span style="color:#e6db74"&gt;&amp;#34;Bob&amp;#34;&lt;/span&gt;}
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{&lt;span style="color:#f92672"&gt;&amp;#34;id&amp;#34;&lt;/span&gt;:&lt;span style="color:#ae81ff"&gt;3&lt;/span&gt;,&lt;span style="color:#f92672"&gt;&amp;#34;name&amp;#34;&lt;/span&gt;:&lt;span style="color:#e6db74"&gt;&amp;#34;Carol&amp;#34;&lt;/span&gt;}
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{&lt;span style="color:#f92672"&gt;&amp;#34;id&amp;#34;&lt;/span&gt;:&lt;span style="color:#ae81ff"&gt;4&lt;/span&gt;,&lt;span style="color:#f92672"&gt;&amp;#34;name&amp;#34;&lt;/span&gt;:&lt;span style="color:#e6db74"&gt;&amp;#34;David&amp;#34;&lt;/span&gt;, &lt;span style="color:#f92672"&gt;&amp;#34;etc1&amp;#34;&lt;/span&gt;: [{&lt;span style="color:#f92672"&gt;&amp;#34;key&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;key-data11&amp;#34;&lt;/span&gt;}, {&lt;span style="color:#f92672"&gt;&amp;#34;key&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;key-data22&amp;#34;&lt;/span&gt;}] }
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{&lt;span style="color:#f92672"&gt;&amp;#34;id&amp;#34;&lt;/span&gt;:&lt;span style="color:#ae81ff"&gt;5&lt;/span&gt;,&lt;span style="color:#f92672"&gt;&amp;#34;name&amp;#34;&lt;/span&gt;:&lt;span style="color:#e6db74"&gt;&amp;#34;Elise&amp;#34;&lt;/span&gt;, &lt;span style="color:#f92672"&gt;&amp;#34;etc2&amp;#34;&lt;/span&gt;: [&lt;span style="color:#e6db74"&gt;&amp;#34;data1&amp;#34;&lt;/span&gt;, &lt;span style="color:#e6db74"&gt;&amp;#34;data2&amp;#34;&lt;/span&gt;, &lt;span style="color:#e6db74"&gt;&amp;#34;data3&amp;#34;&lt;/span&gt;]}
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sql" data-lang="sql"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;create&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;table&lt;/span&gt; hive.&lt;span style="color:#66d9ef"&gt;default&lt;/span&gt;.sample (
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; id varchar,
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; name varchar,
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; etc1 array(&lt;span style="color:#66d9ef"&gt;row&lt;/span&gt;(&lt;span style="color:#66d9ef"&gt;key&lt;/span&gt; varchar)),
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; etc2 array(varchar)
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-json" data-lang="json"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{&lt;span style="color:#ff79c6"&gt;&amp;#34;id&amp;#34;&lt;/span&gt;:&lt;span style="color:#bd93f9"&gt;1&lt;/span&gt;,&lt;span style="color:#ff79c6"&gt;&amp;#34;name&amp;#34;&lt;/span&gt;:&lt;span style="color:#f1fa8c"&gt;&amp;#34;Alice&amp;#34;&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{&lt;span style="color:#ff79c6"&gt;&amp;#34;id&amp;#34;&lt;/span&gt;:&lt;span style="color:#bd93f9"&gt;2&lt;/span&gt;,&lt;span style="color:#ff79c6"&gt;&amp;#34;name&amp;#34;&lt;/span&gt;:&lt;span style="color:#f1fa8c"&gt;&amp;#34;Bob&amp;#34;&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{&lt;span style="color:#ff79c6"&gt;&amp;#34;id&amp;#34;&lt;/span&gt;:&lt;span style="color:#bd93f9"&gt;3&lt;/span&gt;,&lt;span style="color:#ff79c6"&gt;&amp;#34;name&amp;#34;&lt;/span&gt;:&lt;span style="color:#f1fa8c"&gt;&amp;#34;Carol&amp;#34;&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{&lt;span style="color:#ff79c6"&gt;&amp;#34;id&amp;#34;&lt;/span&gt;:&lt;span style="color:#bd93f9"&gt;4&lt;/span&gt;,&lt;span style="color:#ff79c6"&gt;&amp;#34;name&amp;#34;&lt;/span&gt;:&lt;span style="color:#f1fa8c"&gt;&amp;#34;David&amp;#34;&lt;/span&gt;, &lt;span style="color:#ff79c6"&gt;&amp;#34;etc1&amp;#34;&lt;/span&gt;: [{&lt;span style="color:#ff79c6"&gt;&amp;#34;key&amp;#34;&lt;/span&gt;: &lt;span style="color:#f1fa8c"&gt;&amp;#34;key-data11&amp;#34;&lt;/span&gt;}, {&lt;span style="color:#ff79c6"&gt;&amp;#34;key&amp;#34;&lt;/span&gt;: &lt;span style="color:#f1fa8c"&gt;&amp;#34;key-data22&amp;#34;&lt;/span&gt;}] }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{&lt;span style="color:#ff79c6"&gt;&amp;#34;id&amp;#34;&lt;/span&gt;:&lt;span style="color:#bd93f9"&gt;5&lt;/span&gt;,&lt;span style="color:#ff79c6"&gt;&amp;#34;name&amp;#34;&lt;/span&gt;:&lt;span style="color:#f1fa8c"&gt;&amp;#34;Elise&amp;#34;&lt;/span&gt;, &lt;span style="color:#ff79c6"&gt;&amp;#34;etc2&amp;#34;&lt;/span&gt;: [&lt;span style="color:#f1fa8c"&gt;&amp;#34;data1&amp;#34;&lt;/span&gt;, &lt;span style="color:#f1fa8c"&gt;&amp;#34;data2&amp;#34;&lt;/span&gt;, &lt;span style="color:#f1fa8c"&gt;&amp;#34;data3&amp;#34;&lt;/span&gt;]}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sql" data-lang="sql"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;create&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;table&lt;/span&gt; hive.&lt;span style="color:#ff79c6"&gt;default&lt;/span&gt;.sample (
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; id &lt;span style="color:#8be9fd;font-style:italic"&gt;varchar&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; name &lt;span style="color:#8be9fd;font-style:italic"&gt;varchar&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; etc1 &lt;span style="color:#8be9fd;font-style:italic"&gt;array&lt;/span&gt;(&lt;span style="color:#ff79c6"&gt;row&lt;/span&gt;(&lt;span style="color:#ff79c6"&gt;key&lt;/span&gt; &lt;span style="color:#8be9fd;font-style:italic"&gt;varchar&lt;/span&gt;)),
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; etc2 &lt;span style="color:#8be9fd;font-style:italic"&gt;array&lt;/span&gt;(&lt;span style="color:#8be9fd;font-style:italic"&gt;varchar&lt;/span&gt;)
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;)
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;with&lt;/span&gt; (
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; format &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;json&amp;#39;&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; external_location &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;s3a://data/sample/&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;with&lt;/span&gt; (
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; format &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; &lt;span style="color:#f1fa8c"&gt;&amp;#39;json&amp;#39;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; external_location &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; &lt;span style="color:#f1fa8c"&gt;&amp;#39;s3a://data/sample/&amp;#39;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;)
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;hr&gt;
 &lt;h3 id="trino-cli"&gt;trino cli&lt;/h3&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;trino&amp;gt; use hive.default;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;trino&amp;gt; use hive.default;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;USE
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;trino:default&amp;gt; &lt;span style="color:#66d9ef"&gt;select&lt;/span&gt; * from sample;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;trino:default&amp;gt; &lt;span style="color:#ff79c6"&gt;select&lt;/span&gt; * from sample;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; id | name | etc1 | etc2
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;----+-------+--------------------------------------+-----------------------
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; | Alice | NULL | NULL
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ae81ff"&gt;2&lt;/span&gt; | Bob | NULL | NULL
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ae81ff"&gt;3&lt;/span&gt; | Carol | NULL | NULL
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ae81ff"&gt;4&lt;/span&gt; | David | &lt;span style="color:#f92672"&gt;[{&lt;/span&gt;key&lt;span style="color:#f92672"&gt;=&lt;/span&gt;key-data11&lt;span style="color:#f92672"&gt;}&lt;/span&gt;, &lt;span style="color:#f92672"&gt;{&lt;/span&gt;key&lt;span style="color:#f92672"&gt;=&lt;/span&gt;key-data22&lt;span style="color:#f92672"&gt;}]&lt;/span&gt; | NULL
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ae81ff"&gt;5&lt;/span&gt; | Elise | NULL | &lt;span style="color:#f92672"&gt;[&lt;/span&gt;data1, data2, data3&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;(&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;5&lt;/span&gt; rows&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#bd93f9"&gt;1&lt;/span&gt; | Alice | NULL | NULL
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#bd93f9"&gt;2&lt;/span&gt; | Bob | NULL | NULL
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#bd93f9"&gt;3&lt;/span&gt; | Carol | NULL | NULL
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#bd93f9"&gt;4&lt;/span&gt; | David | &lt;span style="color:#ff79c6"&gt;[{&lt;/span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;key&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;key-data11&lt;span style="color:#ff79c6"&gt;}&lt;/span&gt;, &lt;span style="color:#ff79c6"&gt;{&lt;/span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;key&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;key-data22&lt;span style="color:#ff79c6"&gt;}]&lt;/span&gt; | NULL
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#bd93f9"&gt;5&lt;/span&gt; | Elise | NULL | &lt;span style="color:#ff79c6"&gt;[&lt;/span&gt;data1, data2, data3&lt;span style="color:#ff79c6"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;(&lt;/span&gt;&lt;span style="color:#bd93f9"&gt;5&lt;/span&gt; rows&lt;span style="color:#ff79c6"&gt;)&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Query 20220824_000627_00008_qpvtj, FINISHED, &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; node
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Splits: &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; total, &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;done&lt;/span&gt; &lt;span style="color:#f92672"&gt;(&lt;/span&gt;100.00%&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;0.27 &lt;span style="color:#f92672"&gt;[&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;5&lt;/span&gt; rows, 212B&lt;span style="color:#f92672"&gt;]&lt;/span&gt; &lt;span style="color:#f92672"&gt;[&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;18&lt;/span&gt; rows/s, 777B/s&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Query 20220824_000627_00008_qpvtj, FINISHED, &lt;span style="color:#bd93f9"&gt;1&lt;/span&gt; node
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Splits: &lt;span style="color:#bd93f9"&gt;1&lt;/span&gt; total, &lt;span style="color:#bd93f9"&gt;1&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;done&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;(&lt;/span&gt;100.00%&lt;span style="color:#ff79c6"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;0.27 &lt;span style="color:#ff79c6"&gt;[&lt;/span&gt;&lt;span style="color:#bd93f9"&gt;5&lt;/span&gt; rows, 212B&lt;span style="color:#ff79c6"&gt;]&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;[&lt;/span&gt;&lt;span style="color:#bd93f9"&gt;18&lt;/span&gt; rows/s, 777B/s&lt;span style="color:#ff79c6"&gt;]&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description></item><item><title>MySQL 8 Docker Basic, Json Type 지원</title><link>https://cdecl.github.io/devops/mysql8-docker/</link><pubDate>Mon, 16 Aug 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/mysql8-docker/</guid><description>&lt;p&gt;MySQL 8 Docker 실행 및 백업, 복원&lt;/p&gt;
 &lt;h2 id="mysql-docker-실행"&gt;MySQL Docker 실행&lt;/h2&gt;
 &lt;h3 id="docker-compose"&gt;docker-compose&lt;/h3&gt;
@@ -97,58 +97,58 @@
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;version&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#39;3&amp;#39;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;version&lt;/span&gt;: &lt;span style="color:#f1fa8c"&gt;&amp;#39;3&amp;#39;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;services&lt;/span&gt;:
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;db&lt;/span&gt;:
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;image&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;mysql:8&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;container_name&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;mysql8&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;command&lt;/span&gt;: --&lt;span style="color:#ae81ff"&gt;default-authentication-plugin=mysql_native_password &lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;restart&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;always&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;environment&lt;/span&gt;:
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;MYSQL_ROOT_PASSWORD&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;passwd&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;TZ&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;Asia/Seoul&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;ports&lt;/span&gt;:
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#e6db74"&gt;&amp;#34;3380:3306&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#e6db74"&gt;&amp;#34;33800:33060&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;volumes&lt;/span&gt;:
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;data:/var/lib/mysql&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;conf.d:/etc/mysql/conf.d&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;root:/root&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;services&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;db&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;image&lt;/span&gt;: mysql:8
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;container_name&lt;/span&gt;: mysql8
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;command&lt;/span&gt;: --default-authentication-plugin=mysql_native_password
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;restart&lt;/span&gt;: always
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;environment&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;MYSQL_ROOT_PASSWORD&lt;/span&gt;: passwd
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;TZ&lt;/span&gt;: Asia/Seoul
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;ports&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#f1fa8c"&gt;&amp;#34;3380:3306&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#f1fa8c"&gt;&amp;#34;33800:33060&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;volumes&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - data:/var/lib/mysql
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - conf.d:/etc/mysql/conf.d
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - root:/root
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;volumes&lt;/span&gt;:
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;data&lt;/span&gt;:
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;conf.d&lt;/span&gt;:
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;root&lt;/span&gt;:
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ docker-compose up -d
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Creating network &lt;span style="color:#e6db74"&gt;&amp;#34;mysql_default&amp;#34;&lt;/span&gt; with the default driver
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Creating volume &lt;span style="color:#e6db74"&gt;&amp;#34;mysql_data&amp;#34;&lt;/span&gt; with default driver
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Creating volume &lt;span style="color:#e6db74"&gt;&amp;#34;mysql_conf.d&amp;#34;&lt;/span&gt; with default driver
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Creating volume &lt;span style="color:#e6db74"&gt;&amp;#34;mysql_root&amp;#34;&lt;/span&gt; with default driver
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Pulling db &lt;span style="color:#f92672"&gt;(&lt;/span&gt;mysql:8&lt;span style="color:#f92672"&gt;)&lt;/span&gt;...
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;volumes&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;data&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;conf.d&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;root&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ docker-compose up -d
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Creating network &lt;span style="color:#f1fa8c"&gt;&amp;#34;mysql_default&amp;#34;&lt;/span&gt; with the default driver
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Creating volume &lt;span style="color:#f1fa8c"&gt;&amp;#34;mysql_data&amp;#34;&lt;/span&gt; with default driver
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Creating volume &lt;span style="color:#f1fa8c"&gt;&amp;#34;mysql_conf.d&amp;#34;&lt;/span&gt; with default driver
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Creating volume &lt;span style="color:#f1fa8c"&gt;&amp;#34;mysql_root&amp;#34;&lt;/span&gt; with default driver
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Pulling db &lt;span style="color:#ff79c6"&gt;(&lt;/span&gt;mysql:8&lt;span style="color:#ff79c6"&gt;)&lt;/span&gt;...
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;8: Pulling from library/mysql
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;e1acddbe380c: Pull complete
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;bed879327370: Pull complete
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;03285f80bafd: Pull complete
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ccc17412a00a: Pull complete
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;1f556ecc09d1: Pull complete
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;adc5528e468d: Pull complete
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;1afc286d5d53: Pull complete
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;6c724a59adff: Pull complete
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;0f2345f8b0a3: Pull complete
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;c8461a25b23b: Pull complete
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;3adb49279bed: Pull complete
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;77f22cd6c363: Pull complete
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;e1acddbe380c: Pull &lt;span style="color:#8be9fd;font-style:italic"&gt;complete&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;bed879327370: Pull &lt;span style="color:#8be9fd;font-style:italic"&gt;complete&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;03285f80bafd: Pull &lt;span style="color:#8be9fd;font-style:italic"&gt;complete&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ccc17412a00a: Pull &lt;span style="color:#8be9fd;font-style:italic"&gt;complete&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;1f556ecc09d1: Pull &lt;span style="color:#8be9fd;font-style:italic"&gt;complete&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;adc5528e468d: Pull &lt;span style="color:#8be9fd;font-style:italic"&gt;complete&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;1afc286d5d53: Pull &lt;span style="color:#8be9fd;font-style:italic"&gt;complete&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;6c724a59adff: Pull &lt;span style="color:#8be9fd;font-style:italic"&gt;complete&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;0f2345f8b0a3: Pull &lt;span style="color:#8be9fd;font-style:italic"&gt;complete&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;c8461a25b23b: Pull &lt;span style="color:#8be9fd;font-style:italic"&gt;complete&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;3adb49279bed: Pull &lt;span style="color:#8be9fd;font-style:italic"&gt;complete&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;77f22cd6c363: Pull &lt;span style="color:#8be9fd;font-style:italic"&gt;complete&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Digest: sha256:d45561a65aba6edac77be36e0a53f0c1fba67b951cb728348522b671ad63f926
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Status: Downloaded newer image &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; mysql:8
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Creating mysql8 ... &lt;span style="color:#66d9ef"&gt;done&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Status: Downloaded newer image &lt;span style="color:#ff79c6"&gt;for&lt;/span&gt; mysql:8
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Creating mysql8 ... &lt;span style="color:#ff79c6"&gt;done&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="연결-테스트"&gt;연결 테스트&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;docker &lt;code&gt;-t&lt;/code&gt; 옵션 제외 : the input device is not a TTY&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# echo &amp;#39;select host, user from mysql.user&amp;#39; | docker exec -i mysql8 mysql -uroot -ppasswd&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ docker exec -i mysql8 mysql -uroot -ppasswd &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;select host, user from mysql.user&amp;#39;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;mysql: &lt;span style="color:#f92672"&gt;[&lt;/span&gt;Warning&lt;span style="color:#f92672"&gt;]&lt;/span&gt; Using a password on the command line interface can be insecure.
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# echo &amp;#39;select host, user from mysql.user&amp;#39; | docker exec -i mysql8 mysql -uroot -ppasswd&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ docker &lt;span style="color:#8be9fd;font-style:italic"&gt;exec&lt;/span&gt; -i mysql8 mysql -uroot -ppasswd &lt;span style="color:#ff79c6"&gt;&amp;lt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style="color:#f1fa8c"&gt;&amp;#39;select host, user from mysql.user&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;mysql: &lt;span style="color:#ff79c6"&gt;[&lt;/span&gt;Warning&lt;span style="color:#ff79c6"&gt;]&lt;/span&gt; Using a password on the &lt;span style="color:#8be9fd;font-style:italic"&gt;command&lt;/span&gt; line interface can be insecure.
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;host user
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;% root
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;localhost mysql.infoschema

@@ -9,13 +9,13 @@
 &lt;li&gt;처리 속도, 남은 시간 등 유용한 정보를 함께 표시해줍니다.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3 id="설치"&gt;설치&lt;/h3&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;pip install tqdm
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;pip install tqdm
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="간략-예제-코드"&gt;간략 예제 코드&lt;/h3&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-python" data-lang="python"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;import&lt;/span&gt; time
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;from&lt;/span&gt; tqdm &lt;span style="color:#f92672"&gt;import&lt;/span&gt; tqdm
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-python" data-lang="python"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;import&lt;/span&gt; time
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;from&lt;/span&gt; tqdm &lt;span style="color:#ff79c6"&gt;import&lt;/span&gt; tqdm
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; i &lt;span style="color:#f92672"&gt;in&lt;/span&gt; tqdm(range(&lt;span style="color:#ae81ff"&gt;100&lt;/span&gt;), desc&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;Processing&amp;#34;&lt;/span&gt;):
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; time&lt;span style="color:#f92672"&gt;.&lt;/span&gt;sleep(&lt;span style="color:#ae81ff"&gt;0.05&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;for&lt;/span&gt; i &lt;span style="color:#ff79c6"&gt;in&lt;/span&gt; tqdm(&lt;span style="color:#8be9fd;font-style:italic"&gt;range&lt;/span&gt;(&lt;span style="color:#bd93f9"&gt;100&lt;/span&gt;), desc&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;&lt;span style="color:#f1fa8c"&gt;&amp;#34;Processing&amp;#34;&lt;/span&gt;):
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; time&lt;span style="color:#ff79c6"&gt;.&lt;/span&gt;sleep(&lt;span style="color:#bd93f9"&gt;0.05&lt;/span&gt;)
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="실행-결과"&gt;실행 결과&lt;/h3&gt;
 &lt;pre tabindex="0"&gt;&lt;code&gt;Processing: 100%|██████████| 100/100 [00:05&amp;lt;00:00, 19.99it/s]
 &lt;/code&gt;&lt;/pre&gt;&lt;h3 id="추가-예제-리스트와-함께-사용"&gt;추가 예제: 리스트와 함께 사용&lt;/h3&gt;
