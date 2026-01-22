@@ -1,5 +1,6 @@
 # Hugo generated files
 /public/
+/resources/
 .hugo_build.lock
 
 # Python virtual environment

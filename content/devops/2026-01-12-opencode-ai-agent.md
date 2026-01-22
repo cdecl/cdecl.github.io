@@ -11,10 +11,9 @@ OpenCode는 터미널 기반의 오픈소스 AI 코딩 에이전트로, 개발 �
 
 ## OpenCode 핵심 기능
 
-### LSP (Language Server Pro
+### LSP (Language Server Protocol)
 
 #### LSP 서버란?
-LSP(Language Server Pro
 
 #### LSP 자동 로드
 OpenCode는 프로젝트를 열 때 `.lsproj` 파일이나 언어별 설정 파일을 자동으로 스캔하여 해당 프로젝트에 적합한 LSP 서버를 감지하고 설치 및 실행합니다. 예를 들어, TypeScript 프로젝트에서는 자동으로 TypeScript Language Server를 활성화합니다. 이 기능 덕분에 개발자는 별도의 수동 설정 없이 즉시 언어 서비스를 활용할 수 있으며, 에이전트는 LSP 서버와 통신하며 코드 분석, 편집, 리팩토링 등을 지원합니다.

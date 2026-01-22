@@ -1,16 +1,28 @@
 
 @font-face {
-	font-family: 'Pretendard';
-	src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
-	font-weight: 400;
-	font-style: normal;
+    font-family: 'Pretendard';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
 }
 
 body {
     font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
-	font-size: 16px; 
+    font-size: 16px; 
 }
 
+
 :root {
-    --main-width: 900px;
+  --main-width: 800px;
+}
+
+/* 테이블 전체 폰트 크기 */
+table {
+  font-size: 15px;
+}
+
+/* 테이블 헤더 폰트 크기 */
+table th {
+  font-size: 16px;
+  font-weight: 600;
 }
