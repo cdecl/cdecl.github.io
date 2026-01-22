@@ -16,6 +16,7 @@ pagerSize = 10
 [params]
 author = "Byung Kyu KIM"
 description = "cdecl's Development Blog - Dev, DevOps, Etc."
+mainSections = ["dev", "devops", "etc", "util"]
 defaultTheme = "auto"
 displayFullLangName = true
 ShowToc = true
@@ -77,17 +78,29 @@ baseName = "searchindex"
 
 ignoreLogs = ["warning-goldmark-raw-html"]
 
-[[menu.main]]
-    name = "Archive"
-    url = "archives/"
-    weight = 10
 
 [[menu.main]]
-    name = "Search"
-    url = "search/"
-    weight = 20
+name = "Dev"
+url = "dev/"
+weight = 5
 
 [[menu.main]]
-    name = "Tags"
-    url = "tags/"
-    weight = 30
+name = "DevOps"
+url = "devops/"
+weight = 6
+
+
+[[menu.main]]
+name = "Archive"
+url = "archives/"
+weight = 10
+
+[[menu.main]]
+name = "Search"
+url = "search/"
+weight = 20
+
+[[menu.main]]
+name = "Tags"
+url = "tags/"
+weight = 30
