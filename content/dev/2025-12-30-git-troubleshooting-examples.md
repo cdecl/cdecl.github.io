@@ -74,7 +74,7 @@ Git은 강력하지만, 복잡한 상황에서는 개발자를 당황하게 만�
     ```bash
     # 현재 위치에서 'temp-work' 라는 새 브랜치를 생성
     git checkout -b temp-work
-    ```
+
     > `git checkout -b <new-branch>`: 현재 위치(커밋)에서 새로운 브랜치를 생성하고, 즉시 해당 브랜치로 전환합니다.
 
     # 이제 'temp-work' 브랜치에서 안전하게 커밋을 이어갈 수 있습니다.
