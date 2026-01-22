@@ -15,8 +15,8 @@ pagerSize = 10
 
 [params]
 author = "Byung Kyu KIM"
-description = "cdecl's Development Blog - Dev, DevOps, Etc."
-mainSections = ["dev", "devops", "etc", "util"]
+description = "cdecl's Dev.Ops Blog"
+mainSections = ["dev", "devops", "post"]
 defaultTheme = "auto"
 displayFullLangName = true
 ShowToc = true
@@ -26,8 +26,8 @@ ShowCodeCopyButtons = true
 
 
 [params.homeInfoParams]
-Title = "cdeclog"
-Content = "Bright size life ✔ Write down what comes to mind"
+Title = "CDECLOG"
+Content = "✔ Write down what comes to mind :: Bright size life "
 
 [[params.socialIcons]]
 name = "github"
