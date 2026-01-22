@@ -434,7 +434,23 @@ POSIX 기반의 BRE(Basic Regular Expressions), ERE(Extended Regular Expressions
 &lt;h2 id="duckdb-cli-및-sql-cheatsheet-가이드"&gt;DuckDB CLI 및 SQL CheatSheet 가이드&lt;/h2&gt;
 &lt;h3 id="1-duckdb와-clisql-기능-소개"&gt;1. DuckDB와 CLI/SQL 기능 소개&lt;/h3&gt;
 &lt;p&gt;DuckDB는 고성능 분석 쿼리를 위해 설계된 인-프로세스, 컬럼 지향 OLAP 데이터베이스입니다. CLI와 SQL 인터페이스를 통해 CSV, Parquet, JSON, Excel 등의 파일 포맷을 처리하고, 데이터베이스를 관리하며, HTTP/S3와 같은 웹 기반 스토리지와 통합할 수 있습니다. 이 치트시트는 DuckDB의 CLI와 SQL 명령어를 중심으로 실용적인 예제와 모범 사례를 제공합니다.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;주요 기능&lt;/strong&gt;:&lt;/p&gt;</description></item><item><title>tr, sed, sd 명령어 비교</title><link>https://cdecl.github.io/devops/sed-sd-comparison/</link><pubDate>Thu, 07 Nov 2024 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/sed-sd-comparison/</guid><description>&lt;p&gt;강력한 텍스트 처리 도구인 tr, sed, 그리고 최신 도구인 sd에 대해 알아보고 비교해 보겠습니다.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;주요 기능&lt;/strong&gt;:&lt;/p&gt;</description></item><item><title>macOS Homebrew Cask, 추가 애플리케이션</title><link>https://cdecl.github.io/devops/apps-for-macos/</link><pubDate>Sun, 17 Nov 2024 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/apps-for-macos/</guid><description>&lt;p&gt;macOS 애플리케이션 - personal installation&lt;/p&gt;
+&lt;h2 id="시스템-유틸리티"&gt;시스템 유틸리티&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;alt-tab (AltTab.app)&lt;br&gt;
+윈도우 스타일의 앱 전환기로, 모든 열린 창을 한눈에 보고 빠르게 전환할 수 있습니다.&lt;br&gt;
+macOS의 기본 앱 전환 기능을 개선하여 생산성을 높이는 데 도움을 줍니다.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;linearmouse (LinearMouse.app)&lt;br&gt;
+macOS용 마우스 커스터마이징 도구로, 스크롤 방향, 속도, 버튼 기능 등을 세밀하게 조정할 수 있습니다.&lt;br&gt;
+특히 서드파티 마우스 사용 시 macOS의 제한적인 마우스 설정을 보완해줍니다.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;rectangle (Rectangle.app)&lt;br&gt;
+키보드 단축키로 창 크기와 위치를 쉽게 조절할 수 있는 창 관리 도구입니다.&lt;br&gt;
+다중 모니터 환경에서 창 관리를 효율적으로 할 수 있어 작업 생산성을 크게 향상시킵니다.&lt;/p&gt;</description></item><item><title>tr, sed, sd 명령어 비교</title><link>https://cdecl.github.io/devops/sed-sd-comparison/</link><pubDate>Thu, 07 Nov 2024 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/sed-sd-comparison/</guid><description>&lt;p&gt;강력한 텍스트 처리 도구인 tr, sed, 그리고 최신 도구인 sd에 대해 알아보고 비교해 보겠습니다.&lt;/p&gt;
 &lt;h2 id="tr-명령어"&gt;tr 명령어&lt;/h2&gt;
 &lt;p&gt;tr은 &amp;rsquo;translate&amp;rsquo;의 약자로, 문자열을 변환하거나 삭제하는 데 사용되는 간단하면서도 강력한 도구입니다.&lt;/p&gt;
 &lt;h3 id="주요-기능"&gt;주요 기능&lt;/h3&gt;
@@ -3690,7 +3706,62 @@ localhost:5000/cdecl/alpine:latest
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ git config --global -l
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;oh-my-zsh.hide-status&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;oh-my-zsh.hide-dirty&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description></item><item><title>Vim 최소 설정</title><link>https://cdecl.github.io/devops/vimrc/</link><pubDate>Thu, 19 Aug 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/vimrc/</guid><description>&lt;p&gt;vim 최소 설정&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description></item><item><title>Mac Application</title><link>https://cdecl.github.io/devops/mac-app/</link><pubDate>Thu, 19 Aug 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/mac-app/</guid><description>&lt;p&gt;Mac 설치 어플리케이션&lt;/p&gt;
+&lt;h3 id="brew-패키지-관리자"&gt;&lt;code&gt;brew&lt;/code&gt; 패키지 관리자&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://brew.sh/index_ko"&gt;https://brew.sh/index_ko&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 설치 &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ brew search iterm2
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ brew install iterm2
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="karabiner-elements"&gt;&lt;code&gt;karabiner-elements&lt;/code&gt;&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;brew install brew search karabiner&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://karabiner-elements.pqrs.org/"&gt;https://karabiner-elements.pqrs.org/&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;li&gt;오른쪽 command 버튼 한영키로 매핑&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="iterm2-터미널"&gt;&lt;code&gt;iTerm2&lt;/code&gt; 터미널&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;brew install iterm2&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="zsh-oh-my-zsh"&gt;Zsh, Oh My Zsh&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/ohmyzsh/ohmyzsh"&gt;https://github.com/ohmyzsh/ohmyzsh&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# zsh install &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ brew install zsh
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# oh my zsh&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="vscode"&gt;&lt;code&gt;VSCode&lt;/code&gt;&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://code.visualstudio.com/"&gt;https://code.visualstudio.com/&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="docker"&gt;&lt;code&gt;Docker&lt;/code&gt;&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.docker.com/get-started"&gt;https://www.docker.com/get-started&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="dbeaver-db-tool"&gt;Dbeaver DB Tool&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;brew install dbeaver-community&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="iina-동영상-플레이어"&gt;IINA 동영상 플레이어&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;brew install iina&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://iina.io/"&gt;https://iina.io/&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="mounty-ntfs-mount"&gt;Mounty NTFS Mount&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;brew search mounty&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://mounty.app/"&gt;https://mounty.app/&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="keka-압축프로그램"&gt;&lt;code&gt;Keka&lt;/code&gt; 압축프로그램&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;brew install keka&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.keka.io/ko/"&gt;https://www.keka.io/ko/&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
+&lt;/ul&gt;</description></item><item><title>Vim 최소 설정</title><link>https://cdecl.github.io/devops/vimrc/</link><pubDate>Thu, 19 Aug 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/vimrc/</guid><description>&lt;p&gt;vim 최소 설정&lt;/p&gt;
 &lt;h3 id="vimrc"&gt;.vimrc&lt;/h3&gt;
 &lt;pre tabindex="0"&gt;&lt;code&gt;set ts=4
 set autoindent

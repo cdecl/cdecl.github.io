@@ -724,7 +724,7 @@ POSIX 기반의 BRE(Basic Regular Expressions), ERE(Extended Regular Expressions
 &lt;li&gt;&lt;strong&gt;스크린샷 캡처:&lt;/strong&gt; 페이지 또는 요소 캡처&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;헤드리스 모드:&lt;/strong&gt; GUI 없는 실행&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Playwright는 Selenium보다 최신 기술을 활용하며, 자동 대기와 간결한 API를 제공합니다.&lt;/p&gt;</description></item><item><title>macOS Homebrew Cask, 추가 애플리케이션</title><link>https://cdecl.github.io/util/apps-for-macos/</link><pubDate>Sun, 17 Nov 2024 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/util/apps-for-macos/</guid><description>&lt;p&gt;macOS 애플리케이션 - personal installation&lt;/p&gt;
+&lt;p&gt;Playwright는 Selenium보다 최신 기술을 활용하며, 자동 대기와 간결한 API를 제공합니다.&lt;/p&gt;</description></item><item><title>macOS Homebrew Cask, 추가 애플리케이션</title><link>https://cdecl.github.io/devops/apps-for-macos/</link><pubDate>Sun, 17 Nov 2024 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/apps-for-macos/</guid><description>&lt;p&gt;macOS 애플리케이션 - personal installation&lt;/p&gt;
 &lt;h2 id="시스템-유틸리티"&gt;시스템 유틸리티&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;
@@ -5058,7 +5058,7 @@ localhost:5000/cdecl/alpine:latest
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ git config --global -l
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;oh-my-zsh.hide-status&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;oh-my-zsh.hide-dirty&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description></item><item><title>Mac Application</title><link>https://cdecl.github.io/etc/mac-app/</link><pubDate>Thu, 19 Aug 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/etc/mac-app/</guid><description>&lt;p&gt;Mac 설치 어플리케이션&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description></item><item><title>Mac Application</title><link>https://cdecl.github.io/devops/mac-app/</link><pubDate>Thu, 19 Aug 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/mac-app/</guid><description>&lt;p&gt;Mac 설치 어플리케이션&lt;/p&gt;
 &lt;h3 id="brew-패키지-관리자"&gt;&lt;code&gt;brew&lt;/code&gt; 패키지 관리자&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="https://brew.sh/index_ko"&gt;https://brew.sh/index_ko&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
