@@ -22,6 +22,7 @@ displayFullLangName = true
 ShowToc = true
 TocOpen = false
 TocSidebar = true
+ShowCodeCopyButtons = true
 
 
 [params.homeInfoParams]
@@ -38,11 +39,7 @@ name = "website" # Using 'website' or 'link' as a generic icon
 url = "https://cdecl.tistory.com/"
 
 [params.comments]
-  enable = true
-  [params.comments.utterances]
-    repo = "cdecl/cdeclog" # Assuming this is the correct repo
-    issueTerm = "pathname"
-    theme = "github-dark"
+enable = true
 
 [params.profileMode]
 enabled = false
@@ -71,6 +68,9 @@ tableOfContents = { startLevel = 2, endLevel = 6 }
 [markup.goldmark.renderer]
 unsafe = true
 hardWraps = false
+
+[markup.highlight]
+style = "dracula"  # 또는 "github", "dracula" 등
 
 [outputFormats.searchindex]
 mediaType = "application/json"
