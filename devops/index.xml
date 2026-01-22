@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Devops on cdeclog</title><link>https://cdecl.github.io/devops/</link><description>Recent content in Devops on cdeclog</description><generator>Hugo -- 0.154.5</generator><language>ko-kr</language><lastBuildDate>Mon, 12 Jan 2026 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/devops/index.xml" rel="self" type="application/rss+xml"/><item><title>OpenCode: AI 코딩 에이전트 가이드</title><link>https://cdecl.github.io/devops/opencode-ai-agent/</link><pubDate>Mon, 12 Jan 2026 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/opencode-ai-agent/</guid><description>&lt;p&gt;OpenCode는 터미널 기반의 오픈소스 AI 코딩 에이전트로, 개발 생산성 향상을 목표로 합니다. LSP(Language Server Pro&lt;/p&gt;
 &lt;h2 id="opencode-핵심-기능"&gt;OpenCode 핵심 기능&lt;/h2&gt;
-&lt;h3 id="lsp-language-server-pro"&gt;LSP (Language Server Pro&lt;/h3&gt;
+&lt;h3 id="lsp-language-server-protocol"&gt;LSP (Language Server Protocol)&lt;/h3&gt;
 &lt;h4 id="lsp-서버란"&gt;LSP 서버란?&lt;/h4&gt;
-&lt;p&gt;LSP(Language Server Pro&lt;/p&gt;
 &lt;h4 id="lsp-자동-로드"&gt;LSP 자동 로드&lt;/h4&gt;
 &lt;p&gt;OpenCode는 프로젝트를 열 때 &lt;code&gt;.lsproj&lt;/code&gt; 파일이나 언어별 설정 파일을 자동으로 스캔하여 해당 프로젝트에 적합한 LSP 서버를 감지하고 설치 및 실행합니다. 예를 들어, TypeScript 프로젝트에서는 자동으로 TypeScript Language Server를 활성화합니다. 이 기능 덕분에 개발자는 별도의 수동 설정 없이 즉시 언어 서비스를 활용할 수 있으며, 에이전트는 LSP 서버와 통신하며 코드 분석, 편집, 리팩토링 등을 지원합니다.&lt;/p&gt;</description></item><item><title>tmux 시작하기: 기본 개념, 필수 명령어</title><link>https://cdecl.github.io/devops/tmux-guide/</link><pubDate>Wed, 07 Jan 2026 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/tmux-guide/</guid><description>&lt;p&gt;tmux는 터미널 멀티플렉서로, 하나의 터미널 창에서 여러 세션, 윈도우, 패널을 관리하여 생산성을 극대화하는 강력한 도구입니다. 이 글에서는 tmux의 기본 개념, 설치 방법, 주요 용어 및 필수 명령어에 대해 알아봅니다.&lt;/p&gt;
 &lt;h2 id="개요"&gt;개요&lt;/h2&gt;

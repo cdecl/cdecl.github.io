@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>cdeclog</title><link>https://cdecl.github.io/</link><description>Recent content on cdeclog</description><generator>Hugo -- 0.154.5</generator><language>ko-kr</language><lastBuildDate>Mon, 12 Jan 2026 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>OpenCode: AI 코딩 에이전트 가이드</title><link>https://cdecl.github.io/devops/opencode-ai-agent/</link><pubDate>Mon, 12 Jan 2026 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/opencode-ai-agent/</guid><description>&lt;p&gt;OpenCode는 터미널 기반의 오픈소스 AI 코딩 에이전트로, 개발 생산성 향상을 목표로 합니다. LSP(Language Server Pro&lt;/p&gt;
 &lt;h2 id="opencode-핵심-기능"&gt;OpenCode 핵심 기능&lt;/h2&gt;
-&lt;h3 id="lsp-language-server-pro"&gt;LSP (Language Server Pro&lt;/h3&gt;
+&lt;h3 id="lsp-language-server-protocol"&gt;LSP (Language Server Protocol)&lt;/h3&gt;
 &lt;h4 id="lsp-서버란"&gt;LSP 서버란?&lt;/h4&gt;
-&lt;p&gt;LSP(Language Server Pro&lt;/p&gt;
 &lt;h4 id="lsp-자동-로드"&gt;LSP 자동 로드&lt;/h4&gt;
 &lt;p&gt;OpenCode는 프로젝트를 열 때 &lt;code&gt;.lsproj&lt;/code&gt; 파일이나 언어별 설정 파일을 자동으로 스캔하여 해당 프로젝트에 적합한 LSP 서버를 감지하고 설치 및 실행합니다. 예를 들어, TypeScript 프로젝트에서는 자동으로 TypeScript Language Server를 활성화합니다. 이 기능 덕분에 개발자는 별도의 수동 설정 없이 즉시 언어 서비스를 활용할 수 있으며, 에이전트는 LSP 서버와 통신하며 코드 분석, 편집, 리팩토링 등을 지원합니다.&lt;/p&gt;</description></item><item><title>Git Worktree: 하나의 저장소, 여러 작업 공간</title><link>https://cdecl.github.io/dev/git-worktree-guide/</link><pubDate>Wed, 07 Jan 2026 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/git-worktree-guide/</guid><description>&lt;p&gt;Git Worktree란 무엇이며 왜 필요한가? Stash와의 차이점부터 주요 명령어까지, 효율적인 브랜치 관리&lt;/p&gt;
 &lt;h2 id="개요"&gt;개요&lt;/h2&gt;
@@ -40,8 +39,34 @@
 &lt;/ul&gt;
 &lt;h4 id="사례-2-실수로-파일을-삭제했는데-커밋은-아직-안-했을-때-rm-atxt"&gt;사례 2: 실수로 파일을 삭제했는데, 커밋은 아직 안 했을 때 (&lt;code&gt;rm a.txt&lt;/code&gt;)&lt;/h4&gt;
 &lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;문제 상황:&lt;/strong&gt; &lt;code&gt;git rm&lt;/code&gt;이 아닌 &lt;code&gt;rm&lt;/code&gt; 명령어로 파일을 삭제했습니다. &lt;code&gt;git status&lt;/code&gt;에 &amp;ldquo;deleted: a.txt&amp;quot;로 표시됩니다.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;해결 방안:&lt;/strong&gt; &lt;code&gt;checkout&lt;/code&gt;을 사용해 현재 브랜치(HEAD)의 마지막 커밋 상태에서 해당 파일을 복원합니다.
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# a.txt 파일을 마지막 커밋 상태로 복원&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git checkout HEAD -- a.txt
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;```&lt;/span&gt;bash
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&amp;gt; &lt;span style="color:#e6db74"&gt;`&lt;/span&gt;git checkout &amp;lt;commit&amp;gt; -- &amp;lt;file&amp;gt;&lt;span style="color:#e6db74"&gt;`&lt;/span&gt;: 특정 커밋 상태의 특정 파일을 현재 작업 디렉터리로 복원합니다. &lt;span style="color:#e6db74"&gt;`&lt;/span&gt;--&lt;span style="color:#e6db74"&gt;`&lt;/span&gt;는 브랜치/커밋과 파일 경로를 명확하게 구분하는 역할을 합니다.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# -- 를 사용하면 브랜치 이름과 파일 이름을 명확히 구분할 수 있어 안전합니다.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id="사례-3-브랜치를-옮기지-않고-다른-브랜치의-파일-내용만-보고-싶을-때"&gt;사례 3: 브랜치를 옮기지 않고 다른 브랜치의 파일 내용만 보고 싶을 때&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;문제 상황:&lt;/strong&gt; 현재 브랜치는 &lt;code&gt;feature&lt;/code&gt;인데, &lt;code&gt;main&lt;/code&gt; 브랜치의 &lt;code&gt;config.yml&lt;/code&gt; 파일 내용과 비교하고 싶습니다. 브랜치를 통째로 옮기기엔 부담스럽습니다.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;해결 방안:&lt;/strong&gt; &lt;code&gt;git show&lt;/code&gt; 또는 &lt;code&gt;git checkout&lt;/code&gt;을 특정 파일에 대해서만 실행합니다.
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 1. git show 사용 (단순 조회)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git show main:path/to/config.yml
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&amp;gt; &lt;span style="color:#e6db74"&gt;`&lt;/span&gt;git show &amp;lt;branch&amp;gt;:&amp;lt;path/to/file&amp;gt;&lt;span style="color:#e6db74"&gt;`&lt;/span&gt;: 브랜치를 변경하지 않고, 다른 브랜치에 있는 파일의 내용을 터미널에 출력합니다.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 2. git checkout 사용 (현재 작업 디렉터리로 가져오기)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git checkout main -- path/to/config.yml
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 위 명령은 `main` 브랜치의 `config.yml`을 현재 디렉터리로 가져와 덮어씁니다.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 주의: 현재 작업 디렉터리의 내용이 변경됩니다.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id="사례-4-detached-head-상태가-되었을-때"&gt;사례 4: &amp;ldquo;Detached HEAD&amp;rdquo; 상태가 되었을 때&lt;/h4&gt;
+&lt;ul&gt;
 &lt;li&gt;
-&lt;p&gt;&lt;strong&gt;문제 상황:&lt;/strong&gt; &lt;code&gt;git rm&lt;/code&gt;이 아닌 &lt;code&gt;rm&lt;/code&gt; 명령어로 파일을 삭제했습니다. &lt;code&gt;git status&lt;/code&gt;에 &amp;ldquo;deleted: a.txt&amp;quot;로 표시됩니다.&lt;/p&gt;</description></item><item><title>Supabase RLS와 anon 키: RLS Disabled in Public, 백엔드 개발자를 위한 보안 가이드</title><link>https://cdecl.github.io/devops/supabase-rls-anon-key-security-guide/</link><pubDate>Tue, 23 Dec 2025 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/supabase-rls-anon-key-security-guide/</guid><description>&lt;p&gt;Supabase는 편리한 기능과 자동화된 API 덕분에 많은 개발자에게 사랑받고 있지만, 간혹 대시보드에 나타나는 &amp;ldquo;RLS Disabled&amp;rdquo; 경고는 백엔드 개발자들을 혼란에 빠뜨리곤 합니다. &amp;ldquo;나는 백엔드에서만 안전하게 통신하는데, 이게 왜 문제지?&amp;ldquo;라고 생각했다면 이 글이 명쾌한 해답을 드릴 것입니다. 이 글에서는 RLS와 anon 키의 관계를 명확히 이해하고, 백엔드 중심 프로젝트에서 RLS를 어떻게 활용해야 하는지에 대한 모범 사례를 제시합니다.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;문제 상황:&lt;/strong&gt; &lt;code&gt;git checkout &amp;lt;commit-hash&amp;gt;&lt;/code&gt; 나 &lt;code&gt;git checkout origin/main&lt;/code&gt; 처럼 브랜치가 아닌 포인터를 직접 체크아웃하면 &amp;ldquo;You are in &amp;lsquo;detached HEAD&amp;rsquo; state.&amp;rdquo; 라는 메시지가 나옵니다. 이 상태에서 작업하고 커밋하면 해당 커밋은 어떤 브랜치에도 속하지 않게 되어 나중에 잃어버릴 수 있습니다.&lt;/p&gt;</description></item><item><title>Supabase RLS와 anon 키: RLS Disabled in Public, 백엔드 개발자를 위한 보안 가이드</title><link>https://cdecl.github.io/devops/supabase-rls-anon-key-security-guide/</link><pubDate>Tue, 23 Dec 2025 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/supabase-rls-anon-key-security-guide/</guid><description>&lt;p&gt;Supabase는 편리한 기능과 자동화된 API 덕분에 많은 개발자에게 사랑받고 있지만, 간혹 대시보드에 나타나는 &amp;ldquo;RLS Disabled&amp;rdquo; 경고는 백엔드 개발자들을 혼란에 빠뜨리곤 합니다. &amp;ldquo;나는 백엔드에서만 안전하게 통신하는데, 이게 왜 문제지?&amp;ldquo;라고 생각했다면 이 글이 명쾌한 해답을 드릴 것입니다. 이 글에서는 RLS와 anon 키의 관계를 명확히 이해하고, 백엔드 중심 프로젝트에서 RLS를 어떻게 활용해야 하는지에 대한 모범 사례를 제시합니다.&lt;/p&gt;
 &lt;h2 id="1-문제-상황-rls-disabled-in-public-경고의-의미"&gt;1. 문제 상황: &amp;ldquo;RLS Disabled in Public&amp;rdquo; 경고의 의미&lt;/h2&gt;
 &lt;p&gt;Supabase 대시보드에서 &lt;code&gt;public.users&lt;/code&gt; 또는 &lt;code&gt;public.notes&lt;/code&gt;와 같은 테이블에 대해 &lt;strong&gt;RLS Disabled&lt;/strong&gt; 경고를 마주하는 것은 생각보다 흔한 일입니다. 이 경고의 진짜 의미는 무엇일까요?&lt;/p&gt;</description></item><item><title>Python Web 프레임워크 (Flask, FastAPI) Vercel로 배포하기</title><link>https://cdecl.github.io/devops/python-web-framework-vercel-deploy/</link><pubDate>Sun, 21 Dec 2025 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/python-web-framework-vercel-deploy/</guid><description>&lt;p&gt;Python 기반의 웹 프레임워크인 &lt;strong&gt;Flask&lt;/strong&gt;나 &lt;strong&gt;FastAPI&lt;/strong&gt;를 개발한 후, 이를 실제 서비스로 배포하는 방법은 여러 가지가 있습니다. (AWS EC2, Docker, Heroku 등)
 그 중에서도 &lt;strong&gt;Vercel&lt;/strong&gt;은 복잡한 서버 관리 없이 가장 간편하고 빠르게 배포할 수 있는 플랫폼 중 하나입니다. 이번 글에서는 Vercel을 사용하여 Python 웹 애플리케이션을 배포하는 전반적인 과정과 주요 개념들을 정리해 보겠습니다.&lt;/p&gt;

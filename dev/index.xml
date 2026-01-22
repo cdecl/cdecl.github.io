@@ -28,8 +28,34 @@
 &lt;/ul&gt;
 &lt;h4 id="사례-2-실수로-파일을-삭제했는데-커밋은-아직-안-했을-때-rm-atxt"&gt;사례 2: 실수로 파일을 삭제했는데, 커밋은 아직 안 했을 때 (&lt;code&gt;rm a.txt&lt;/code&gt;)&lt;/h4&gt;
 &lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;문제 상황:&lt;/strong&gt; &lt;code&gt;git rm&lt;/code&gt;이 아닌 &lt;code&gt;rm&lt;/code&gt; 명령어로 파일을 삭제했습니다. &lt;code&gt;git status&lt;/code&gt;에 &amp;ldquo;deleted: a.txt&amp;quot;로 표시됩니다.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;해결 방안:&lt;/strong&gt; &lt;code&gt;checkout&lt;/code&gt;을 사용해 현재 브랜치(HEAD)의 마지막 커밋 상태에서 해당 파일을 복원합니다.
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# a.txt 파일을 마지막 커밋 상태로 복원&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git checkout HEAD -- a.txt
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;```&lt;/span&gt;bash
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&amp;gt; &lt;span style="color:#e6db74"&gt;`&lt;/span&gt;git checkout &amp;lt;commit&amp;gt; -- &amp;lt;file&amp;gt;&lt;span style="color:#e6db74"&gt;`&lt;/span&gt;: 특정 커밋 상태의 특정 파일을 현재 작업 디렉터리로 복원합니다. &lt;span style="color:#e6db74"&gt;`&lt;/span&gt;--&lt;span style="color:#e6db74"&gt;`&lt;/span&gt;는 브랜치/커밋과 파일 경로를 명확하게 구분하는 역할을 합니다.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# -- 를 사용하면 브랜치 이름과 파일 이름을 명확히 구분할 수 있어 안전합니다.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id="사례-3-브랜치를-옮기지-않고-다른-브랜치의-파일-내용만-보고-싶을-때"&gt;사례 3: 브랜치를 옮기지 않고 다른 브랜치의 파일 내용만 보고 싶을 때&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;문제 상황:&lt;/strong&gt; 현재 브랜치는 &lt;code&gt;feature&lt;/code&gt;인데, &lt;code&gt;main&lt;/code&gt; 브랜치의 &lt;code&gt;config.yml&lt;/code&gt; 파일 내용과 비교하고 싶습니다. 브랜치를 통째로 옮기기엔 부담스럽습니다.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;해결 방안:&lt;/strong&gt; &lt;code&gt;git show&lt;/code&gt; 또는 &lt;code&gt;git checkout&lt;/code&gt;을 특정 파일에 대해서만 실행합니다.
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 1. git show 사용 (단순 조회)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git show main:path/to/config.yml
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&amp;gt; &lt;span style="color:#e6db74"&gt;`&lt;/span&gt;git show &amp;lt;branch&amp;gt;:&amp;lt;path/to/file&amp;gt;&lt;span style="color:#e6db74"&gt;`&lt;/span&gt;: 브랜치를 변경하지 않고, 다른 브랜치에 있는 파일의 내용을 터미널에 출력합니다.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 2. git checkout 사용 (현재 작업 디렉터리로 가져오기)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git checkout main -- path/to/config.yml
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 위 명령은 `main` 브랜치의 `config.yml`을 현재 디렉터리로 가져와 덮어씁니다.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 주의: 현재 작업 디렉터리의 내용이 변경됩니다.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id="사례-4-detached-head-상태가-되었을-때"&gt;사례 4: &amp;ldquo;Detached HEAD&amp;rdquo; 상태가 되었을 때&lt;/h4&gt;
+&lt;ul&gt;
 &lt;li&gt;
-&lt;p&gt;&lt;strong&gt;문제 상황:&lt;/strong&gt; &lt;code&gt;git rm&lt;/code&gt;이 아닌 &lt;code&gt;rm&lt;/code&gt; 명령어로 파일을 삭제했습니다. &lt;code&gt;git status&lt;/code&gt;에 &amp;ldquo;deleted: a.txt&amp;quot;로 표시됩니다.&lt;/p&gt;</description></item><item><title>Github에서 사용되는 주요 라이선스 종류 및 허용, 제약 사항</title><link>https://cdecl.github.io/dev/github-open-source-licenses/</link><pubDate>Thu, 11 Dec 2025 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/github-open-source-licenses/</guid><description>&lt;p&gt;오픈 소스 프로젝트를 시작하거나 기여할 때 가장 먼저 고려해야 할 것 중 하나는 **라이선스(License)**입니다. Github에는 수많은 프로젝트가 존재하며, 각 프로젝트는 코드 사용에 대한 권리와 의무를 규정하는 라이선스를 가지고 있습니다.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;문제 상황:&lt;/strong&gt; &lt;code&gt;git checkout &amp;lt;commit-hash&amp;gt;&lt;/code&gt; 나 &lt;code&gt;git checkout origin/main&lt;/code&gt; 처럼 브랜치가 아닌 포인터를 직접 체크아웃하면 &amp;ldquo;You are in &amp;lsquo;detached HEAD&amp;rsquo; state.&amp;rdquo; 라는 메시지가 나옵니다. 이 상태에서 작업하고 커밋하면 해당 커밋은 어떤 브랜치에도 속하지 않게 되어 나중에 잃어버릴 수 있습니다.&lt;/p&gt;</description></item><item><title>Github에서 사용되는 주요 라이선스 종류 및 허용, 제약 사항</title><link>https://cdecl.github.io/dev/github-open-source-licenses/</link><pubDate>Thu, 11 Dec 2025 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/github-open-source-licenses/</guid><description>&lt;p&gt;오픈 소스 프로젝트를 시작하거나 기여할 때 가장 먼저 고려해야 할 것 중 하나는 **라이선스(License)**입니다. Github에는 수많은 프로젝트가 존재하며, 각 프로젝트는 코드 사용에 대한 권리와 의무를 규정하는 라이선스를 가지고 있습니다.&lt;/p&gt;
 &lt;p&gt;라이선스를 제대로 이해하지 못하고 코드를 사용하면 법적 분쟁에 휘말릴 수 있습니다. 이 글에서는 Github에서 가장 널리 사용되는 주요 오픈 소스 라이선스들의 특징과 허용 범위, 제약 사항을 정리해 봅니다.&lt;/p&gt;
 &lt;hr&gt;
 &lt;h2 id="1-mit-라이선스-mit-license"&gt;1. MIT 라이선스 (MIT License)&lt;/h2&gt;

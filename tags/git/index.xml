@@ -28,8 +28,34 @@
 &lt;/ul&gt;
 &lt;h4 id="사례-2-실수로-파일을-삭제했는데-커밋은-아직-안-했을-때-rm-atxt"&gt;사례 2: 실수로 파일을 삭제했는데, 커밋은 아직 안 했을 때 (&lt;code&gt;rm a.txt&lt;/code&gt;)&lt;/h4&gt;
 &lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;문제 상황:&lt;/strong&gt; &lt;code&gt;git rm&lt;/code&gt;이 아닌 &lt;code&gt;rm&lt;/code&gt; 명령어로 파일을 삭제했습니다. &lt;code&gt;git status&lt;/code&gt;에 &amp;ldquo;deleted: a.txt&amp;quot;로 표시됩니다.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;해결 방안:&lt;/strong&gt; &lt;code&gt;checkout&lt;/code&gt;을 사용해 현재 브랜치(HEAD)의 마지막 커밋 상태에서 해당 파일을 복원합니다.
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# a.txt 파일을 마지막 커밋 상태로 복원&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git checkout HEAD -- a.txt
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;```&lt;/span&gt;bash
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&amp;gt; &lt;span style="color:#e6db74"&gt;`&lt;/span&gt;git checkout &amp;lt;commit&amp;gt; -- &amp;lt;file&amp;gt;&lt;span style="color:#e6db74"&gt;`&lt;/span&gt;: 특정 커밋 상태의 특정 파일을 현재 작업 디렉터리로 복원합니다. &lt;span style="color:#e6db74"&gt;`&lt;/span&gt;--&lt;span style="color:#e6db74"&gt;`&lt;/span&gt;는 브랜치/커밋과 파일 경로를 명확하게 구분하는 역할을 합니다.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# -- 를 사용하면 브랜치 이름과 파일 이름을 명확히 구분할 수 있어 안전합니다.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id="사례-3-브랜치를-옮기지-않고-다른-브랜치의-파일-내용만-보고-싶을-때"&gt;사례 3: 브랜치를 옮기지 않고 다른 브랜치의 파일 내용만 보고 싶을 때&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;문제 상황:&lt;/strong&gt; 현재 브랜치는 &lt;code&gt;feature&lt;/code&gt;인데, &lt;code&gt;main&lt;/code&gt; 브랜치의 &lt;code&gt;config.yml&lt;/code&gt; 파일 내용과 비교하고 싶습니다. 브랜치를 통째로 옮기기엔 부담스럽습니다.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;해결 방안:&lt;/strong&gt; &lt;code&gt;git show&lt;/code&gt; 또는 &lt;code&gt;git checkout&lt;/code&gt;을 특정 파일에 대해서만 실행합니다.
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 1. git show 사용 (단순 조회)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git show main:path/to/config.yml
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&amp;gt; &lt;span style="color:#e6db74"&gt;`&lt;/span&gt;git show &amp;lt;branch&amp;gt;:&amp;lt;path/to/file&amp;gt;&lt;span style="color:#e6db74"&gt;`&lt;/span&gt;: 브랜치를 변경하지 않고, 다른 브랜치에 있는 파일의 내용을 터미널에 출력합니다.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 2. git checkout 사용 (현재 작업 디렉터리로 가져오기)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git checkout main -- path/to/config.yml
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 위 명령은 `main` 브랜치의 `config.yml`을 현재 디렉터리로 가져와 덮어씁니다.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 주의: 현재 작업 디렉터리의 내용이 변경됩니다.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id="사례-4-detached-head-상태가-되었을-때"&gt;사례 4: &amp;ldquo;Detached HEAD&amp;rdquo; 상태가 되었을 때&lt;/h4&gt;
+&lt;ul&gt;
 &lt;li&gt;
-&lt;p&gt;&lt;strong&gt;문제 상황:&lt;/strong&gt; &lt;code&gt;git rm&lt;/code&gt;이 아닌 &lt;code&gt;rm&lt;/code&gt; 명령어로 파일을 삭제했습니다. &lt;code&gt;git status&lt;/code&gt;에 &amp;ldquo;deleted: a.txt&amp;quot;로 표시됩니다.&lt;/p&gt;</description></item><item><title>Git 시맨틱 커밋 메시지</title><link>https://cdecl.github.io/dev/semantic-commit-message/</link><pubDate>Sun, 16 Mar 2025 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/semantic-commit-message/</guid><description>&lt;p&gt;Git 시맨틱 커밋 메시지 가이드&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;문제 상황:&lt;/strong&gt; &lt;code&gt;git checkout &amp;lt;commit-hash&amp;gt;&lt;/code&gt; 나 &lt;code&gt;git checkout origin/main&lt;/code&gt; 처럼 브랜치가 아닌 포인터를 직접 체크아웃하면 &amp;ldquo;You are in &amp;lsquo;detached HEAD&amp;rsquo; state.&amp;rdquo; 라는 메시지가 나옵니다. 이 상태에서 작업하고 커밋하면 해당 커밋은 어떤 브랜치에도 속하지 않게 되어 나중에 잃어버릴 수 있습니다.&lt;/p&gt;</description></item><item><title>Git 시맨틱 커밋 메시지</title><link>https://cdecl.github.io/dev/semantic-commit-message/</link><pubDate>Sun, 16 Mar 2025 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/semantic-commit-message/</guid><description>&lt;p&gt;Git 시맨틱 커밋 메시지 가이드&lt;/p&gt;
 &lt;h2 id="시맨틱-커밋-메시지란"&gt;시맨틱 커밋 메시지란?&lt;/h2&gt;
 &lt;p&gt;시맨틱 커밋 메시지는 커밋의 목적과 의도를 명확하게 전달하기 위한 규칙입니다. 이 규칙을 따르면 프로젝트의 히스토리를 쉽게 이해하고 자동화된 도구를 활용할 수 있습니다.&lt;/p&gt;
 &lt;h2 id="기본-구조"&gt;기본 구조&lt;/h2&gt;
