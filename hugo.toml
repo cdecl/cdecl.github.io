@@ -23,6 +23,7 @@ ShowToc = true
 TocOpen = false
 TocSidebar = true
 ShowCodeCopyButtons = true
+ShowBreadCrumbs = true  
 
 
 [params.homeInfoParams]
