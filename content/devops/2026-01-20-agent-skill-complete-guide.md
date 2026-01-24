@@ -297,9 +297,399 @@ Agent Skill의 가장 큰 장점은 **개방형 표준**이라는 점입니다. 
 
 이러한 도구를 통해 개발자들은 자신만의 전문 지식을 패키징하여 팀과 공유하거나, 커뮤니티에서 검증된 스킬을 즉시 프로젝트에 도입할 수 있습니다.
 
+### npx add-skill: 대화형 Skill 생성 도구
+
+기존에 이미 만든 Skill을 설치하는 것 외에, `npx add-skill`은 **새로운 Skill을 대화형으로 생성**하는 도구입니다.
+
+**기본 사용법**:
+```bash
+npx add-skill
+```
+
+**대화형 프롬프트**:
+```
+? Skill 이름을 입력하세요: pdf-form-filler
+? Skill 설명: PDF 양식 필드를 자동으로 채웁니다
+? 어떤 도구를 사용하시겠습니까? (Bash, Read, Python)
+? 참고 자료를 추가하시겠습니까? (Y/n)
+? GitHub에 배포하시겠습니까? (y/N)
+```
+
+**생성되는 파일 구조**:
+```
+my-new-skill/
+├── SKILL.md           # ← 자동 생성된 메타데이터 + 기본 템플릿
+├── README.md          # ← 설치/사용 가이드
+├── scripts/
+│   ├── setup.sh
+│   └── validate.sh    # ← 자동 생성된 검증 스크립트
+├── references/
+│   └── detailed-guide.md
+├── .gitignore
+└── package.json       # ← npm 배포용
+```
+
+**고급 옵션**:
+```bash
+# 특정 템플릿으로 생성
+npx add-skill --template=data-processing
+
+# 특정 도구 조합
+npx add-skill --tools="Node,Bash,Python" --with-tests
+
+# 즉시 설치
+npx add-skill --auto-install
+
+# TypeScript 지원
+npx add-skill --typescript
+```
+
+**생성된 SKILL.md 예시**:
+```markdown
+---
+name: pdf-form-filler
+description: PDF 양식 필드를 자동으로 채웁니다. 사용자가 "PDF 양식을 채워줄래?"라고 요청할 때 사용됩니다.
+version: 1.0.0
+author: your-name
+license: MIT
+allowed-tools: "Bash, Read, Python"
+---
+
+# PDF 양식 작성 Skill
+
+## 목적
+구조화된 데이터로부터 PDF 양식을 자동으로 채웁니다.
+
+## 사용 시나리오
+- 대량의 PDF 양식을 자동으로 작성해야 할 때
+- 반복적인 데이터 입력 자동화
+```
+
+### 생성된 Skill 검증
+
+`npx add-skill`이 생성한 Skill을 검증하려면:
+
+```bash
+# Skill 유효성 검사
+npm run validate
+
+# 메타데이터 검증
+npm run validate:metadata
+
+# 에이전트에서 테스트
+npx skills install ./my-new-skill
+```
+
+### Skill 배포 워크플로우
+
+```bash
+# 1. Skill 생성
+npx add-skill
+
+# 2. 테스트
+cd my-new-skill
+npm test
+
+# 3. npm에 배포 (공개 또는 private)
+npm publish
+
+# 4. Skill 레지스트리에 등록
+npx skills publish
+
+# 5. 다른 개발자가 설치 가능
+npx skills install my-new-skill
+```
+
 ***
 
-## 7. Agent Skill 사용의 주요 이점
+## 6.5 npx skills vs 다른 패키지 매니저
+
+### npx skills의 역할 이해
+
+`npx skills`는 npm, pip, brew와 같은 **패키지 매니저**의 Skill 버전입니다. 하지만 일반 패키지와는 다르게 동작합니다:
+
+| 비교 | npm | pip | brew | **npx skills** |
+|-----|-----|-----|-----|---|
+| **설치 대상** | JavaScript 라이브러리 | Python 패키지 | 시스템 소프트웨어 | Agent Skill |
+| **저장소** | npmjs.com | pypi.org | brew.sh | GitHub + npm |
+| **설치 위치** | node_modules/ | site-packages/ | /usr/local/ | ~/.claude/skills/ (플랫폼별) |
+| **실행 방식** | import/require | import | CLI 명령 | 에이전트가 로드 |
+| **사용자** | 개발자 | 개발자/데이터과학자 | 모든 사용자 | AI 에이전트 |
+| **버전 관리** | semver | semver | 버전 고정 | semver + Skill 메타데이터 |
+| **의존성 관리** | 엄격함 | 엄격함 | 느슨함 | Skill별 독립적 |
+
+### npm vs npx skills: 구체적 비교
+
+```bash
+# npm: 코드 라이브러리 설치
+npm install lodash
+→ node_modules/lodash/ 설치
+→ JavaScript 코드에서 require('lodash') 사용
+
+# npx skills: 에이전트 전문성 설치
+npx skills install pdf-form-filler
+→ ~/.claude/skills/pdf-form-filler/ 설치
+→ 에이전트가 자동 또는 수동으로 로드
+```
+
+### 에이전트 Skill 관리 도구 전체 비교
+
+현재 Agent Skill을 관리하는 여러 도구들이 있으며, 각각의 특징을 이해하는 것이 중요합니다:
+
+| 도구 | 역할 | 설치 | 배포 | 검색 | 프로그래밍 | 특징 |
+|-----|-----|-----|-----|-----|----------|------|
+| **npx skills** | 패키지 매니저 | ✓ | ✓ | ✓ | CLI | 표준화, 공개/private 모두 지원 |
+| **npx add-skill** | Skill 생성기 | ✓ | ✓ | - | CLI | 대화형, 템플릿 기반 빠른 생성 |
+| **Claude Code UI** | 로컬 관리 | - | - | - | GUI | 직관적, 프로젝트 종속적 |
+| **Cursor Skills** | Cursor 전용 | ✓ | ✓ | ✓ | GUI | Cursor IDE 깊은 통합 |
+| **VS Code Extension** | VS Code 통합 | ✓ | ✓ | ✓ | GUI | VS Code 네이티브 UI |
+| **Gemini Skills** | Gemini CLI | ✓ | - | - | CLI | Google 생태계 연동 |
+
+### npx skills 사용 워크플로우
+
+```
+┌─────────────────────────────────────────────────────────┐
+│ npx skills: Skill 생명주기 관리                          │
+└─────────────────────────────────────────────────────────┘
+
+1️⃣ 검색
+   npx skills search "pdf"
+   → npm + GitHub에서 검색
+   → 10개의 pdf 관련 Skill 표시
+
+2️⃣ 브라우즈 (선택)
+   npx skills browse
+   → 웹 브라우저에서 대화형 검색
+   → 설명, 리뷰, 버전 정보 표시
+
+3️⃣ 설치
+   npx skills install pdf-form-filler
+   → ~/.claude/skills/pdf-form-filler/ 다운로드
+   → 메타데이터 검증
+   → 의존성 확인
+
+4️⃣ 사용 (에이전트에서)
+   > "PDF 양식을 채워줄래?"
+   → 에이전트가 pdf-form-filler Skill 자동 활성화
+   → 또는 /pdf-form-filler 명령 수동 호출
+
+5️⃣ 버전 관리
+   npx skills update pdf-form-filler
+   → 새 버전 확인 및 설치
+
+6️⃣ 목록 확인
+   npx skills list
+   → 설치된 모든 Skill 표시 (버전 포함)
+
+7️⃣ 제거 (선택)
+   npx skills uninstall pdf-form-filler
+   → ~/.claude/skills/pdf-form-filler/ 삭제
+```
+
+### npx skills vs npx add-skill: 역할 구분
+
+```
+┌─────────────────────┐
+│ npx add-skill       │
+│ (생성 도구)         │
+└─────────────────────┘
+        ↓
+  새 Skill 만들기
+  ├─ SKILL.md 자동 생성
+  ├─ 템플릿 제공
+  └─ 테스트 스크립트 포함
+        ↓
+┌─────────────────────────────────┐
+│ npm publish (선택)              │
+│ Skill 배포 (npmjs.com)          │
+└─────────────────────────────────┘
+        ↓
+┌─────────────────────┐
+│ npx skills          │
+│ (배포 도구)         │
+└─────────────────────┘
+        ↓
+  Skill 공유 및 재사용
+  ├─ 검색 및 설치
+  ├─ 버전 관리
+  └─ 팀 배포
+```
+
+**구체적 흐름**:
+```bash
+# 1. 새 Skill 생성 (npx add-skill)
+npx add-skill
+# → my-new-skill/ 디렉토리 생성
+# → SKILL.md, package.json, scripts/ 자동 생성
+
+# 2. 로컬 테스트
+cd my-new-skill
+npm test
+npx skills install ./my-new-skill
+
+# 3. npm에 배포 (선택)
+npm publish
+
+# 4. npx skills에 등록 (선택)
+npx skills publish my-new-skill
+# → 이제 다른 사람이 설치 가능
+
+# 5. 다른 사람이 설치 (npx skills)
+npx skills install my-new-skill
+# → npm + GitHub에서 자동으로 찾아 설치
+```
+
+### npx skills가 공개/private Skill을 구분하는 방법
+
+```
+공개 Skill (누구나 설치 가능):
+1. npmjs.com에 public으로 배포
+2. npx skills publish my-skill
+3. GitHub public 저장소
+→ npx skills search, install 가능
+
+Private Skill (팀만 사용):
+1. npm private 레지스트리 사용
+2. GitHub private 저장소
+3. 팀원에게 수동으로 공유
+→ npx skills install owner/repo (GitHub URL)
+→ npx skills install @company/my-skill (scoped package)
+```
+
+### 선택 기준
+
+**npx skills 추천**:
+- ✓ 팀 전체에 배포할 때
+- ✓ 커뮤니티와 공유할 때
+- ✓ 여러 프로젝트에서 재사용할 때
+- ✓ 버전 관리가 필요할 때
+
+**Claude Code UI 추천**:
+- ✓ 단일 프로젝트 Skill만 필요할 때
+- ✓ 빠른 로컬 테스트
+- ✓ GUI 기반 관리 선호
+
+**npx add-skill 추천**:
+- ✓ 새로운 Skill을 빠르게 생성할 때
+- ✓ 템플릿이 필요할 때
+- ✓ 자동화된 검증이 필요할 때
+
+***
+
+## 7. AI 에이전트 도구 생태계 전체 비교
+
+Agent Skill은 에이전트 강화의 한 방법이지만, 더 넓은 생태계 속에서 이해할 필요가 있습니다.
+
+### 에이전트 확장 방식 비교
+
+| 방식 | 도구 | 복잡도 | 토큰 | 재사용성 | 학습곡선 | 추천 대상 |
+|-----|-----|-------|------|---------|---------|----------|
+| **Context File** | CLAUDE.md | 낮음 | 높음 | 낮음 | 매우 쉬움 | 프로젝트 규약, 시작점 |
+| **Agent Skill** | SKILL.md | 중간 | 낮음 | 높음 | 쉬움 | 도메인별 전문성 |
+| **Custom Tools** | MCP + Node/Python | 높음 | 매우 높음 | 높음 | 어려움 | 복잡한 통합 (DB, API) |
+| **System Prompts** | Claude API | 낮음 | 높음 | 중간 | 쉬움 | API 기반 개발 |
+| **Plugins/Extensions** | VS Code, Cursor | 매우 높음 | 매우 높음 | 매우 높음 | 매우 어려움 | 에디터 깊은 통합 |
+
+### 도구별 사용 시나리오
+
+**Context File (CLAUDE.md)**
+```markdown
+언제: 모든 프로젝트 시작
+내용: 코딩 규약, 아키텍처 스타일, 금지 사항
+
+예: "Python 프로젝트에서는 항상 Type Hint 사용"
+로드: 항상 (매번 100-200 토큰)
+```
+
+**Agent Skill**
+```markdown
+언제: 특정 작업이 필요할 때
+내용: 도메인별 절차, 제약사항, 참고 자료
+
+예: "Python ORM 마이그레이션 Skill"
+로드: 필요시만 (처음 100-300 토큰, 이후 필요시)
+```
+
+**MCP Tools**
+```markdown
+언제: 외부 시스템 연결이 필요할 때
+내용: 데이터베이스, API, 파일시스템 액세스
+
+예: "PostgreSQL 쿼리 실행 도구"
+로드: 필요시만 (고토큰 비용)
+```
+
+**System Prompt (Claude API)**
+```markdown
+언제: 프로그래밍 API 사용
+내용: 역할 정의, 응답 포맷, 제약사항
+
+예: "이 API는 코드 리뷰 봇으로 동작합니다"
+로드: 매번 요청 (최적화 필수)
+```
+
+### Claude Code vs Cursor vs Windsurf: Agent Skill 지원 비교
+
+| 기능 | Claude Code | Cursor | Windsurf |
+|-----|-----------|--------|----------|
+| **Agent Skill 기본 지원** | ✓ (2025 Q1) | ✓ (2024 Q4) | ✓ (베타) |
+| **SKILL.md 인식** | ✓ | ✓ | ✓ |
+| **자동 활성화** | ✓ | ✓ (수동 주로) | ✓ |
+| **UI 관리 인터페이스** | ✓ | ✓ | - |
+| **npx skills 연동** | ✓ | ✓ | 부분 |
+| **다중 Skill 동시 사용** | - | ✓ (제한) | - |
+| **프로젝트별 Skill** | ✓ | ✓ | ✓ |
+| **팀 공유 기능** | ✓ (GitHub) | ✓ (GitHub) | - |
+| **Skill 버전 관리** | ✓ | - | - |
+| **디버깅 지원** | ✓ | 부분 | - |
+
+**각 에디터 추천**:
+
+**Claude Code**
+- 최고의 Agent Skill 지원 (Anthropic 공식)
+- Progressive Disclosure 완벽 구현
+- 토큰 효율성 최고
+- 추천: 도메인 전문성이 중요한 작업
+
+**Cursor**
+- Agent Skill + 코드 편집의 균형
+- 다중 Skill 부분 지원
+- 약간의 토큰 오버헤드
+- 추천: 대화형 개발 + 전문성 필요
+
+**Windsurf**
+- 아직 불안정 (베타 상태)
+- 최고 토큰 효율성 추구
+- 향후 최고 지원 가능성
+- 추천: 최신 기술 선호, 대규모 프로젝트
+
+### 도구 조합 전략
+
+**최소 비용 (토큰 효율성 우선)**
+```
+1순위: Claude Code (SKILL.md 활용)
+2순위: Cursor (필요시만)
+❌ Windsurf: 베타 불안정
+```
+
+**최고 생산성 (비용 보조)**
+```
+메인: Cursor (실시간 개발)
+특화: Claude Code (깊이 있는 작업)
+참고: Windsurf (최신 기능 테스트)
+```
+
+**엔터프라이즈 (팀 협업)**
+```
+코어: Claude Code (표준화)
+Skill 배포: npx skills + GitHub
+팀: GitHub 공유 폴더
+학습: Skill 카탈로그 관리
+```
+
+***
+
+## 8. Agent Skill 사용의 주요 이점
 
 ### 7.1 토큰 효율성 (Context Window 최적화)
 
@@ -488,7 +878,7 @@ GET /api/users:
 
 ***
 
-## 결론
+## 10. 결론
 
 Agent Skill은 AI 에이전트를 **일반인에서 도메인 전문가로 변신**시키는 강력한 도구입니다:
 
@@ -509,7 +899,7 @@ Agent Skill은 AI 에이전트를 **일반인에서 도메인 전문가로 변�
 
 Agent Skill을 통해 에이전트가 단순한 채팅 도구에서 도메인 전문가로 거듭나는 경험을 해보세요!
 
-## 추가 리소스
+## 11. 추가 리소스
 
 - [Anthropic Agent Skills 공식 문서](https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills)
 - [Claude Code Skills 가이드](https://code.claude.com/docs/en/skills)
