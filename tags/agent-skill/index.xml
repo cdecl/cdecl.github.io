@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Agent-Skill on cdeclog</title><link>https://cdecl.github.io/tags/agent-skill/</link><description>Recent content in Agent-Skill on cdeclog</description><generator>Hugo -- 0.154.5</generator><language>ko-kr</language><lastBuildDate>Tue, 20 Jan 2026 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/agent-skill/index.xml" rel="self" type="application/rss+xml"/><item><title>Agent Skill 가이드: AI 에이전트의 전문성을 위한 모듈식 아키텍처</title><link>https://cdecl.github.io/devops/agent-skill-complete-guide/</link><pubDate>Tue, 20 Jan 2026 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/agent-skill-complete-guide/</guid><description>&lt;p&gt;Claude Code나 Gemini CLI를 사용해본 개발자라면 이런 경험을 했을 겁니다: 특정 도메인의 작업을 할 때 에이전트가 너무 일반적으로만 접근한다는 것입니다. 이것이 바로 &lt;strong&gt;Agent Skill&lt;/strong&gt;이 필요한 이유입니다.&lt;/p&gt;
+&lt;h2 id="1-agent-skill이란"&gt;1. Agent Skill이란?&lt;/h2&gt;
+&lt;p&gt;Agent Skill은 &lt;strong&gt;특정 도메인의 전문 지식을 패키징한 재사용 가능한 모듈&lt;/strong&gt;입니다. 2025년 Anthropic이 정식으로 도입한 이 기술은 에이전트에게 단순한 명령이 아닌 &lt;strong&gt;진정한 전문성&lt;/strong&gt;을 제공합니다.&lt;/p&gt;
+&lt;p&gt;더 정확히는:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;구조&lt;/strong&gt;: &lt;code&gt;SKILL.md&lt;/code&gt; 파일과 지침, 스크립트, 참고 자료를 포함하는 폴더&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;작동&lt;/strong&gt;: 에이전트가 관련성을 감지하면 자동으로 해당 Skill을 활성화하여 그 분야의 전문가처럼 행동&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;핵심 원리&lt;/strong&gt;: 필요한 정보만 필요한 시점에 로드하는 Progressive Disclosure&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;일반 LLM은 비결정성 특성으로 같은 작업을 반복해도 결과가 달라질 수 있습니다. Agent Skill은 구조화된 절차와 리소스를 제공하여 이를 개선합니다.&lt;/p&gt;</description></item></channel></rss>
