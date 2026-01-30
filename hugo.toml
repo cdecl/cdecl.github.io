@@ -16,7 +16,7 @@ pagerSize = 10
 [params]
 author = "Byung Kyu KIM"
 description = "cdecl's Dev.Ops Blog"
-mainSections = ["dev", "devops", "post"]
+mainSections = ["dev", "devops", "posts"]
 defaultTheme = "auto"
 displayFullLangName = true
 ShowToc = true
