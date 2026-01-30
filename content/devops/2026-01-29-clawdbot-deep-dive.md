@@ -1,0 +1,214 @@
+---
+title: "Clawdbot: 로컬 중심의 개인용 AI 런타임 심층 분석"
+tags:
+  - clawdbot
+  - ai-agent
+  - nodejs
+  - automation
+  - browser-automation
+  - security
+---
+
+**Clawdbot**은 본격적으로 로컬에서 실행되는 AI 런타임이다. 클라우드 기반 서비스와 달리, 사용자의 컴퓨터(Mac/Linux)에서 백그라운드 데몬으로 동작하며 로컬 데이터만을 활용한다. 사용자에게는 터미널, 파일시스템, 브라우저 컨트롤 같은 OS 리소스가 직관적으로 노출된다.
+
+## 1. Clawdbot이란?
+
+Clawdbot은 **Node.js** 기반으로 구현된 **로컬 AI 런타임**이다. 클라우드에 의존하지 않고, 사용자의 개인 환경에서 실행되므로 데이터 유출 위험이 최소화된다. 주요 특징은 다음과 같다.
+
+- **OS 위의 쉘**: 터미널 명령을 실행하고, 브라우저를 제어하며, 파일시스템을 조작한다.
+- **장기 실행**: 데몬 프로세스를 통해 상태를 유지하고, 필요에 따라 백그라운드에서 동작한다.
+- **멀티 모델 지원**: 클라우드 LLM(예: Google Gemini, Anthropic Claude)과 로컬 LLM(예: Ollama)이 동시에 사용 가능하다.
+
+## 2. 핵심 아키텍처
+
+Clawdbot은 세 가지 핵심 컴포넌트로 구성된다.
+
+### 2.1 Gateway (데몬)
+
+- **역할**: CLI·웹 UI와 Agent 간 연결 관리 및 보안 정책 강제
+- **통신**: HTTP/WebSocket (JSON‑RPC 2.0)
+- **보안**: Tailscale 연동으로 외부에서도 안전 접근 가능
+
+### 2.2 Session (상태 머신)
+
+- **목적**: 사용자와의 대화 맥락을 유지
+- **다중 모델**: 세션마다 **Cloud** 또는 **Local** 모드 지정
+- **메모리**: `MEMORY.md` 마크다운 파일에 대화 내용 저장
+
+### 2.3 Skills (플러그인)
+
+- **프레임워크**: 독립적인 NPM 패키지·로컬 디렉토리
+- **명세서**: `SKILL.md` 로 LLM에게 사용법을 전달
+- **Core Skills**: `read`, `write`, `exec`, `web_search`
+- **User Skills**: 사용자가 스크립트/타입스크립트 으로 직접 개발 가능
+
+## 3. 브라우저 자동화
+
+Clawdbot은 두 가지 브라우저 제어 방식을 제공한다.
+
+### 3.1 Dedicated Browser (Clawd Profile)
+
+- **기술**: Playwright와 유사한 CDP 사용, Headless Chrome 실행
+- **특징**: 완전 격리된 새 컴퓨터 환경, 쿠키·세션 별도
+- **용도**: 웹 검색·데이터 수집·로그인 없이 접근 가능한 공개 서비스
+
+### 3.2 Extension Relay (Chrome Extension)
+
+- **기술**: 사용자의 설치된 확장 프로그램이 CDP 명령 중계
+- **특징**: 현재 탭을 직접 제어, 사용자 세션 그대로 사용
+- **용도**: “메일 확인해줘”, “이 페이지 요약해줘” 등 개인화 작업
+- **작동** 1. Gateway가 로컬 웹서버를 엽니다. 2. 확장 프로그램이 `chrome.debugger`를 통해 탭에 연결됩니다. 3. 두 엔드포인트가 WebSocket으로 CDP 명령을 주고받습니다.
+
+두 모드는 상황에 따라 자동 스위칭하거나, 사용자가 명시적으로 선택 가능하다.
+
+## 4. 보안 모델
+
+AI가 로컬 시스템을 제어할 때 필요한 보안 조치를 정리한다.
+
+1. **샌드박싱**
+   - 제한된 권한에서 실행. `rm -rf /` 같은 위험 명령은 차단하거나 승인 요구.
+2. **Human‑in‑the‑loop**
+   - 파일 삭제·송금·민감 정보 전송 같은 위험 작업은 `y/n` 승인 필요.
+3. **로컬 우선**
+   - 로컬 LLM(예: Ollama) 사용 시 프롬프트가 외부 서버로 전송되지 않는다.
+
+## 5. 모델 활용 전략
+
+Clawdbot의 가장 큰 장점 중 하나는 **하이브리드 모델 접근 방식**이다. 사용자는 작업의 성격과 보안 요구사항에 따라 클라우드 모델과 로컬 모델을 자유롭게 전환할 수 있다.
+
+### 5.1 클라우드 모델 (Cloud Models)
+
+- **특징**: 최고 수준의 성능과 추론 능력을 제공한다. 복잡한 코드를 생성하거나, 깊이 있는 분석이 필요할 때 적합하다.
+- **주요 모델**:
+    - **Anthropic**: `Claude 3` (Opus, Sonnet, Haiku)
+    - **Google**: `Gemini` (Ultra, Pro, Flash)
+    - **OpenAI**: `GPT-4`, `GPT-4o`
+- **단점**: API 비용이 발생하며, 데이터를 외부로 전송해야 하는 보안상의 트레이드오프가 있다.
+
+### 5.2 Ollama를 활용한 로컬 모델 (Local Models with Ollama)
+
+- **특징**: 인터넷 연결 없이, 개인 기기에서 모델을 실행할 수 있다. 개인정보 보호에 유리하며, 오프라인 환경에서도 작업이 가능하다.
+- **설치 및 사용**: [Ollama](https://ollama.com/)를 설치하면 `ollama run <model_name>` 같은 간단한 명령으로 모델을 실행하고 관리할 수 있다.
+- **장점**: 비용이 없고, 응답 속도가 빠르며, 데이터가 로컬 환경을 벗어나지 않는다.
+
+### 5.3 16GB 메모리 환경을 위한 현실적인 모델 추천
+
+대부분의 최신 노트북과 데스크톱 환경(예: 16GB RAM)에서도 충분히 활용 가능한 고성능 소형 모델(sLLM)들이 많다.
+
+- **Meta Llama 3 (8B)** (Ollama: `llama3:8b`): 80억 파라미터 모델로, 동급 최강의 성능을 자랑한다. 일반적인 대화, 코딩, 요약 작업에 매우 뛰어나다. 약 6-8GB의 RAM을 사용한다.
+- **Mistral (7B)** (Ollama: `mistral:7b`): Llama 3와 유사한 성능을 내는 70억 파라미터 모델. 특히 지시(Instruction)를 따르는 능력이 우수하다. 약 5-7GB의 RAM을 사용한다.
+- **Gemma (7B)** (Ollama: `gemma:7b`): 구글이 개발한 70억 파라미터 모델. 균형 잡힌 성능을 보여주며, 안정적인 선택지 중 하나다.
+- **Phi-3 (3.8B)** (Ollama: `phi3:3.8b`): Microsoft가 개발한 38억 파라미터의 초소형 모델. 4-5GB의 적은 RAM으로도 놀라운 성능을 보여주어, 경량 환경에 가장 적합하다.
+
+이러한 모델들은 Clawdbot의 **Local** 모드와 결합될 때, 보안과 성능의 균형을 맞춘 최적의 개인용 AI 환경을 구축할 수 있게 해준다.
+
+### 5.4 모델 설정 및 고급 전략
+
+Clawdbot의 멀티 모델 환경을 효과적으로 사용하려면, 체계적인 설정 파일과 동작 전략을 정의하는 것이 중요하다. 일반적으로 `~/.config/clawdbot/config.toml` 같은 경로에 설정 파일을 두어 런타임의 동작을 제어한다.
+
+#### 상세 설정 파일 예시 (`config.toml`)
+
+아래는 모델별 인증 정보, 기본값, 그리고 고급 전략을 포함한 `config.toml` 파일의 상세 예시다.
+
+```toml
+# 전역 모델 설정
+default_provider = "ollama"  # 기본적으로 사용할 모델 제공자 (예: 'ollama', 'google')
+default_timeout = 60         # 모든 모델 요청에 대한 기본 타임아웃 (초)
+
+# --- 클라우드 모델 제공자 설정 ---
+[providers.google]
+# API 키는 환경 변수 `GOOGLE_API_KEY`에서 가져오는 것을 권장
+# api_key = "AIza..." 
+default_model = "gemini-1.5-flash"
+temperature = 0.7
+
+[providers.anthropic]
+# 환경 변수 `ANTHROPIC_API_KEY` 사용
+# api_key = "sk-..."
+default_model = "claude-3-haiku-20240307"
+temperature = 0.65
+
+# --- 로컬 모델 제공자 설정 ---
+[providers.ollama]
+host = "http://127.0.0.1:11434"  # Ollama 서버 주소
+default_model = "llama3:8b"
+temperature = 0.8
+# 로컬 모델은 keep_alive 설정을 통해 응답 속도를 향상시킬 수 있다
+keep_alive = "5m"
+
+# --- 고급 동작 전략 ---
+[strategy.fallback]
+# 'local_first' 전략: 로컬 모델을 먼저 시도하고, 특정 조건에서 클라우드로 전환
+enable = true
+primary_provider = "ollama"
+secondary_provider = "google"
+
+# 전환 조건 (아래 조건 중 하나라도 만족 시 전환)
+triggers = [
+  "timeout",      # 로컬 모델이 30초 내에 응답하지 않을 때
+  "keyword",      # 프롬프트에 '분석', '리서치', 'draw' 같은 복잡한 키워드가 포함될 때
+  "code_gen",     # 사용자가 코드 생성을 명시적으로 요청했을 때
+]
+trigger_timeout = 30 # 초
+trigger_keywords = ["분석", "리서치", "요약", "draw", "chart"]
+
+[strategy.routing]
+# 'intent_based' 라우팅: 프롬프트 의도에 따라 모델을 동적으로 선택
+enable = true
+router_model = "phi3:mini" # 의도 분석에 사용할 경량 로컬 모델
+rules = [
+  { intent = "simple_qa", provider = "ollama", model = "mistral:7b" },
+  { intent = "complex_reasoning", provider = "anthropic", model = "claude-3-sonnet-20240229" },
+  { intent = "code_generation", provider = "google", model = "gemini-1.5-pro" },
+]
+```
+
+#### 설정 및 인증 (Configuration & Authentication)
+
+- **API 키 관리**: 위 예시처럼 API 키는 설정 파일에 직접 저장하기보다, `GOOGLE_API_KEY`, `ANTHROPIC_API_KEY` 같은 **환경 변수**를 통해 관리하는 것이 가장 안전하다. Clawdbot 런타임은 시작 시 이 환경 변수를 자동으로 로드한다.
+- **모델별 파라미터**: `temperature` (창의성), `timeout` (타임아웃) 등 모델의 동작을 세밀하게 조정하는 파라미터를 제공자별로 설정할 수 있다.
+
+#### Fallback 및 복합 전략 (Fallback & Hybrid Strategy)
+
+- **로컬 우선 Fallback**: `strategy.fallback` 테이블은 비용과 성능을 최적화하는 핵심 전략이다. 평상시에는 비용이 없는 로컬 모델(`primary_provider`)을 사용하다가, 응답 시간이 길어지거나(`timeout`), 사용자가 복잡한 작업을 요구(`keyword`)할 때만 클라우드 모델(`secondary_provider`)로 자동 전환하여 비용을 절약하고 생산성을 높인다.
+- **의도 기반 라우팅**: `strategy.routing`은 한 단계 더 나아간 전략이다. `phi3:mini` 같이 매우 가벼운 로컬 모델을 '교통경찰'처럼 활용하여, 사용자의 질문 의도를 먼저 파악한다. 이후, "간단한 질문"은 중간급 로컬 모델로, "복잡한 추론"이나 "코드 생성"은 각 작업에 특화된 최강의 클라우드 모델로 요청을 분배하여 효율을 극대화한다.
+
+
+## 6. Clawdbot 활용 사례 및 아이디어
+
+Clawdbot의 진정한 힘은 로컬 시스템의 모든 자원을 AI와 결합하여 무한한 자동화 가능성을 여는 데 있다. 다음은 몇 가지 구체적인 활용 사례와 스킬 확장 아이디어다.
+
+### 6.1 주요 활용 사례 5가지
+
+1.  **일일 브리핑 및 업무 준비**
+    - **프롬프트**: "오늘 주요 뉴스 3줄 요약하고, 새로 온 이메일 제목만 뽑아서 알려줘. 그리고 오늘 내 캘린더에 등록된 미팅 일정도 함께 정리해줘."
+    - **작동 방식**: `web_search` 스킬로 뉴스를 검색 및 요약하고, 브라우저 확장(`Extension Relay`)을 통해 Gmail에 접근하여 이메일 제목을 가져온다. 캘린더 접근 역시 확장을 통해 가능하다. 이 모든 정보를 종합하여 하나의 보고서로 제공한다.
+
+2.  **프로젝트 초기 환경 자동 설정**
+    - **프롬프트**: "내 개발 폴더에 'my-next-app' 이름으로 새 프로젝트를 만들고, Next.js와 TypeScript, Tailwind CSS 환경을 설정해줘."
+    - **작동 방식**: `exec` 스킬을 사용하여 터미널 명령(`npx create-next-app@latest ...`, `npm install ...`)을 순차적으로 실행한다. `write` 스킬로 `tailwind.config.js` 같은 설정 파일을 생성하거나 수정하여 초기 세팅을 완료한다.
+
+3.  **Git 레포지토리 분석 및 보고**
+    - **프롬프트**: "현재 git 프로젝트의 최근 2주간 커밋 내역을 분석해서, 어떤 파일이 가장 많이 바뀌었는지, 그리고 주요 기능 변경사항이 무엇이었는지 요약 보고서를 작성해줘."
+    - **작동 방식**: `exec` 스킬로 `git log --since="2 weeks ago" --name-status` 같은 명령을 실행하여 데이터를 수집한다. 수집된 텍스트를 LLM이 분석하여 가장 많이 변경된 파일과 커밋 메시지를 기반으로 주요 변경 사항을 요약한다.
+
+4.  **로컬 서버 모니터링 및 알림**
+    - **프롬프트**: "로컬 개발 서버를 시작하고, `logs/app.log` 파일을 실시간으로 감시해줘. 만약 'FATAL' 또는 'ERROR' 키워드가 포함된 로그가 발생하면 즉시 나에게 알려줘."
+    - **작동 방식**: `exec` 스킬을 백그라운드로 실행하여 서버를 구동(`npm run dev &`)하고, 다른 `exec` 프로세스로 `tail -f logs/app.log | grep -E 'FATAL|ERROR'` 명령을 실행하여 로그를 모니터링한다. 특정 키워드가 감지되면 사용자에게 알림을 보낸다.
+
+5.  **자동화된 기술 리서치 및 요약**
+    - **프롬프트**: "최근에 발표된 'Mixtral 8x22B' 모델에 대한 기술 블로그나 논문을 찾아서, 가장 중요한 내용(아키텍처, 성능)을 요약하고 관련 링크를 `research.md` 파일로 저장해줘."
+    - **작동 방식**: `web_search` 스킬로 관련 정보를 검색하고, 결과 페이지에 접근하여 내용을 추출한다. LLM이 추출된 텍스트를 요약하고, `write` 스킬을 사용해 지정된 파일에 결과를 저장한다.
+
+### 6.2 사용자 Skill 확장 아이디어
+
+Clawdbot은 사용자가 직접 스킬을 만들어 기능을 무한히 확장할 수 있다.
+
+-   **데이터베이스 스킬**: 로컬 SQLite나 PostgreSQL 데이터베이스에 연결하여, 자연어 질문을 SQL 쿼리로 변환하고 실행 결과를 반환하는 스킬. "지난달 가장 많이 팔린 상품 5개 보여줘" 같은 요청을 처리할 수 있다.
+-   **클라우드 관리 스킬**: `aws`, `gcloud`, `az` 같은 클라우드 CLI 도구를 래핑하여 스킬을 만들 수 있다. "현재 GCP 프로젝트에 실행 중인 VM 인스턴스 목록 보여줘" 같은 명령을 자연어로 내릴 수 있게 된다.
+-   **프로젝트 맞춤형 스킬**: 특정 프로젝트의 구조를 이해하고, 테스트 실행(`npm test`), 빌드, 배포 같은 반복 작업을 자동화하는 스킬. "내 블로그 글 새로 썼는데, 빌드해서 배포까지 해줘."
+-   **개인 지식 베이스(PKM) 스킬**: Obsidian, Notion 같은 개인 지식 관리 도구의 로컬 파일이나 API와 연동하여, "내 옵시디언 노트에서 '인공지능'에 대한 모든 글 찾아줘" 같은 요청을 처리하는 스킬.
+
+## 7. 마치며
+
+Clawdbot은 “나를 위한, 나만의, 내 컴퓨터에 사는” 비서다. 클라우드 서비스와 비교했을 때, 데이터 통제력·runtime 제어가 훨씬 강력하다. 앞으로도 더 진화하여 로컬 중심의 AI 에이전트로 확장될 전망이다.
