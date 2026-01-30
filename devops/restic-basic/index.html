@@ -638,7 +638,7 @@ forget 주요 인수
 - securely, by careful use of cryptography in every part of the process
 - verifiably, enabling you to make sure that your files can be restored when needed
 - freely - restic is entirely free to use and completely open source
-</code></pre><h3 id=install>Install<a hidden class=anchor aria-hidden=true href=#install>#</a></h3><ul><li>Package 설치 및 Binary 지원<ul><li>Package : <a href=https://restic.readthedocs.io/en/stable/020_installation.html>https://restic.readthedocs.io/en/stable/020_installation.html</a>{:target="_blank"}</li><li>Binary : <a href=https://github.com/restic/restic/releases/tag/v0.12.1>https://github.com/restic/restic/releases/tag/v0.12.1</a>{:target="_blank"}</li></ul></li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>$ curl -LO https://github.com/restic/restic/releases/download/v0.12.1/restic_0.12.1_linux_amd64.bz2
+</code></pre><h3 id=install>Install<a hidden class=anchor aria-hidden=true href=#install>#</a></h3><ul><li>Package 설치 및 Binary 지원<ul><li>Package : <a href=https://restic.readthedocs.io/en/stable/020_installation.html>https://restic.readthedocs.io/en/stable/020_installation.html</a>{:target="_blank"}</li><li>Binary : <a href=https://github.com/restic/restic/releases/tag/v0.12.1>https://github.com/restic/restic/releases/tag/v0.12.1</a>{:target="_blank"}</li></ul></li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-sh data-lang=sh><span style=display:flex><span>$ curl -LO https://github.com/restic/restic/releases/download/v0.12.1/restic_0.12.1_linux_amd64.bz2
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span><span style=color:#6272a4># install bzip2</span>
 </span></span><span style=display:flex><span>$ sudo yum install bzip2 -y
@@ -646,7 +646,7 @@ forget 주요 인수
 </span></span><span style=display:flex><span>$ bunzip2 restic_0.12.1_linux_amd64.bz2
 </span></span><span style=display:flex><span>$ mv restic_0.12.1_linux_amd64 restic
 </span></span><span style=display:flex><span>$ sudo mv restic /usr/local/bin
-</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>$ restic
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-sh data-lang=sh><span style=display:flex><span>$ restic
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>restic is a backup program which allows saving multiple revisions of files and
 </span></span><span style=display:flex><span>directories in an encrypted repository stored on different backends.
@@ -683,7 +683,7 @@ forget 주요 인수
 </span></span><span style=display:flex><span>  unlock        Remove locks other processes created
 </span></span><span style=display:flex><span>  version       Print version information
 </span></span><span style=display:flex><span>....
-</span></span></code></pre></div><hr><h3 id=backup--restore>Backup & Restore<a hidden class=anchor aria-hidden=true href=#backup--restore>#</a></h3><h5 id=backup-repository-생성>Backup Repository 생성<a hidden class=anchor aria-hidden=true href=#backup-repository-생성>#</a></h5><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span><span style=color:#6272a4># Repository 접근을 위한 패드워스 필요, 일단 1111</span>
+</span></span></code></pre></div><hr><h3 id=backup--restore>Backup & Restore<a hidden class=anchor aria-hidden=true href=#backup--restore>#</a></h3><h5 id=backup-repository-생성>Backup Repository 생성<a hidden class=anchor aria-hidden=true href=#backup-repository-생성>#</a></h5><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-sh data-lang=sh><span style=display:flex><span><span style=color:#6272a4># Repository 접근을 위한 패드워스 필요, 일단 1111</span>
 </span></span><span style=display:flex><span><span style=color:#6272a4># -r, --repo repository repository to backup to or restore from (default: $RESTIC_REPOSITORY)</span>
 </span></span><span style=display:flex><span>$ restic init -r repo
 </span></span><span style=display:flex><span>enter password <span style=color:#ff79c6>for</span> new repository:
@@ -696,7 +696,7 @@ forget 주요 인수
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span><span style=color:#6272a4># password 파일 생성, -p 옵션으로 지정 </span>
 </span></span><span style=display:flex><span>$ <span style=color:#8be9fd;font-style:italic>echo</span> <span style=color:#bd93f9>1111</span> &gt; passwd
-</span></span></code></pre></div><h5 id=backup--snapshots-생성>Backup : snapshots 생성<a hidden class=anchor aria-hidden=true href=#backup--snapshots-생성>#</a></h5><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span><span style=color:#6272a4># Backup </span>
+</span></span></code></pre></div><h5 id=backup--snapshots-생성>Backup : snapshots 생성<a hidden class=anchor aria-hidden=true href=#backup--snapshots-생성>#</a></h5><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-sh data-lang=sh><span style=display:flex><span><span style=color:#6272a4># Backup </span>
 </span></span><span style=display:flex><span><span style=color:#6272a4># restic -r &lt;repository&gt; -p &lt;passwd file&gt; backup &lt;Source&gt;</span>
 </span></span><span style=display:flex><span><span style=color:#6272a4># -p, --password-file file  file to read the repository password from (default: $RESTIC_PASSWORD_FILE)</span>
 </span></span><span style=display:flex><span>$ restic -r repo -p passwd backup /home/cdecl/temp/mvcapp
@@ -723,7 +723,7 @@ forget 주요 인수
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>processed <span style=color:#bd93f9>80</span> files, 4.811 MiB in 0:00
 </span></span><span style=display:flex><span>snapshot f4b94d9b saved
-</span></span></code></pre></div><h5 id=snapshots-확인>Snapshots 확인<a hidden class=anchor aria-hidden=true href=#snapshots-확인>#</a></h5><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span><span style=color:#6272a4># snapshots 2개 화인 확인</span>
+</span></span></code></pre></div><h5 id=snapshots-확인>Snapshots 확인<a hidden class=anchor aria-hidden=true href=#snapshots-확인>#</a></h5><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-sh data-lang=sh><span style=display:flex><span><span style=color:#6272a4># snapshots 2개 화인 확인</span>
 </span></span><span style=display:flex><span>$ restic -r repo -p passwd snapshots
 </span></span><span style=display:flex><span>repository e4ccc49d opened successfully, password is correct
 </span></span><span style=display:flex><span>ID        Time                 Host        Tags        Paths
@@ -732,7 +732,7 @@ forget 주요 인수
 </span></span><span style=display:flex><span>f4b94d9b  2021-11-25 15:22:24  centos1                 /home/cdecl/temp/mvcapp
 </span></span><span style=display:flex><span>------------------------------------------------------------------------------
 </span></span><span style=display:flex><span><span style=color:#bd93f9>2</span> snapshots
-</span></span></code></pre></div><ul><li>Snapshots 비교</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>$ restic -r repo -p passwd diff 9aff8447 f4b94d9b
+</span></span></code></pre></div><ul><li>Snapshots 비교</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-sh data-lang=sh><span style=display:flex><span>$ restic -r repo -p passwd diff 9aff8447 f4b94d9b
 </span></span><span style=display:flex><span>repository e4ccc49d opened successfully, password is correct
 </span></span><span style=display:flex><span>comparing snapshot 9aff8447 to f4b94d9b:
 </span></span><span style=display:flex><span>
@@ -745,14 +745,14 @@ forget 주요 인수
 </span></span><span style=display:flex><span>Tree Blobs:      <span style=color:#bd93f9>5</span> new,     <span style=color:#bd93f9>5</span> removed
 </span></span><span style=display:flex><span>  Added:   7.742 KiB
 </span></span><span style=display:flex><span>  Removed: 7.456 KiB
-</span></span></code></pre></div><h5 id=restore--snapshots-에서-복원>Restore : Snapshots 에서 복원<a hidden class=anchor aria-hidden=true href=#restore--snapshots-에서-복원>#</a></h5><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span><span style=color:#6272a4># restic -r &lt;repository&gt; -p &lt;passwd file&gt; restore &lt;snapshots id&gt; -t &lt;Target&gt;</span>
+</span></span></code></pre></div><h5 id=restore--snapshots-에서-복원>Restore : Snapshots 에서 복원<a hidden class=anchor aria-hidden=true href=#restore--snapshots-에서-복원>#</a></h5><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-sh data-lang=sh><span style=display:flex><span><span style=color:#6272a4># restic -r &lt;repository&gt; -p &lt;passwd file&gt; restore &lt;snapshots id&gt; -t &lt;Target&gt;</span>
 </span></span><span style=display:flex><span>$ restic -r repo -p passwd restore 9aff8447 -t restore-mvcapp
 </span></span><span style=display:flex><span>repository e4ccc49d opened successfully, password is correct
 </span></span><span style=display:flex><span>restoring &lt;Snapshot 9aff8447 of <span style=color:#ff79c6>[</span>/home/cdecl/temp/mvcapp<span style=color:#ff79c6>]</span> at 2021-11-25 15:17:52.115925352 
 </span></span><span style=display:flex><span> +0900 KST by cdecl@centos1&gt; to restore-mvcapp
 </span></span></code></pre></div><h3 id=minio--rclone-backend-지원>MinIO & RClone Backend 지원<a hidden class=anchor aria-hidden=true href=#minio--rclone-backend-지원>#</a></h3><ul><li><a href=https://restic.readthedocs.io/en/stable/030_preparing_a_new_repo.html>https://restic.readthedocs.io/en/stable/030_preparing_a_new_repo.html</a>{:target="_blank"}</li></ul><pre tabindex=0><code>Local, SFTP, REST Server, Amazon S3, Minio Server, Microsoft Azure Blob Storage, 
 Google Cloud Storage, Other Services via rclone 등 지원
-</code></pre><h5 id=minio-repository-만들기>MinIO Repository 만들기<a hidden class=anchor aria-hidden=true href=#minio-repository-만들기>#</a></h5><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>$ <span style=color:#8be9fd;font-style:italic>export</span> <span style=color:#8be9fd;font-style:italic>AWS_ACCESS_KEY_ID</span><span style=color:#ff79c6>=</span>key
+</code></pre><h5 id=minio-repository-만들기>MinIO Repository 만들기<a hidden class=anchor aria-hidden=true href=#minio-repository-만들기>#</a></h5><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-sh data-lang=sh><span style=display:flex><span>$ <span style=color:#8be9fd;font-style:italic>export</span> <span style=color:#8be9fd;font-style:italic>AWS_ACCESS_KEY_ID</span><span style=color:#ff79c6>=</span>key
 </span></span><span style=display:flex><span>$ <span style=color:#8be9fd;font-style:italic>export</span> <span style=color:#8be9fd;font-style:italic>AWS_SECRET_ACCESS_KEY</span><span style=color:#ff79c6>=</span>passwd
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>$  restic init -r s3:http://minio.server:9000/restic
@@ -776,7 +776,7 @@ Google Cloud Storage, Other Services via rclone 등 지원
 </span></span><span style=display:flex><span>73d37fbd  2021-11-25 15:37:34  centos1                 /home/cdecl/temp/mvcapp
 </span></span><span style=display:flex><span>------------------------------------------------------------------------------
 </span></span><span style=display:flex><span><span style=color:#bd93f9>1</span> snapshots
-</span></span></code></pre></div><h5 id=rclone-backend-로-사용>RClone Backend 로 사용<a hidden class=anchor aria-hidden=true href=#rclone-backend-로-사용>#</a></h5><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>$ rclone config show
+</span></span></code></pre></div><h5 id=rclone-backend-로-사용>RClone Backend 로 사용<a hidden class=anchor aria-hidden=true href=#rclone-backend-로-사용>#</a></h5><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-sh data-lang=sh><span style=display:flex><span>$ rclone config show
 </span></span><span style=display:flex><span><span style=color:#ff79c6>[</span>infradb<span style=color:#ff79c6>]</span>
 </span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>type</span> <span style=color:#ff79c6>=</span> s3
 </span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>env_auth</span> <span style=color:#ff79c6>=</span> <span style=color:#8be9fd;font-style:italic>false</span>
@@ -800,7 +800,7 @@ Google Cloud Storage, Other Services via rclone 등 지원
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span><span style=color:#6272a4># snapshots</span>
 </span></span><span style=display:flex><span>$ restic -r rclone:infradb:restic -p passwd snapshots
-</span></span></code></pre></div><hr><h4 id=snapshots-관리>Snapshots 관리<a hidden class=anchor aria-hidden=true href=#snapshots-관리>#</a></h4><ul><li><a href=https://restic.readthedocs.io/en/stable/060_forget.html>https://restic.readthedocs.io/en/stable/060_forget.html</a>{:target="_blank"}</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>$ restic -r rclone:infradb:restic -p passwd snapshots
+</span></span></code></pre></div><hr><h4 id=snapshots-관리>Snapshots 관리<a hidden class=anchor aria-hidden=true href=#snapshots-관리>#</a></h4><ul><li><a href=https://restic.readthedocs.io/en/stable/060_forget.html>https://restic.readthedocs.io/en/stable/060_forget.html</a>{:target="_blank"}</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-sh data-lang=sh><span style=display:flex><span>$ restic -r rclone:infradb:restic -p passwd snapshots
 </span></span><span style=display:flex><span>repository ce850667 opened successfully, password is correct
 </span></span><span style=display:flex><span>ID        Time                 Host        Tags        Paths
 </span></span><span style=display:flex><span>------------------------------------------------------------------------------

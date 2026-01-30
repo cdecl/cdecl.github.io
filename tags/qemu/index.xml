@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Qemu on cdeclog</title><link>https://cdecl.github.io/tags/qemu/</link><description>Recent content in Qemu on cdeclog</description><generator>Hugo -- 0.154.5</generator><language>ko-kr</language><lastBuildDate>Mon, 04 Jul 2022 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/qemu/index.xml" rel="self" type="application/rss+xml"/><item><title>Multipass, Ubuntu VM 설정</title><link>https://cdecl.github.io/devops/multipass-ubuntu/</link><pubDate>Mon, 04 Jul 2022 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/multipass-ubuntu/</guid><description>&lt;p&gt;Canonical 재단에서 지원하는 단일 명령으로 Ubuntu VM 구성 할 수 있는 도구&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Qemu on cdeclog</title><link>https://cdecl.github.io/tags/qemu/</link><description>Recent content in Qemu on cdeclog</description><generator>Hugo -- 0.155.0</generator><language>ko-kr</language><lastBuildDate>Mon, 04 Jul 2022 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/qemu/index.xml" rel="self" type="application/rss+xml"/><item><title>Multipass, Ubuntu VM 설정</title><link>https://cdecl.github.io/devops/multipass-ubuntu/</link><pubDate>Mon, 04 Jul 2022 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/multipass-ubuntu/</guid><description>&lt;p&gt;Canonical 재단에서 지원하는 단일 명령으로 Ubuntu VM 구성 할 수 있는 도구&lt;/p&gt;
 &lt;h2 id="multipass"&gt;Multipass&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="https://multipass.run/"&gt;https://multipass.run/&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
@@ -15,7 +15,7 @@
 &lt;li&gt;&lt;a href="https://multipass.run/install"&gt;https://multipass.run/install&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
 &lt;li&gt;플랫폼 별 패키지 설치 방법&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# windows &lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# windows &lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ choco install multipass
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# macOS&lt;/span&gt;
@@ -31,7 +31,7 @@
 &lt;li&gt;&lt;code&gt;list&lt;/code&gt; : 생성된 Instance 확인&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;info&lt;/code&gt; : Instance 정보 확인&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ multipass --help
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ multipass --help
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;...
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Available commands:
@@ -61,7 +61,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#8be9fd;font-style:italic"&gt;unalias&lt;/span&gt; Remove an &lt;span style="color:#8be9fd;font-style:italic"&gt;alias&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; version Show version details
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id="ubuntu-vm-instance-생성--기본-생성"&gt;Ubuntu VM Instance 생성 : 기본 생성&lt;/h4&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# node1 이름의 instance 생성 &lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# node1 이름의 instance 생성 &lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ multipass launch -n node01
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Launched: node01
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;

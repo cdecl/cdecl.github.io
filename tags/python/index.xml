@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Python on cdeclog</title><link>https://cdecl.github.io/tags/python/</link><description>Recent content in Python on cdeclog</description><generator>Hugo -- 0.154.5</generator><language>ko-kr</language><lastBuildDate>Sun, 20 Jul 2025 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/python/index.xml" rel="self" type="application/rss+xml"/><item><title>Python uv 프로젝트 구조</title><link>https://cdecl.github.io/dev/python-uv-project-structure/</link><pubDate>Sun, 20 Jul 2025 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/python-uv-project-structure/</guid><description>&lt;p&gt;uv를 활용한 현대적인 Python 프로젝트 구조, &lt;code&gt;src&lt;/code&gt; 레이아웃과 Flat 레이아웃의 차이점, 그리고 &lt;code&gt;uvx&lt;/code&gt;를 통한 원격 도구 실행 방법을 알아봅니다.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Python on cdeclog</title><link>https://cdecl.github.io/tags/python/</link><description>Recent content in Python on cdeclog</description><generator>Hugo -- 0.155.0</generator><language>ko-kr</language><lastBuildDate>Sun, 20 Jul 2025 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/python/index.xml" rel="self" type="application/rss+xml"/><item><title>Python uv 프로젝트 구조</title><link>https://cdecl.github.io/dev/python-uv-project-structure/</link><pubDate>Sun, 20 Jul 2025 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/python-uv-project-structure/</guid><description>&lt;p&gt;uv를 활용한 현대적인 Python 프로젝트 구조, &lt;code&gt;src&lt;/code&gt; 레이아웃과 Flat 레이아웃의 차이점, 그리고 &lt;code&gt;uvx&lt;/code&gt;를 통한 원격 도구 실행 방법을 알아봅니다.&lt;/p&gt;
 &lt;h2 id="python-프로젝트-구조의-중요성"&gt;Python 프로젝트 구조의 중요성&lt;/h2&gt;
 &lt;p&gt;잘 구성된 프로젝트 디렉토리 구조는 코드의 유지보수성, 확장성, 그리고 협업 효율성을 크게 향상시킵니다. Python에서는 전통적으로 두 가지 주요 레이아웃이 사용됩니다: &lt;strong&gt;Flat 레이아웃&lt;/strong&gt;과 &lt;strong&gt;&lt;code&gt;src&lt;/code&gt; 레이아웃&lt;/strong&gt;. 현대적인 Python 프로젝트에서는 &lt;code&gt;src&lt;/code&gt; 레이아웃이 많은 이점을 제공하여 표준으로 자리 잡고 있습니다.&lt;/p&gt;
 &lt;h2 id="일반적인-python-프로젝트-디렉토리-구조"&gt;일반적인 Python 프로젝트 디렉토리 구조&lt;/h2&gt;
@@ -98,7 +98,7 @@
 &lt;ul&gt;
 &lt;li&gt;4칸 공백 사용&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-python" data-lang="python"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# 올바른 들여쓰기 (4칸 공백 사용)&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-python" data-lang="python"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# 올바른 들여쓰기 (4칸 공백 사용)&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;def&lt;/span&gt; &lt;span style="color:#50fa7b"&gt;long_function_name&lt;/span&gt;(
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; var_one, var_two,
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; var_three, var_four):
@@ -115,7 +115,7 @@
 &lt;li&gt;긴 줄은 여러 줄로 나누기&lt;/li&gt;
 &lt;li&gt;백슬래시() 사용하여 줄 나누기&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-python" data-lang="python"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# 올바른 예시&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-python" data-lang="python"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# 올바른 예시&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;from&lt;/span&gt; mypkg.mymodule &lt;span style="color:#ff79c6"&gt;import&lt;/span&gt; (
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; function1, function2,
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; function3, function4)
@@ -125,7 +125,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f1fa8c"&gt;&amp;#39;so we split it into multiple lines.&amp;#39;&lt;/span&gt;)
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="22-공백-규칙"&gt;2.2 공백 규칙&lt;/h3&gt;
 &lt;h4 id="연산자-주변-공백"&gt;연산자 주변 공백&lt;/h4&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-python" data-lang="python"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# 올바른 예시&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-python" data-lang="python"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# 올바른 예시&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;x &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; &lt;span style="color:#bd93f9"&gt;1&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;y &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; &lt;span style="color:#bd93f9"&gt;2&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;long_variable &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; &lt;span style="color:#bd93f9"&gt;3&lt;/span&gt;
@@ -135,7 +135,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;y &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; &lt;span style="color:#bd93f9"&gt;2&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;long_variable &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; &lt;span style="color:#bd93f9"&gt;3&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id="쉼표-후-공백"&gt;쉼표 후 공백&lt;/h4&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-python" data-lang="python"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# 올바른 예시&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-python" data-lang="python"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# 올바른 예시&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;def&lt;/span&gt; &lt;span style="color:#50fa7b"&gt;complex_function&lt;/span&gt;(x, y, z):
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;pass&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
@@ -148,7 +148,7 @@
 &lt;li&gt;소문자 사용&lt;/li&gt;
 &lt;li&gt;단어 사이는 언더스코어(_)로 구분&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-python" data-lang="python"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;my_variable &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; &lt;span style="color:#bd93f9"&gt;1&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-python" data-lang="python"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;my_variable &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; &lt;span style="color:#bd93f9"&gt;1&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;count_of_users &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; &lt;span style="color:#bd93f9"&gt;10&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;first_name &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; &lt;span style="color:#f1fa8c"&gt;&amp;#34;John&amp;#34;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id="함수명--snake-case"&gt;함수명 : snake case&lt;/h4&gt;
@@ -156,7 +156,7 @@
 &lt;li&gt;소문자 사용&lt;/li&gt;
 &lt;li&gt;단어 사이는 언더스코어로 구분&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-python" data-lang="python"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;def&lt;/span&gt; &lt;span style="color:#50fa7b"&gt;calculate_average&lt;/span&gt;():
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-python" data-lang="python"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;def&lt;/span&gt; &lt;span style="color:#50fa7b"&gt;calculate_average&lt;/span&gt;():
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;pass&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;def&lt;/span&gt; &lt;span style="color:#50fa7b"&gt;get_user_info&lt;/span&gt;():
@@ -165,7 +165,7 @@
 &lt;ul&gt;
 &lt;li&gt;CapWords(Pascal Case) 컨벤션 사용&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-python" data-lang="python"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;class&lt;/span&gt; &lt;span style="color:#50fa7b"&gt;UserAccount&lt;/span&gt;:
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-python" data-lang="python"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;class&lt;/span&gt; &lt;span style="color:#50fa7b"&gt;UserAccount&lt;/span&gt;:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;pass&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;class&lt;/span&gt; &lt;span style="color:#50fa7b"&gt;DatabaseConnection&lt;/span&gt;:
@@ -174,11 +174,11 @@
 &lt;ul&gt;
 &lt;li&gt;대문자와 언더스코어 사용&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-python" data-lang="python"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;MAX_CONNECTIONS &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; &lt;span style="color:#bd93f9"&gt;100&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-python" data-lang="python"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;MAX_CONNECTIONS &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; &lt;span style="color:#bd93f9"&gt;100&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;DEFAULT_TIMEOUT &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; &lt;span style="color:#bd93f9"&gt;30&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="24-제어문-스타일"&gt;2.4 제어문 스타일&lt;/h3&gt;
 &lt;h4 id="if-문"&gt;if 문&lt;/h4&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-python" data-lang="python"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# 올바른 예시&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-python" data-lang="python"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# 올바른 예시&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;if&lt;/span&gt; x &lt;span style="color:#ff79c6"&gt;is&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;not&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;None&lt;/span&gt;:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;pass&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
@@ -193,7 +193,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;if&lt;/span&gt; x&lt;span style="color:#ff79c6"&gt;!=&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;None&lt;/span&gt;:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;pass&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id="for-문"&gt;for 문&lt;/h4&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-python" data-lang="python"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# 올바른 예시&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-python" data-lang="python"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# 올바른 예시&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;for&lt;/span&gt; i &lt;span style="color:#ff79c6"&gt;in&lt;/span&gt; &lt;span style="color:#8be9fd;font-style:italic"&gt;range&lt;/span&gt;(&lt;span style="color:#bd93f9"&gt;5&lt;/span&gt;):
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#8be9fd;font-style:italic"&gt;print&lt;/span&gt;(i)
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
@@ -208,12 +208,12 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;]
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="25-주석-작성-규칙"&gt;2.5 주석 작성 규칙&lt;/h3&gt;
 &lt;h4 id="인라인-주석"&gt;인라인 주석&lt;/h4&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-python" data-lang="python"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;x &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; &lt;span style="color:#bd93f9"&gt;5&lt;/span&gt; &lt;span style="color:#6272a4"&gt;# 이것은 인라인 주석입니다&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-python" data-lang="python"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;x &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; &lt;span style="color:#bd93f9"&gt;5&lt;/span&gt; &lt;span style="color:#6272a4"&gt;# 이것은 인라인 주석입니다&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# 잘못된 예시&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;x &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; &lt;span style="color:#bd93f9"&gt;5&lt;/span&gt;&lt;span style="color:#6272a4"&gt;# 공백이 없음&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id="문서화-문자열-docstrings"&gt;문서화 문자열 (Docstrings)&lt;/h4&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-python" data-lang="python"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;def&lt;/span&gt; &lt;span style="color:#50fa7b"&gt;complex_function&lt;/span&gt;(param1, param2):
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-python" data-lang="python"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;def&lt;/span&gt; &lt;span style="color:#50fa7b"&gt;complex_function&lt;/span&gt;(param1, param2):
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f1fa8c"&gt;&amp;#34;&amp;#34;&amp;#34;이 함수는 복잡한 연산을 수행합니다.
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f1fa8c"&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f1fa8c"&gt; Args:
@@ -235,7 +235,7 @@
 &lt;ul&gt;
 &lt;li&gt;코드 분석 도구&lt;/li&gt;
 &lt;li&gt;PEP 8 규칙 검사
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-json" data-lang="json"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-json" data-lang="json"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;&amp;#34;python.linting.pylintEnabled&amp;#34;&lt;/span&gt;: &lt;span style="color:#ff79c6"&gt;true&lt;/span&gt;,
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;&amp;#34;python.linting.enabled&amp;#34;&lt;/span&gt;: &lt;span style="color:#ff79c6"&gt;true&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
@@ -286,7 +286,7 @@
 &lt;li&gt;&lt;code&gt;await&lt;/code&gt;는 다른 코루틴의 실행이 완료될 때까지 대기&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;asyncio.sleep()&lt;/code&gt;은 I/O 작업을 시뮬레이션하는 용도로 자주 사용됨&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-python" data-lang="python"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;import&lt;/span&gt; asyncio
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-python" data-lang="python"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;import&lt;/span&gt; asyncio
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;from&lt;/span&gt; datetime &lt;span style="color:#ff79c6"&gt;import&lt;/span&gt; datetime
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;def&lt;/span&gt; &lt;span style="color:#50fa7b"&gt;time_log&lt;/span&gt;(step):
@@ -309,7 +309,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;if&lt;/span&gt; &lt;span style="color:#8be9fd;font-style:italic"&gt;__name__&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;==&lt;/span&gt; &lt;span style="color:#f1fa8c"&gt;&amp;#39;__main__&amp;#39;&lt;/span&gt;:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; main()
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;[&lt;/span&gt;Running&lt;span style="color:#ff79c6"&gt;]&lt;/span&gt; &lt;span style="color:#8be9fd;font-style:italic"&gt;set&lt;/span&gt; &lt;span style="color:#8be9fd;font-style:italic"&gt;PYTHONIOENCODING&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;utf8 &lt;span style="color:#ff79c6"&gt;&amp;amp;&amp;amp;&lt;/span&gt; python -u tempCodeRunnerFile.python
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;[&lt;/span&gt;Running&lt;span style="color:#ff79c6"&gt;]&lt;/span&gt; &lt;span style="color:#8be9fd;font-style:italic"&gt;set&lt;/span&gt; &lt;span style="color:#8be9fd;font-style:italic"&gt;PYTHONIOENCODING&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;utf8 &lt;span style="color:#ff79c6"&gt;&amp;amp;&amp;amp;&lt;/span&gt; python -u tempCodeRunnerFile.python
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;11:39:00 start
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;11:39:02 async_sleep
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;11:39:04 async_sleep
@@ -318,13 +318,13 @@
 &lt;h2 id="설정"&gt;설정&lt;/h2&gt;
 &lt;h3 id="connection"&gt;Connection&lt;/h3&gt;
 &lt;p&gt;기본 DBMS 연결 정보&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-py" data-lang="py"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# MySQL&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-py" data-lang="py"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# MySQL&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;app&lt;span style="color:#ff79c6"&gt;.&lt;/span&gt;config[&lt;span style="color:#f1fa8c"&gt;&amp;#39;SQLALCHEMY_DATABASE_URI&amp;#39;&lt;/span&gt;] &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; &lt;span style="color:#f1fa8c"&gt;r&lt;/span&gt;&lt;span style="color:#f1fa8c"&gt;&amp;#39;mysql+pymysql://user:passwd@address:3306/db_name?charset=UTF8MB4&amp;#39;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;db &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; SQLAlchemy()
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;db&lt;span style="color:#ff79c6"&gt;.&lt;/span&gt;init_app(app)
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="bind-추가"&gt;Bind 추가&lt;/h3&gt;
 &lt;p&gt;기본 DBMS 이외, 추가적인 DB 정보 추가&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-py" data-lang="py"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;app&lt;span style="color:#ff79c6"&gt;.&lt;/span&gt;config[&lt;span style="color:#f1fa8c"&gt;&amp;#39;SQLALCHEMY_BINDS&amp;#39;&lt;/span&gt;] &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; {
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-py" data-lang="py"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;app&lt;span style="color:#ff79c6"&gt;.&lt;/span&gt;config[&lt;span style="color:#f1fa8c"&gt;&amp;#39;SQLALCHEMY_BINDS&amp;#39;&lt;/span&gt;] &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; {
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f1fa8c"&gt;&amp;#39;dbms1&amp;#39;&lt;/span&gt;: &lt;span style="color:#f1fa8c"&gt;r&lt;/span&gt;&lt;span style="color:#f1fa8c"&gt;&amp;#39;mysql+pymysql://user:passwd@address1:3306/db_name?charset=UTF8MB4&amp;#39;&lt;/span&gt;,
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f1fa8c"&gt;&amp;#39;dbms2&amp;#39;&lt;/span&gt;: &lt;span style="color:#f1fa8c"&gt;r&lt;/span&gt;&lt;span style="color:#f1fa8c"&gt;&amp;#39;mysql+pymysql://user:passwd@address2:3306/db_name?charset=UTF8MB4&amp;#39;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
@@ -339,7 +339,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; doc &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; db&lt;span style="color:#ff79c6"&gt;.&lt;/span&gt;Column(db&lt;span style="color:#ff79c6"&gt;.&lt;/span&gt;JSON)
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="alchemyencoder"&gt;AlchemyEncoder&lt;/h3&gt;
 &lt;p&gt;SQLAlchemy JSON Encoder&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-py" data-lang="py"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;class&lt;/span&gt; &lt;span style="color:#50fa7b"&gt;AlchemyEncoder&lt;/span&gt;(json&lt;span style="color:#ff79c6"&gt;.&lt;/span&gt;JSONEncoder):
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-py" data-lang="py"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;class&lt;/span&gt; &lt;span style="color:#50fa7b"&gt;AlchemyEncoder&lt;/span&gt;(json&lt;span style="color:#ff79c6"&gt;.&lt;/span&gt;JSONEncoder):
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;def&lt;/span&gt; &lt;span style="color:#50fa7b"&gt;default&lt;/span&gt;(&lt;span style="font-style:italic"&gt;self&lt;/span&gt;, obj):
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;if&lt;/span&gt; &lt;span style="color:#8be9fd;font-style:italic"&gt;isinstance&lt;/span&gt;(obj&lt;span style="color:#ff79c6"&gt;.&lt;/span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;__class__&lt;/span&gt;, DeclarativeMeta):
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#6272a4"&gt;# an SQLAlchemy class&lt;/span&gt;
@@ -359,21 +359,21 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;return&lt;/span&gt; fields
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;return&lt;/span&gt; json&lt;span style="color:#ff79c6"&gt;.&lt;/span&gt;JSONEncoder&lt;span style="color:#ff79c6"&gt;.&lt;/span&gt;default(&lt;span style="font-style:italic"&gt;self&lt;/span&gt;, obj)
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="flask-basic-route"&gt;Flask Basic Route&lt;/h3&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-py" data-lang="py"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;@app.route(&lt;span style="color:#f1fa8c"&gt;&amp;#39;/api/network/&amp;#39;&lt;/span&gt;)
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-py" data-lang="py"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;@app.route(&lt;span style="color:#f1fa8c"&gt;&amp;#39;/api/network/&amp;#39;&lt;/span&gt;)
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;def&lt;/span&gt; &lt;span style="color:#50fa7b"&gt;api_network&lt;/span&gt;():
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; cur &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; db&lt;span style="color:#ff79c6"&gt;.&lt;/span&gt;session&lt;span style="color:#ff79c6"&gt;.&lt;/span&gt;query(Network)
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;return&lt;/span&gt; json&lt;span style="color:#ff79c6"&gt;.&lt;/span&gt;dumps({ &lt;span style="color:#f1fa8c"&gt;&amp;#39;data&amp;#39;&lt;/span&gt;: cur&lt;span style="color:#ff79c6"&gt;.&lt;/span&gt;all() }, &lt;span style="font-style:italic"&gt;cls&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;AlchemyEncoder)
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="db-model-generate"&gt;DB Model Generate&lt;/h3&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# 해당 DB 전체 Table 대상 &lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# 해당 DB 전체 Table 대상 &lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ ./venv/bin/flask-sqlacodegen &lt;span style="color:#f1fa8c"&gt;&amp;#39;mysql+pymysql://user:passwd@address2:3306/db_name&amp;#39;&lt;/span&gt; --flask
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# 해당 DB 테이블 지정&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ ./venv/bin/flask-sqlacodegen &lt;span style="color:#f1fa8c"&gt;&amp;#39;mysql+pymysql://user:passwd@address2:3306/db_name&amp;#39;&lt;/span&gt; --flask --table network,other_table
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="query-sample"&gt;Query Sample&lt;/h2&gt;
 &lt;h3 id="select-all"&gt;Select All&lt;/h3&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-py" data-lang="py"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cur &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; db&lt;span style="color:#ff79c6"&gt;.&lt;/span&gt;session&lt;span style="color:#ff79c6"&gt;.&lt;/span&gt;query(Network)
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-py" data-lang="py"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cur &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; db&lt;span style="color:#ff79c6"&gt;.&lt;/span&gt;session&lt;span style="color:#ff79c6"&gt;.&lt;/span&gt;query(Network)
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="select-filter-sort"&gt;Select Filter, Sort&lt;/h3&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-py" data-lang="py"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# Filter &lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-py" data-lang="py"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# Filter &lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cur &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; db&lt;span style="color:#ff79c6"&gt;.&lt;/span&gt;session&lt;span style="color:#ff79c6"&gt;.&lt;/span&gt;query(network)&lt;span style="color:#ff79c6"&gt;.&lt;/span&gt;filter(network&lt;span style="color:#ff79c6"&gt;.&lt;/span&gt;switch &lt;span style="color:#ff79c6"&gt;==&lt;/span&gt; switch_name)
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cur &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; db&lt;span style="color:#ff79c6"&gt;.&lt;/span&gt;session&lt;span style="color:#ff79c6"&gt;.&lt;/span&gt;query(network)&lt;span style="color:#ff79c6"&gt;.&lt;/span&gt;filter(network&lt;span style="color:#ff79c6"&gt;.&lt;/span&gt;ip&lt;span style="color:#ff79c6"&gt;.&lt;/span&gt;like(&lt;span style="color:#f1fa8c"&gt;&amp;#39;&lt;/span&gt;&lt;span style="color:#f1fa8c"&gt;{}&lt;/span&gt;&lt;span style="color:#f1fa8c"&gt;%&amp;#39;&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;.&lt;/span&gt;format(ip)))
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cur &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; db&lt;span style="color:#ff79c6"&gt;.&lt;/span&gt;session&lt;span style="color:#ff79c6"&gt;.&lt;/span&gt;query(network)&lt;span style="color:#ff79c6"&gt;.&lt;/span&gt;filter(network&lt;span style="color:#ff79c6"&gt;.&lt;/span&gt;switch&lt;span style="color:#ff79c6"&gt;.&lt;/span&gt;in_((&lt;span style="color:#f1fa8c"&gt;&amp;#39;AA&amp;#39;&lt;/span&gt;, &lt;span style="color:#f1fa8c"&gt;&amp;#39;BB&amp;#39;&lt;/span&gt;)))
@@ -391,7 +391,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cur &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; db&lt;span style="color:#ff79c6"&gt;.&lt;/span&gt;session&lt;span style="color:#ff79c6"&gt;.&lt;/span&gt;query(network)&lt;span style="color:#ff79c6"&gt;.&lt;/span&gt;filter(network&lt;span style="color:#ff79c6"&gt;.&lt;/span&gt;switch &lt;span style="color:#ff79c6"&gt;==&lt;/span&gt; switch_name) \
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;.&lt;/span&gt;order_by(network&lt;span style="color:#ff79c6"&gt;.&lt;/span&gt;ip&lt;span style="color:#ff79c6"&gt;.&lt;/span&gt;desc())
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="join"&gt;Join&lt;/h3&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-py" data-lang="py"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-py" data-lang="py"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# Join &lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cur &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; db&lt;span style="color:#ff79c6"&gt;.&lt;/span&gt;session&lt;span style="color:#ff79c6"&gt;.&lt;/span&gt;query(Network, NetworkSwitch) \
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;.&lt;/span&gt;filter(Network&lt;span style="color:#ff79c6"&gt;.&lt;/span&gt;ip &lt;span style="color:#ff79c6"&gt;==&lt;/span&gt; NetworkSwitch&lt;span style="color:#ff79c6"&gt;.&lt;/span&gt;ip, Network&lt;span style="color:#ff79c6"&gt;.&lt;/span&gt;switch &lt;span style="color:#ff79c6"&gt;==&lt;/span&gt; NetworkSwitch&lt;span style="color:#ff79c6"&gt;.&lt;/span&gt;switch)

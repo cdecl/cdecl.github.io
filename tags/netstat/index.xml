@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Netstat on cdeclog</title><link>https://cdecl.github.io/tags/netstat/</link><description>Recent content in Netstat on cdeclog</description><generator>Hugo -- 0.154.5</generator><language>ko-kr</language><lastBuildDate>Thu, 26 Aug 2021 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/netstat/index.xml" rel="self" type="application/rss+xml"/><item><title>Docker 내부 네트워크 상태 확인</title><link>https://cdecl.github.io/devops/docker-internal-network/</link><pubDate>Thu, 26 Aug 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/docker-internal-network/</guid><description>&lt;h2 id="netstat"&gt;netstat&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Netstat on cdeclog</title><link>https://cdecl.github.io/tags/netstat/</link><description>Recent content in Netstat on cdeclog</description><generator>Hugo -- 0.155.0</generator><language>ko-kr</language><lastBuildDate>Thu, 26 Aug 2021 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/netstat/index.xml" rel="self" type="application/rss+xml"/><item><title>Docker 내부 네트워크 상태 확인</title><link>https://cdecl.github.io/devops/docker-internal-network/</link><pubDate>Thu, 26 Aug 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/docker-internal-network/</guid><description>&lt;h2 id="netstat"&gt;netstat&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;Host 머신에서 &lt;code&gt;netstat&lt;/code&gt; 명령으로 docker container의 네트워크 상태가 확인 안됨
 &lt;ul&gt;
@@ -7,7 +7,7 @@
 &lt;/li&gt;
 &lt;li&gt;docker container는 bridge 네트워크 기반으로 운영이 되므로 Host Network 에서는 노출이 안됨&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# docker 실행 &lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# docker 실행 &lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ docker run -d -p 8081:80 --name&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;mvcapp cdecl/mvcapp
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;4fafaf418f84bf6541a1301b4422f825c58fa20b11d1190e87a3e23eea7a6825
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;

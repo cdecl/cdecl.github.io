@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Kustomize on cdeclog</title><link>https://cdecl.github.io/tags/kustomize/</link><description>Recent content in Kustomize on cdeclog</description><generator>Hugo -- 0.154.5</generator><language>ko-kr</language><lastBuildDate>Wed, 15 Dec 2021 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/kustomize/index.xml" rel="self" type="application/rss+xml"/><item><title>Kustomize Basic</title><link>https://cdecl.github.io/devops/kustomize-basic/</link><pubDate>Wed, 15 Dec 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/kustomize-basic/</guid><description>&lt;p&gt;kubernetes manifest 리소스 관리 도구&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Kustomize on cdeclog</title><link>https://cdecl.github.io/tags/kustomize/</link><description>Recent content in Kustomize on cdeclog</description><generator>Hugo -- 0.155.0</generator><language>ko-kr</language><lastBuildDate>Wed, 15 Dec 2021 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/kustomize/index.xml" rel="self" type="application/rss+xml"/><item><title>Kustomize Basic</title><link>https://cdecl.github.io/devops/kustomize-basic/</link><pubDate>Wed, 15 Dec 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/kustomize-basic/</guid><description>&lt;p&gt;kubernetes manifest 리소스 관리 도구&lt;/p&gt;
 &lt;h2 id="kustomize"&gt;Kustomize&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="https://kubernetes.io/ko/docs/tasks/manage-kubernetes-objects/kustomization/"&gt;https://kubernetes.io/ko/docs/tasks/manage-kubernetes-objects/kustomization/&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
@@ -7,7 +7,7 @@
 &lt;/ul&gt;
 &lt;hr&gt;
 &lt;h3 id="simple-example"&gt;Simple Example&lt;/h3&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ tree .
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ tree .
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;.
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;├── deployment.yaml
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;├── kustomization.yaml
@@ -16,7 +16,7 @@
 &lt;ul&gt;
 &lt;li&gt;Manifest 파일의 기본 구조 및 리소스, 패치 파일을 기술하는 파일&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;resources&lt;/span&gt;:
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;resources&lt;/span&gt;:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;- deployment.yaml
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;patchesStrategicMerge&lt;/span&gt;:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;- version.yaml

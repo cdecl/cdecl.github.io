@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Swarm on cdeclog</title><link>https://cdecl.github.io/tags/swarm/</link><description>Recent content in Swarm on cdeclog</description><generator>Hugo -- 0.154.5</generator><language>ko-kr</language><lastBuildDate>Thu, 12 Aug 2021 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/swarm/index.xml" rel="self" type="application/rss+xml"/><item><title>Docker Swarm 101</title><link>https://cdecl.github.io/devops/docker-swarm/</link><pubDate>Thu, 12 Aug 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/docker-swarm/</guid><description>&lt;p&gt;&lt;a href="https://docs.docker.com/engine/swarm/"&gt;https://docs.docker.com/engine/swarm/&lt;/a&gt;&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Swarm on cdeclog</title><link>https://cdecl.github.io/tags/swarm/</link><description>Recent content in Swarm on cdeclog</description><generator>Hugo -- 0.155.0</generator><language>ko-kr</language><lastBuildDate>Thu, 12 Aug 2021 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/swarm/index.xml" rel="self" type="application/rss+xml"/><item><title>Docker Swarm 101</title><link>https://cdecl.github.io/devops/docker-swarm/</link><pubDate>Thu, 12 Aug 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/docker-swarm/</guid><description>&lt;p&gt;&lt;a href="https://docs.docker.com/engine/swarm/"&gt;https://docs.docker.com/engine/swarm/&lt;/a&gt;&lt;/p&gt;
 &lt;h3 id="docker-swarm-node"&gt;Docker Swarm Node&lt;/h3&gt;
 &lt;h4 id="manager-node-초기화"&gt;Manager Node 초기화&lt;/h4&gt;
 &lt;p&gt;&lt;a href="https://docs.docker.com/engine/reference/commandline/swarm_init/"&gt;https://docs.docker.com/engine/reference/commandline/swarm_init/&lt;/a&gt;&lt;/p&gt;
@@ -9,7 +9,7 @@
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ docker swarm init
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ docker swarm init
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Swarm initialized: current node &lt;span style="color:#ff79c6"&gt;(&lt;/span&gt;bvz81updecsj6wjz393c09vti&lt;span style="color:#ff79c6"&gt;)&lt;/span&gt; is now a manager.
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;To add a worker to this swarm, run the following command:
@@ -26,7 +26,7 @@
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ docker swarm init --advertise-addr 192.168.99.121
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ docker swarm init --advertise-addr 192.168.99.121
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Swarm initialized: current node &lt;span style="color:#ff79c6"&gt;(&lt;/span&gt;bvz81updecsj6wjz393c09vti&lt;span style="color:#ff79c6"&gt;)&lt;/span&gt; is now a manager.
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;To add a worker to this swarm, run the following command:

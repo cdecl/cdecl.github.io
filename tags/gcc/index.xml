@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Gcc on cdeclog</title><link>https://cdecl.github.io/tags/gcc/</link><description>Recent content in Gcc on cdeclog</description><generator>Hugo -- 0.154.5</generator><language>ko-kr</language><lastBuildDate>Thu, 01 May 2025 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/gcc/index.xml" rel="self" type="application/rss+xml"/><item><title>C++ 언어의 ABI 이슈 및 호환성 가이드</title><link>https://cdecl.github.io/dev/cpp-abi/</link><pubDate>Thu, 01 May 2025 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/cpp-abi/</guid><description>&lt;p&gt;C++ 언어의 ABI 이슈 및 호환성 가이드&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Gcc on cdeclog</title><link>https://cdecl.github.io/tags/gcc/</link><description>Recent content in Gcc on cdeclog</description><generator>Hugo -- 0.155.0</generator><language>ko-kr</language><lastBuildDate>Thu, 01 May 2025 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/gcc/index.xml" rel="self" type="application/rss+xml"/><item><title>C++ 언어의 ABI 이슈 및 호환성 가이드</title><link>https://cdecl.github.io/dev/cpp-abi/</link><pubDate>Thu, 01 May 2025 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/cpp-abi/</guid><description>&lt;p&gt;C++ 언어의 ABI 이슈 및 호환성 가이드&lt;/p&gt;
 &lt;h2 id="1-abi란-무엇인가"&gt;1. ABI란 무엇인가?&lt;/h2&gt;
 &lt;p&gt;ABI(Application Binary Interface)는 컴파일된 바이너리 코드(오브젝트 파일, 라이브러리, 실행 파일 등)가 서로 상호작용할 수 있도록 정의된 규칙입니다. C++에서는 이름 맹글링, 호출 규약, 객체 레이아웃, 예외 처리 등이 포함됩니다. C++의 복잡한 기능(클래스, 템플릿, 예외 처리 등)으로 인해 ABI 이슈는 특히 중요하며, 서로 다른 컴파일러나 환경 간 호환성 문제를 자주 일으킵니다.&lt;/p&gt;
 &lt;h2 id="2-c-abi의-주요-이슈"&gt;2. C++ ABI의 주요 이슈&lt;/h2&gt;
@@ -35,7 +35,7 @@
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;g++ -static main.cpp -o myprogram
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;g++ -static main.cpp -o myprogram
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="라이브러리-링크-지정-방법"&gt;라이브러리 링크 지정 방법&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;-l&lt;/strong&gt; 옵션 (일반적인 방법)
@@ -77,7 +77,7 @@
 &lt;li&gt;&amp;ndash;whole-archive를 사용하면 실행 파일 크기가 더 커질 수 있습니다.&lt;/li&gt;
 &lt;li&gt;-Wl,&amp;ndash;whole-archive는 플러그인 시스템이나 동적으로 로드되는 모듈을 구현할 때 특히 유용할 수 있습니다&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;g++ main.cpp -lstdc++ -Wl,--whole-archive my_lib.a -o myprogram
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;g++ main.cpp -lstdc++ -Wl,--whole-archive my_lib.a -o myprogram
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="의존성-확인"&gt;의존성 확인&lt;/h3&gt;
 &lt;p&gt;실행 파일의 의존성을 확인하는 것은 프로그램이 어떤 라이브러리에 의존하고 있는지 파악하는 데 중요합니다. 이를 통해 정적 링킹이 제대로 되었는지, 혹은 동적 라이브러리에 대한 의존성이 있는지 확인할 수 있습니다.&lt;/p&gt;</description></item><item><title>GCC 설치 (`macOS`, `Windows`)</title><link>https://cdecl.github.io/dev/gcc-install-mac/</link><pubDate>Fri, 27 Aug 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/gcc-install-mac/</guid><description>&lt;p&gt;macOS 및 Windows 에 GCC 설치하기&lt;/p&gt;
 &lt;h2 id="mac-os"&gt;MAC OS&lt;/h2&gt;
@@ -89,18 +89,18 @@
 &lt;ul&gt;
 &lt;li&gt;xcode 없이 개발툴 설치&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ xcode-select --install
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ xcode-select --install
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;blockquote&gt;
 &lt;p&gt;&lt;code&gt;clang&lt;/code&gt; 이 설치되고 &lt;code&gt;gcc&lt;/code&gt;로 심볼링 링크 걸려 있음&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ gcc -v
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ gcc -v
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Configured with: --prefix&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;/Library/Developer/CommandLineTools/usr --with-gxx-include-dir&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/4.2.1
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Apple clang version 12.0.5 &lt;span style="color:#ff79c6"&gt;(&lt;/span&gt;clang-1205.0.22.11&lt;span style="color:#ff79c6"&gt;)&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Target: arm64-apple-darwin20.6.0
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Thread model: posix
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;InstalledDir: /Library/Developer/CommandLineTools/usr/bin
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="gcc-g-설치"&gt;GCC (G++) 설치&lt;/h3&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# 특정 버전으로 설치 가능 &lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# 특정 버전으로 설치 가능 &lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ brew search &lt;span style="color:#8be9fd;font-style:italic"&gt;gcc&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;==&lt;/span&gt;&amp;gt; Formulae
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;gcc gcc@5 gcc@8 libgccjit ghc ncc
@@ -123,7 +123,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;==&lt;/span&gt;&amp;gt; Pouring gcc--11.2.0.arm64_big_sur.bottle.tar.gz
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;🍺 /opt/homebrew/Cellar/gcc/11.2.0: 1,412 files, 339.5MB
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id="심볼릭링크-설정-및-path-설정"&gt;심볼릭링크 설정 및 PATH 설정&lt;/h4&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ &lt;span style="color:#8be9fd;font-style:italic"&gt;cd&lt;/span&gt; /opt/homebrew/Cellar/gcc/11.2.0
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ &lt;span style="color:#8be9fd;font-style:italic"&gt;cd&lt;/span&gt; /opt/homebrew/Cellar/gcc/11.2.0
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ ls -l
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;...
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;-rwxr-xr-x &lt;span style="color:#bd93f9"&gt;1&lt;/span&gt; cdecl admin 1.7M &lt;span style="color:#bd93f9"&gt;8&lt;/span&gt; &lt;span style="color:#bd93f9"&gt;28&lt;/span&gt; 13:41 g++-11
@@ -136,7 +136,7 @@
 &lt;li&gt;.zshrc or .bashrc&lt;/li&gt;
 &lt;/ul&gt;
 &lt;pre tabindex="0"&gt;&lt;code&gt;export PATH=/opt/homebrew/Cellar/gcc/11.2.0/bin:$PATH
-&lt;/code&gt;&lt;/pre&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ g++ -v
+&lt;/code&gt;&lt;/pre&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ g++ -v
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Using built-in specs.
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;COLLECT_GCC&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;g++
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;COLLECT_LTO_WRAPPER&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;/opt/homebrew/Cellar/gcc/11.2.0/libexec/gcc/aarch64-apple-darwin20/11.1.0/lto-wrapper

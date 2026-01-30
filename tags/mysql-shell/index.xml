@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Mysql-Shell on cdeclog</title><link>https://cdecl.github.io/tags/mysql-shell/</link><description>Recent content in Mysql-Shell on cdeclog</description><generator>Hugo -- 0.154.5</generator><language>ko-kr</language><lastBuildDate>Sun, 15 Aug 2021 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/mysql-shell/index.xml" rel="self" type="application/rss+xml"/><item><title>ElasticSearch to MySQL ETL</title><link>https://cdecl.github.io/devops/elasticsearch-to-mysql/</link><pubDate>Sun, 15 Aug 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/elasticsearch-to-mysql/</guid><description>&lt;p&gt;ElasticSearch to MySQL ETL&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Mysql-Shell on cdeclog</title><link>https://cdecl.github.io/tags/mysql-shell/</link><description>Recent content in Mysql-Shell on cdeclog</description><generator>Hugo -- 0.155.0</generator><language>ko-kr</language><lastBuildDate>Sun, 15 Aug 2021 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/mysql-shell/index.xml" rel="self" type="application/rss+xml"/><item><title>ElasticSearch to MySQL ETL</title><link>https://cdecl.github.io/devops/elasticsearch-to-mysql/</link><pubDate>Sun, 15 Aug 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/elasticsearch-to-mysql/</guid><description>&lt;p&gt;ElasticSearch to MySQL ETL&lt;/p&gt;
 &lt;h2 id="준비"&gt;준비&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;curl&lt;/code&gt; : Http 기반 ElasticSearch Query (SQL)&lt;/li&gt;
@@ -9,7 +9,7 @@
 &lt;ul&gt;
 &lt;li&gt;쿼리 후, 해당 내용 JSON 저장&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ curl -s -XPOST -H &lt;span style="color:#f1fa8c"&gt;&amp;#39;content-type: application/json&amp;#39;&lt;/span&gt; &lt;span style="color:#f1fa8c"&gt;\
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ curl -s -XPOST -H &lt;span style="color:#f1fa8c"&gt;&amp;#39;content-type: application/json&amp;#39;&lt;/span&gt; &lt;span style="color:#f1fa8c"&gt;\
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; -d &lt;span style="color:#f1fa8c"&gt;&amp;#39;{&amp;#34;query&amp;#34; : &amp;#34;select timestamp, activesession, loadavg, processor from \&amp;#34;mysql-perf-*\&amp;#34; limit 100&amp;#34;}&amp;#39;&lt;/span&gt; &lt;span style="color:#f1fa8c"&gt;\
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f1fa8c"&gt;&amp;#39;http://elasticsearch-server:7200/_sql&amp;#39;&lt;/span&gt; &amp;gt; result.json
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
@@ -51,7 +51,7 @@
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;-c&lt;/code&gt; : compact instead of pretty-printed output&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ cat result.json | &lt;span style="color:#f1fa8c"&gt;\
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ cat result.json | &lt;span style="color:#f1fa8c"&gt;\
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; jq -c &lt;span style="color:#f1fa8c"&gt;&amp;#39; { &amp;#34;col&amp;#34;: [.columns[] | .name], &amp;#34;row&amp;#34; : .rows[] }
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f1fa8c"&gt; | [.col, .row]
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f1fa8c"&gt; | transpose
@@ -80,7 +80,7 @@
 &lt;ul&gt;
 &lt;li&gt;테이블내 &lt;code&gt;doc json&lt;/code&gt; 필드 생성 및 JSON 데이터 Row 단위 적재&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# truncate table&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# truncate table&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ mysqlsh --sql user@mysql-server:3360/dbname -p&amp;lt;PASSWD&amp;gt; &lt;span style="color:#f1fa8c"&gt;\
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --execute &lt;span style="color:#f1fa8c"&gt;&amp;#39;truncate table data_table ;&amp;#39;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
