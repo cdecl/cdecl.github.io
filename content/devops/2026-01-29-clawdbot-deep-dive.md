@@ -1,6 +1,7 @@
 ---
-title: "Clawdbot: 로컬 중심의 개인용 AI 런타임 심층 분석"
+title: "OpenClaw (구 Clawdbot): 로컬 중심의 개인용 AI 런타임 심층 분석"
 tags:
+  - openclaw
   - clawdbot
   - ai-agent
   - nodejs
@@ -9,11 +10,13 @@ tags:
   - security
 ---
 
-**Clawdbot**은 본격적으로 로컬에서 실행되는 AI 런타임이다. 클라우드 기반 서비스와 달리, 사용자의 컴퓨터(Mac/Linux)에서 백그라운드 데몬으로 동작하며 로컬 데이터만을 활용한다. 사용자에게는 터미널, 파일시스템, 브라우저 컨트롤 같은 OS 리소스가 직관적으로 노출된다.
+> **공지**: **Clawdbot**은 **OpenClaw**로 리브랜딩되었습니다. 이 문서는 기존 Clawdbot의 개념과 함께 새로운 OpenClaw의 관점에서 내용을 보강하고 있습니다.
 
-## 1. Clawdbot이란?
+**OpenClaw (구 Clawdbot)**은 본격적으로 로컬에서 실행되는 AI 런타임이다. 클라우드 기반 서비스와 달리, 사용자의 컴퓨터(Mac/Linux)에서 백그라운드 데몬으로 동작하며 로컬 데이터만을 활용한다. 사용자에게는 터미널, 파일시스템, 브라우저 컨트롤 같은 OS 리소스가 직관적으로 노출된다.
 
-Clawdbot은 **Node.js** 기반으로 구현된 **로컬 AI 런타임**이다. 클라우드에 의존하지 않고, 사용자의 개인 환경에서 실행되므로 데이터 유출 위험이 최소화된다. 주요 특징은 다음과 같다.
+## 1. OpenClaw (구 Clawdbot)란?
+
+OpenClaw은 **Node.js** 기반으로 구현된 **로컬 AI 런타임**이다. 클라우드에 의존하지 않고, 사용자의 개인 환경에서 실행되므로 데이터 유출 위험이 최소화된다. 주요 특징은 다음과 같다.
 
 - **OS 위의 쉘**: 터미널 명령을 실행하고, 브라우저를 제어하며, 파일시스템을 조작한다.
 - **장기 실행**: 데몬 프로세스를 통해 상태를 유지하고, 필요에 따라 백그라운드에서 동작한다.
@@ -21,7 +24,7 @@ Clawdbot은 **Node.js** 기반으로 구현된 **로컬 AI 런타임**이다. �
 
 ## 2. 핵심 아키텍처
 
-Clawdbot은 세 가지 핵심 컴포넌트로 구성된다.
+OpenClaw은 세 가지 핵심 컴포넌트로 구성된다.
 
 ### 2.1 Gateway (데몬)
 
@@ -44,7 +47,7 @@ Clawdbot은 세 가지 핵심 컴포넌트로 구성된다.
 
 ## 3. 브라우저 자동화
 
-Clawdbot은 두 가지 브라우저 제어 방식을 제공한다.
+OpenClaw은 두 가지 브라우저 제어 방식을 제공한다.
 
 ### 3.1 Dedicated Browser (Clawd Profile)
 
@@ -74,7 +77,7 @@ AI가 로컬 시스템을 제어할 때 필요한 보안 조치를 정리한다.
 
 ## 5. 모델 활용 전략
 
-Clawdbot의 가장 큰 장점 중 하나는 **하이브리드 모델 접근 방식**이다. 사용자는 작업의 성격과 보안 요구사항에 따라 클라우드 모델과 로컬 모델을 자유롭게 전환할 수 있다.
+OpenClaw의 가장 큰 장점 중 하나는 **하이브리드 모델 접근 방식**이다. 사용자는 작업의 성격과 보안 요구사항에 따라 클라우드 모델과 로컬 모델을 자유롭게 전환할 수 있다.
 
 ### 5.1 클라우드 모델 (Cloud Models)
 
@@ -100,72 +103,32 @@ Clawdbot의 가장 큰 장점 중 하나는 **하이브리드 모델 접근 방�
 - **Gemma (7B)** (Ollama: `gemma:7b`): 구글이 개발한 70억 파라미터 모델. 균형 잡힌 성능을 보여주며, 안정적인 선택지 중 하나다.
 - **Phi-3 (3.8B)** (Ollama: `phi3:3.8b`): Microsoft가 개발한 38억 파라미터의 초소형 모델. 4-5GB의 적은 RAM으로도 놀라운 성능을 보여주어, 경량 환경에 가장 적합하다.
 
-이러한 모델들은 Clawdbot의 **Local** 모드와 결합될 때, 보안과 성능의 균형을 맞춘 최적의 개인용 AI 환경을 구축할 수 있게 해준다.
+이러한 모델들은 OpenClaw의 **Local** 모드와 결합될 때, 보안과 성능의 균형을 맞춘 최적의 개인용 AI 환경을 구축할 수 있게 해준다.
 
 ### 5.4 모델 설정 및 고급 전략
 
-Clawdbot의 멀티 모델 환경을 효과적으로 사용하려면, 체계적인 설정 파일과 동작 전략을 정의하는 것이 중요하다. 일반적으로 `~/.config/clawdbot/config.toml` 같은 경로에 설정 파일을 두어 런타임의 동작을 제어한다.
+OpenClaw의 멀티 모델 환경을 효과적으로 사용하려면, 체계적인 설정 파일과 동작 전략을 정의하는 것이 중요하다. 공식 문서에 따르면, 설정 파일은 `~/.openclaw/openclaw.json` 경로에 **JSON** 형식으로 저장된다.
 
-#### 상세 설정 파일 예시 (`config.toml`)
+> **참고**: 기존 `config.toml` 형식에서 `openclaw.json` 형식으로 변경되었습니다. 아래는 모델을 설정하는 간단한 예시입니다.
 
-아래는 모델별 인증 정보, 기본값, 그리고 고급 전략을 포함한 `config.toml` 파일의 상세 예시다.
+#### 설정 파일 예시 (`openclaw.json`)
 
-```toml
-# 전역 모델 설정
-default_provider = "ollama"  # 기본적으로 사용할 모델 제공자 (예: 'ollama', 'google')
-default_timeout = 60         # 모든 모델 요청에 대한 기본 타임아웃 (초)
-
-# --- 클라우드 모델 제공자 설정 ---
-[providers.google]
-# API 키는 환경 변수 `GOOGLE_API_KEY`에서 가져오는 것을 권장
-# api_key = "AIza..." 
-default_model = "gemini-1.5-flash"
-temperature = 0.7
-
-[providers.anthropic]
-# 환경 변수 `ANTHROPIC_API_KEY` 사용
-# api_key = "sk-..."
-default_model = "claude-3-haiku-20240307"
-temperature = 0.65
-
-# --- 로컬 모델 제공자 설정 ---
-[providers.ollama]
-host = "http://127.0.0.1:11434"  # Ollama 서버 주소
-default_model = "llama3:8b"
-temperature = 0.8
-# 로컬 모델은 keep_alive 설정을 통해 응답 속도를 향상시킬 수 있다
-keep_alive = "5m"
-
-# --- 고급 동작 전략 ---
-[strategy.fallback]
-# 'local_first' 전략: 로컬 모델을 먼저 시도하고, 특정 조건에서 클라우드로 전환
-enable = true
-primary_provider = "ollama"
-secondary_provider = "google"
-
-# 전환 조건 (아래 조건 중 하나라도 만족 시 전환)
-triggers = [
-  "timeout",      # 로컬 모델이 30초 내에 응답하지 않을 때
-  "keyword",      # 프롬프트에 '분석', '리서치', 'draw' 같은 복잡한 키워드가 포함될 때
-  "code_gen",     # 사용자가 코드 생성을 명시적으로 요청했을 때
-]
-trigger_timeout = 30 # 초
-trigger_keywords = ["분석", "리서치", "요약", "draw", "chart"]
-
-[strategy.routing]
-# 'intent_based' 라우팅: 프롬프트 의도에 따라 모델을 동적으로 선택
-enable = true
-router_model = "phi3:mini" # 의도 분석에 사용할 경량 로컬 모델
-rules = [
-  { intent = "simple_qa", provider = "ollama", model = "mistral:7b" },
-  { intent = "complex_reasoning", provider = "anthropic", model = "claude-3-sonnet-20240229" },
-  { intent = "code_generation", provider = "google", model = "gemini-1.5-pro" },
-]
+```json
+{
+  "agent": {
+    "model": "anthropic/claude-opus-4-5"
+  },
+  "channels": {
+    "telegram": {
+      "botToken": "123456:ABCDEF"
+    }
+  }
+}
 ```
 
 #### 설정 및 인증 (Configuration & Authentication)
 
-- **API 키 관리**: 위 예시처럼 API 키는 설정 파일에 직접 저장하기보다, `GOOGLE_API_KEY`, `ANTHROPIC_API_KEY` 같은 **환경 변수**를 통해 관리하는 것이 가장 안전하다. Clawdbot 런타임은 시작 시 이 환경 변수를 자동으로 로드한다.
+- **API 키 관리**: 위 예시처럼 API 키는 설정 파일에 직접 저장하기보다, `GOOGLE_API_KEY`, `ANTHROPIC_API_KEY` 같은 **환경 변수**를 통해 관리하는 것이 가장 안전하다. OpenClaw 런타임은 시작 시 이 환경 변수를 자동으로 로드한다.
 - **모델별 파라미터**: `temperature` (창의성), `timeout` (타임아웃) 등 모델의 동작을 세밀하게 조정하는 파라미터를 제공자별로 설정할 수 있다.
 
 #### Fallback 및 복합 전략 (Fallback & Hybrid Strategy)
@@ -174,9 +137,9 @@ rules = [
 - **의도 기반 라우팅**: `strategy.routing`은 한 단계 더 나아간 전략이다. `phi3:mini` 같이 매우 가벼운 로컬 모델을 '교통경찰'처럼 활용하여, 사용자의 질문 의도를 먼저 파악한다. 이후, "간단한 질문"은 중간급 로컬 모델로, "복잡한 추론"이나 "코드 생성"은 각 작업에 특화된 최강의 클라우드 모델로 요청을 분배하여 효율을 극대화한다.
 
 
-## 6. Clawdbot 활용 사례 및 아이디어
+## 6. OpenClaw 활용 사례 및 아이디어
 
-Clawdbot의 진정한 힘은 로컬 시스템의 모든 자원을 AI와 결합하여 무한한 자동화 가능성을 여는 데 있다. 다음은 몇 가지 구체적인 활용 사례와 스킬 확장 아이디어다.
+OpenClaw의 진정한 힘은 로컬 시스템의 모든 자원을 AI와 결합하여 무한한 자동화 가능성을 여는 데 있다. 다음은 몇 가지 구체적인 활용 사례와 스킬 확장 아이디어다.
 
 ### 6.1 주요 활용 사례 5가지
 
@@ -202,7 +165,7 @@ Clawdbot의 진정한 힘은 로컬 시스템의 모든 자원을 AI와 결합�
 
 ### 6.2 사용자 Skill 확장 아이디어
 
-Clawdbot은 사용자가 직접 스킬을 만들어 기능을 무한히 확장할 수 있다.
+OpenClaw은 사용자가 직접 스킬을 만들어 기능을 무한히 확장할 수 있다.
 
 -   **데이터베이스 스킬**: 로컬 SQLite나 PostgreSQL 데이터베이스에 연결하여, 자연어 질문을 SQL 쿼리로 변환하고 실행 결과를 반환하는 스킬. "지난달 가장 많이 팔린 상품 5개 보여줘" 같은 요청을 처리할 수 있다.
 -   **클라우드 관리 스킬**: `aws`, `gcloud`, `az` 같은 클라우드 CLI 도구를 래핑하여 스킬을 만들 수 있다. "현재 GCP 프로젝트에 실행 중인 VM 인스턴스 목록 보여줘" 같은 명령을 자연어로 내릴 수 있게 된다.
@@ -211,4 +174,4 @@ Clawdbot은 사용자가 직접 스킬을 만들어 기능을 무한히 확장�
 
 ## 7. 마치며
 
-Clawdbot은 “나를 위한, 나만의, 내 컴퓨터에 사는” 비서다. 클라우드 서비스와 비교했을 때, 데이터 통제력·runtime 제어가 훨씬 강력하다. 앞으로도 더 진화하여 로컬 중심의 AI 에이전트로 확장될 전망이다.
+OpenClaw은 “나를 위한, 나만의, 내 컴퓨터에 사는” 비서다. 클라우드 서비스와 비교했을 때, 데이터 통제력·runtime 제어가 훨씬 강력하다. 앞으로도 더 진화하여 로컬 중심의 AI 에이전트로 확장될 전망이다.
