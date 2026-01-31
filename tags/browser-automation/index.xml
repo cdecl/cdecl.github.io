@@ -1,10 +1,6 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Browser-Automation on cdeclog</title><link>https://cdecl.github.io/tags/browser-automation/</link><description>Recent content in Browser-Automation on cdeclog</description><generator>Hugo -- 0.155.0</generator><language>ko-kr</language><lastBuildDate>Thu, 29 Jan 2026 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/browser-automation/index.xml" rel="self" type="application/rss+xml"/><item><title>Clawdbot: 로컬 중심의 개인용 AI 런타임 심층 분석</title><link>https://cdecl.github.io/devops/clawdbot-deep-dive/</link><pubDate>Thu, 29 Jan 2026 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/clawdbot-deep-dive/</guid><description>&lt;p&gt;&lt;strong&gt;Clawdbot&lt;/strong&gt;은 본격적으로 로컬에서 실행되는 AI 런타임이다. 클라우드 기반 서비스와 달리, 사용자의 컴퓨터(Mac/Linux)에서 백그라운드 데몬으로 동작하며 로컬 데이터만을 활용한다. 사용자에게는 터미널, 파일시스템, 브라우저 컨트롤 같은 OS 리소스가 직관적으로 노출된다.&lt;/p&gt;
-&lt;h2 id="1-clawdbot이란"&gt;1. Clawdbot이란?&lt;/h2&gt;
-&lt;p&gt;Clawdbot은 &lt;strong&gt;Node.js&lt;/strong&gt; 기반으로 구현된 &lt;strong&gt;로컬 AI 런타임&lt;/strong&gt;이다. 클라우드에 의존하지 않고, 사용자의 개인 환경에서 실행되므로 데이터 유출 위험이 최소화된다. 주요 특징은 다음과 같다.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;OS 위의 쉘&lt;/strong&gt;: 터미널 명령을 실행하고, 브라우저를 제어하며, 파일시스템을 조작한다.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;장기 실행&lt;/strong&gt;: 데몬 프로세스를 통해 상태를 유지하고, 필요에 따라 백그라운드에서 동작한다.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;멀티 모델 지원&lt;/strong&gt;: 클라우드 LLM(예: Google Gemini, Anthropic Claude)과 로컬 LLM(예: Ollama)이 동시에 사용 가능하다.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id="2-핵심-아키텍처"&gt;2. 핵심 아키텍처&lt;/h2&gt;
-&lt;p&gt;Clawdbot은 세 가지 핵심 컴포넌트로 구성된다.&lt;/p&gt;</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Browser-Automation on cdeclog</title><link>https://cdecl.github.io/tags/browser-automation/</link><description>Recent content in Browser-Automation on cdeclog</description><generator>Hugo -- 0.155.1</generator><language>ko-kr</language><lastBuildDate>Thu, 29 Jan 2026 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/browser-automation/index.xml" rel="self" type="application/rss+xml"/><item><title>OpenClaw (구 Clawdbot): 로컬 중심의 개인용 AI 런타임 심층 분석</title><link>https://cdecl.github.io/devops/clawdbot-deep-dive/</link><pubDate>Thu, 29 Jan 2026 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/clawdbot-deep-dive/</guid><description>&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;공지&lt;/strong&gt;: &lt;strong&gt;Clawdbot&lt;/strong&gt;은 &lt;strong&gt;OpenClaw&lt;/strong&gt;로 리브랜딩되었습니다. 이 문서는 기존 Clawdbot의 개념과 함께 새로운 OpenClaw의 관점에서 내용을 보강하고 있습니다.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;**OpenClaw (구 Clawdbot)**은 본격적으로 로컬에서 실행되는 AI 런타임이다. 클라우드 기반 서비스와 달리, 사용자의 컴퓨터(Mac/Linux)에서 백그라운드 데몬으로 동작하며 로컬 데이터만을 활용한다. 사용자에게는 터미널, 파일시스템, 브라우저 컨트롤 같은 OS 리소스가 직관적으로 노출된다.&lt;/p&gt;
+&lt;h2 id="1-openclaw-구-clawdbot란"&gt;1. OpenClaw (구 Clawdbot)란?&lt;/h2&gt;
+&lt;p&gt;OpenClaw은 &lt;strong&gt;Node.js&lt;/strong&gt; 기반으로 구현된 &lt;strong&gt;로컬 AI 런타임&lt;/strong&gt;이다. 클라우드에 의존하지 않고, 사용자의 개인 환경에서 실행되므로 데이터 유출 위험이 최소화된다. 주요 특징은 다음과 같다.&lt;/p&gt;</description></item></channel></rss>
