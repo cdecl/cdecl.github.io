@@ -4,7 +4,7 @@
 
 PID_FILE="./hugo-server.pid"
 LOG_FILE="./hugo-server.log"
-HUGO_COMMAND="hugo server --bind 0.0.0.0 --disableFastRender" # --minify --destination public
+HUGO_COMMAND="hugo server --bind 0.0.0.0 --port 4000 --disableFastRender" # --minify --destination public
 
 start() {
     if [ -f $PID_FILE ]; then
