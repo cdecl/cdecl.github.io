@@ -1,4 +1,14 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>cdeclog</title><link>https://cdecl.github.io/</link><description>Recent content on cdeclog</description><generator>Hugo -- 0.155.2</generator><language>ko-kr</language><lastBuildDate>Wed, 04 Feb 2026 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Lazygit 가이드: 설치부터 패널별 치트시트</title><link>https://cdecl.github.io/devops/lazygit-guide/</link><pubDate>Wed, 04 Feb 2026 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/lazygit-guide/</guid><description>&lt;p&gt;Git은 강력하지만 명령어 입력 방식은 때로 직관성이 떨어집니다. 특히 수많은 파일을 개별적으로 스테이징하거나 복잡한 인터랙티브 리베이스를 수행할 때 터미널 UI(TUI) 도구의 진가가 드러납니다. 그중에서도 가장 완성도 높은 도구인 &lt;strong&gt;Lazygit&lt;/strong&gt;을 파헤쳐 봅니다.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>cdeclog</title><link>https://cdecl.github.io/</link><description>Recent content on cdeclog</description><generator>Hugo -- 0.155.2</generator><language>ko-kr</language><lastBuildDate>Fri, 06 Feb 2026 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Async/Await의 본질: 우리는 왜 '기다림'을 '멈춤'으로 착각하는가?</title><link>https://cdecl.github.io/dev/async-await-core/</link><pubDate>Fri, 06 Feb 2026 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/async-await-core/</guid><description>&lt;p&gt;Async/Await의 본질: 우리는 왜 &amp;lsquo;기다림&amp;rsquo;을 &amp;lsquo;멈춤&amp;rsquo;으로 착각하는가?&lt;/p&gt;
+&lt;p&gt;많은 개발자가 &lt;code&gt;await&lt;/code&gt;를 보면 &amp;ldquo;코드가 여기서 멈춘다&amp;quot;라고 직관적으로 이해합니다. 하지만 이는 논리적 흐름의 멈춤일 뿐, 물리적인 스레드가 멈추는 블로킹은 아닙니다. async/await는 동기 코드처럼 보이게 만들면서, 실제로는 실행 흐름을 나눠 코루틴처럼 동작합니다.&lt;/p&gt;
+&lt;p&gt;이 글은 JavaScript, Python, C#을 비교해 async/await가 어떻게 &amp;ldquo;동기처럼 보이는 비동기&amp;quot;를 만드는지 설명합니다.&lt;/p&gt;
+&lt;h2 id="1-가장-큰-오해-멈춤이-아니라-양보"&gt;1. 가장 큰 오해: 멈춤이 아니라 양보&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;await&lt;/code&gt;는 실행 흐름을 잠시 중단시키지만, 스레드 전체를 멈추지는 않습니다. 핵심은 다음입니다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;await&lt;/code&gt;는 현재 함수의 실행 컨텍스트를 일시 중단한다.&lt;/li&gt;
+&lt;li&gt;제어권은 즉시 호출자나 이벤트 루프로 돌아간다.&lt;/li&gt;
+&lt;li&gt;작업이 끝나면 중단 지점부터 다시 이어서 실행된다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;비유로 말하면, 식당에서 진동벨을 받고 자리에 앉는 것과 같습니다. 나는 기다리지만, 카운터 앞을 막고 서 있지는 않습니다.&lt;/p&gt;</description></item><item><title>Lazygit 가이드: 설치부터 패널별 치트시트</title><link>https://cdecl.github.io/devops/lazygit-guide/</link><pubDate>Wed, 04 Feb 2026 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/lazygit-guide/</guid><description>&lt;p&gt;Git은 강력하지만 명령어 입력 방식은 때로 직관성이 떨어집니다. 특히 수많은 파일을 개별적으로 스테이징하거나 복잡한 인터랙티브 리베이스를 수행할 때 터미널 UI(TUI) 도구의 진가가 드러납니다. 그중에서도 가장 완성도 높은 도구인 &lt;strong&gt;Lazygit&lt;/strong&gt;을 파헤쳐 봅니다.&lt;/p&gt;
 &lt;hr&gt;
 &lt;h2 id="1-lazygit-설치-installation"&gt;1. Lazygit 설치 (Installation)&lt;/h2&gt;
 &lt;p&gt;환경에 맞는 패키지 매니저를 사용하여 간단히 설치할 수 있습니다.&lt;/p&gt;
