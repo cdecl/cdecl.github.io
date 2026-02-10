@@ -134,6 +134,102 @@ USING ( auth.uid() = user_id ); -- 삭제할 행을 찾는 조건
 ```
 이처럼 작업(`SELECT`, `INSERT`, `UPDATE`, `DELETE`)과 역할(`public`, `authenticated`)에 따라 여러 정책을 조합하여 매우 세분화된 규칙을 만들 수 있습니다.
 
+## 5.4. 실전 CRUD 예제: `memos` 테이블 RLS 적용
+
+기본적인 메모 앱을 가정해 `memos` 테이블에 RLS를 적용하는 CRUD 정책 예제를 추가합니다. 테이블은 `id`, `user_id`, `title`, `contents` 필드를 가진다고 가정합니다.
+
+### 5.4.1. 테이블 스키마 예시
+
+```sql
+-- 메모 테이블 예시
+CREATE TABLE public.memos (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id uuid NOT NULL,
+  title text NOT NULL,
+  contents text,
+  created_at timestamptz NOT NULL DEFAULT now(),
+  updated_at timestamptz NOT NULL DEFAULT now()
+);
+```
+
+### 5.4.2. RLS 활성화
+
+```sql
+ALTER TABLE public.memos ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.memos FORCE ROW LEVEL SECURITY;
+```
+
+### 5.4.3. CRUD 정책 (Authenticated 사용자 기준)
+
+```sql
+-- 읽기: 본인 메모만 조회 가능
+CREATE POLICY "Users can read their own memos"
+ON public.memos FOR SELECT
+TO authenticated
+USING ( auth.uid() = user_id );
+
+-- 생성: 본인 user_id로만 생성 가능
+CREATE POLICY "Users can create their own memos"
+ON public.memos FOR INSERT
+TO authenticated
+WITH CHECK ( auth.uid() = user_id );
+
+-- 수정: 본인 메모만 수정 가능
+CREATE POLICY "Users can update their own memos"
+ON public.memos FOR UPDATE
+TO authenticated
+USING ( auth.uid() = user_id )
+WITH CHECK ( auth.uid() = user_id );
+
+-- 삭제: 본인 메모만 삭제 가능
+CREATE POLICY "Users can delete their own memos"
+ON public.memos FOR DELETE
+TO authenticated
+USING ( auth.uid() = user_id );
+```
+
+### 5.4.4. 적용 예시 (SQL)
+
+아래는 SQL 차원에서 RLS가 어떻게 적용되는지 보여주는 예시입니다. 핵심은 `auth.uid()`가 요청자의 사용자 ID로 평가된다는 점이며, 이 값이 `user_id`와 일치하지 않으면 결과가 0건이 되거나 에러가 발생합니다.
+
+```sql
+-- 1) 조회: 내 메모만 반환됨
+SELECT id, title, contents, created_at
+FROM public.memos
+ORDER BY created_at DESC;
+
+-- 2) 생성: user_id가 auth.uid()와 일치해야만 성공
+INSERT INTO public.memos (user_id, title, contents)
+VALUES (auth.uid(), '첫 메모', '내용');
+
+-- 3) 수정: 내 메모만 수정 가능
+UPDATE public.memos
+SET title = '수정된 제목'
+WHERE id = '00000000-0000-0000-0000-000000000000';
+
+-- 4) 삭제: 내 메모만 삭제 가능
+DELETE FROM public.memos
+WHERE id = '00000000-0000-0000-0000-000000000000';
+```
+
+위 쿼리들은 애플리케이션 코드가 아니라 **DB가 RLS 정책을 강제**한다는 점을 보여줍니다. 즉, 클라이언트가 어떤 쿼리를 보내더라도 정책 조건을 만족하지 않으면 결과가 거부됩니다.
+
+#### 5.4.4-1. `USING`과 `WITH CHECK`의 역할 정리
+
+RLS 정책은 쿼리 내부가 아니라 **DB 레벨에서 자동으로 적용**됩니다. 그래서 `WHERE user_id = ...` 같은 조건을 SQL에 명시하지 않아도 보안은 유지됩니다.
+
+- **`USING`**: 행(Row)이 **대상에 포함될 수 있는지** 결정합니다.  
+  `SELECT`, `UPDATE`, `DELETE`에서 해당 행이 "보이거나 수정/삭제될 수 있는지"를 필터링합니다.
+- **`WITH CHECK`**: 새로 쓰는 값이 **조건을 만족하는지** 검사합니다.  
+  `INSERT`, `UPDATE`에서 "이 값으로 저장해도 되는지"를 검증합니다.
+
+정리하면:
+- `USING` = **대상 행 필터**
+- `WITH CHECK` = **저장/수정 값 검증**
+
+예를 들어 `UPDATE`는 두 조건이 모두 적용됩니다.  
+즉, **수정 가능한 행인지(USING)** 확인한 뒤, **수정 결과가 정책을 만족하는지(WITH CHECK)**까지 통과해야 반영됩니다.
+
 ## 6. 좋은 RLS 정책을 설계하는 기준
 
 효과적이고 안전한 RLS 정책을 만들려면 다음 기준을 따르는 것이 좋습니다. 이는 `anon` 키에 부여할 권한을 어떻게 잘게 나눌 것인가에 대한 기준, 즉 'anon 키 분해 기준'이 됩니다.
