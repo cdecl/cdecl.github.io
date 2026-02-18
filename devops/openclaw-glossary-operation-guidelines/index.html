@@ -1,0 +1,364 @@
+<!doctype html><html lang=en dir=auto data-theme=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>OpenClaw 용어집 및 운영 지침 가이드 | cdeclog</title><meta name=keywords content="openclaw,clawdbot,agent,gateway,devops,security,operations,용어집,운영 지침"><meta name=description content='OpenClaw(ClawdBot 기반)는 개인 AI 에이전트를 메시징 채널과 연결해 운영하는 게이트웨이 중심 프레임워크입니다. 이 문서는 용어를 사람 친화적으로 정리하고, 운영 시 바로 적용할 수 있는 체크리스트와 최신 변경 사항(공식 소스 기준)까지 함께 제공합니다.
+개요
+
+문서 목적: 용어 설명 + 운영 지침 통합 가이드
+최신 정보 범위: 공식 문서와 공식 릴리스만 사용
+최신 반영 기준:
+
+GitHub Release v2026.2.15 (게시일: 2026-02-16)
+docs.openclaw.ai의 공식 업데이트 문서
+
+
+
+핵심 개념 (단순 설명)
+Gateway (게이트웨이)
+
+모든 메신저(WhatsApp, Telegram, Discord 등)와 에이전트를 연결해 주는 중앙 서버/데몬.
+기본 포트: 18789 (WebSocket).
+한 개의 Gateway로 여러 채널과 여러 에이전트를 동시에 관리 가능.
+
+Agent (에이전트)
+
+AI 어시스턴트의 &ldquo;뇌"에 해당.
+개별 성격, 메모리, 행동 방식을 가짐.
+각 Agent는 격리된 상태(workspace, auth, sessions)를 유지.
+기본 에이전트 이름: main.
+
+Workspace (작업 폴더)
+
+Agent의 &ldquo;개인 폴더"로, 기본 경로: ~/.openclaw/workspace.
+주요 파일:
+
+AGENTS.md: 동작 지시, 규칙, 메모리.
+SOUL.md: 성격, 말투, 경계.
+USER.md: 사용자 정보와 호칭.
+TOOLS.md: 사용 가능한 도구/툴 설명.
+BOOTSTRAP.md: 최초 실행 설정(한 번 실행 후 삭제).
+memory/YYYY-MM-DD.md: 일일 메모리 로그.
+
+
+
+Agent Directory (agentDir)
+
+에이전트의 기술 설정/인증 정보를 저장.
+기본 경로: ~/.openclaw/agents/<agentId>/agent.
+주요 파일:
+
+auth-profiles.json: 모델 제공자(Anthropic, OpenAI 등) 인증 정보.
+에이전트별 모델 설정/구조 파일.
+
+
+
+통신 구조
+Channel (채널)
+
+메신저 연결 단위.
+예: WhatsApp, Telegram, Discord 각각 하나의 관(pipe).
+
+Account ID (accountId)
+
+같은 채널 내 여러 계정을 구분.
+예: 개인 WhatsApp, 업무용 WhatsApp.
+
+Session Key (sessionKey)
+
+대화 스레드를 구분하는 고유 이름/주소.
+예:
+
+agent:main:main (기본 1:1 대화)
+agent:main:telegram:group:123 (그룹 대화)
+
+
+
+Session ID (sessionId)
+
+실제 대화 기록 파일 ID.
+경로 예: ~/.openclaw/agents/<agentId>/sessions/<sessionId>.jsonl.
+세션 재설정 시 값이 바뀜.
+
+Binding (바인딩)
+
+라우팅 규칙.
+어떤 채널/계정/연락처에서 온 메시지를 어떤 Agent로 보낼지 결정.
+가장 구체적인 규칙이 우선 적용.
+
+세션 관리
+Main Session (기본 대화)
+
+기본 1:1 대화 세션.
+예: agent:<agentId>:main.
+모든 개인 대화를 한 세션으로 모아 유지할 수 있음.
+
+DM Scope (dmScope)
+
+DM(1:1) 분리 수준 설정.
+
+main: 모든 DM 공유
+per-peer: 사용자별 분리
+per-channel-peer: 채널+사용자별 분리
+per-account-channel-peer: 계정+채널+사용자별 최대 분리
+
+
+
+Session Reset (초기화)
+
+새 대화를 시작할 때 sessionId를 새로 생성.
+방법:
+
+수동: openclaw new, openclaw reset
+자동: 지정 시각(예: 매일 04:00), 비활성 시간 기준 자동 리셋
+
+
+
+Compaction (압축/요약)
+
+긴 대화를 요약해 컨텍스트 한도 초과를 방지.
+핵심 맥락은 남기고 오래된 상세를 정리.
+
+Memory Flush (메모리 저장)
+
+Compaction 전에 중요한 정보를 영구 메모리로 기록.
+memory/YYYY-MM-DD.md에 저장.
+NO_REPLY 내부 메시지로 사용자 노출 없이 처리 가능.
+
+접근 제어 / 보안
+Pairing (페어링)
+
+새 노드(장치) 연결 시 승인 절차.
+로컬(127.0.0.1)은 자동 승인 옵션 가능.
+승인 후 토큰 발급으로 접근 허용.
+
+DM Policy (dmPolicy)
+
+DM 허용 범위 제어.
+
+open: 누구나 가능(위험)
+pairing: 승인 사용자만
+allowlist: 허용 목록만
+
+
+
+Allow From (allowFrom)
+
+허용 번호/ID 목록.
+예: +15555550123
+
+Group Policy (groupPolicy)
+
+그룹 참여 범위 제어.
+
+open: 모든 그룹(권장하지 않음)
+allowlist: 허용 그룹만
+denylist: 차단 목록 제외
+
+
+
+Require Mention
+
+그룹에서 @멘션이 있을 때만 응답.
+불필요 응답/스팸 방지에 유효.
+
+Gateway Token (OPENCLAW_GATEWAY_TOKEN)
+
+Gateway 접속용 공유 비밀.
+WebSocket 인증에 사용.
+
+Sandbox (샌드박스)
+
+도구 실행 격리(도커 기반).
+모드:
+
+off: 비격리(전체 시스템 접근)
+non-main: 메인 세션만 비격리
+all: 모든 세션 격리
+
+
+스코프: session, agent, shared
+
+
+주의'><meta name=author content="Byung Kyu KIM"><link rel=canonical href=https://cdecl.github.io/devops/openclaw-glossary-operation-guidelines/><link crossorigin=anonymous href=/assets/css/stylesheet.f939c4ffefb264e6fe85e04352266f79db6bb1303c8e16ae9b6064c1247b5e32.css integrity="sha256-+TnE/++yZOb+heBDUiZvedtrsTA8jhaum2BkwSR7XjI=" rel="preload stylesheet" as=style><link rel=icon href=https://cdecl.github.io/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://cdecl.github.io/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://cdecl.github.io/favicon-32x32.png><link rel=apple-touch-icon href=https://cdecl.github.io/apple-touch-icon.png><link rel=mask-icon href=https://cdecl.github.io/safari-pinned-tab.svg><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><link rel=alternate hreflang=en href=https://cdecl.github.io/devops/openclaw-glossary-operation-guidelines/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51);color-scheme:dark}.list{background:var(--theme)}.toc{background:var(--entry)}}@media(prefers-color-scheme:light){.list::-webkit-scrollbar-thumb{border-color:var(--code-bg)}}</style></noscript><script>localStorage.getItem("pref-theme")==="dark"?document.querySelector("html").dataset.theme="dark":localStorage.getItem("pref-theme")==="light"?document.querySelector("html").dataset.theme="light":window.matchMedia("(prefers-color-scheme: dark)").matches?document.querySelector("html").dataset.theme="dark":document.querySelector("html").dataset.theme="light"</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-VQQHHYPN7K"></script><script>var doNotTrack=!1,dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes";if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-VQQHHYPN7K")}</script><meta property="og:url" content="https://cdecl.github.io/devops/openclaw-glossary-operation-guidelines/"><meta property="og:site_name" content="cdeclog"><meta property="og:title" content="OpenClaw 용어집 및 운영 지침 가이드"><meta property="og:description" content='OpenClaw(ClawdBot 기반)는 개인 AI 에이전트를 메시징 채널과 연결해 운영하는 게이트웨이 중심 프레임워크입니다. 이 문서는 용어를 사람 친화적으로 정리하고, 운영 시 바로 적용할 수 있는 체크리스트와 최신 변경 사항(공식 소스 기준)까지 함께 제공합니다.
+개요 문서 목적: 용어 설명 + 운영 지침 통합 가이드 최신 정보 범위: 공식 문서와 공식 릴리스만 사용 최신 반영 기준: GitHub Release v2026.2.15 (게시일: 2026-02-16) docs.openclaw.ai의 공식 업데이트 문서 핵심 개념 (단순 설명) Gateway (게이트웨이) 모든 메신저(WhatsApp, Telegram, Discord 등)와 에이전트를 연결해 주는 중앙 서버/데몬. 기본 포트: 18789 (WebSocket). 한 개의 Gateway로 여러 채널과 여러 에이전트를 동시에 관리 가능. Agent (에이전트) AI 어시스턴트의 “뇌"에 해당. 개별 성격, 메모리, 행동 방식을 가짐. 각 Agent는 격리된 상태(workspace, auth, sessions)를 유지. 기본 에이전트 이름: main. Workspace (작업 폴더) Agent의 “개인 폴더"로, 기본 경로: ~/.openclaw/workspace. 주요 파일: AGENTS.md: 동작 지시, 규칙, 메모리. SOUL.md: 성격, 말투, 경계. USER.md: 사용자 정보와 호칭. TOOLS.md: 사용 가능한 도구/툴 설명. BOOTSTRAP.md: 최초 실행 설정(한 번 실행 후 삭제). memory/YYYY-MM-DD.md: 일일 메모리 로그. Agent Directory (agentDir) 에이전트의 기술 설정/인증 정보를 저장. 기본 경로: ~/.openclaw/agents/<agentId>/agent. 주요 파일: auth-profiles.json: 모델 제공자(Anthropic, OpenAI 등) 인증 정보. 에이전트별 모델 설정/구조 파일. 통신 구조 Channel (채널) 메신저 연결 단위. 예: WhatsApp, Telegram, Discord 각각 하나의 관(pipe). Account ID (accountId) 같은 채널 내 여러 계정을 구분. 예: 개인 WhatsApp, 업무용 WhatsApp. Session Key (sessionKey) 대화 스레드를 구분하는 고유 이름/주소. 예: agent:main:main (기본 1:1 대화) agent:main:telegram:group:123 (그룹 대화) Session ID (sessionId) 실제 대화 기록 파일 ID. 경로 예: ~/.openclaw/agents/<agentId>/sessions/<sessionId>.jsonl. 세션 재설정 시 값이 바뀜. Binding (바인딩) 라우팅 규칙. 어떤 채널/계정/연락처에서 온 메시지를 어떤 Agent로 보낼지 결정. 가장 구체적인 규칙이 우선 적용. 세션 관리 Main Session (기본 대화) 기본 1:1 대화 세션. 예: agent:<agentId>:main. 모든 개인 대화를 한 세션으로 모아 유지할 수 있음. DM Scope (dmScope) DM(1:1) 분리 수준 설정. main: 모든 DM 공유 per-peer: 사용자별 분리 per-channel-peer: 채널+사용자별 분리 per-account-channel-peer: 계정+채널+사용자별 최대 분리 Session Reset (초기화) 새 대화를 시작할 때 sessionId를 새로 생성. 방법: 수동: openclaw new, openclaw reset 자동: 지정 시각(예: 매일 04:00), 비활성 시간 기준 자동 리셋 Compaction (압축/요약) 긴 대화를 요약해 컨텍스트 한도 초과를 방지. 핵심 맥락은 남기고 오래된 상세를 정리. Memory Flush (메모리 저장) Compaction 전에 중요한 정보를 영구 메모리로 기록. memory/YYYY-MM-DD.md에 저장. NO_REPLY 내부 메시지로 사용자 노출 없이 처리 가능. 접근 제어 / 보안 Pairing (페어링) 새 노드(장치) 연결 시 승인 절차. 로컬(127.0.0.1)은 자동 승인 옵션 가능. 승인 후 토큰 발급으로 접근 허용. DM Policy (dmPolicy) DM 허용 범위 제어. open: 누구나 가능(위험) pairing: 승인 사용자만 allowlist: 허용 목록만 Allow From (allowFrom) 허용 번호/ID 목록. 예: +15555550123 Group Policy (groupPolicy) 그룹 참여 범위 제어. open: 모든 그룹(권장하지 않음) allowlist: 허용 그룹만 denylist: 차단 목록 제외 Require Mention 그룹에서 @멘션이 있을 때만 응답. 불필요 응답/스팸 방지에 유효. Gateway Token (OPENCLAW_GATEWAY_TOKEN) Gateway 접속용 공유 비밀. WebSocket 인증에 사용. Sandbox (샌드박스) 도구 실행 격리(도커 기반). 모드: off: 비격리(전체 시스템 접근) non-main: 메인 세션만 비격리 all: 모든 세션 격리 스코프: session, agent, shared 주의'><meta property="og:locale" content="ko-kr"><meta property="og:type" content="article"><meta property="article:section" content="devops"><meta property="article:published_time" content="2026-02-17T00:00:00+09:00"><meta property="article:modified_time" content="2026-02-17T00:00:00+09:00"><meta property="article:tag" content="Openclaw"><meta property="article:tag" content="Clawdbot"><meta property="article:tag" content="Agent"><meta property="article:tag" content="Gateway"><meta property="article:tag" content="Devops"><meta property="article:tag" content="Security"><meta name=twitter:card content="summary"><meta name=twitter:title content="OpenClaw 용어집 및 운영 지침 가이드"><meta name=twitter:description content='OpenClaw(ClawdBot 기반)는 개인 AI 에이전트를 메시징 채널과 연결해 운영하는 게이트웨이 중심 프레임워크입니다. 이 문서는 용어를 사람 친화적으로 정리하고, 운영 시 바로 적용할 수 있는 체크리스트와 최신 변경 사항(공식 소스 기준)까지 함께 제공합니다.
+개요
+
+문서 목적: 용어 설명 + 운영 지침 통합 가이드
+최신 정보 범위: 공식 문서와 공식 릴리스만 사용
+최신 반영 기준:
+
+GitHub Release v2026.2.15 (게시일: 2026-02-16)
+docs.openclaw.ai의 공식 업데이트 문서
+
+
+
+핵심 개념 (단순 설명)
+Gateway (게이트웨이)
+
+모든 메신저(WhatsApp, Telegram, Discord 등)와 에이전트를 연결해 주는 중앙 서버/데몬.
+기본 포트: 18789 (WebSocket).
+한 개의 Gateway로 여러 채널과 여러 에이전트를 동시에 관리 가능.
+
+Agent (에이전트)
+
+AI 어시스턴트의 &ldquo;뇌"에 해당.
+개별 성격, 메모리, 행동 방식을 가짐.
+각 Agent는 격리된 상태(workspace, auth, sessions)를 유지.
+기본 에이전트 이름: main.
+
+Workspace (작업 폴더)
+
+Agent의 &ldquo;개인 폴더"로, 기본 경로: ~/.openclaw/workspace.
+주요 파일:
+
+AGENTS.md: 동작 지시, 규칙, 메모리.
+SOUL.md: 성격, 말투, 경계.
+USER.md: 사용자 정보와 호칭.
+TOOLS.md: 사용 가능한 도구/툴 설명.
+BOOTSTRAP.md: 최초 실행 설정(한 번 실행 후 삭제).
+memory/YYYY-MM-DD.md: 일일 메모리 로그.
+
+
+
+Agent Directory (agentDir)
+
+에이전트의 기술 설정/인증 정보를 저장.
+기본 경로: ~/.openclaw/agents/<agentId>/agent.
+주요 파일:
+
+auth-profiles.json: 모델 제공자(Anthropic, OpenAI 등) 인증 정보.
+에이전트별 모델 설정/구조 파일.
+
+
+
+통신 구조
+Channel (채널)
+
+메신저 연결 단위.
+예: WhatsApp, Telegram, Discord 각각 하나의 관(pipe).
+
+Account ID (accountId)
+
+같은 채널 내 여러 계정을 구분.
+예: 개인 WhatsApp, 업무용 WhatsApp.
+
+Session Key (sessionKey)
+
+대화 스레드를 구분하는 고유 이름/주소.
+예:
+
+agent:main:main (기본 1:1 대화)
+agent:main:telegram:group:123 (그룹 대화)
+
+
+
+Session ID (sessionId)
+
+실제 대화 기록 파일 ID.
+경로 예: ~/.openclaw/agents/<agentId>/sessions/<sessionId>.jsonl.
+세션 재설정 시 값이 바뀜.
+
+Binding (바인딩)
+
+라우팅 규칙.
+어떤 채널/계정/연락처에서 온 메시지를 어떤 Agent로 보낼지 결정.
+가장 구체적인 규칙이 우선 적용.
+
+세션 관리
+Main Session (기본 대화)
+
+기본 1:1 대화 세션.
+예: agent:<agentId>:main.
+모든 개인 대화를 한 세션으로 모아 유지할 수 있음.
+
+DM Scope (dmScope)
+
+DM(1:1) 분리 수준 설정.
+
+main: 모든 DM 공유
+per-peer: 사용자별 분리
+per-channel-peer: 채널+사용자별 분리
+per-account-channel-peer: 계정+채널+사용자별 최대 분리
+
+
+
+Session Reset (초기화)
+
+새 대화를 시작할 때 sessionId를 새로 생성.
+방법:
+
+수동: openclaw new, openclaw reset
+자동: 지정 시각(예: 매일 04:00), 비활성 시간 기준 자동 리셋
+
+
+
+Compaction (압축/요약)
+
+긴 대화를 요약해 컨텍스트 한도 초과를 방지.
+핵심 맥락은 남기고 오래된 상세를 정리.
+
+Memory Flush (메모리 저장)
+
+Compaction 전에 중요한 정보를 영구 메모리로 기록.
+memory/YYYY-MM-DD.md에 저장.
+NO_REPLY 내부 메시지로 사용자 노출 없이 처리 가능.
+
+접근 제어 / 보안
+Pairing (페어링)
+
+새 노드(장치) 연결 시 승인 절차.
+로컬(127.0.0.1)은 자동 승인 옵션 가능.
+승인 후 토큰 발급으로 접근 허용.
+
+DM Policy (dmPolicy)
+
+DM 허용 범위 제어.
+
+open: 누구나 가능(위험)
+pairing: 승인 사용자만
+allowlist: 허용 목록만
+
+
+
+Allow From (allowFrom)
+
+허용 번호/ID 목록.
+예: +15555550123
+
+Group Policy (groupPolicy)
+
+그룹 참여 범위 제어.
+
+open: 모든 그룹(권장하지 않음)
+allowlist: 허용 그룹만
+denylist: 차단 목록 제외
+
+
+
+Require Mention
+
+그룹에서 @멘션이 있을 때만 응답.
+불필요 응답/스팸 방지에 유효.
+
+Gateway Token (OPENCLAW_GATEWAY_TOKEN)
+
+Gateway 접속용 공유 비밀.
+WebSocket 인증에 사용.
+
+Sandbox (샌드박스)
+
+도구 실행 격리(도커 기반).
+모드:
+
+off: 비격리(전체 시스템 접근)
+non-main: 메인 세션만 비격리
+all: 모든 세션 격리
+
+
+스코프: session, agent, shared
+
+
+주의'><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Devops","item":"https://cdecl.github.io/devops/"},{"@type":"ListItem","position":2,"name":"OpenClaw 용어집 및 운영 지침 가이드","item":"https://cdecl.github.io/devops/openclaw-glossary-operation-guidelines/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"OpenClaw 용어집 및 운영 지침 가이드","name":"OpenClaw 용어집 및 운영 지침 가이드","description":"OpenClaw(ClawdBot 기반)는 개인 AI 에이전트를 메시징 채널과 연결해 운영하는 게이트웨이 중심 프레임워크입니다. 이 문서는 용어를 사람 친화적으로 정리하고, 운영 시 바로 적용할 수 있는 체크리스트와 최신 변경 사항(공식 소스 기준)까지 함께 제공합니다.\n개요 문서 목적: 용어 설명 + 운영 지침 통합 가이드 최신 정보 범위: 공식 문서와 공식 릴리스만 사용 최신 반영 기준: GitHub Release v2026.2.15 (게시일: 2026-02-16) docs.openclaw.ai의 공식 업데이트 문서 핵심 개념 (단순 설명) Gateway (게이트웨이) 모든 메신저(WhatsApp, Telegram, Discord 등)와 에이전트를 연결해 주는 중앙 서버/데몬. 기본 포트: 18789 (WebSocket). 한 개의 Gateway로 여러 채널과 여러 에이전트를 동시에 관리 가능. Agent (에이전트) AI 어시스턴트의 \u0026ldquo;뇌\u0026quot;에 해당. 개별 성격, 메모리, 행동 방식을 가짐. 각 Agent는 격리된 상태(workspace, auth, sessions)를 유지. 기본 에이전트 이름: main. Workspace (작업 폴더) Agent의 \u0026ldquo;개인 폴더\u0026quot;로, 기본 경로: ~/.openclaw/workspace. 주요 파일: AGENTS.md: 동작 지시, 규칙, 메모리. SOUL.md: 성격, 말투, 경계. USER.md: 사용자 정보와 호칭. TOOLS.md: 사용 가능한 도구/툴 설명. BOOTSTRAP.md: 최초 실행 설정(한 번 실행 후 삭제). memory/YYYY-MM-DD.md: 일일 메모리 로그. Agent Directory (agentDir) 에이전트의 기술 설정/인증 정보를 저장. 기본 경로: ~/.openclaw/agents/\u0026lt;agentId\u0026gt;/agent. 주요 파일: auth-profiles.json: 모델 제공자(Anthropic, OpenAI 등) 인증 정보. 에이전트별 모델 설정/구조 파일. 통신 구조 Channel (채널) 메신저 연결 단위. 예: WhatsApp, Telegram, Discord 각각 하나의 관(pipe). Account ID (accountId) 같은 채널 내 여러 계정을 구분. 예: 개인 WhatsApp, 업무용 WhatsApp. Session Key (sessionKey) 대화 스레드를 구분하는 고유 이름/주소. 예: agent:main:main (기본 1:1 대화) agent:main:telegram:group:123 (그룹 대화) Session ID (sessionId) 실제 대화 기록 파일 ID. 경로 예: ~/.openclaw/agents/\u0026lt;agentId\u0026gt;/sessions/\u0026lt;sessionId\u0026gt;.jsonl. 세션 재설정 시 값이 바뀜. Binding (바인딩) 라우팅 규칙. 어떤 채널/계정/연락처에서 온 메시지를 어떤 Agent로 보낼지 결정. 가장 구체적인 규칙이 우선 적용. 세션 관리 Main Session (기본 대화) 기본 1:1 대화 세션. 예: agent:\u0026lt;agentId\u0026gt;:main. 모든 개인 대화를 한 세션으로 모아 유지할 수 있음. DM Scope (dmScope) DM(1:1) 분리 수준 설정. main: 모든 DM 공유 per-peer: 사용자별 분리 per-channel-peer: 채널+사용자별 분리 per-account-channel-peer: 계정+채널+사용자별 최대 분리 Session Reset (초기화) 새 대화를 시작할 때 sessionId를 새로 생성. 방법: 수동: openclaw new, openclaw reset 자동: 지정 시각(예: 매일 04:00), 비활성 시간 기준 자동 리셋 Compaction (압축/요약) 긴 대화를 요약해 컨텍스트 한도 초과를 방지. 핵심 맥락은 남기고 오래된 상세를 정리. Memory Flush (메모리 저장) Compaction 전에 중요한 정보를 영구 메모리로 기록. memory/YYYY-MM-DD.md에 저장. NO_REPLY 내부 메시지로 사용자 노출 없이 처리 가능. 접근 제어 / 보안 Pairing (페어링) 새 노드(장치) 연결 시 승인 절차. 로컬(127.0.0.1)은 자동 승인 옵션 가능. 승인 후 토큰 발급으로 접근 허용. DM Policy (dmPolicy) DM 허용 범위 제어. open: 누구나 가능(위험) pairing: 승인 사용자만 allowlist: 허용 목록만 Allow From (allowFrom) 허용 번호/ID 목록. 예: +15555550123 Group Policy (groupPolicy) 그룹 참여 범위 제어. open: 모든 그룹(권장하지 않음) allowlist: 허용 그룹만 denylist: 차단 목록 제외 Require Mention 그룹에서 @멘션이 있을 때만 응답. 불필요 응답/스팸 방지에 유효. Gateway Token (OPENCLAW_GATEWAY_TOKEN) Gateway 접속용 공유 비밀. WebSocket 인증에 사용. Sandbox (샌드박스) 도구 실행 격리(도커 기반). 모드: off: 비격리(전체 시스템 접근) non-main: 메인 세션만 비격리 all: 모든 세션 격리 스코프: session, agent, shared 주의\n","keywords":["openclaw","clawdbot","agent","gateway","devops","security","operations","용어집","운영 지침"],"articleBody":"OpenClaw(ClawdBot 기반)는 개인 AI 에이전트를 메시징 채널과 연결해 운영하는 게이트웨이 중심 프레임워크입니다. 이 문서는 용어를 사람 친화적으로 정리하고, 운영 시 바로 적용할 수 있는 체크리스트와 최신 변경 사항(공식 소스 기준)까지 함께 제공합니다.\n개요 문서 목적: 용어 설명 + 운영 지침 통합 가이드 최신 정보 범위: 공식 문서와 공식 릴리스만 사용 최신 반영 기준: GitHub Release v2026.2.15 (게시일: 2026-02-16) docs.openclaw.ai의 공식 업데이트 문서 핵심 개념 (단순 설명) Gateway (게이트웨이) 모든 메신저(WhatsApp, Telegram, Discord 등)와 에이전트를 연결해 주는 중앙 서버/데몬. 기본 포트: 18789 (WebSocket). 한 개의 Gateway로 여러 채널과 여러 에이전트를 동시에 관리 가능. Agent (에이전트) AI 어시스턴트의 “뇌\"에 해당. 개별 성격, 메모리, 행동 방식을 가짐. 각 Agent는 격리된 상태(workspace, auth, sessions)를 유지. 기본 에이전트 이름: main. Workspace (작업 폴더) Agent의 “개인 폴더\"로, 기본 경로: ~/.openclaw/workspace. 주요 파일: AGENTS.md: 동작 지시, 규칙, 메모리. SOUL.md: 성격, 말투, 경계. USER.md: 사용자 정보와 호칭. TOOLS.md: 사용 가능한 도구/툴 설명. BOOTSTRAP.md: 최초 실행 설정(한 번 실행 후 삭제). memory/YYYY-MM-DD.md: 일일 메모리 로그. Agent Directory (agentDir) 에이전트의 기술 설정/인증 정보를 저장. 기본 경로: ~/.openclaw/agents//agent. 주요 파일: auth-profiles.json: 모델 제공자(Anthropic, OpenAI 등) 인증 정보. 에이전트별 모델 설정/구조 파일. 통신 구조 Channel (채널) 메신저 연결 단위. 예: WhatsApp, Telegram, Discord 각각 하나의 관(pipe). Account ID (accountId) 같은 채널 내 여러 계정을 구분. 예: 개인 WhatsApp, 업무용 WhatsApp. Session Key (sessionKey) 대화 스레드를 구분하는 고유 이름/주소. 예: agent:main:main (기본 1:1 대화) agent:main:telegram:group:123 (그룹 대화) Session ID (sessionId) 실제 대화 기록 파일 ID. 경로 예: ~/.openclaw/agents//sessions/.jsonl. 세션 재설정 시 값이 바뀜. Binding (바인딩) 라우팅 규칙. 어떤 채널/계정/연락처에서 온 메시지를 어떤 Agent로 보낼지 결정. 가장 구체적인 규칙이 우선 적용. 세션 관리 Main Session (기본 대화) 기본 1:1 대화 세션. 예: agent::main. 모든 개인 대화를 한 세션으로 모아 유지할 수 있음. DM Scope (dmScope) DM(1:1) 분리 수준 설정. main: 모든 DM 공유 per-peer: 사용자별 분리 per-channel-peer: 채널+사용자별 분리 per-account-channel-peer: 계정+채널+사용자별 최대 분리 Session Reset (초기화) 새 대화를 시작할 때 sessionId를 새로 생성. 방법: 수동: openclaw new, openclaw reset 자동: 지정 시각(예: 매일 04:00), 비활성 시간 기준 자동 리셋 Compaction (압축/요약) 긴 대화를 요약해 컨텍스트 한도 초과를 방지. 핵심 맥락은 남기고 오래된 상세를 정리. Memory Flush (메모리 저장) Compaction 전에 중요한 정보를 영구 메모리로 기록. memory/YYYY-MM-DD.md에 저장. NO_REPLY 내부 메시지로 사용자 노출 없이 처리 가능. 접근 제어 / 보안 Pairing (페어링) 새 노드(장치) 연결 시 승인 절차. 로컬(127.0.0.1)은 자동 승인 옵션 가능. 승인 후 토큰 발급으로 접근 허용. DM Policy (dmPolicy) DM 허용 범위 제어. open: 누구나 가능(위험) pairing: 승인 사용자만 allowlist: 허용 목록만 Allow From (allowFrom) 허용 번호/ID 목록. 예: +15555550123 Group Policy (groupPolicy) 그룹 참여 범위 제어. open: 모든 그룹(권장하지 않음) allowlist: 허용 그룹만 denylist: 차단 목록 제외 Require Mention 그룹에서 @멘션이 있을 때만 응답. 불필요 응답/스팸 방지에 유효. Gateway Token (OPENCLAW_GATEWAY_TOKEN) Gateway 접속용 공유 비밀. WebSocket 인증에 사용. Sandbox (샌드박스) 도구 실행 격리(도커 기반). 모드: off: 비격리(전체 시스템 접근) non-main: 메인 세션만 비격리 all: 모든 세션 격리 스코프: session, agent, shared 주의\nbind: 0.0.0.0 + 약한 인증은 외부 노출 위험이 큼. dmPolicy: open, groupPolicy: open은 운영 초기 기본값으로 쓰지 않는 것을 권장. sandbox: off는 편의성은 높지만, 도구 실행 리스크가 가장 큼. 노드 / 클라이언트 Node (노드) 원격 장치(휴대폰/태블릿/PC)가 Gateway에 연결한 실행 주체. 연결 역할: role: \"node\". 기능 예: canvas.* camera.* screen.record location.get Client (클라이언트) Gateway를 조작/관리하는 앱. 예: macOS 앱, CLI, 웹 UI. 메시지 발송, 설정 변경, 세션 점검 가능. Control UI (제어 UI) 접속: http://127.0.0.1:18789/. 채팅 기록, 구성, 세션, 노드 상태를 확인/수정. Canvas Agent가 인터랙티브 UI를 생성하는 렌더링 영역. 기본 포트: 18793. 버튼/폼/편집 UI를 클라이언트에 표시. 툴 / 기능 Tool (툴) Agent가 실행 가능한 기능 단위. 예: exec, read, write, browser, canvas. 에이전트별 허용/차단 정책 적용 가능. Skill (스킬) 사용자 정의 스크립트/프로그램. 경로: ~/.openclaw/skills/ (공유) /skills/ (에이전트별) RPC (Remote Procedure Call) Gateway 내부 요소 간 호출 프로토콜. 도구 실행, 에이전트 호출, 상태 조회에 사용. Plugin (플러그인) 채널/도구/CLI 명령/Gateway 메서드 확장 모듈. 설치 예: openclaw plugins install @openclaw/plugin-name 설정 / 인증 openclaw.json Gateway 메인 설정 파일. 기본 경로: ~/.openclaw/openclaw.json. CLI/웹 UI에서 수정 가능. Hot Reload 재시작 없이 설정 반영. 즉시 반영: 대부분 설정 다음 메시지부터 반영: 세션/라우팅 계열 재시작 필요: 네트워크 바인딩/구조 변경 환경 변수 비밀 값(API 키, 토큰) 분리 저장. 예: TELEGRAM_BOT_TOKEN, ANTHROPIC_API_KEY. Auth Profile 모델 제공자 인증 정보. auth-profiles.json에 저장. API 키/OAuth 사용 가능. Model Provider / Model Ref models.providers에 제공자 정의. 모델 참조 형식: provider/model. 예: anthropic/claude-sonnet-4-5. 운영 체크리스트 기본 보안 권장값 dmPolicy: pairing 또는 allowlist groupPolicy: allowlist 우선 requireMention: 그룹에서 true 권장 OPENCLAW_GATEWAY_TOKEN: 평문 공유 금지, 정기 교체 외부 바인딩 필요 시 방화벽/IP ACL 동시 적용 세션 운영 시나리오 정기 리셋: 하루 1회 또는 업무 단위 종료 시 sessionId 회전 Compaction 기준: 토큰 한도 60~70% 접근 시 선제 요약 Memory Flush: 운영 정책/사용자 선호/중요 결정사항만 저장 장애 대응 최소 순서 health 상태 확인(게이트웨이 응답 여부) openclaw doctor 실행(권한/설정/네트워크 점검) Gateway 로그 확인(토큰 인증 실패/채널 연결 실패/툴 실행 오류) 채널별 바인딩 규칙 재검토 필요 시 마지막 정상 구성으로 롤백 최신 변경 요약 (공식 소스 기준) 기준 시점: 2026-02-17\n항목명: Release v2026.2.15 (게시일: 2026-02-16)\n변경 내용: RPC semantics 개선, macOS 앱 안정성 강화, hooks/commands 개선, 테스트 회귀 수정\n운영 영향: 노드/클라이언트 연동 시 예외 케이스 감소, 채널 연결 안정성 향상 기대\n적용 시 주의점: 커스텀 훅/플러그인 사용 시 이벤트 처리 순서/에러 핸들링 회귀 테스트 필요\n출처: https://github.com/moltbot/moltbot/releases/tag/v2026.2.15\n항목명: 공식 업데이트 문서(업데이트 작성일: 2026-02-17)\n변경 내용: 상위 경로 변경(~/.claude -\u003e ~/.openclaw), 명령어 변경(molt -\u003e openclaw), 앱 리브랜딩 반영\n운영 영향: 기존 운영 스크립트/문서/자동화 파이프라인의 경로/명령어 수정 필요\n적용 시 주의점: 백업/배포 스크립트, systemd/launchd, CI 문서에서 구 경로/구 명령어 잔존 여부 점검\n출처: https://docs.openclaw.ai/updating\n전반 흐름 요약 로컬/클라우드에 OpenClaw 설치 Gateway 데몬 실행 WhatsApp/Telegram/Discord 등 채널 연결 사용자 메시지가 Gateway로 유입 Binding 규칙으로 대상 Agent 라우팅 Agent가 SOUL.md, USER.md, memory/*.md를 읽고 컨텍스트 구성 모델 호출 및 필요 시 툴 실행 결과를 채널로 반환 히스토리 저장/메모리 업데이트/Compaction 수행 참고 링크 OpenClaw 공식 문서: https://docs.openclaw.ai/ OpenClaw 업데이트 가이드: https://docs.openclaw.ai/updating OpenClaw 릴리스 목록: https://github.com/moltbot/moltbot/releases v2026.2.15 릴리스: https://github.com/moltbot/moltbot/releases/tag/v2026.2.15 ","wordCount":"953","inLanguage":"en","datePublished":"2026-02-17T00:00:00+09:00","dateModified":"2026-02-17T00:00:00+09:00","author":{"@type":"Person","name":"Byung Kyu KIM"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://cdecl.github.io/devops/openclaw-glossary-operation-guidelines/"},"publisher":{"@type":"Organization","name":"cdeclog","logo":{"@type":"ImageObject","url":"https://cdecl.github.io/favicon.ico"}}}</script></head><body id=top><header class=header><nav class=nav><div class=logo><a href=https://cdecl.github.io/ accesskey=h title="cdeclog (Alt + H)">cdeclog</a><div class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)" aria-label="Toggle theme">
+<svg id="moon" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+<svg id="sun" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu><li><a href=https://cdecl.github.io/dev/ title=Dev><span>Dev</span></a></li><li><a href=https://cdecl.github.io/devops/ title=DevOps><span>DevOps</span></a></li><li><a href=https://cdecl.github.io/archives/ title=Archive><span>Archive</span></a></li><li><a href=https://cdecl.github.io/search/ title="Search (Alt + /)" accesskey=/><span>Search</span></a></li><li><a href=https://cdecl.github.io/tags/ title=Tags><span>Tags</span></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><div class=breadcrumbs><a href=https://cdecl.github.io/>Home</a>&nbsp;»&nbsp;<a href=https://cdecl.github.io/devops/>Devops</a></div><h1 class="post-title entry-hint-parent">OpenClaw 용어집 및 운영 지침 가이드</h1><div class=post-meta><span title='2026-02-17 00:00:00 +0900 KST'>February 17, 2026</span>&nbsp;·&nbsp;<span>Byung Kyu KIM</span></div></header><div class=toc><details><summary accesskey=c title="(Alt + C)"><span class=details>Table of Contents</span></summary><div class=inner><ul><li><a href=#%ea%b0%9c%ec%9a%94 aria-label=개요>개요</a></li><li><a href=#%ed%95%b5%ec%8b%ac-%ea%b0%9c%eb%85%90-%eb%8b%a8%ec%88%9c-%ec%84%a4%eb%aa%85 aria-label="핵심 개념 (단순 설명)">핵심 개념 (단순 설명)</a><ul><li><a href=#gateway-%ea%b2%8c%ec%9d%b4%ed%8a%b8%ec%9b%a8%ec%9d%b4 aria-label="Gateway (게이트웨이)">Gateway (게이트웨이)</a></li><li><a href=#agent-%ec%97%90%ec%9d%b4%ec%a0%84%ed%8a%b8 aria-label="Agent (에이전트)">Agent (에이전트)</a></li><li><a href=#workspace-%ec%9e%91%ec%97%85-%ed%8f%b4%eb%8d%94 aria-label="Workspace (작업 폴더)">Workspace (작업 폴더)</a></li><li><a href=#agent-directory-agentdir aria-label="Agent Directory (agentDir)">Agent Directory (agentDir)</a></li></ul></li><li><a href=#%ed%86%b5%ec%8b%a0-%ea%b5%ac%ec%a1%b0 aria-label="통신 구조">통신 구조</a><ul><li><a href=#channel-%ec%b1%84%eb%84%90 aria-label="Channel (채널)">Channel (채널)</a></li><li><a href=#account-id-accountid aria-label="Account ID (accountId)">Account ID (accountId)</a></li><li><a href=#session-key-sessionkey aria-label="Session Key (sessionKey)">Session Key (sessionKey)</a></li><li><a href=#session-id-sessionid aria-label="Session ID (sessionId)">Session ID (sessionId)</a></li><li><a href=#binding-%eb%b0%94%ec%9d%b8%eb%94%a9 aria-label="Binding (바인딩)">Binding (바인딩)</a></li></ul></li><li><a href=#%ec%84%b8%ec%85%98-%ea%b4%80%eb%a6%ac aria-label="세션 관리">세션 관리</a><ul><li><a href=#main-session-%ea%b8%b0%eb%b3%b8-%eb%8c%80%ed%99%94 aria-label="Main Session (기본 대화)">Main Session (기본 대화)</a></li><li><a href=#dm-scope-dmscope aria-label="DM Scope (dmScope)">DM Scope (dmScope)</a></li><li><a href=#session-reset-%ec%b4%88%ea%b8%b0%ed%99%94 aria-label="Session Reset (초기화)">Session Reset (초기화)</a></li><li><a href=#compaction-%ec%95%95%ec%b6%95%ec%9a%94%ec%95%bd aria-label="Compaction (압축/요약)">Compaction (압축/요약)</a></li><li><a href=#memory-flush-%eb%a9%94%eb%aa%a8%eb%a6%ac-%ec%a0%80%ec%9e%a5 aria-label="Memory Flush (메모리 저장)">Memory Flush (메모리 저장)</a></li></ul></li><li><a href=#%ec%a0%91%ea%b7%bc-%ec%a0%9c%ec%96%b4--%eb%b3%b4%ec%95%88 aria-label="접근 제어 / 보안">접근 제어 / 보안</a><ul><li><a href=#pairing-%ed%8e%98%ec%96%b4%eb%a7%81 aria-label="Pairing (페어링)">Pairing (페어링)</a></li><li><a href=#dm-policy-dmpolicy aria-label="DM Policy (dmPolicy)">DM Policy (dmPolicy)</a></li><li><a href=#allow-from-allowfrom aria-label="Allow From (allowFrom)">Allow From (allowFrom)</a></li><li><a href=#group-policy-grouppolicy aria-label="Group Policy (groupPolicy)">Group Policy (groupPolicy)</a></li><li><a href=#require-mention aria-label="Require Mention">Require Mention</a></li><li><a href=#gateway-token-openclaw_gateway_token aria-label="Gateway Token (OPENCLAW_GATEWAY_TOKEN)">Gateway Token (OPENCLAW_GATEWAY_TOKEN)</a></li><li><a href=#sandbox-%ec%83%8c%eb%93%9c%eb%b0%95%ec%8a%a4 aria-label="Sandbox (샌드박스)">Sandbox (샌드박스)</a></li></ul></li><li><a href=#%eb%85%b8%eb%93%9c--%ed%81%b4%eb%9d%bc%ec%9d%b4%ec%96%b8%ed%8a%b8 aria-label="노드 / 클라이언트">노드 / 클라이언트</a><ul><li><a href=#node-%eb%85%b8%eb%93%9c aria-label="Node (노드)">Node (노드)</a></li><li><a href=#client-%ed%81%b4%eb%9d%bc%ec%9d%b4%ec%96%b8%ed%8a%b8 aria-label="Client (클라이언트)">Client (클라이언트)</a></li><li><a href=#control-ui-%ec%a0%9c%ec%96%b4-ui aria-label="Control UI (제어 UI)">Control UI (제어 UI)</a></li><li><a href=#canvas aria-label=Canvas>Canvas</a></li></ul></li><li><a href=#%ed%88%b4--%ea%b8%b0%eb%8a%a5 aria-label="툴 / 기능">툴 / 기능</a><ul><li><a href=#tool-%ed%88%b4 aria-label="Tool (툴)">Tool (툴)</a></li><li><a href=#skill-%ec%8a%a4%ed%82%ac aria-label="Skill (스킬)">Skill (스킬)</a></li><li><a href=#rpc-remote-procedure-call aria-label="RPC (Remote Procedure Call)">RPC (Remote Procedure Call)</a></li><li><a href=#plugin-%ed%94%8c%eb%9f%ac%ea%b7%b8%ec%9d%b8 aria-label="Plugin (플러그인)">Plugin (플러그인)</a></li></ul></li><li><a href=#%ec%84%a4%ec%a0%95--%ec%9d%b8%ec%a6%9d aria-label="설정 / 인증">설정 / 인증</a><ul><li><a href=#openclawjson aria-label=openclaw.json>openclaw.json</a></li><li><a href=#hot-reload aria-label="Hot Reload">Hot Reload</a></li><li><a href=#%ed%99%98%ea%b2%bd-%eb%b3%80%ec%88%98 aria-label="환경 변수">환경 변수</a></li><li><a href=#auth-profile aria-label="Auth Profile">Auth Profile</a></li><li><a href=#model-provider--model-ref aria-label="Model Provider / Model Ref">Model Provider / Model Ref</a></li></ul></li><li><a href=#%ec%9a%b4%ec%98%81-%ec%b2%b4%ed%81%ac%eb%a6%ac%ec%8a%a4%ed%8a%b8 aria-label="운영 체크리스트">운영 체크리스트</a><ul><li><a href=#%ea%b8%b0%eb%b3%b8-%eb%b3%b4%ec%95%88-%ea%b6%8c%ec%9e%a5%ea%b0%92 aria-label="기본 보안 권장값">기본 보안 권장값</a></li><li><a href=#%ec%84%b8%ec%85%98-%ec%9a%b4%ec%98%81-%ec%8b%9c%eb%82%98%eb%a6%ac%ec%98%a4 aria-label="세션 운영 시나리오">세션 운영 시나리오</a></li><li><a href=#%ec%9e%a5%ec%95%a0-%eb%8c%80%ec%9d%91-%ec%b5%9c%ec%86%8c-%ec%88%9c%ec%84%9c aria-label="장애 대응 최소 순서">장애 대응 최소 순서</a></li></ul></li><li><a href=#%ec%b5%9c%ec%8b%a0-%eb%b3%80%ea%b2%bd-%ec%9a%94%ec%95%bd-%ea%b3%b5%ec%8b%9d-%ec%86%8c%ec%8a%a4-%ea%b8%b0%ec%a4%80 aria-label="최신 변경 요약 (공식 소스 기준)">최신 변경 요약 (공식 소스 기준)</a></li><li><a href=#%ec%a0%84%eb%b0%98-%ed%9d%90%eb%a6%84-%ec%9a%94%ec%95%bd aria-label="전반 흐름 요약">전반 흐름 요약</a></li><li><a href=#%ec%b0%b8%ea%b3%a0-%eb%a7%81%ed%81%ac aria-label="참고 링크">참고 링크</a></li></ul></div></details></div><div class=post-content><p>OpenClaw(ClawdBot 기반)는 개인 AI 에이전트를 메시징 채널과 연결해 운영하는 게이트웨이 중심 프레임워크입니다. 이 문서는 용어를 사람 친화적으로 정리하고, 운영 시 바로 적용할 수 있는 체크리스트와 최신 변경 사항(공식 소스 기준)까지 함께 제공합니다.</p><h2 id=개요>개요<a hidden class=anchor aria-hidden=true href=#개요>#</a></h2><ul><li>문서 목적: 용어 설명 + 운영 지침 통합 가이드</li><li>최신 정보 범위: 공식 문서와 공식 릴리스만 사용</li><li>최신 반영 기준:<ul><li>GitHub Release <code>v2026.2.15</code> (게시일: <strong>2026-02-16</strong>)</li><li>docs.openclaw.ai의 공식 업데이트 문서</li></ul></li></ul><h2 id=핵심-개념-단순-설명>핵심 개념 (단순 설명)<a hidden class=anchor aria-hidden=true href=#핵심-개념-단순-설명>#</a></h2><h3 id=gateway-게이트웨이>Gateway (게이트웨이)<a hidden class=anchor aria-hidden=true href=#gateway-게이트웨이>#</a></h3><ul><li>모든 메신저(WhatsApp, Telegram, Discord 등)와 에이전트를 연결해 주는 중앙 서버/데몬.</li><li>기본 포트: <code>18789</code> (WebSocket).</li><li>한 개의 Gateway로 여러 채널과 여러 에이전트를 동시에 관리 가능.</li></ul><h3 id=agent-에이전트>Agent (에이전트)<a hidden class=anchor aria-hidden=true href=#agent-에이전트>#</a></h3><ul><li>AI 어시스턴트의 &ldquo;뇌"에 해당.</li><li>개별 성격, 메모리, 행동 방식을 가짐.</li><li>각 Agent는 격리된 상태(<code>workspace</code>, <code>auth</code>, <code>sessions</code>)를 유지.</li><li>기본 에이전트 이름: <code>main</code>.</li></ul><h3 id=workspace-작업-폴더>Workspace (작업 폴더)<a hidden class=anchor aria-hidden=true href=#workspace-작업-폴더>#</a></h3><ul><li>Agent의 &ldquo;개인 폴더"로, 기본 경로: <code>~/.openclaw/workspace</code>.</li><li>주요 파일:<ul><li><code>AGENTS.md</code>: 동작 지시, 규칙, 메모리.</li><li><code>SOUL.md</code>: 성격, 말투, 경계.</li><li><code>USER.md</code>: 사용자 정보와 호칭.</li><li><code>TOOLS.md</code>: 사용 가능한 도구/툴 설명.</li><li><code>BOOTSTRAP.md</code>: 최초 실행 설정(한 번 실행 후 삭제).</li><li><code>memory/YYYY-MM-DD.md</code>: 일일 메모리 로그.</li></ul></li></ul><h3 id=agent-directory-agentdir>Agent Directory (<code>agentDir</code>)<a hidden class=anchor aria-hidden=true href=#agent-directory-agentdir>#</a></h3><ul><li>에이전트의 기술 설정/인증 정보를 저장.</li><li>기본 경로: <code>~/.openclaw/agents/&lt;agentId>/agent</code>.</li><li>주요 파일:<ul><li><code>auth-profiles.json</code>: 모델 제공자(Anthropic, OpenAI 등) 인증 정보.</li><li>에이전트별 모델 설정/구조 파일.</li></ul></li></ul><h2 id=통신-구조>통신 구조<a hidden class=anchor aria-hidden=true href=#통신-구조>#</a></h2><h3 id=channel-채널>Channel (채널)<a hidden class=anchor aria-hidden=true href=#channel-채널>#</a></h3><ul><li>메신저 연결 단위.</li><li>예: WhatsApp, Telegram, Discord 각각 하나의 관(pipe).</li></ul><h3 id=account-id-accountid>Account ID (<code>accountId</code>)<a hidden class=anchor aria-hidden=true href=#account-id-accountid>#</a></h3><ul><li>같은 채널 내 여러 계정을 구분.</li><li>예: 개인 WhatsApp, 업무용 WhatsApp.</li></ul><h3 id=session-key-sessionkey>Session Key (<code>sessionKey</code>)<a hidden class=anchor aria-hidden=true href=#session-key-sessionkey>#</a></h3><ul><li>대화 스레드를 구분하는 고유 이름/주소.</li><li>예:<ul><li><code>agent:main:main</code> (기본 1:1 대화)</li><li><code>agent:main:telegram:group:123</code> (그룹 대화)</li></ul></li></ul><h3 id=session-id-sessionid>Session ID (<code>sessionId</code>)<a hidden class=anchor aria-hidden=true href=#session-id-sessionid>#</a></h3><ul><li>실제 대화 기록 파일 ID.</li><li>경로 예: <code>~/.openclaw/agents/&lt;agentId>/sessions/&lt;sessionId>.jsonl</code>.</li><li>세션 재설정 시 값이 바뀜.</li></ul><h3 id=binding-바인딩>Binding (바인딩)<a hidden class=anchor aria-hidden=true href=#binding-바인딩>#</a></h3><ul><li>라우팅 규칙.</li><li>어떤 채널/계정/연락처에서 온 메시지를 어떤 Agent로 보낼지 결정.</li><li>가장 구체적인 규칙이 우선 적용.</li></ul><h2 id=세션-관리>세션 관리<a hidden class=anchor aria-hidden=true href=#세션-관리>#</a></h2><h3 id=main-session-기본-대화>Main Session (기본 대화)<a hidden class=anchor aria-hidden=true href=#main-session-기본-대화>#</a></h3><ul><li>기본 1:1 대화 세션.</li><li>예: <code>agent:&lt;agentId>:main</code>.</li><li>모든 개인 대화를 한 세션으로 모아 유지할 수 있음.</li></ul><h3 id=dm-scope-dmscope>DM Scope (<code>dmScope</code>)<a hidden class=anchor aria-hidden=true href=#dm-scope-dmscope>#</a></h3><ul><li>DM(1:1) 분리 수준 설정.<ul><li><code>main</code>: 모든 DM 공유</li><li><code>per-peer</code>: 사용자별 분리</li><li><code>per-channel-peer</code>: 채널+사용자별 분리</li><li><code>per-account-channel-peer</code>: 계정+채널+사용자별 최대 분리</li></ul></li></ul><h3 id=session-reset-초기화>Session Reset (초기화)<a hidden class=anchor aria-hidden=true href=#session-reset-초기화>#</a></h3><ul><li>새 대화를 시작할 때 <code>sessionId</code>를 새로 생성.</li><li>방법:<ul><li>수동: <code>openclaw new</code>, <code>openclaw reset</code></li><li>자동: 지정 시각(예: 매일 04:00), 비활성 시간 기준 자동 리셋</li></ul></li></ul><h3 id=compaction-압축요약>Compaction (압축/요약)<a hidden class=anchor aria-hidden=true href=#compaction-압축요약>#</a></h3><ul><li>긴 대화를 요약해 컨텍스트 한도 초과를 방지.</li><li>핵심 맥락은 남기고 오래된 상세를 정리.</li></ul><h3 id=memory-flush-메모리-저장>Memory Flush (메모리 저장)<a hidden class=anchor aria-hidden=true href=#memory-flush-메모리-저장>#</a></h3><ul><li>Compaction 전에 중요한 정보를 영구 메모리로 기록.</li><li><code>memory/YYYY-MM-DD.md</code>에 저장.</li><li><code>NO_REPLY</code> 내부 메시지로 사용자 노출 없이 처리 가능.</li></ul><h2 id=접근-제어--보안>접근 제어 / 보안<a hidden class=anchor aria-hidden=true href=#접근-제어--보안>#</a></h2><h3 id=pairing-페어링>Pairing (페어링)<a hidden class=anchor aria-hidden=true href=#pairing-페어링>#</a></h3><ul><li>새 노드(장치) 연결 시 승인 절차.</li><li>로컬(<code>127.0.0.1</code>)은 자동 승인 옵션 가능.</li><li>승인 후 토큰 발급으로 접근 허용.</li></ul><h3 id=dm-policy-dmpolicy>DM Policy (<code>dmPolicy</code>)<a hidden class=anchor aria-hidden=true href=#dm-policy-dmpolicy>#</a></h3><ul><li>DM 허용 범위 제어.<ul><li><code>open</code>: 누구나 가능(위험)</li><li><code>pairing</code>: 승인 사용자만</li><li><code>allowlist</code>: 허용 목록만</li></ul></li></ul><h3 id=allow-from-allowfrom>Allow From (<code>allowFrom</code>)<a hidden class=anchor aria-hidden=true href=#allow-from-allowfrom>#</a></h3><ul><li>허용 번호/ID 목록.</li><li>예: <code>+15555550123</code></li></ul><h3 id=group-policy-grouppolicy>Group Policy (<code>groupPolicy</code>)<a hidden class=anchor aria-hidden=true href=#group-policy-grouppolicy>#</a></h3><ul><li>그룹 참여 범위 제어.<ul><li><code>open</code>: 모든 그룹(권장하지 않음)</li><li><code>allowlist</code>: 허용 그룹만</li><li><code>denylist</code>: 차단 목록 제외</li></ul></li></ul><h3 id=require-mention>Require Mention<a hidden class=anchor aria-hidden=true href=#require-mention>#</a></h3><ul><li>그룹에서 <code>@멘션</code>이 있을 때만 응답.</li><li>불필요 응답/스팸 방지에 유효.</li></ul><h3 id=gateway-token-openclaw_gateway_token>Gateway Token (<code>OPENCLAW_GATEWAY_TOKEN</code>)<a hidden class=anchor aria-hidden=true href=#gateway-token-openclaw_gateway_token>#</a></h3><ul><li>Gateway 접속용 공유 비밀.</li><li>WebSocket 인증에 사용.</li></ul><h3 id=sandbox-샌드박스>Sandbox (샌드박스)<a hidden class=anchor aria-hidden=true href=#sandbox-샌드박스>#</a></h3><ul><li>도구 실행 격리(도커 기반).</li><li>모드:<ul><li><code>off</code>: 비격리(전체 시스템 접근)</li><li><code>non-main</code>: 메인 세션만 비격리</li><li><code>all</code>: 모든 세션 격리</li></ul></li><li>스코프: <code>session</code>, <code>agent</code>, <code>shared</code></li></ul><blockquote><p>주의</p><ul><li><code>bind: 0.0.0.0</code> + 약한 인증은 외부 노출 위험이 큼.</li><li><code>dmPolicy: open</code>, <code>groupPolicy: open</code>은 운영 초기 기본값으로 쓰지 않는 것을 권장.</li><li><code>sandbox: off</code>는 편의성은 높지만, 도구 실행 리스크가 가장 큼.</li></ul></blockquote><h2 id=노드--클라이언트>노드 / 클라이언트<a hidden class=anchor aria-hidden=true href=#노드--클라이언트>#</a></h2><h3 id=node-노드>Node (노드)<a hidden class=anchor aria-hidden=true href=#node-노드>#</a></h3><ul><li>원격 장치(휴대폰/태블릿/PC)가 Gateway에 연결한 실행 주체.</li><li>연결 역할: <code>role: "node"</code>.</li><li>기능 예:<ul><li><code>canvas.*</code></li><li><code>camera.*</code></li><li><code>screen.record</code></li><li><code>location.get</code></li></ul></li></ul><h3 id=client-클라이언트>Client (클라이언트)<a hidden class=anchor aria-hidden=true href=#client-클라이언트>#</a></h3><ul><li>Gateway를 조작/관리하는 앱.</li><li>예: macOS 앱, CLI, 웹 UI.</li><li>메시지 발송, 설정 변경, 세션 점검 가능.</li></ul><h3 id=control-ui-제어-ui>Control UI (제어 UI)<a hidden class=anchor aria-hidden=true href=#control-ui-제어-ui>#</a></h3><ul><li>접속: <code>http://127.0.0.1:18789/</code>.</li><li>채팅 기록, 구성, 세션, 노드 상태를 확인/수정.</li></ul><h3 id=canvas>Canvas<a hidden class=anchor aria-hidden=true href=#canvas>#</a></h3><ul><li>Agent가 인터랙티브 UI를 생성하는 렌더링 영역.</li><li>기본 포트: <code>18793</code>.</li><li>버튼/폼/편집 UI를 클라이언트에 표시.</li></ul><h2 id=툴--기능>툴 / 기능<a hidden class=anchor aria-hidden=true href=#툴--기능>#</a></h2><h3 id=tool-툴>Tool (툴)<a hidden class=anchor aria-hidden=true href=#tool-툴>#</a></h3><ul><li>Agent가 실행 가능한 기능 단위.</li><li>예: <code>exec</code>, <code>read</code>, <code>write</code>, <code>browser</code>, <code>canvas</code>.</li><li>에이전트별 허용/차단 정책 적용 가능.</li></ul><h3 id=skill-스킬>Skill (스킬)<a hidden class=anchor aria-hidden=true href=#skill-스킬>#</a></h3><ul><li>사용자 정의 스크립트/프로그램.</li><li>경로:<ul><li><code>~/.openclaw/skills/</code> (공유)</li><li><code>&lt;workspace>/skills/</code> (에이전트별)</li></ul></li></ul><h3 id=rpc-remote-procedure-call>RPC (Remote Procedure Call)<a hidden class=anchor aria-hidden=true href=#rpc-remote-procedure-call>#</a></h3><ul><li>Gateway 내부 요소 간 호출 프로토콜.</li><li>도구 실행, 에이전트 호출, 상태 조회에 사용.</li></ul><h3 id=plugin-플러그인>Plugin (플러그인)<a hidden class=anchor aria-hidden=true href=#plugin-플러그인>#</a></h3><ul><li>채널/도구/CLI 명령/Gateway 메서드 확장 모듈.</li><li>설치 예: <code>openclaw plugins install @openclaw/plugin-name</code></li></ul><h2 id=설정--인증>설정 / 인증<a hidden class=anchor aria-hidden=true href=#설정--인증>#</a></h2><h3 id=openclawjson><code>openclaw.json</code><a hidden class=anchor aria-hidden=true href=#openclawjson>#</a></h3><ul><li>Gateway 메인 설정 파일.</li><li>기본 경로: <code>~/.openclaw/openclaw.json</code>.</li><li>CLI/웹 UI에서 수정 가능.</li></ul><h3 id=hot-reload>Hot Reload<a hidden class=anchor aria-hidden=true href=#hot-reload>#</a></h3><ul><li>재시작 없이 설정 반영.<ul><li>즉시 반영: 대부분 설정</li><li>다음 메시지부터 반영: 세션/라우팅 계열</li><li>재시작 필요: 네트워크 바인딩/구조 변경</li></ul></li></ul><h3 id=환경-변수>환경 변수<a hidden class=anchor aria-hidden=true href=#환경-변수>#</a></h3><ul><li>비밀 값(API 키, 토큰) 분리 저장.</li><li>예: <code>TELEGRAM_BOT_TOKEN</code>, <code>ANTHROPIC_API_KEY</code>.</li></ul><h3 id=auth-profile>Auth Profile<a hidden class=anchor aria-hidden=true href=#auth-profile>#</a></h3><ul><li>모델 제공자 인증 정보.</li><li><code>auth-profiles.json</code>에 저장.</li><li>API 키/OAuth 사용 가능.</li></ul><h3 id=model-provider--model-ref>Model Provider / Model Ref<a hidden class=anchor aria-hidden=true href=#model-provider--model-ref>#</a></h3><ul><li><code>models.providers</code>에 제공자 정의.</li><li>모델 참조 형식: <code>provider/model</code>.</li><li>예: <code>anthropic/claude-sonnet-4-5</code>.</li></ul><h2 id=운영-체크리스트>운영 체크리스트<a hidden class=anchor aria-hidden=true href=#운영-체크리스트>#</a></h2><h3 id=기본-보안-권장값>기본 보안 권장값<a hidden class=anchor aria-hidden=true href=#기본-보안-권장값>#</a></h3><ul><li><code>dmPolicy</code>: <code>pairing</code> 또는 <code>allowlist</code></li><li><code>groupPolicy</code>: <code>allowlist</code> 우선</li><li><code>requireMention</code>: 그룹에서 <code>true</code> 권장</li><li><code>OPENCLAW_GATEWAY_TOKEN</code>: 평문 공유 금지, 정기 교체</li><li>외부 바인딩 필요 시 방화벽/IP ACL 동시 적용</li></ul><h3 id=세션-운영-시나리오>세션 운영 시나리오<a hidden class=anchor aria-hidden=true href=#세션-운영-시나리오>#</a></h3><ul><li>정기 리셋: 하루 1회 또는 업무 단위 종료 시 <code>sessionId</code> 회전</li><li>Compaction 기준: 토큰 한도 60~70% 접근 시 선제 요약</li><li>Memory Flush: 운영 정책/사용자 선호/중요 결정사항만 저장</li></ul><h3 id=장애-대응-최소-순서>장애 대응 최소 순서<a hidden class=anchor aria-hidden=true href=#장애-대응-최소-순서>#</a></h3><ol><li><code>health</code> 상태 확인(게이트웨이 응답 여부)</li><li><code>openclaw doctor</code> 실행(권한/설정/네트워크 점검)</li><li>Gateway 로그 확인(토큰 인증 실패/채널 연결 실패/툴 실행 오류)</li><li>채널별 바인딩 규칙 재검토</li><li>필요 시 마지막 정상 구성으로 롤백</li></ol><h2 id=최신-변경-요약-공식-소스-기준>최신 변경 요약 (공식 소스 기준)<a hidden class=anchor aria-hidden=true href=#최신-변경-요약-공식-소스-기준>#</a></h2><p>기준 시점: <strong>2026-02-17</strong></p><ul><li><p><strong>항목명</strong>: Release <code>v2026.2.15</code> (게시일: <strong>2026-02-16</strong>)<br><strong>변경 내용</strong>: RPC semantics 개선, macOS 앱 안정성 강화, hooks/commands 개선, 테스트 회귀 수정<br><strong>운영 영향</strong>: 노드/클라이언트 연동 시 예외 케이스 감소, 채널 연결 안정성 향상 기대<br><strong>적용 시 주의점</strong>: 커스텀 훅/플러그인 사용 시 이벤트 처리 순서/에러 핸들링 회귀 테스트 필요<br><strong>출처</strong>: <a href=https://github.com/moltbot/moltbot/releases/tag/v2026.2.15>https://github.com/moltbot/moltbot/releases/tag/v2026.2.15</a></p></li><li><p><strong>항목명</strong>: 공식 업데이트 문서(업데이트 작성일: <strong>2026-02-17</strong>)<br><strong>변경 내용</strong>: 상위 경로 변경(<code>~/.claude</code> -> <code>~/.openclaw</code>), 명령어 변경(<code>molt</code> -> <code>openclaw</code>), 앱 리브랜딩 반영<br><strong>운영 영향</strong>: 기존 운영 스크립트/문서/자동화 파이프라인의 경로/명령어 수정 필요<br><strong>적용 시 주의점</strong>: 백업/배포 스크립트, systemd/launchd, CI 문서에서 구 경로/구 명령어 잔존 여부 점검<br><strong>출처</strong>: <a href=https://docs.openclaw.ai/updating>https://docs.openclaw.ai/updating</a></p></li></ul><h2 id=전반-흐름-요약>전반 흐름 요약<a hidden class=anchor aria-hidden=true href=#전반-흐름-요약>#</a></h2><ol><li>로컬/클라우드에 OpenClaw 설치</li><li>Gateway 데몬 실행</li><li>WhatsApp/Telegram/Discord 등 채널 연결</li><li>사용자 메시지가 Gateway로 유입</li><li>Binding 규칙으로 대상 Agent 라우팅</li><li>Agent가 <code>SOUL.md</code>, <code>USER.md</code>, <code>memory/*.md</code>를 읽고 컨텍스트 구성</li><li>모델 호출 및 필요 시 툴 실행</li><li>결과를 채널로 반환</li><li>히스토리 저장/메모리 업데이트/Compaction 수행</li></ol><h2 id=참고-링크>참고 링크<a hidden class=anchor aria-hidden=true href=#참고-링크>#</a></h2><ul><li>OpenClaw 공식 문서: <a href=https://docs.openclaw.ai/>https://docs.openclaw.ai/</a></li><li>OpenClaw 업데이트 가이드: <a href=https://docs.openclaw.ai/updating>https://docs.openclaw.ai/updating</a></li><li>OpenClaw 릴리스 목록: <a href=https://github.com/moltbot/moltbot/releases>https://github.com/moltbot/moltbot/releases</a></li><li><code>v2026.2.15</code> 릴리스: <a href=https://github.com/moltbot/moltbot/releases/tag/v2026.2.15>https://github.com/moltbot/moltbot/releases/tag/v2026.2.15</a></li></ul></div><footer class=post-footer><ul class=post-tags><li><a href=https://cdecl.github.io/tags/openclaw/>Openclaw</a></li><li><a href=https://cdecl.github.io/tags/clawdbot/>Clawdbot</a></li><li><a href=https://cdecl.github.io/tags/agent/>Agent</a></li><li><a href=https://cdecl.github.io/tags/gateway/>Gateway</a></li><li><a href=https://cdecl.github.io/tags/devops/>Devops</a></li><li><a href=https://cdecl.github.io/tags/security/>Security</a></li><li><a href=https://cdecl.github.io/tags/operations/>Operations</a></li><li><a href=https://cdecl.github.io/tags/%EC%9A%A9%EC%96%B4%EC%A7%91/>용어집</a></li><li><a href=https://cdecl.github.io/tags/%EC%9A%B4%EC%98%81-%EC%A7%80%EC%B9%A8/>운영 지침</a></li></ul></footer><script src=https://giscus.app/client.js data-repo=cdecl/cdecl.github.io data-repo-id="MDEwOlJlcG9zaXRvcnkzNDk1ODUyNjg=" data-category=General data-category-id=DIC_kwDOFNY_dM4C1XMk data-mapping=pathname data-strict=0 data-reactions-enabled=1 data-emit-metadata=0 data-input-position=bottom data-theme=transparent_dark data-lang=ko crossorigin=anonymous async></script></article></main><footer class=footer><span>&copy; 2026 <a href=https://cdecl.github.io/>cdeclog</a></span> ·
+<span>Powered by
+<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
+<a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg viewBox="0 0 12 6" fill="currentColor"><path d="M12 6H0l6-6z"/></svg>
+</a><script>let menu=document.getElementById("menu");if(menu){const e=localStorage.getItem("menu-scroll-position");e&&(menu.scrollLeft=parseInt(e,10)),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}}document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{const e=document.querySelector("html");e.dataset.theme==="dark"?(e.dataset.theme="light",localStorage.setItem("pref-theme","light")):(e.dataset.theme="dark",localStorage.setItem("pref-theme","dark"))})</script><script>document.querySelectorAll("pre > code").forEach(e=>{const n=e.parentNode.parentNode,t=document.createElement("button");t.classList.add("copy-code"),t.innerHTML="copy";function s(){t.innerHTML="copied!",setTimeout(()=>{t.innerHTML="copy"},2e3)}t.addEventListener("click",t=>{if("clipboard"in navigator){navigator.clipboard.writeText(e.textContent),s();return}const n=document.createRange();n.selectNodeContents(e);const o=window.getSelection();o.removeAllRanges(),o.addRange(n);try{document.execCommand("copy"),s()}catch{}o.removeRange(n)}),n.classList.contains("highlight")?n.appendChild(t):n.parentNode.firstChild==n||(e.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName=="TABLE"?e.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(t):e.parentNode.appendChild(t))})</script></body></html>
