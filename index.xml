@@ -1,4 +1,32 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>cdeclog</title><link>https://cdecl.github.io/</link><description>Recent content on cdeclog</description><generator>Hugo -- 0.156.0</generator><language>ko-kr</language><lastBuildDate>Sat, 21 Feb 2026 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>AI 에이전트(OpenClaw 등)의 LLM 인터페이스 구현 및 툴 콜링 기술 개요</title><link>https://cdecl.github.io/devops/ai-agent-openclaw-llm-interface/</link><pubDate>Sat, 21 Feb 2026 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/ai-agent-openclaw-llm-interface/</guid><description>&lt;p&gt;OpenClaw, Claude 데스크톱 앱, 혹은 로컬 기반의 여러 AI 에이전트들은 내부적으로 LLM(대형 언어 모델)과 어떻게 소통하고, 로컬 환경의 도구(Tool)들을 사용할까요? 이 글에서는 에이전트가 LLM과 인터페이스를 맺는 기술적 구현 내용과 핵심 요소들을 살펴봅니다.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>cdeclog</title><link>https://cdecl.github.io/</link><description>Recent content on cdeclog</description><generator>Hugo -- 0.156.0</generator><language>ko-kr</language><lastBuildDate>Mon, 23 Feb 2026 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Claude Code 무료 플랜 활용 가이드 (Ollama, free-claude-code)</title><link>https://cdecl.github.io/devops/claude-code-free-plan-usage/</link><pubDate>Mon, 23 Feb 2026 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/claude-code-free-plan-usage/</guid><description>&lt;p&gt;Claude Code를 쓰고 싶은데 유료 API 비용이 부담될 때, 실무에서는 보통 두 가지 경로를 사용합니다.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;Ollama&lt;/code&gt; 기반 로컬 모델 연결&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;free-claude-code&lt;/code&gt; 같은 호환 레이어를 통해 &lt;code&gt;NVIDIA NIM&lt;/code&gt;, &lt;code&gt;OpenRouter&lt;/code&gt;, &lt;code&gt;LM Studio&lt;/code&gt; 백엔드 연결&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;이 글은 각 방식의 배경, 설치/설정 방법, 그리고 운영 시 주의점을 정리합니다.&lt;/p&gt;
+&lt;h2 id="왜-무료-플랜-구성이-필요한가"&gt;왜 &amp;ldquo;무료 플랜&amp;rdquo; 구성이 필요한가&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;코드 에이전트는 반복 호출이 많아 토큰 비용이 빠르게 증가합니다.&lt;/li&gt;
+&lt;li&gt;개인 프로젝트나 학습 단계에서는 응답 품질보다 비용 상한이 더 중요할 수 있습니다.&lt;/li&gt;
+&lt;li&gt;팀 환경에서는 &amp;ldquo;무조건 최신 고가 모델&amp;quot;보다 &amp;ldquo;저비용 + 재현 가능한 워크플로&amp;quot;가 더 실용적입니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;핵심은, Claude Code UX를 유지하면서 백엔드를 교체하는 것입니다.&lt;/p&gt;</description></item><item><title>Shell 환경변수 정리: export 유효 범위, 인라인 변수, .env 파일</title><link>https://cdecl.github.io/devops/shell-environment-variables-guide/</link><pubDate>Mon, 23 Feb 2026 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/shell-environment-variables-guide/</guid><description>&lt;p&gt;셸에서 환경변수(Environment Variable)는 프로세스가 실행될 때 함께 전달되는 &lt;code&gt;key=value&lt;/code&gt; 형태의 설정값입니다.&lt;br&gt;
+CLI 도구 동작 제어, API 키 전달, 실행 경로(PATH) 설정 등 DevOps 작업의 기본 단위로 쓰입니다.&lt;/p&gt;
+&lt;h2 id="1-환경변수-정의와-셸에서의-사용-방법"&gt;1. 환경변수 정의와 셸에서의 사용 방법&lt;/h2&gt;
+&lt;p&gt;환경변수는 보통 다음 형태를 사용합니다.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;export&lt;/span&gt; &lt;span style="color:#8be9fd;font-style:italic"&gt;APP_ENV&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;production
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;export&lt;/span&gt; &lt;span style="color:#8be9fd;font-style:italic"&gt;API_URL&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;https://api.example.com
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;확인 방법:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;echo&lt;/span&gt; &lt;span style="color:#f1fa8c"&gt;&amp;#34;&lt;/span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;$APP_ENV&lt;/span&gt;&lt;span style="color:#f1fa8c"&gt;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;printenv APP_ENV
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;env | rg &lt;span style="color:#f1fa8c"&gt;&amp;#39;^APP_ENV=&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;각 명령의 의미:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;echo &amp;quot;$APP_ENV&amp;quot;&lt;/code&gt;: 현재 셸이 가진 변수 값을 확인 (셸 변수/환경변수 모두 확인 가능)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;printenv APP_ENV&lt;/code&gt;: 현재 프로세스의 &lt;strong&gt;환경변수&lt;/strong&gt;만 확인 (&lt;code&gt;export&lt;/code&gt; 안 된 셸 변수는 안 보임)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;env | rg '^APP_ENV='&lt;/code&gt;: 현재 프로세스의 환경변수 목록에서 패턴 필터링&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;예시:&lt;/p&gt;</description></item><item><title>AI 에이전트(OpenClaw 등)의 LLM 인터페이스 구현 및 툴 콜링 기술 개요</title><link>https://cdecl.github.io/devops/ai-agent-openclaw-llm-interface/</link><pubDate>Sat, 21 Feb 2026 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/ai-agent-openclaw-llm-interface/</guid><description>&lt;p&gt;OpenClaw, Claude 데스크톱 앱, 혹은 로컬 기반의 여러 AI 에이전트들은 내부적으로 LLM(대형 언어 모델)과 어떻게 소통하고, 로컬 환경의 도구(Tool)들을 사용할까요? 이 글에서는 에이전트가 LLM과 인터페이스를 맺는 기술적 구현 내용과 핵심 요소들을 살펴봅니다.&lt;/p&gt;
 &lt;h2 id="1-지침-파일agentmd-등-적용-방법"&gt;1. 지침 파일(&lt;code&gt;agent.md&lt;/code&gt; 등) 적용 방법&lt;/h2&gt;
 &lt;p&gt;AI 에이전트의 페르소나, 역할, 기본 규칙을 정의하기 위해 주로 &lt;code&gt;.md&lt;/code&gt; 형태의 지침 파일을 사용합니다. (예: &lt;code&gt;agent.md&lt;/code&gt;, &lt;code&gt;system_prompt.txt&lt;/code&gt;, &lt;code&gt;SOUL.md&lt;/code&gt; 등)&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;기술적 구현:&lt;/strong&gt;
