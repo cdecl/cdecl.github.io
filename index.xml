@@ -3,7 +3,11 @@
 &lt;hr&gt;
 &lt;h2 id="1-파운데이션-모델-생태계-builders-북미-vs-중국"&gt;1. 파운데이션 모델 생태계 (Builders): 북미 vs 중국&lt;/h2&gt;
 &lt;p&gt;LLM의 원천 지능을 제공하는 기업들입니다.&lt;br&gt;
-북미는 범용적 에이전트와 멀티모달에, 중국은 극강의 가성비와 오픈소스 생태계에 집중하고 있습니다.&lt;/p&gt;</description></item><item><title>AI Agent 구현의 두 갈래: 일반 Tool Calling vs MCP 비교</title><link>https://cdecl.github.io/devops/ai-agent-tool-calling-vs-mcp/</link><pubDate>Mon, 23 Feb 2026 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/ai-agent-tool-calling-vs-mcp/</guid><description>&lt;p&gt;AI 에이전트를 구축할 때, LLM이 외부 도구를 사용하게 만드는 과정은 필수적입니다. 하지만 최근 등장한 **MCP(Model Context Protocol)**와 기존의 &lt;strong&gt;Function/Tool Calling&lt;/strong&gt;은 비슷해 보이면서도 구조적으로 큰 차이가 있습니다. 오늘은 이 두 방식의 특징과 실제 구현 관점에서의 차이를 상세히 비교해 보겠습니다.&lt;/p&gt;
+북미는 범용적 에이전트와 멀티모달에, 중국은 극강의 가성비와 오픈소스 생태계에 집중하고 있습니다.&lt;/p&gt;</description></item><item><title>LLM 핵심 능력 해부: 추론 vs 코드 생성 vs Tool Calling, 그리고 자율 에이전트</title><link>https://cdecl.github.io/devops/llm-reasoning-vs-tool-calling/</link><pubDate>Wed, 25 Feb 2026 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/llm-reasoning-vs-tool-calling/</guid><description>&lt;p&gt;LLM은 모두 같은 방식으로 작동하는 것일까요? 최근 OpenAI o3, DeepSeek R1 같은 &lt;strong&gt;추론 모델(Reasoning Model)&lt;/strong&gt; 이 등장하면서, 기존 LLM과는 근본적으로 다른 사고 방식이 주목받고 있습니다. 또한 코드 생성이나 Tool Calling 능력은 추론과 어떤 관계에 있을까요?&lt;/p&gt;
+&lt;p&gt;이 글에서는 LLM의 세 가지 핵심 능력 — &lt;strong&gt;일반 생성&lt;/strong&gt;, &lt;strong&gt;추론&lt;/strong&gt;, &lt;strong&gt;코드/Tool Calling&lt;/strong&gt; — 이 어떻게 다르고, 서로 어떤 관계를 갖는지 정리합니다.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id="1-일반-llm-직감으로-답하기-system-1"&gt;1. 일반 LLM: &amp;ldquo;직감으로 답하기&amp;rdquo; (System 1)&lt;/h2&gt;
+&lt;p&gt;일반 LLM(GPT-4o, Claude 3.5 Sonnet 등)은 본질적으로 &lt;strong&gt;다음 토큰 예측기(Next-Token Predictor)&lt;/strong&gt; 입니다. 학습된 수십억 개의 파라미터 속에서 패턴을 매칭하여, 입력에 가장 그럴듯한 다음 단어를 &lt;strong&gt;즉각적으로&lt;/strong&gt; 생성합니다.&lt;/p&gt;</description></item><item><title>AI Agent 구현의 두 갈래: 일반 Tool Calling vs MCP 비교</title><link>https://cdecl.github.io/devops/ai-agent-tool-calling-vs-mcp/</link><pubDate>Mon, 23 Feb 2026 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/ai-agent-tool-calling-vs-mcp/</guid><description>&lt;p&gt;AI 에이전트를 구축할 때, LLM이 외부 도구를 사용하게 만드는 과정은 필수적입니다. 하지만 최근 등장한 **MCP(Model Context Protocol)**와 기존의 &lt;strong&gt;Function/Tool Calling&lt;/strong&gt;은 비슷해 보이면서도 구조적으로 큰 차이가 있습니다. 오늘은 이 두 방식의 특징과 실제 구현 관점에서의 차이를 상세히 비교해 보겠습니다.&lt;/p&gt;
 &lt;h2 id="1-한눈에-보는-비교-요약"&gt;1. 한눈에 보는 비교 요약&lt;/h2&gt;
 &lt;table&gt;
 &lt;thead&gt;
