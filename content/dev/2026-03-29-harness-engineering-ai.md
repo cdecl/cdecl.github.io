@@ -1,7 +1,6 @@
 ---
 title: "AI 에이전트를 길들이는 기술: 하네스 엔지니어링(Harness Engineering)의 모든 것"
-date: 2026-03-29
-categories: [dev]
+
 tags: [AI, Harness Engineering, LLM, MLOps, AI Agent]
 ---
 
