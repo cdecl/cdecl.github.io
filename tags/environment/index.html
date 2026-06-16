@@ -6,7 +6,7 @@ CLI 도구 동작 제어, API 키 전달, 실행 경로(PATH) 설정 등 DevOps 
 export APP_ENV=production export API_URL=https://api.example.com 확인 방법:
 echo "$APP_ENV" printenv APP_ENV env | rg '^APP_ENV=' 각 명령의 의미:
 echo "$APP_ENV": 현재 셸이 가진 변수 값을 확인 (셸 변수/환경변수 모두 확인 가능) printenv APP_ENV: 현재 프로세스의 환경변수만 확인 (export 안 된 셸 변수는 안 보임) env | rg '^APP_ENV=': 현재 프로세스의 환경변수 목록에서 패턴 필터링 예시:
-...</p></div><footer class=entry-footer><span title='2026-02-23 00:00:00 +0900 KST'>February 23, 2026</span>&nbsp;·&nbsp;<span>Byung Kyu KIM</span></footer><a class=entry-link aria-label="post link to Shell 환경변수 정리: export 유효 범위, 인라인 변수, .env 파일" href=https://cdecl.github.io/devops/shell-environment-variables-guide/></a></article></main><footer class=footer><span>&copy; 2026 <a href=https://cdecl.github.io/>cdeclog</a></span> ·
+...</p></div><footer class=entry-footer><span title='2026-02-23 00:00:00 +0900 KST'>2026년 2월 23일</span>&nbsp;·&nbsp;<span>Byung Kyu KIM</span></footer><a class=entry-link aria-label="post link to Shell 환경변수 정리: export 유효 범위, 인라인 변수, .env 파일" href=https://cdecl.github.io/devops/shell-environment-variables-guide/></a></article></main><footer class=footer><span>&copy; 2026 <a href=https://cdecl.github.io/>cdeclog</a></span> ·
 <span>Powered by
 <a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
 <a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg viewBox="0 0 12 6" fill="currentColor"><path d="M12 6H0l6-6z"/></svg>

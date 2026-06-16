@@ -5,7 +5,7 @@
 이 글은 JavaScript, Python, C#을 비교해 async/await가 어떻게 “동기처럼 보이는 비동기"를 만드는지 설명합니다.
 1. 가장 큰 오해: 멈춤이 아니라 양보 await는 실행 흐름을 잠시 중단시키지만, 스레드 전체를 멈추지는 않습니다. 핵심은 다음입니다.
 await는 현재 함수의 실행 컨텍스트를 일시 중단한다. 제어권은 즉시 호출자나 이벤트 루프로 돌아간다. 작업이 끝나면 중단 지점부터 다시 이어서 실행된다. 비유로 말하면, 식당에서 진동벨을 받고 자리에 앉는 것과 같습니다. 나는 기다리지만, 카운터 앞을 막고 서 있지는 않습니다.
-...</p></div><footer class=entry-footer><span title='2026-02-06 00:00:00 +0900 KST'>February 6, 2026</span>&nbsp;·&nbsp;<span>Byung Kyu KIM</span></footer><a class=entry-link aria-label="post link to Async/Await의 본질: 우리는 왜 '기다림'을 '멈춤'으로 착각하는가?" href=https://cdecl.github.io/dev/async-await-core/></a></article></main><footer class=footer><span>&copy; 2026 <a href=https://cdecl.github.io/>cdeclog</a></span> ·
+...</p></div><footer class=entry-footer><span title='2026-02-06 00:00:00 +0900 KST'>2026년 2월 6일</span>&nbsp;·&nbsp;<span>Byung Kyu KIM</span></footer><a class=entry-link aria-label="post link to Async/Await의 본질: 우리는 왜 '기다림'을 '멈춤'으로 착각하는가?" href=https://cdecl.github.io/dev/async-await-core/></a></article></main><footer class=footer><span>&copy; 2026 <a href=https://cdecl.github.io/>cdeclog</a></span> ·
 <span>Powered by
 <a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
 <a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg viewBox="0 0 12 6" fill="currentColor"><path d="M12 6H0l6-6z"/></svg>

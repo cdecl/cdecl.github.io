@@ -4,7 +4,7 @@
 이글 UPDATE : https://cdecl.tistory.com/304
 왜 멀티스레드 메모리 할당기가 중요한가? 기본 메모리 할당기(glibc의 malloc, Windows의 HeapAlloc)는 범용성을 목표로 설계되었지만, 멀티스레드 환경에서는 다음과 같은 문제로 성능이 저하됩니다:
 락 경합(Lock Contention): 다중 스레드가 동시에 메모리를 할당/해제할 때 락으로 인한 대기 시간 증가. 메모리 단편화(Memory Fragmentation): 빈번한 할당/해제로 메모리 사용 효율 저하. ABI 호환성 문제: 서로 다른 컴파일러나 표준 라이브러리 간 메모리 관리 방식 차이로 인한 런타임 오류. tcmalloc, jemalloc, mimalloc은 스레드별 캐싱, 효율적인 메모리 관리, ABI 안정성을 고려한 설계로 이러한 문제를 해결합니다. 이들은 웹 브라우저(Chrome, Firefox), 데이터베이스(MySQL, RocksDB), 고성능 서버에서 널리 사용됩니다.
-...</p></div><footer class=entry-footer><span title='2025-05-15 00:00:00 +0900 KST'>May 15, 2025</span>&nbsp;·&nbsp;<span>Byung Kyu KIM</span></footer><a class=entry-link aria-label="post link to C++ 메모리 할당기 - tcmalloc, jemalloc" href=https://cdecl.github.io/dev/c++-memory-tcmalloc/></a></article></main><footer class=footer><span>&copy; 2026 <a href=https://cdecl.github.io/>cdeclog</a></span> ·
+...</p></div><footer class=entry-footer><span title='2025-05-15 00:00:00 +0900 KST'>2025년 5월 15일</span>&nbsp;·&nbsp;<span>Byung Kyu KIM</span></footer><a class=entry-link aria-label="post link to C++ 메모리 할당기 - tcmalloc, jemalloc" href=https://cdecl.github.io/dev/c++-memory-tcmalloc/></a></article></main><footer class=footer><span>&copy; 2026 <a href=https://cdecl.github.io/>cdeclog</a></span> ·
 <span>Powered by
 <a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
 <a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg viewBox="0 0 12 6" fill="currentColor"><path d="M12 6H0l6-6z"/></svg>
