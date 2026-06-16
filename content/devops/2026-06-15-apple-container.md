@@ -189,6 +189,22 @@ sudo systemctl status postgresql
 
 ---
 
+## 6. GitHub 오픈소스 프로젝트 소개 및 리소스
+
+애플은 이 네이티브 가상화 컨테이너 에코시스템을 두 개의 개별적인 GitHub 저장소로 나누어 오픈소스로 투명하게 관리하고 있습니다.
+
+* **[apple/container](https://github.com/apple/container)**
+  * **설명:** 사용자가 실제로 터미널에서 입력하는 `container` CLI 프로그램 소스 코드와 설치 패키지(`.pkg` 인스톨러 등)가 관리되는 메인 저장소입니다.
+  * **주요 언어:** Swift
+  * **포함 사항:** CLI 구동 메커니즘, `docs/` 디렉터리 내의 세부 명령어 스펙과 활용 시나리오, 튜토리얼 문서 등
+* **[apple/containerization](https://github.com/apple/containerization)**
+  * **설명:** `apple/container` CLI 도구가 사용하는 백엔드 코어 가상화 로직이 담긴 Swift 패키지 라이브러리 저장소입니다.
+  * **역할:** macOS `Virtualization.framework`을 직접 제어하여 OCI 규격의 파일 시스템을 마운트하고, 각각의 격리된 Micro-VM 인스턴스를 관리하며, 가상 네트워크(`vmnet`) 통신 및 내부 입출력 프로세스를 조율하는 핵심 API들을 제공합니다.
+
+애플 실리콘 기반 컨테이너 기술의 핵심 설계 방식에 기여하고 싶거나 내부 가상화 엔진 설계에 관심이 있는 개발자라면, 두 저장소의 소스 코드가 최신 Swift 기능과 macOS 하이퍼바이저 API를 결합하여 성능을 최적화한 방식을 공부하기에 훌륭한 교과서가 될 것입니다.
+
+---
+
 ## 마치며
 
 Apple Container(`apple/container`)는 단순한 가상화 런타임의 대안을 넘어, Apple Silicon의 하드웨어 잠재력을 극대화하여 macOS 위에 완벽한 Linux 개발 환경을 심어주는 애플 고유의 네이티브 솔루션입니다. 
