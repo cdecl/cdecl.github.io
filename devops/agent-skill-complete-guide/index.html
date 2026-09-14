@@ -30,11 +30,11 @@ Agent Skill은 특정 도메인의 전문 지식을 패키징한 재사용 가�
 └── assets/           # ← 선택 (템플릿, 아이콘)
     └── templates/
 </code></pre><h3 id=skillmd-작성하기>SKILL.md 작성하기<a hidden class=anchor aria-hidden=true href=#skillmd-작성하기>#</a></h3><p><code>SKILL.md</code>는 두 부분으로 구성됩니다:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-markdown data-lang=markdown><span style=display:flex><span>---
-</span></span><span style=display:flex><span>name: pdf-form-filler
-</span></span><span style=display:flex><span>description: PDF 양식 필드를 자동으로 채우고 서명을 추가합니다. 
+</span></span><span style=display:flex><span><span style=color:#ff79c6>name</span>: pdf-form-filler
+</span></span><span style=display:flex><span><span style=color:#ff79c6>description</span>: PDF 양식 필드를 자동으로 채우고 서명을 추가합니다. 
 </span></span><span style=display:flex><span>             PDF 문서 작성 시 사용하세요.
-</span></span><span style=display:flex><span>version: 1.0.0
-</span></span><span style=display:flex><span>allowed-tools: &#34;Bash, Read&#34;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>version</span>: <span style=color:#bd93f9>1.0.0</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>allowed-tools</span>: <span style=color:#f1fa8c>&#34;Bash, Read&#34;</span>
 </span></span><span style=display:flex><span>---
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span><span style=font-weight:700># PDF 양식 작성
@@ -84,8 +84,8 @@ Agent Skill은 특정 도메인의 전문 지식을 패키징한 재사용 가�
 </span></span><span style=display:flex><span><span style=color:#ff79c6>-</span> references/: 상세한 부분 문서화
 </span></span></code></pre></div></li><li><p><strong>구체적인 예제 포함</strong></p></li><li><p><strong>참고 자료는 평탄한 구조로</strong> (deeply nested 피하기)</p></li></ol><hr><h2 id=5-agent-skill-사용-방법>5. Agent Skill 사용 방법<a hidden class=anchor aria-hidden=true href=#5-agent-skill-사용-방법>#</a></h2><h3 id=claude-code에서-사용하기>Claude Code에서 사용하기<a hidden class=anchor aria-hidden=true href=#claude-code에서-사용하기>#</a></h3><p><strong>1단계: Skill 디렉토리 생성</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>mkdir -p ~/.claude/skills/explain-code
 </span></span></code></pre></div><p><strong>2단계: SKILL.md 작성</strong></p><p><code>~/.claude/skills/explain-code/SKILL.md</code>:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-markdown data-lang=markdown><span style=display:flex><span>---
-</span></span><span style=display:flex><span>name: explain-code
-</span></span><span style=display:flex><span>description: 복잡한 코드를 간단하게 설명합니다. 
+</span></span><span style=display:flex><span><span style=color:#ff79c6>name</span>: explain-code
+</span></span><span style=display:flex><span><span style=color:#ff79c6>description</span>: 복잡한 코드를 간단하게 설명합니다. 
 </span></span><span style=display:flex><span>             사용자가 &#34;이 코드 설명해줄래?&#34;라고 요청할 때 사용됩니다.
 </span></span><span style=display:flex><span>---
 </span></span><span style=display:flex><span>
@@ -115,8 +115,8 @@ Agent Skill은 특정 도메인의 전문 지식을 패키징한 재사용 가�
 </span></span><span style=display:flex><span><span style=color:#6272a4># 사용</span>
 </span></span><span style=display:flex><span>gemini <span style=color:#f1fa8c>&#34;이 작업을 해줄 수 있어?&#34;</span>
 </span></span></code></pre></div><h3 id=프로젝트별-skill>프로젝트별 Skill<a hidden class=anchor aria-hidden=true href=#프로젝트별-skill>#</a></h3><p><code>.claude/skills/project-setup/SKILL.md</code>:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-markdown data-lang=markdown><span style=display:flex><span>---
-</span></span><span style=display:flex><span>name: project-setup
-</span></span><span style=display:flex><span>description: 이 프로젝트의 환경 설정 및 초기화
+</span></span><span style=display:flex><span><span style=color:#ff79c6>name</span>: project-setup
+</span></span><span style=display:flex><span><span style=color:#ff79c6>description</span>: 이 프로젝트의 환경 설정 및 초기화
 </span></span><span style=display:flex><span>---
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span><span style=font-weight:700># 프로젝트 설정
@@ -161,12 +161,12 @@ Agent Skill은 특정 도메인의 전문 지식을 패키징한 재사용 가�
 </span></span><span style=display:flex><span><span style=color:#6272a4># TypeScript 지원</span>
 </span></span><span style=display:flex><span>npx add-skill --typescript
 </span></span></code></pre></div><p><strong>생성된 SKILL.md 예시</strong>:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-markdown data-lang=markdown><span style=display:flex><span>---
-</span></span><span style=display:flex><span>name: pdf-form-filler
-</span></span><span style=display:flex><span>description: PDF 양식 필드를 자동으로 채웁니다. 사용자가 &#34;PDF 양식을 채워줄래?&#34;라고 요청할 때 사용됩니다.
-</span></span><span style=display:flex><span>version: 1.0.0
-</span></span><span style=display:flex><span>author: your-name
-</span></span><span style=display:flex><span>license: MIT
-</span></span><span style=display:flex><span>allowed-tools: &#34;Bash, Read, Python&#34;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>name</span>: pdf-form-filler
+</span></span><span style=display:flex><span><span style=color:#ff79c6>description</span>: PDF 양식 필드를 자동으로 채웁니다. 사용자가 &#34;PDF 양식을 채워줄래?&#34;라고 요청할 때 사용됩니다.
+</span></span><span style=display:flex><span><span style=color:#ff79c6>version</span>: <span style=color:#bd93f9>1.0.0</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>author</span>: your-name
+</span></span><span style=display:flex><span><span style=color:#ff79c6>license</span>: MIT
+</span></span><span style=display:flex><span><span style=color:#ff79c6>allowed-tools</span>: <span style=color:#f1fa8c>&#34;Bash, Read, Python&#34;</span>
 </span></span><span style=display:flex><span>---
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span><span style=font-weight:700># PDF 양식 작성 Skill
@@ -265,7 +265,7 @@ Skill 배포: npx skills + GitHub
 </span></span><span style=display:flex><span><span style=color:#6272a4># 변경 추적</span>
 </span></span><span style=display:flex><span>git log skills/pdf-processing/SKILL.md
 </span></span></code></pre></div><h3 id=86-문서와-실행의-통합>8.6 문서와 실행의 통합<a hidden class=anchor aria-hidden=true href=#86-문서와-실행의-통합>#</a></h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-markdown data-lang=markdown><span style=display:flex><span>---
-</span></span><span style=display:flex><span>name: database-migration
+</span></span><span style=display:flex><span><span style=color:#ff79c6>name</span>: database-migration
 </span></span><span style=display:flex><span>---
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span><span style=font-weight:700># 데이터베이스 마이그레이션
@@ -278,11 +278,11 @@ Skill 배포: npx skills + GitHub
 </span></span><span style=display:flex><span>→ 이 마크다운이 **문서**이면서 동시에 **에이전트의 실행 지침**
 </span></span><span style=display:flex><span>→ 문서 vs 코드 불일치 문제 해결
 </span></span></code></pre></div><hr><h2 id=9-실전-예제-api-문서-생성-skill>9. 실전 예제: API 문서 생성 Skill<a hidden class=anchor aria-hidden=true href=#9-실전-예제-api-문서-생성-skill>#</a></h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-markdown data-lang=markdown><span style=display:flex><span>---
-</span></span><span style=display:flex><span>name: api-doc-generator
-</span></span><span style=display:flex><span>description: Node.js/Express API를 자동으로 문서화합니다. 
+</span></span><span style=display:flex><span><span style=color:#ff79c6>name</span>: api-doc-generator
+</span></span><span style=display:flex><span><span style=color:#ff79c6>description</span>: Node.js/Express API를 자동으로 문서화합니다. 
 </span></span><span style=display:flex><span>             새로운 엔드포인트 추가 시 또는 &#34;API 문서 생성&#34;요청 시 사용됩니다.
-</span></span><span style=display:flex><span>version: 2.0.0
-</span></span><span style=display:flex><span>allowed-tools: &#34;Bash, Read, Python&#34;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>version</span>: <span style=color:#bd93f9>2.0.0</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>allowed-tools</span>: <span style=color:#f1fa8c>&#34;Bash, Read, Python&#34;</span>
 </span></span><span style=display:flex><span>---
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span><span style=font-weight:700># API 문서 생성 Skill
