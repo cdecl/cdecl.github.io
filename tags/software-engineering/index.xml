@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Software-Engineering on cdeclog</title><link>https://cdecl.github.io/tags/software-engineering/</link><description>Recent content in Software-Engineering on cdeclog</description><generator>Hugo -- 0.166.0</generator><language>ko-kr</language><lastBuildDate>Thu, 17 Sep 2026 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/software-engineering/index.xml" rel="self" type="application/rss+xml"/><item><title>AI는 소프트웨어 엔지니어링을 더 어렵게 만들었다</title><link>https://cdecl.github.io/devops/ai-made-hard-parts-harder/</link><pubDate>Thu, 17 Sep 2026 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/ai-made-hard-parts-harder/</guid><description>&lt;blockquote&gt;
+&lt;p&gt;원문: &lt;a href="https://dev.to/iampraveen/ai-didnt-make-software-engineering-easier-it-made-the-hard-parts-harder-39n4"&gt;AI Didn&amp;rsquo;t Make Software Engineering Easier. It Made the Hard Parts Harder.&lt;/a&gt; — Praveen Rajamani (dev.to, 2026-05-14)&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;hr&gt;
+&lt;h2 id="들어가며"&gt;들어가며&lt;/h2&gt;
+&lt;p&gt;AI 도구를 진지하게 사용하기 시작했을 때, 대부분의 개발자들은 같은 기대를 품는다.&lt;br&gt;
+&lt;em&gt;&amp;ldquo;AI가 보일러플레이트를 맡고, 나는 흥미로운 부분에 집중한다.&amp;rdquo;&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Praveen Rajamani도 그랬다. 그런데 실제로는? 흥미로운 부분이 더 어렵고, 더 빈번하고, 더 소진되는 방향으로 변했다.&lt;br&gt;
+Google Staff Engineer가 연봉도 복지도 아닌 &lt;em&gt;&amp;ldquo;일이 너무 서두르고, 의미가 줄었다&amp;rdquo;&lt;/em&gt; 는 이유로 회사를 떠난 사건이 바이럴됐다.&lt;br&gt;
+AI가 가장 기술력 있는 조직 중 하나인 Google에서도 이런 영향을 미친다면, 실제로 무슨 일이 벌어지고 있는지 따져볼 필요가 있다.&lt;/p&gt;</description></item></channel></rss>
