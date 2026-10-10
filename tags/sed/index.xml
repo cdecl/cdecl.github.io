@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Sed on cdeclog</title><link>https://cdecl.github.io/tags/sed/</link><description>Recent content in Sed on cdeclog</description><generator>Hugo -- 0.166.0</generator><language>ko-kr</language><lastBuildDate>Sun, 25 May 2025 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/sed/index.xml" rel="self" type="application/rss+xml"/><item><title>모던 쉘 명령어로 터미널 생산성 높이기</title><link>https://cdecl.github.io/devops/moden-shell-command/</link><pubDate>Sun, 25 May 2025 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/moden-shell-command/</guid><description>&lt;p&gt;모던 쉘 명령어: 전통적인 도구를 대체하는 강력한 대안&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Sed on cdeclog</title><link>https://cdecl.github.io/tags/sed/</link><description>Recent content in Sed on cdeclog</description><generator>Hugo -- 0.167.0</generator><language>ko-kr</language><lastBuildDate>Sun, 25 May 2025 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/sed/index.xml" rel="self" type="application/rss+xml"/><item><title>모던 쉘 명령어로 터미널 생산성 높이기</title><link>https://cdecl.github.io/devops/moden-shell-command/</link><pubDate>Sun, 25 May 2025 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/moden-shell-command/</guid><description>&lt;p&gt;모던 쉘 명령어: 전통적인 도구를 대체하는 강력한 대안&lt;/p&gt;
 &lt;p&gt;터미널은 개발자와 시스템 관리자의 핵심 도구입니다. 하지만 전통적인 쉘 명령어(&lt;code&gt;grep&lt;/code&gt;, &lt;code&gt;sed&lt;/code&gt;, &lt;code&gt;find&lt;/code&gt;, &lt;code&gt;cat&lt;/code&gt;, &lt;code&gt;watch&lt;/code&gt;, &lt;code&gt;top&lt;/code&gt;, &lt;code&gt;du&lt;/code&gt;)는 속도, 가독성, 사용 편의성 면에서 한계가 있습니다. 2025년 기준, 이러한 명령어들을 대체하는 모던 대안들이 주목받고 있습니다. 이 포스트에서는 &lt;code&gt;ripgrep&lt;/code&gt;, &lt;code&gt;sd&lt;/code&gt;, &lt;code&gt;fd&lt;/code&gt;, &lt;code&gt;bat&lt;/code&gt;, &lt;code&gt;hwatch&lt;/code&gt;, &lt;code&gt;htop&lt;/code&gt;, &lt;code&gt;dust&lt;/code&gt;를 전통 명령어와 비교하며 특징과 사용법을 소개합니다.&lt;/p&gt;
 &lt;h2 id="모던-쉘-명령어-요약"&gt;모던 쉘 명령어 요약&lt;/h2&gt;
 &lt;table&gt;
@@ -180,7 +180,22 @@ POSIX 기반의 BRE(Basic Regular Expressions), ERE(Extended Regular Expressions
 &lt;h2 id="4-모범-사례"&gt;4. 모범 사례&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;
-&lt;p&gt;&lt;strong&gt;POSIX 우선&lt;/strong&gt;: 이식성을 위해 BRE/ERE 사용.&lt;/p&gt;</description></item><item><title>tr, sed, sd 명령어 비교</title><link>https://cdecl.github.io/devops/sed-sd-comparison/</link><pubDate>Thu, 07 Nov 2024 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/sed-sd-comparison/</guid><description>&lt;p&gt;강력한 텍스트 처리 도구인 tr, sed, 그리고 최신 도구인 sd에 대해 알아보고 비교해 보겠습니다.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;POSIX 우선&lt;/strong&gt;: 이식성을 위해 BRE/ERE 사용.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;grep -E &lt;span style="color:#f1fa8c"&gt;&amp;#39;a(b+|c)d&amp;#39;&lt;/span&gt; file.txt
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;PCRE 활용&lt;/strong&gt;: 복잡한 패턴은 &lt;code&gt;ripgrep&lt;/code&gt; 또는 GNU grep의 &lt;code&gt;-P&lt;/code&gt; 사용.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;rg &lt;span style="color:#f1fa8c"&gt;&amp;#39;a(?=b)c&amp;#39;&lt;/span&gt; file.txt
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;명시적 옵션&lt;/strong&gt;: 정규 표현식 유형 명시.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sed -E &lt;span style="color:#f1fa8c"&gt;&amp;#39;s/a(b+|c)d/x\1y/&amp;#39;&lt;/span&gt; file.txt
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;플랫폼 테스트&lt;/strong&gt;: GNU/Linux와 BSD/macOS에서 호환성 확인.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;echo&lt;/span&gt; &lt;span style="color:#f1fa8c"&gt;&amp;#34;abbc&amp;#34;&lt;/span&gt; | rg &lt;span style="color:#f1fa8c"&gt;&amp;#39;a(b+|c)d&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;/ul&gt;</description></item><item><title>tr, sed, sd 명령어 비교</title><link>https://cdecl.github.io/devops/sed-sd-comparison/</link><pubDate>Thu, 07 Nov 2024 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/sed-sd-comparison/</guid><description>&lt;p&gt;강력한 텍스트 처리 도구인 tr, sed, 그리고 최신 도구인 sd에 대해 알아보고 비교해 보겠습니다.&lt;/p&gt;
 &lt;h2 id="tr-명령어"&gt;tr 명령어&lt;/h2&gt;
 &lt;p&gt;tr은 &amp;rsquo;translate&amp;rsquo;의 약자로, 문자열을 변환하거나 삭제하는 데 사용되는 간단하면서도 강력한 도구입니다.&lt;/p&gt;
 &lt;h3 id="주요-기능"&gt;주요 기능&lt;/h3&gt;

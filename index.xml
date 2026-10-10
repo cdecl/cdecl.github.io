@@ -1,4 +1,11 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>cdeclog</title><link>https://cdecl.github.io/</link><description>Recent content on cdeclog</description><generator>Hugo -- 0.166.0</generator><language>ko-kr</language><lastBuildDate>Thu, 17 Sep 2026 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>AI는 소프트웨어 엔지니어링을 더 어렵게 만들었다</title><link>https://cdecl.github.io/devops/ai-made-hard-parts-harder/</link><pubDate>Thu, 17 Sep 2026 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/ai-made-hard-parts-harder/</guid><description>&lt;blockquote&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>cdeclog</title><link>https://cdecl.github.io/</link><description>Recent content on cdeclog</description><generator>Hugo -- 0.167.0</generator><language>ko-kr</language><lastBuildDate>Sat, 10 Oct 2026 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Hermes Agent의 /learn 기능과 커스텀 스킬 만들기</title><link>https://cdecl.github.io/devops/hermes-learn-devops-automation/</link><pubDate>Sat, 10 Oct 2026 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/hermes-learn-devops-automation/</guid><description>&lt;p&gt;매일 아침 여러 사이트에서 주요 뉴스와 지표를 수집해 리포트를 작성하고, 주기적으로 다운로드 폴더의 문서를 분류하며, 특정 형식의 회의록이나 리서치 문서를 반복해서 작성하는 일상&amp;hellip; 우리는 하루에도 수없이 많은 &lt;strong&gt;반복적이면서도 맥락 의존적인 컴퓨터 작업&lt;/strong&gt;을 마주합니다.&lt;/p&gt;
+&lt;p&gt;많은 사람들이 ChatGPT나 Claude 같은 대화형 AI에게 이런 작업을 맡겨보지만, 곧 다음과 같은 피로감에 부딪히게 됩니다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;&amp;ldquo;매번 세션을 새로 열 때마다 작업 순서와 출력 서식을 수십 줄씩 길게 설명해야 한다.&amp;rdquo;&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;&amp;ldquo;어제 알려준 예외 처리 룰을 오늘은 완전히 잊어버린다.&amp;rdquo;&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;&amp;ldquo;단순 프롬프트로는 복잡한 다단계 툴(웹 브라우징, 파일 저장, 터미널 실행)을 순서대로 제어하기 어렵다.&amp;rdquo;&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;오픈소스 자율 에이전트인 &lt;strong&gt;Hermes Agent&lt;/strong&gt;는 이 문제를 해결하기 위해 &lt;strong&gt;&lt;code&gt;/learn&lt;/code&gt; 커맨드&lt;/strong&gt;와 &lt;strong&gt;&lt;code&gt;agentskills.io&lt;/code&gt; 표준 기반의 커스텀 스킬(Custom Skill)&lt;/strong&gt; 아키텍처를 도입했습니다.&lt;/p&gt;</description></item><item><title>AI는 소프트웨어 엔지니어링을 더 어렵게 만들었다</title><link>https://cdecl.github.io/devops/ai-made-hard-parts-harder/</link><pubDate>Thu, 17 Sep 2026 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/ai-made-hard-parts-harder/</guid><description>&lt;blockquote&gt;
 &lt;p&gt;원문: &lt;a href="https://dev.to/iampraveen/ai-didnt-make-software-engineering-easier-it-made-the-hard-parts-harder-39n4"&gt;AI Didn&amp;rsquo;t Make Software Engineering Easier. It Made the Hard Parts Harder.&lt;/a&gt; — Praveen Rajamani (dev.to, 2026-05-14)&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;hr&gt;
@@ -570,7 +577,13 @@ CLI 도구 동작 제어, API 키 전달, 실행 경로(PATH) 설정 등 DevOps 
 &lt;li&gt;스코프: &lt;code&gt;session&lt;/code&gt;, &lt;code&gt;agent&lt;/code&gt;, &lt;code&gt;shared&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;blockquote&gt;
-&lt;p&gt;주의&lt;/p&gt;</description></item><item><title>127.0.0.1 vs localhost: 차이와 함정</title><link>https://cdecl.github.io/devops/localhost/</link><pubDate>Sun, 08 Feb 2026 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/localhost/</guid><description>&lt;p&gt;작성일: 2026-02-08&lt;/p&gt;
+&lt;p&gt;주의&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;bind: 0.0.0.0&lt;/code&gt; + 약한 인증은 외부 노출 위험이 큼.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;dmPolicy: open&lt;/code&gt;, &lt;code&gt;groupPolicy: open&lt;/code&gt;은 운영 초기 기본값으로 쓰지 않는 것을 권장.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;sandbox: off&lt;/code&gt;는 편의성은 높지만, 도구 실행 리스크가 가장 큼.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;</description></item><item><title>127.0.0.1 vs localhost: 차이와 함정</title><link>https://cdecl.github.io/devops/localhost/</link><pubDate>Sun, 08 Feb 2026 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/localhost/</guid><description>&lt;p&gt;작성일: 2026-02-08&lt;/p&gt;
 &lt;p&gt;운영 환경에서 &amp;ldquo;localhost로 붙었는데 왜 안 되지?&amp;rdquo; 같은 문제는 자주 발생합니다. 결론부터 말하면 &lt;code&gt;127.0.0.1&lt;/code&gt;과 &lt;code&gt;localhost&lt;/code&gt;는 보통 같은 의미로 쓰이지만, &lt;strong&gt;항상 동일하게 해석되진 않습니다.&lt;/strong&gt; 이 미묘한 차이가 헬스체크 실패, 접근 불가, 보안 정책 충돌로 이어질 수 있습니다.&lt;/p&gt;
 &lt;hr&gt;
 &lt;h2 id="1-루프백loopback-정의"&gt;1. 루프백(Loopback) 정의&lt;/h2&gt;
@@ -737,7 +750,10 @@ CLI 도구 동작 제어, API 키 전달, 실행 경로(PATH) 설정 등 DevOps 
 &lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# 3개 커밋 전 버전의 &amp;#39;config.js&amp;#39;를 현재 디렉터리로 가져옴&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git checkout HEAD~3 -- src/config.js
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;blockquote&gt;
-&lt;p&gt;&lt;code&gt;git checkout &amp;lt;commit&amp;gt; -- &amp;lt;file&amp;gt;&lt;/code&gt;: 특정 커밋에 해당하는 파일의 버전으로 현재 작업 디렉터리의 파일을 덮어씁니다.&lt;/p&gt;</description></item><item><title>Supabase RLS와 anon 키: RLS Disabled in Public, 백엔드 개발자를 위한 보안 가이드</title><link>https://cdecl.github.io/devops/supabase-rls-anon-key-security-guide/</link><pubDate>Tue, 23 Dec 2025 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/supabase-rls-anon-key-security-guide/</guid><description>&lt;p&gt;Supabase는 편리한 기능과 자동화된 API 덕분에 많은 개발자에게 사랑받고 있지만, 간혹 대시보드에 나타나는 &amp;ldquo;RLS Disabled&amp;rdquo; 경고는 백엔드 개발자들을 혼란에 빠뜨리곤 합니다. &amp;ldquo;나는 백엔드에서만 안전하게 통신하는데, 이게 왜 문제지?&amp;ldquo;라고 생각했다면 이 글이 명쾌한 해답을 드릴 것입니다. 이 글에서는 RLS와 anon 키의 관계를 명확히 이해하고, 백엔드 중심 프로젝트에서 RLS를 어떻게 활용해야 하는지에 대한 모범 사례를 제시합니다.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;git checkout &amp;lt;commit&amp;gt; -- &amp;lt;file&amp;gt;&lt;/code&gt;: 특정 커밋에 해당하는 파일의 버전으로 현재 작업 디렉터리의 파일을 덮어씁니다.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;/ul&gt;</description></item><item><title>Supabase RLS와 anon 키: RLS Disabled in Public, 백엔드 개발자를 위한 보안 가이드</title><link>https://cdecl.github.io/devops/supabase-rls-anon-key-security-guide/</link><pubDate>Tue, 23 Dec 2025 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/supabase-rls-anon-key-security-guide/</guid><description>&lt;p&gt;Supabase는 편리한 기능과 자동화된 API 덕분에 많은 개발자에게 사랑받고 있지만, 간혹 대시보드에 나타나는 &amp;ldquo;RLS Disabled&amp;rdquo; 경고는 백엔드 개발자들을 혼란에 빠뜨리곤 합니다. &amp;ldquo;나는 백엔드에서만 안전하게 통신하는데, 이게 왜 문제지?&amp;ldquo;라고 생각했다면 이 글이 명쾌한 해답을 드릴 것입니다. 이 글에서는 RLS와 anon 키의 관계를 명확히 이해하고, 백엔드 중심 프로젝트에서 RLS를 어떻게 활용해야 하는지에 대한 모범 사례를 제시합니다.&lt;/p&gt;
 &lt;h2 id="1-문제-상황-rls-disabled-in-public-경고의-의미"&gt;1. 문제 상황: &amp;ldquo;RLS Disabled in Public&amp;rdquo; 경고의 의미&lt;/h2&gt;
 &lt;p&gt;Supabase 대시보드에서 &lt;code&gt;public.users&lt;/code&gt; 또는 &lt;code&gt;public.notes&lt;/code&gt;와 같은 테이블에 대해 &lt;strong&gt;RLS Disabled&lt;/strong&gt; 경고를 마주하는 것은 생각보다 흔한 일입니다. 이 경고의 진짜 의미는 무엇일까요?&lt;/p&gt;</description></item><item><title>Python Web 프레임워크 (Flask, FastAPI) Vercel로 배포하기</title><link>https://cdecl.github.io/devops/python-web-framework-vercel-deploy/</link><pubDate>Sun, 21 Dec 2025 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/python-web-framework-vercel-deploy/</guid><description>&lt;p&gt;Python 기반의 웹 프레임워크인 &lt;strong&gt;Flask&lt;/strong&gt;나 &lt;strong&gt;FastAPI&lt;/strong&gt;를 개발한 후, 이를 실제 서비스로 배포하는 방법은 여러 가지가 있습니다. (AWS EC2, Docker, Heroku 등)
 그 중에서도 &lt;strong&gt;Vercel&lt;/strong&gt;은 복잡한 서버 관리 없이 가장 간편하고 빠르게 배포할 수 있는 플랫폼 중 하나입니다. 이번 글에서는 Vercel을 사용하여 Python 웹 애플리케이션을 배포하는 전반적인 과정과 주요 개념들을 정리해 보겠습니다.&lt;/p&gt;
@@ -791,7 +807,22 @@ CLI 도구 동작 제어, API 키 전달, 실행 경로(PATH) 설정 등 DevOps 
 &lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker pull rustfs/rustfs
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;&lt;strong&gt;Docker 컨테이너 실행&lt;/strong&gt;&lt;/p&gt;</description></item><item><title>VPN 구현체의 종류 및 특징 비교: OpenVPN vs Wireguard</title><link>https://cdecl.github.io/devops/vpn-implementations-comparison/</link><pubDate>Wed, 03 Dec 2025 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/vpn-implementations-comparison/</guid><description>&lt;p&gt;가상 사설망(VPN)은 인터넷과 같은 공용 네트워크를 통해 사설 네트워크를 안전하게 확장하는 기술입니다. VPN은 데이터를 암호화하여 터널링함으로써 사용자의 개인 정보와 데이터를 보호하고, 지역 제한 콘텐츠에 접근하거나 원격지에서 사내망에 접속하는 등 다양한 용도로 활용됩니다.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Docker 컨테이너 실행&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;로컬에 데이터를 저장할 디렉토리(예: &lt;code&gt;/mnt/rustfs/data&lt;/code&gt;)를 생성한 후, 아래 명령어를 실행합니다.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; docker run -d &lt;span style="color:#f1fa8c"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --name rustfs_local &lt;span style="color:#f1fa8c"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; -p 9000:9000 &lt;span style="color:#f1fa8c"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; -p 9001:9001 &lt;span style="color:#f1fa8c"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; -v /mnt/rustfs/data:/data &lt;span style="color:#f1fa8c"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; rustfs/rustfs:latest &lt;span style="color:#f1fa8c"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; /data
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;-p 9000:9000&lt;/code&gt;: S3 API 포트&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-p 9001:9001&lt;/code&gt;: 웹 콘솔 포트&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-v /mnt/rustfs/data:/data&lt;/code&gt;: 로컬 데이터 저장 경로 마운트&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;</description></item><item><title>VPN 구현체의 종류 및 특징 비교: OpenVPN vs Wireguard</title><link>https://cdecl.github.io/devops/vpn-implementations-comparison/</link><pubDate>Wed, 03 Dec 2025 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/vpn-implementations-comparison/</guid><description>&lt;p&gt;가상 사설망(VPN)은 인터넷과 같은 공용 네트워크를 통해 사설 네트워크를 안전하게 확장하는 기술입니다. VPN은 데이터를 암호화하여 터널링함으로써 사용자의 개인 정보와 데이터를 보호하고, 지역 제한 콘텐츠에 접근하거나 원격지에서 사내망에 접속하는 등 다양한 용도로 활용됩니다.&lt;/p&gt;
 &lt;p&gt;VPN을 구현하는 방법에는 여러 가지가 있으며, 각각의 프로토콜과 소프트웨어는 고유한 특징과 장단점을 가지고 있습니다. 이번 포스트에서는 대표적인 VPN 구현체인 &lt;strong&gt;OpenVPN&lt;/strong&gt;과 최신 기술로 주목받는 &lt;strong&gt;WireGuard&lt;/strong&gt;를 중심으로 VPN 구현체의 종류와 특징을 비교 분석해 보겠습니다.&lt;/p&gt;
 &lt;h2 id="주요-vpn-프로토콜의-종류와-특징"&gt;주요 VPN 프로토콜의 종류와 특징&lt;/h2&gt;
 &lt;p&gt;VPN의 핵심은 터널링과 암호화 프로토콜이며, 이는 VPN의 속도, 보안, 안정성을 결정하는 가장 중요한 요소입니다. 다양한 VPN 프로토콜이 있으며, 각각은 고유한 장단점을 가집니다.&lt;/p&gt;</description></item><item><title>GNU Parallel: xargs를 넘어선 강력한 병렬 처리</title><link>https://cdecl.github.io/devops/gnu-parallel-guide/</link><pubDate>Sun, 23 Nov 2025 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/gnu-parallel-guide/</guid><description>&lt;p&gt;리눅스 환경에서 대량의 데이터나 파일을 처리하다 보면, 단일 코어만 사용하는 쉘 스크립트의 성능 한계에 부딪히게 됩니다. &lt;code&gt;xargs&lt;/code&gt;를 통해 어느 정도 병렬 처리가 가능하지만, 더 복잡하고 강력한 기능을 제공하는 도구가 바로 &lt;strong&gt;GNU Parallel&lt;/strong&gt;입니다.&lt;/p&gt;
@@ -817,7 +848,8 @@ CLI 도구 동작 제어, API 키 전달, 실행 경로(PATH) 설정 등 DevOps 
 &lt;li&gt;&lt;strong&gt;단점:&lt;/strong&gt; 쓰레드 생성 및 컨텍스트 전환 시 &lt;strong&gt;커널 오버헤드&lt;/strong&gt;가 발생합니다.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;요약:&lt;/strong&gt; 리눅스는 &lt;strong&gt;POSIX 표준&lt;/strong&gt;을 따르며, 사용자 레벨의 쓰레드가 커널 레벨의 프로세스와 유사한 경량 프로세스로 매핑되는 &lt;strong&gt;1:1 모델&lt;/strong&gt;에 가깝습니다.&lt;/p&gt;</description></item><item><title>Python 유용한 생산성 라이브러리</title><link>https://cdecl.github.io/dev/python-productivity-libraries/</link><pubDate>Mon, 17 Nov 2025 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/python-productivity-libraries/</guid><description>&lt;p&gt;파이썬으로 개발할 때 생산성을 크게 향상시켜주는 유용한 라이브러리들을 소개합니다.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;요약:&lt;/strong&gt; 리눅스는 &lt;strong&gt;POSIX 표준&lt;/strong&gt;을 따르며, 사용자 레벨의 쓰레드가 커널 레벨의 프로세스와 유사한 경량 프로세스로 매핑되는 &lt;strong&gt;1:1 모델&lt;/strong&gt;에 가깝습니다.&lt;/p&gt;
+&lt;/blockquote&gt;</description></item><item><title>Python 유용한 생산성 라이브러리</title><link>https://cdecl.github.io/dev/python-productivity-libraries/</link><pubDate>Mon, 17 Nov 2025 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/python-productivity-libraries/</guid><description>&lt;p&gt;파이썬으로 개발할 때 생산성을 크게 향상시켜주는 유용한 라이브러리들을 소개합니다.&lt;/p&gt;
 &lt;h2 id="tqdm"&gt;tqdm&lt;/h2&gt;
 &lt;h3 id="간략-설명"&gt;간략 설명&lt;/h3&gt;
 &lt;p&gt;&lt;code&gt;tqdm&lt;/code&gt;은 &amp;ldquo;taqaddum&amp;quot;의 약자로, 아랍어로 &amp;ldquo;진행&amp;quot;을 의미합니다. 긴 작업의 진행 상황을 시각적으로 보여주는 스마트한 프로그레스 바를 쉽게 추가할 수 있게 해주는 라이브러리입니다.&lt;/p&gt;
@@ -1309,7 +1341,22 @@ POSIX 기반의 BRE(Basic Regular Expressions), ERE(Extended Regular Expressions
 &lt;h2 id="4-모범-사례"&gt;4. 모범 사례&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;
-&lt;p&gt;&lt;strong&gt;POSIX 우선&lt;/strong&gt;: 이식성을 위해 BRE/ERE 사용.&lt;/p&gt;</description></item><item><title>C++ 메모리 할당기 - tcmalloc, jemalloc</title><link>https://cdecl.github.io/dev/c++-memory-tcmalloc/</link><pubDate>Thu, 15 May 2025 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/c++-memory-tcmalloc/</guid><description>&lt;p&gt;멀티스레드 최적화 힙 메모리 할당기: tcmalloc, jemalloc&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;POSIX 우선&lt;/strong&gt;: 이식성을 위해 BRE/ERE 사용.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;grep -E &lt;span style="color:#f1fa8c"&gt;&amp;#39;a(b+|c)d&amp;#39;&lt;/span&gt; file.txt
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;PCRE 활용&lt;/strong&gt;: 복잡한 패턴은 &lt;code&gt;ripgrep&lt;/code&gt; 또는 GNU grep의 &lt;code&gt;-P&lt;/code&gt; 사용.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;rg &lt;span style="color:#f1fa8c"&gt;&amp;#39;a(?=b)c&amp;#39;&lt;/span&gt; file.txt
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;명시적 옵션&lt;/strong&gt;: 정규 표현식 유형 명시.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sed -E &lt;span style="color:#f1fa8c"&gt;&amp;#39;s/a(b+|c)d/x\1y/&amp;#39;&lt;/span&gt; file.txt
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;플랫폼 테스트&lt;/strong&gt;: GNU/Linux와 BSD/macOS에서 호환성 확인.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;echo&lt;/span&gt; &lt;span style="color:#f1fa8c"&gt;&amp;#34;abbc&amp;#34;&lt;/span&gt; | rg &lt;span style="color:#f1fa8c"&gt;&amp;#39;a(b+|c)d&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;/ul&gt;</description></item><item><title>C++ 메모리 할당기 - tcmalloc, jemalloc</title><link>https://cdecl.github.io/dev/c++-memory-tcmalloc/</link><pubDate>Thu, 15 May 2025 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/c++-memory-tcmalloc/</guid><description>&lt;p&gt;멀티스레드 최적화 힙 메모리 할당기: tcmalloc, jemalloc&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;&lt;a href="https://cdecl.tistory.com/304"&gt;이글 UPDATE : https://cdecl.tistory.com/304&lt;/a&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -1436,7 +1483,29 @@ macOS용 마우스 커스터마이징 도구로, 스크롤 방향, 속도, 버�
 &lt;li&gt;
 &lt;p&gt;rectangle (Rectangle.app)&lt;br&gt;
 키보드 단축키로 창 크기와 위치를 쉽게 조절할 수 있는 창 관리 도구입니다.&lt;br&gt;
-다중 모니터 환경에서 창 관리를 효율적으로 할 수 있어 작업 생산성을 크게 향상시킵니다.&lt;/p&gt;</description></item><item><title>모던 CMake 기본 가이드</title><link>https://cdecl.github.io/dev/modern-cmake-guide/</link><pubDate>Fri, 15 Nov 2024 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/modern-cmake-guide/</guid><description>&lt;p&gt;모던 CMake 기본 가이드: 타겟 중심의 현대적인 빌드 시스템&lt;/p&gt;
+다중 모니터 환경에서 창 관리를 효율적으로 할 수 있어 작업 생산성을 크게 향상시킵니다.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;ice (Ice.app)&lt;br&gt;
+키보드로 창을 조작할 수 있는 또 다른 창 관리 도구로, 창 크기 조절, 이동, 정렬 등의 기능을 제공합니다.&lt;br&gt;
+Rectangle과 유사하지만 더 세밀한 창 조작이 가능하여 개인의 취향에 따라 선택할 수 있습니다.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;karabiner-elements (Karabiner-Elements.app)&lt;br&gt;
+키 매핑을 변경하고 복잡한 키 조합을 만들 수 있는 키보드 커스터마이징 도구입니다.&lt;br&gt;
+특수 키보드 사용자나 키보드 단축키를 자주 사용하는 사용자에게 매우 유용합니다.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;stats (Stats.app)&lt;br&gt;
+메뉴바에 CPU, 메모리, 네트워크 사용량 등의 시스템 모니터링 정보를 실시간으로 표시합니다.&lt;br&gt;
+시스템 리소스 사용 현황을 한눈에 파악할 수 있어 성능 관리에 도움이 됩니다.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;amphetamine (Amphetamine.app)&lt;br&gt;
+macOS의 절전 모드를 제어하는 도구로, 필요할 때 시스템을 깨어있게 유지할 수 있습니다.&lt;br&gt;
+장시간 다운로드나 렌더링 작업 시 유용합니다.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;</description></item><item><title>모던 CMake 기본 가이드</title><link>https://cdecl.github.io/dev/modern-cmake-guide/</link><pubDate>Fri, 15 Nov 2024 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/modern-cmake-guide/</guid><description>&lt;p&gt;모던 CMake 기본 가이드: 타겟 중심의 현대적인 빌드 시스템&lt;/p&gt;
 &lt;h2 id="1-makefile-대비-cmake의-장점"&gt;1. Makefile 대비 CMake의 장점&lt;/h2&gt;
 &lt;h3 id="크로스-플랫폼-지원"&gt;크로스 플랫폼 지원&lt;/h3&gt;
 &lt;ul&gt;
@@ -1731,7 +1800,109 @@ macOS용 마우스 커스터마이징 도구로, 스크롤 방향, 속도, 버�
 &lt;h4 id="flake8"&gt;&lt;strong&gt;Flake8&lt;/strong&gt;&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;
-&lt;p&gt;PEP 8 스타일 가이드 검사&lt;/p&gt;</description></item><item><title>xargs - 효율적인 명령어 인수 처리와 병렬 실행</title><link>https://cdecl.github.io/devops/xargs-command-guide/</link><pubDate>Sun, 27 Oct 2024 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/xargs-command-guide/</guid><description>&lt;p&gt;&lt;code&gt;xargs&lt;/code&gt; - 효율적인 명령어 인수 처리와 병렬 실행&lt;/p&gt;
+&lt;p&gt;PEP 8 스타일 가이드 검사&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;구문 오류 검사&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;복잡도 검사&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;설치:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;pip install flake8
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;VS Code 설정:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-json" data-lang="json"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;&amp;#34;python.linting.flake8Enabled&amp;#34;&lt;/span&gt;: &lt;span style="color:#ff79c6"&gt;true&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;&amp;#34;python.linting.enabled&amp;#34;&lt;/span&gt;: &lt;span style="color:#ff79c6"&gt;true&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;&amp;#34;python.linting.flake8Args&amp;#34;&lt;/span&gt;: [
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f1fa8c"&gt;&amp;#34;--max-line-length=79&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f1fa8c"&gt;&amp;#34;--extend-ignore=E203&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f1fa8c"&gt;&amp;#34;--per-file-ignores=__init__.py:F401&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ]
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;.flake8&lt;/code&gt; 설정 파일 예시:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;심플 버전&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-ini" data-lang="ini"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;[flake8]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# 행 길이 제한&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#50fa7b"&gt;max-line-length&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; &lt;span style="color:#f1fa8c"&gt;79&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# 무시할 에러/경고&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#50fa7b"&gt;ignore&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; &lt;span style="color:#f1fa8c"&gt;E501 # 줄 길이 초과&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;기본 버전&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-ini" data-lang="ini"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff79c6"&gt;[flake8]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# 행 길이 제한&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#50fa7b"&gt;max-line-length&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; &lt;span style="color:#f1fa8c"&gt;79&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# 무시할 에러/경고&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#50fa7b"&gt;ignore&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;&lt;span style="color:#f1fa8c"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f1fa8c"&gt; # 라인 끝 공백
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f1fa8c"&gt; W291,
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f1fa8c"&gt; # 모듈 레벨 import가 아닌 경우
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f1fa8c"&gt; E402,
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f1fa8c"&gt; # 라인 중간 공백
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f1fa8c"&gt; E203,
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f1fa8c"&gt; # 한 줄에 여러 문장
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f1fa8c"&gt; E701,
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f1fa8c"&gt; # break 이후 문장
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f1fa8c"&gt; E722&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# 복잡도 제한&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#50fa7b"&gt;max-complexity&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; &lt;span style="color:#f1fa8c"&gt;10&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# 파일별 무시할 규칙&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#50fa7b"&gt;per-file-ignores&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;&lt;span style="color:#f1fa8c"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f1fa8c"&gt; # __init__.py 파일의 미사용 import 무시
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f1fa8c"&gt; __init__.py:F401
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f1fa8c"&gt; # 테스트 파일의 긴 줄 무시
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f1fa8c"&gt; test_*.py:E501&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# 파일 이름 패턴&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#50fa7b"&gt;filename&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; &lt;span style="color:#f1fa8c"&gt;*.py&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# 통계 출력&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#50fa7b"&gt;statistics&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; &lt;span style="color:#f1fa8c"&gt;True&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# 에러 카운트 출력&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#50fa7b"&gt;count&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; &lt;span style="color:#f1fa8c"&gt;True&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# 파이썬 버전 설정&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# python 버전을 명시적으로 지정&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#50fa7b"&gt;max-python-version&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; &lt;span style="color:#f1fa8c"&gt;3.9&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# 인라인 설정 허용&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#6272a4"&gt;# flake8: noqa 주석 허용&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#50fa7b"&gt;disable-noqa&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; &lt;span style="color:#f1fa8c"&gt;False&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;flake8의 주요 에러 코드:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;E1**: 들여쓰기 관련&lt;/li&gt;
+&lt;li&gt;E2**: 공백 관련&lt;/li&gt;
+&lt;li&gt;E3**: 빈 줄 관련&lt;/li&gt;
+&lt;li&gt;E4**: Import 관련&lt;/li&gt;
+&lt;li&gt;E5**: 줄 길이 관련&lt;/li&gt;
+&lt;li&gt;E7**: 문장 관련&lt;/li&gt;
+&lt;li&gt;E9**: 구문 에러&lt;/li&gt;
+&lt;li&gt;F4**: Import 관련&lt;/li&gt;
+&lt;li&gt;F5**: 루프 변수 정의&lt;/li&gt;
+&lt;li&gt;F6**: &lt;code&gt;except&lt;/code&gt; 관련&lt;/li&gt;
+&lt;li&gt;F8**: 이름 정의&lt;/li&gt;
+&lt;li&gt;W291-W293: 공백 관련 경고&lt;/li&gt;
+&lt;li&gt;C901: 복잡도 관련&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;</description></item><item><title>xargs - 효율적인 명령어 인수 처리와 병렬 실행</title><link>https://cdecl.github.io/devops/xargs-command-guide/</link><pubDate>Sun, 27 Oct 2024 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/xargs-command-guide/</guid><description>&lt;p&gt;&lt;code&gt;xargs&lt;/code&gt; - 효율적인 명령어 인수 처리와 병렬 실행&lt;/p&gt;
 &lt;h2 id="xargs-명령어-효율적인-명령어-확장과-파라미터-전달"&gt;xargs 명령어: 효율적인 명령어 확장과 파라미터 전달&lt;/h2&gt;
 &lt;p&gt;&lt;code&gt;xargs&lt;/code&gt; 명령어는 한 명령어의 출력을 다른 명령어의 인수로 전달할 때 유용하게 사용됩니다. 특히 명령어의 파라미터가 길어지거나 여러 파일, 디렉토리를 대상으로 명령어를 실행해야 할 때 &lt;code&gt;xargs&lt;/code&gt;를 사용하면 성능과 효율성을 높일 수 있습니다.&lt;/p&gt;
 &lt;h2 id="주요-옵션과-활용-예시"&gt;주요 옵션과 활용 예시&lt;/h2&gt;
@@ -1745,7 +1916,9 @@ macOS용 마우스 커스터마이징 도구로, 스크롤 방향, 속도, 버�
 &lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;echo&lt;/span&gt; &lt;span style="color:#f1fa8c"&gt;&amp;#34;file1 file2 file3&amp;#34;&lt;/span&gt; | xargs ls -l
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;&lt;code&gt;file1&lt;/code&gt;, &lt;code&gt;file2&lt;/code&gt;, &lt;code&gt;file3&lt;/code&gt;을 &lt;code&gt;ls -l&lt;/code&gt;의 인수로 전달하여 파일의 상세 정보를 출력합니다.&lt;/p&gt;</description></item><item><title>Git 커밋 메시지 수정</title><link>https://cdecl.github.io/dev/git-rebase-commit-message-edit-guide/</link><pubDate>Sat, 26 Oct 2024 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/git-rebase-commit-message-edit-guide/</guid><description>&lt;p&gt;Git 커밋 메시지 수정&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;file1&lt;/code&gt;, &lt;code&gt;file2&lt;/code&gt;, &lt;code&gt;file3&lt;/code&gt;을 &lt;code&gt;ls -l&lt;/code&gt;의 인수로 전달하여 파일의 상세 정보를 출력합니다.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;</description></item><item><title>Git 커밋 메시지 수정</title><link>https://cdecl.github.io/dev/git-rebase-commit-message-edit-guide/</link><pubDate>Sat, 26 Oct 2024 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/git-rebase-commit-message-edit-guide/</guid><description>&lt;p&gt;Git 커밋 메시지 수정&lt;/p&gt;
 &lt;h2 id="git-커밋-메시지-수정-가이드"&gt;Git 커밋 메시지 수정 가이드&lt;/h2&gt;
 &lt;p&gt;Git을 사용하다 보면 커밋 메시지를 수정해야 할 경우가 자주 발생합니다.&lt;br&gt;
 이 글에서는 가장 기본적인 방법부터 고급 기술까지 모든 커밋 메시지 수정 방법을 다루겠습니다.&lt;/p&gt;
@@ -2001,7 +2174,8 @@ TLS는 SSL(Secure Sockets Layer) 프로토콜의 후속 버전으로, 웹 브라
 &lt;li&gt;&lt;strong&gt;무결성&lt;/strong&gt;: 전송 데이터의 변조를 방지&lt;/li&gt;
 &lt;/ul&gt;
 &lt;blockquote&gt;
-&lt;p&gt;TLS는 HTTP, SMTP, IMAP 등 다양한 프로토콜의 보안 계층으로 사용됩니다. TLS 1.0/1.1은 더 이상 권장되지 않으며, 현재는 TLS 1.2와 가장 최신 표준인 TLS 1.3이 널리 사용되고 있습니다. 특히 TLS 1.3은 이전 버전 대비 보안성과 성능이 크게 향상되었습니다.&lt;/p&gt;</description></item><item><title>GNU C++로 정적 라이브러리 링크하는 방법</title><link>https://cdecl.github.io/dev/g++-static/</link><pubDate>Sun, 25 Feb 2024 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/g++-static/</guid><description>&lt;p&gt;GNU C++ 프로그램에서 정적 라이브러리를 링크하는 방법&lt;/p&gt;
+&lt;p&gt;TLS는 HTTP, SMTP, IMAP 등 다양한 프로토콜의 보안 계층으로 사용됩니다. TLS 1.0/1.1은 더 이상 권장되지 않으며, 현재는 TLS 1.2와 가장 최신 표준인 TLS 1.3이 널리 사용되고 있습니다. 특히 TLS 1.3은 이전 버전 대비 보안성과 성능이 크게 향상되었습니다.&lt;/p&gt;
+&lt;/blockquote&gt;</description></item><item><title>GNU C++로 정적 라이브러리 링크하는 방법</title><link>https://cdecl.github.io/dev/g++-static/</link><pubDate>Sun, 25 Feb 2024 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/g++-static/</guid><description>&lt;p&gt;GNU C++ 프로그램에서 정적 라이브러리를 링크하는 방법&lt;/p&gt;
 &lt;h2 id="정적-라이브러리-사용"&gt;정적 라이브러리 사용&lt;/h2&gt;
 &lt;h3 id="사용-시-고려-사항"&gt;사용 시 고려 사항&lt;/h3&gt;
 &lt;ul&gt;
@@ -2083,7 +2257,8 @@ TLS는 SSL(Secure Sockets Layer) 프로토콜의 후속 버전으로, 웹 브라
 &lt;h2 id="nfd와-nfc"&gt;NFD와 NFC&lt;/h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;&lt;strong&gt;유니코드&lt;/strong&gt;는 다양한 언어와 문자를 일관되게 표현하기 위한 국제 표준입니다. 하지만 동일한 문자라도 운영 체제나 시스템에 따라 &lt;strong&gt;다른 유니코드 정규화 방식&lt;/strong&gt;(NFD, NFC)으로 저장되거나 처리될 수 있습니다.&lt;br&gt;
-이는 파일 시스템, 데이터베이스, 문자열 비교 등에서 예상치 못한 문제를 일으킬 수 있습니다.&lt;/p&gt;</description></item><item><title>Ollama를 이용한 Mistral 로컬 실행 가이드</title><link>https://cdecl.github.io/devops/ollama-mistral/</link><pubDate>Sat, 27 Jan 2024 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/ollama-mistral/</guid><description>&lt;p&gt;ollama, ollama-webui, mistral 설치 및 테스트&lt;/p&gt;
+이는 파일 시스템, 데이터베이스, 문자열 비교 등에서 예상치 못한 문제를 일으킬 수 있습니다.&lt;/p&gt;
+&lt;/blockquote&gt;</description></item><item><title>Ollama를 이용한 Mistral 로컬 실행 가이드</title><link>https://cdecl.github.io/devops/ollama-mistral/</link><pubDate>Sat, 27 Jan 2024 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/ollama-mistral/</guid><description>&lt;p&gt;ollama, ollama-webui, mistral 설치 및 테스트&lt;/p&gt;
 &lt;h2 id="ollama"&gt;Ollama&lt;/h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;OLLAMA는 Open Large Language Model for AI Applications의 약자로, Google AI에서 개발한 대규모 언어 모델 (LLM)입니다.
@@ -2130,7 +2305,8 @@ OLLAMA는 텍스트 생성, 번역, 질문 응답 등 다양한 AI 애플리케�
 &lt;p&gt;Mistral은 최근에 개발된 대형 언어 모델 중 하나입니다.
 이 모델은 7.3 billion 개의 파라미터를 가지고 있으며, 자연어 처리 분야에서 매우 높은 성능을 보입니다.
 Mistral은 다양한 자연어 처리 작업에서 사용될 수 있습니다.
-예를 들어, 이 모델은 텍스트 생성, 기계 번역, 질문 응답, 감성 분석 등의 작업에 사용될 수 있습니다.&lt;/p&gt;</description></item><item><title>DuckDB, CSV에서 MySQL로의 ETL</title><link>https://cdecl.github.io/devops/etl-csv-to-mysql/</link><pubDate>Thu, 25 Jan 2024 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/etl-csv-to-mysql/</guid><description>&lt;p&gt;DuckDB를 ETL 도구로 활용 : CSV 데이터 → MySQL&lt;/p&gt;
+예를 들어, 이 모델은 텍스트 생성, 기계 번역, 질문 응답, 감성 분석 등의 작업에 사용될 수 있습니다.&lt;/p&gt;
+&lt;/blockquote&gt;</description></item><item><title>DuckDB, CSV에서 MySQL로의 ETL</title><link>https://cdecl.github.io/devops/etl-csv-to-mysql/</link><pubDate>Thu, 25 Jan 2024 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/etl-csv-to-mysql/</guid><description>&lt;p&gt;DuckDB를 ETL 도구로 활용 : CSV 데이터 → MySQL&lt;/p&gt;
 &lt;h2 id="duckdb를-통한-csv-데이터를-mysql로-etl-하는-방법"&gt;DuckDB를 통한 CSV 데이터를 MySQL로 ETL 하는 방법&lt;/h2&gt;
 &lt;h3 id="etl이란"&gt;ETL이란?&lt;/h3&gt;
 &lt;ul&gt;
@@ -2237,7 +2413,8 @@ Mistral은 다양한 자연어 처리 작업에서 사용될 수 있습니다.
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ act --env-file my.env --secret-file my.secrets
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;blockquote&gt;
 &lt;p&gt;Github Actions 와 모든것이 호환되지는 않음 (e.g. 스케쥴)
-테스트 및 개발 용도로 사용 적합&lt;/p&gt;</description></item><item><title>OrbStack</title><link>https://cdecl.github.io/devops/orbstack/</link><pubDate>Tue, 25 Apr 2023 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/orbstack/</guid><description>&lt;p&gt;Docker Desktop 대체제, Docker containers and Linux machines on macOS&lt;/p&gt;
+테스트 및 개발 용도로 사용 적합&lt;/p&gt;
+&lt;/blockquote&gt;</description></item><item><title>OrbStack</title><link>https://cdecl.github.io/devops/orbstack/</link><pubDate>Tue, 25 Apr 2023 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/orbstack/</guid><description>&lt;p&gt;Docker Desktop 대체제, Docker containers and Linux machines on macOS&lt;/p&gt;
 &lt;h2 id="orbstack"&gt;OrbStack&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="https://orbstack.dev/"&gt;https://orbstack.dev/&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
@@ -2306,7 +2483,15 @@ Mistral은 다양한 자연어 처리 작업에서 사용될 수 있습니다.
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id="header-추출"&gt;Header 추출&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;
-&lt;p&gt;CSV 파일의 헤더(keys)를 추출하기 위해 다음과 같은 명령어를 사용&lt;/p&gt;</description></item><item><title>K3s traefik ingress</title><link>https://cdecl.github.io/devops/k3s-traefik-ingress/</link><pubDate>Tue, 23 Aug 2022 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/k3s-traefik-ingress/</guid><description>&lt;p&gt;K3s traefik ingress 사용 서비스 테스트&lt;/p&gt;
+&lt;p&gt;CSV 파일의 헤더(keys)를 추출하기 위해 다음과 같은 명령어를 사용&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;keys_unsorted&lt;/code&gt;는 객체의 키들을 정렬하지 않고 반환하는 함수이고,&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;@csv&lt;/code&gt;는 배열을 CSV 형식으로 출력하는 필터입니다.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;</description></item><item><title>K3s traefik ingress</title><link>https://cdecl.github.io/devops/k3s-traefik-ingress/</link><pubDate>Tue, 23 Aug 2022 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/k3s-traefik-ingress/</guid><description>&lt;p&gt;K3s traefik ingress 사용 서비스 테스트&lt;/p&gt;
 &lt;h2 id="traefik-ingress"&gt;traefik ingress&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;traefik : &lt;a href="https://cdecl.github.io/devops/traefik-proxy/"&gt;https://cdecl.github.io/devops/traefik-proxy/&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
@@ -2404,7 +2589,8 @@ Mistral은 다양한 자연어 처리 작업에서 사용될 수 있습니다.
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;port&lt;/span&gt;:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;number&lt;/span&gt;: &lt;span style="color:#bd93f9"&gt;80&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;blockquote&gt;
-&lt;p&gt;Ingress 가 Proxy 역할로 X-Forwarded-For 등이 추가됨&lt;/p&gt;</description></item><item><title>trino(presto) nested json 예제</title><link>https://cdecl.github.io/devops/presto-json-nested/</link><pubDate>Tue, 23 Aug 2022 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/presto-json-nested/</guid><description>&lt;p&gt;trino(presto) nested json 를 처리하기 위한 table schema 예제&lt;/p&gt;
+&lt;p&gt;Ingress 가 Proxy 역할로 X-Forwarded-For 등이 추가됨&lt;/p&gt;
+&lt;/blockquote&gt;</description></item><item><title>trino(presto) nested json 예제</title><link>https://cdecl.github.io/devops/presto-json-nested/</link><pubDate>Tue, 23 Aug 2022 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/presto-json-nested/</guid><description>&lt;p&gt;trino(presto) nested json 를 처리하기 위한 table schema 예제&lt;/p&gt;
 &lt;h2 id="trinopresto---create-table"&gt;trino(presto) - create table&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;row : json object (nested json) 타입을 위한 sub column 정의&lt;/li&gt;
@@ -2631,7 +2817,25 @@ Mistral은 다양한 자연어 처리 작업에서 사용될 수 있습니다.
 &lt;li&gt;심볼릭 링크 연결 → &lt;code&gt;--follow&lt;/code&gt;, &lt;code&gt;-L&lt;/code&gt; 로 연결&lt;/li&gt;
 &lt;/ul&gt;
 &lt;blockquote&gt;
-&lt;p&gt;전체 필터링을 회피하기 (단계별) → &lt;code&gt;-u&lt;/code&gt; or &lt;code&gt;-uu&lt;/code&gt; or &lt;code&gt;-uuu&lt;/code&gt; (quivalent to &amp;lsquo;grep -r&amp;rsquo;)&lt;/p&gt;</description></item><item><title>Ansible dynamic inventory - AWS EC2</title><link>https://cdecl.github.io/devops/ansible-dynamic-inventory-aws-ec2/</link><pubDate>Sat, 16 Jul 2022 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/ansible-dynamic-inventory-aws-ec2/</guid><description>&lt;p&gt;Ansible &lt;code&gt;aws_ec2&lt;/code&gt; plugin 활용, AWS EC2 동적 Inventory 구성&lt;/p&gt;
+&lt;p&gt;전체 필터링을 회피하기 (단계별) → &lt;code&gt;-u&lt;/code&gt; or &lt;code&gt;-uu&lt;/code&gt; or &lt;code&gt;-uuu&lt;/code&gt; (quivalent to &amp;lsquo;grep -r&amp;rsquo;)&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;수동 필터링 : glob &lt;code&gt;-g '*.toml'&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;UTF-8 이외의 텍스트 인코딩으로 파일 검색 지원&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;비슷한 타입의 파일을 묶음 검색 지원 &lt;code&gt;--type-list&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Visual Studio Code 에 탑재 됨 : &lt;a href="https://code.visualstudio.com/updates/v1_11#_text-search-improvements"&gt;https://code.visualstudio.com/updates/v1_11#_text-search-improvements&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;비슷한 다른 도구에 비해 가장 빠른 성능을 보임&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;</description></item><item><title>Ansible dynamic inventory - AWS EC2</title><link>https://cdecl.github.io/devops/ansible-dynamic-inventory-aws-ec2/</link><pubDate>Sat, 16 Jul 2022 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/ansible-dynamic-inventory-aws-ec2/</guid><description>&lt;p&gt;Ansible &lt;code&gt;aws_ec2&lt;/code&gt; plugin 활용, AWS EC2 동적 Inventory 구성&lt;/p&gt;
 &lt;h2 id="ansible-plugin--aws_ec2"&gt;Ansible plugin : &lt;code&gt;aws_ec2&lt;/code&gt;&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="https://docs.ansible.com/ansible/2.9/plugins/inventory/aws_ec2.html"&gt;https://docs.ansible.com/ansible/2.9/plugins/inventory/aws_ec2.html&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
@@ -2900,7 +3104,8 @@ Mistral은 다양한 자연어 처리 작업에서 사용될 수 있습니다.
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Memory usage: 162.4M out of 912.5M
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Mounts: --
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;blockquote&gt;
-&lt;p&gt;기본 설정으로 Instance 생성시, Disk 등의 리소스가 부족 할 수 있음&lt;/p&gt;</description></item><item><title>Neovim, vim-plug 설정</title><link>https://cdecl.github.io/devops/nvim-plug/</link><pubDate>Mon, 27 Jun 2022 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/nvim-plug/</guid><description>&lt;p&gt;Neovim 설치 및 vim-plug 설정으로 개발, 운영 환경 구성&lt;/p&gt;
+&lt;p&gt;기본 설정으로 Instance 생성시, Disk 등의 리소스가 부족 할 수 있음&lt;/p&gt;
+&lt;/blockquote&gt;</description></item><item><title>Neovim, vim-plug 설정</title><link>https://cdecl.github.io/devops/nvim-plug/</link><pubDate>Mon, 27 Jun 2022 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/nvim-plug/</guid><description>&lt;p&gt;Neovim 설치 및 vim-plug 설정으로 개발, 운영 환경 구성&lt;/p&gt;
 &lt;h2 id="neovim"&gt;Neovim&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="https://github.com/neovim/neovim"&gt;https://github.com/neovim/neovim&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
@@ -2927,7 +3132,8 @@ Mistral은 다양한 자연어 처리 작업에서 사용될 수 있습니다.
 &lt;li&gt;&lt;a href="https://github.com/junegunn/vim-plug"&gt;https://github.com/junegunn/vim-plug&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
 &lt;/ul&gt;
 &lt;blockquote&gt;
-&lt;p&gt;vim의 Vumdle과 같은 Minimalist Vim Plugin Manager&lt;/p&gt;</description></item><item><title>Traefik Proxy</title><link>https://cdecl.github.io/devops/traefik-proxy/</link><pubDate>Sat, 05 Mar 2022 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/traefik-proxy/</guid><description>&lt;p&gt;Docker 기반 서비스 자동 감지 및 요청을 처리하는 Reverse proxy&lt;/p&gt;
+&lt;p&gt;vim의 Vumdle과 같은 Minimalist Vim Plugin Manager&lt;/p&gt;
+&lt;/blockquote&gt;</description></item><item><title>Traefik Proxy</title><link>https://cdecl.github.io/devops/traefik-proxy/</link><pubDate>Sat, 05 Mar 2022 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/traefik-proxy/</guid><description>&lt;p&gt;Docker 기반 서비스 자동 감지 및 요청을 처리하는 Reverse proxy&lt;/p&gt;
 &lt;h2 id="traefik-proxy"&gt;Traefik Proxy&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="https://doc.traefik.io/traefik/"&gt;https://doc.traefik.io/traefik/&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
@@ -3018,7 +3224,13 @@ Mistral은 다양한 자연어 처리 작업에서 사용될 수 있습니다.
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ├── heads
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; └── tags
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;blockquote&gt;
-&lt;p&gt;💡 추가 정보:&lt;/p&gt;</description></item><item><title>ReaR (Relax &amp; Recover) Basic</title><link>https://cdecl.github.io/devops/rear-basic/</link><pubDate>Mon, 07 Feb 2022 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/rear-basic/</guid><description>&lt;p&gt;ReaR(Relax &amp;amp; Recover), Linux 재해 복구 도구&lt;/p&gt;
+&lt;p&gt;💡 추가 정보:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;--mirror&lt;/code&gt;는 모든 refs(브랜치, 태그, 참조)를 포함하여 정확히 복제&lt;/li&gt;
+&lt;li&gt;대용량 저장소의 경우 네트워크 대역폭과 디스크 공간을 충분히 고려해야 함&lt;/li&gt;
+&lt;li&gt;개인 프로젝트나 백업 목적에 가장 적합&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;</description></item><item><title>ReaR (Relax &amp; Recover) Basic</title><link>https://cdecl.github.io/devops/rear-basic/</link><pubDate>Mon, 07 Feb 2022 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/rear-basic/</guid><description>&lt;p&gt;ReaR(Relax &amp;amp; Recover), Linux 재해 복구 도구&lt;/p&gt;
 &lt;h2 id="rear"&gt;ReaR&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="https://relax-and-recover.org/"&gt;https://relax-and-recover.org/&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
@@ -3131,7 +3343,8 @@ BACKUP_URL=nfs://192.168.137.100/storage/rear
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;hr&gt;
 &lt;h4 id="복구-실행"&gt;복구 실행&lt;/h4&gt;
 &lt;blockquote&gt;
-&lt;p&gt;백업된 rescue media (iso)로 부팅을 한 후, 복구 모드로 실행&lt;/p&gt;</description></item><item><title>Kustomize Basic</title><link>https://cdecl.github.io/devops/kustomize-basic/</link><pubDate>Wed, 15 Dec 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/kustomize-basic/</guid><description>&lt;p&gt;kubernetes manifest 리소스 관리 도구&lt;/p&gt;
+&lt;p&gt;백업된 rescue media (iso)로 부팅을 한 후, 복구 모드로 실행&lt;/p&gt;
+&lt;/blockquote&gt;</description></item><item><title>Kustomize Basic</title><link>https://cdecl.github.io/devops/kustomize-basic/</link><pubDate>Wed, 15 Dec 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/kustomize-basic/</guid><description>&lt;p&gt;kubernetes manifest 리소스 관리 도구&lt;/p&gt;
 &lt;h2 id="kustomize"&gt;Kustomize&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="https://kubernetes.io/ko/docs/tasks/manage-kubernetes-objects/kustomization/"&gt;https://kubernetes.io/ko/docs/tasks/manage-kubernetes-objects/kustomization/&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
@@ -3163,7 +3376,8 @@ BACKUP_URL=nfs://192.168.137.100/storage/rear
 &lt;li&gt;&lt;code&gt;patchesStrategicMerge&lt;/code&gt; : resources의 Patch 파일&lt;/li&gt;
 &lt;/ul&gt;
 &lt;blockquote&gt;
-&lt;p&gt;Patch : yaml file merge&lt;/p&gt;</description></item><item><title>C++ Lambda 표현식</title><link>https://cdecl.github.io/dev/c++-lambda/</link><pubDate>Tue, 14 Dec 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/c++-lambda/</guid><description>&lt;p&gt;C++14, C++17, C++20 버전별 Lambda 표현 정리&lt;/p&gt;
+&lt;p&gt;Patch : yaml file merge&lt;/p&gt;
+&lt;/blockquote&gt;</description></item><item><title>C++ Lambda 표현식</title><link>https://cdecl.github.io/dev/c++-lambda/</link><pubDate>Tue, 14 Dec 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/c++-lambda/</guid><description>&lt;p&gt;C++14, C++17, C++20 버전별 Lambda 표현 정리&lt;/p&gt;
 &lt;h2 id="the-evolutions-of-lambdas-in-c14-c17-and-c20"&gt;The Evolutions of Lambdas in C++14, C++17 and C++20&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="https://www.fluentcpp.com/2021/12/13/the-evolutions-of-lambdas-in-c14-c17-and-c20/"&gt;https://www.fluentcpp.com/2021/12/13/the-evolutions-of-lambdas-in-c14-c17-and-c20/&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
@@ -4258,7 +4472,8 @@ backend
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;mvcapp-svc-78ff4d97f9-hd9rf 1/1 Running &lt;span style="color:#bd93f9"&gt;0&lt;/span&gt; 37s
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;mvcapp-svc-78ff4d97f9-x4984 1/1 Running &lt;span style="color:#bd93f9"&gt;0&lt;/span&gt; 37s
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;blockquote&gt;
-&lt;p&gt;KS3 &lt;code&gt;export KUBECONFIG=/etc/rancher/k3s/k3s.yaml&lt;/code&gt; 세팅&lt;/p&gt;</description></item><item><title>Python asyncio</title><link>https://cdecl.github.io/dev/python-asyncio/</link><pubDate>Sun, 31 Oct 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/python-asyncio/</guid><description>&lt;p&gt;&lt;code&gt;asyncio&lt;/code&gt;는 &lt;code&gt;async&lt;/code&gt;/&lt;code&gt;await&lt;/code&gt; 구문을 사용하여 동시성 코드를 작성하는 라이브러리입니다. 특히 I/O 작업이 많은 애플리케이션에서 높은 성능을 발휘합니다.&lt;/p&gt;
+&lt;p&gt;KS3 &lt;code&gt;export KUBECONFIG=/etc/rancher/k3s/k3s.yaml&lt;/code&gt; 세팅&lt;/p&gt;
+&lt;/blockquote&gt;</description></item><item><title>Python asyncio</title><link>https://cdecl.github.io/dev/python-asyncio/</link><pubDate>Sun, 31 Oct 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/python-asyncio/</guid><description>&lt;p&gt;&lt;code&gt;asyncio&lt;/code&gt;는 &lt;code&gt;async&lt;/code&gt;/&lt;code&gt;await&lt;/code&gt; 구문을 사용하여 동시성 코드를 작성하는 라이브러리입니다. 특히 I/O 작업이 많은 애플리케이션에서 높은 성능을 발휘합니다.&lt;/p&gt;
 &lt;h2 id="asyncio--asynchronous-io-처리"&gt;asyncio : asynchronous io 처리&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="https://docs.python.org/ko/3/library/asyncio.html"&gt;https://docs.python.org/ko/3/library/asyncio.html&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
@@ -4343,7 +4558,8 @@ backend
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;blockquote&gt;
-&lt;p&gt;&lt;code&gt;STATEMENT&lt;/code&gt; 경우 &lt;code&gt;ISOLATION LEVEL&lt;/code&gt;이 &lt;code&gt;READ-COMMITTED&lt;/code&gt; 경우 복구시, Dirty Read 에 의한 일관성이 문제가 될 수 있음&lt;/p&gt;</description></item><item><title>Keepalived Basic</title><link>https://cdecl.github.io/devops/keepalived-basic/</link><pubDate>Mon, 25 Oct 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/keepalived-basic/</guid><description>&lt;p&gt;Loadbalancing &amp;amp; High-Availability 를 위한 Keepalived 설정 및 테스트&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;STATEMENT&lt;/code&gt; 경우 &lt;code&gt;ISOLATION LEVEL&lt;/code&gt;이 &lt;code&gt;READ-COMMITTED&lt;/code&gt; 경우 복구시, Dirty Read 에 의한 일관성이 문제가 될 수 있음&lt;/p&gt;
+&lt;/blockquote&gt;</description></item><item><title>Keepalived Basic</title><link>https://cdecl.github.io/devops/keepalived-basic/</link><pubDate>Mon, 25 Oct 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/keepalived-basic/</guid><description>&lt;p&gt;Loadbalancing &amp;amp; High-Availability 를 위한 Keepalived 설정 및 테스트&lt;/p&gt;
 &lt;h2 id="keepalived"&gt;Keepalived&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="https://www.keepalived.org/"&gt;https://www.keepalived.org/&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
@@ -4442,7 +4658,8 @@ virtual_ipaddress {
 }
 }
 &lt;/code&gt;&lt;/pre&gt;&lt;blockquote&gt;
-&lt;p&gt;&lt;code&gt;MASTER&lt;/code&gt; 노드에 우선순위 &lt;code&gt;priority 210&lt;/code&gt; 를 높게 줌&lt;/p&gt;</description></item><item><title>Oracle, Sqlldr</title><link>https://cdecl.github.io/devops/oracle-sqlldr/</link><pubDate>Mon, 18 Oct 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/oracle-sqlldr/</guid><description>&lt;p&gt;Oracle 대량 Bulk Insert Tool&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;MASTER&lt;/code&gt; 노드에 우선순위 &lt;code&gt;priority 210&lt;/code&gt; 를 높게 줌&lt;/p&gt;
+&lt;/blockquote&gt;</description></item><item><title>Oracle, Sqlldr</title><link>https://cdecl.github.io/devops/oracle-sqlldr/</link><pubDate>Mon, 18 Oct 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/oracle-sqlldr/</guid><description>&lt;p&gt;Oracle 대량 Bulk Insert Tool&lt;/p&gt;
 &lt;h2 id="구성요소"&gt;구성요소&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;Control File : &lt;code&gt;sqlldr&lt;/code&gt; 명령행을 실행하기 위한 제어, 설정 파일&lt;/li&gt;
@@ -4988,7 +5205,8 @@ TRAILING NULLCOLS
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;hr&gt;
 &lt;h2 id="설치-방법-1--inventory_builder"&gt;설치 방법 1 : &lt;code&gt;inventory_builder&lt;/code&gt;&lt;/h2&gt;
 &lt;blockquote&gt;
-&lt;p&gt;&lt;code&gt;inventory_builder&lt;/code&gt; Python script 활용 inventory 구성 및 설치&lt;/p&gt;</description></item><item><title>C++20 Modules - gnu c++ test</title><link>https://cdecl.github.io/dev/c++-modules-gcc/</link><pubDate>Fri, 03 Sep 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/c++-modules-gcc/</guid><description>&lt;p&gt;C++ Modules Test Example (g++)&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;inventory_builder&lt;/code&gt; Python script 활용 inventory 구성 및 설치&lt;/p&gt;
+&lt;/blockquote&gt;</description></item><item><title>C++20 Modules - gnu c++ test</title><link>https://cdecl.github.io/dev/c++-modules-gcc/</link><pubDate>Fri, 03 Sep 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/c++-modules-gcc/</guid><description>&lt;p&gt;C++ Modules Test Example (g++)&lt;/p&gt;
 &lt;h2 id="c20-modules"&gt;C++20 Modules&lt;/h2&gt;
 &lt;p&gt;C++20에 추가된 모듈 &lt;code&gt;Modules&lt;/code&gt; 기능은 기존의 헤더 파일 &lt;code&gt;#include&lt;/code&gt;로 인한 컴파일 시간 증가 문제를 해결하고, 필요한 로직(함수, 심볼)만을 내보내는(export) 방식을 통해 타 언어의 모듈 단위처럼 효율적인 라이브러리 관리를 지원합니다.&lt;/p&gt;
 &lt;h3 id="modules의-주요-장점"&gt;Modules의 주요 장점&lt;/h3&gt;
@@ -5000,7 +5218,8 @@ TRAILING NULLCOLS
 &lt;/ul&gt;
 &lt;blockquote&gt;
 &lt;p&gt;일종의 PCH(Precompiled Header)의 기능을 포함한 표준적인 모듈 관리 기능입니다.&lt;br&gt;
-현재 컴파일러마다 (MSVC, g++, Clang) Standard Library 지원과 모듈 사용 방법이 약간 상이합니다.&lt;/p&gt;</description></item><item><title>Docker install without docker desktop (WSL)</title><link>https://cdecl.github.io/devops/docker-install-without-docker-decktop/</link><pubDate>Tue, 31 Aug 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/docker-install-without-docker-decktop/</guid><description>&lt;p&gt;WSL2 에 Docker 설치 (without Docker Desktop)&lt;/p&gt;
+현재 컴파일러마다 (MSVC, g++, Clang) Standard Library 지원과 모듈 사용 방법이 약간 상이합니다.&lt;/p&gt;
+&lt;/blockquote&gt;</description></item><item><title>Docker install without docker desktop (WSL)</title><link>https://cdecl.github.io/devops/docker-install-without-docker-decktop/</link><pubDate>Tue, 31 Aug 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/docker-install-without-docker-decktop/</guid><description>&lt;p&gt;WSL2 에 Docker 설치 (without Docker Desktop)&lt;/p&gt;
 &lt;h2 id="docker-desktop"&gt;Docker Desktop&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="https://www.docker.com/blog/updating-product-subscriptions/"&gt;Docker Desktop 유료화&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
@@ -5295,7 +5514,8 @@ $ build
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;blockquote&gt;
-&lt;p&gt;&lt;code&gt;winlibs&lt;/code&gt;가 버전이 높고 &lt;code&gt;mingw&lt;/code&gt;는 버전인 올라가면서 posix thread가 문제가 있음&lt;/p&gt;</description></item><item><title>Docker 내부 네트워크 상태 확인</title><link>https://cdecl.github.io/devops/docker-internal-network/</link><pubDate>Thu, 26 Aug 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/docker-internal-network/</guid><description>&lt;h2 id="netstat"&gt;netstat&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;winlibs&lt;/code&gt;가 버전이 높고 &lt;code&gt;mingw&lt;/code&gt;는 버전인 올라가면서 posix thread가 문제가 있음&lt;/p&gt;
+&lt;/blockquote&gt;</description></item><item><title>Docker 내부 네트워크 상태 확인</title><link>https://cdecl.github.io/devops/docker-internal-network/</link><pubDate>Thu, 26 Aug 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/docker-internal-network/</guid><description>&lt;h2 id="netstat"&gt;netstat&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;Host 머신에서 &lt;code&gt;netstat&lt;/code&gt; 명령으로 docker container의 네트워크 상태가 확인 안됨
 &lt;ul&gt;
@@ -5343,7 +5563,8 @@ $ build
 &lt;li&gt;격리되어 있는 &lt;strong&gt;n&lt;/strong&gt;ame&lt;strong&gt;s&lt;/strong&gt;pace &lt;strong&gt;enter&lt;/strong&gt; 진입하는 명령&lt;/li&gt;
 &lt;/ul&gt;
 &lt;blockquote&gt;
-&lt;p&gt;It is a small tool allowing to enter into namespaces. Technically, it can enter existing namespaces, or spawn a process into a new set of namespaces.&lt;/p&gt;</description></item><item><title>Golang, Cgo</title><link>https://cdecl.github.io/dev/golang-cgo/</link><pubDate>Mon, 23 Aug 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/golang-cgo/</guid><description>&lt;p&gt;Cgo enables the creation of Go packages that call C code.&lt;/p&gt;
+&lt;p&gt;It is a small tool allowing to enter into namespaces. Technically, it can enter existing namespaces, or spawn a process into a new set of namespaces.&lt;/p&gt;
+&lt;/blockquote&gt;</description></item><item><title>Golang, Cgo</title><link>https://cdecl.github.io/dev/golang-cgo/</link><pubDate>Mon, 23 Aug 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/dev/golang-cgo/</guid><description>&lt;p&gt;Cgo enables the creation of Go packages that call C code.&lt;/p&gt;
 &lt;h2 id="cgo"&gt;Cgo&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="https://pkg.go.dev/cmd/cgo"&gt;https://pkg.go.dev/cmd/cgo&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
@@ -7013,7 +7234,8 @@ kms perform KMS management operations
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;localhost mysql.sys
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;localhost root
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;blockquote&gt;
-&lt;p&gt;mysql: [Warning] Using a password on the command line interface can be insecure.&lt;/p&gt;</description></item><item><title>ElasticSearch to MySQL ETL</title><link>https://cdecl.github.io/devops/elasticsearch-to-mysql/</link><pubDate>Sun, 15 Aug 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/elasticsearch-to-mysql/</guid><description>&lt;p&gt;ElasticSearch to MySQL ETL&lt;/p&gt;
+&lt;p&gt;mysql: [Warning] Using a password on the command line interface can be insecure.&lt;/p&gt;
+&lt;/blockquote&gt;</description></item><item><title>ElasticSearch to MySQL ETL</title><link>https://cdecl.github.io/devops/elasticsearch-to-mysql/</link><pubDate>Sun, 15 Aug 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/elasticsearch-to-mysql/</guid><description>&lt;p&gt;ElasticSearch to MySQL ETL&lt;/p&gt;
 &lt;h2 id="준비"&gt;준비&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;curl&lt;/code&gt; : Http 기반 ElasticSearch Query (SQL)&lt;/li&gt;

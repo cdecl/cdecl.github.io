@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Grep on cdeclog</title><link>https://cdecl.github.io/tags/grep/</link><description>Recent content in Grep on cdeclog</description><generator>Hugo -- 0.166.0</generator><language>ko-kr</language><lastBuildDate>Tue, 20 May 2025 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/grep/index.xml" rel="self" type="application/rss+xml"/><item><title>정규 표현식(BRE, ERE, PCRE) 기능 비교 및 명령어 지원 가이드</title><link>https://cdecl.github.io/devops/regexp-bre-ere-pcre/</link><pubDate>Tue, 20 May 2025 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/regexp-bre-ere-pcre/</guid><description>&lt;p&gt;정규 표현식(BRE, ERE, PCRE) 기능 비교 및 명령어 지원 가이드&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Grep on cdeclog</title><link>https://cdecl.github.io/tags/grep/</link><description>Recent content in Grep on cdeclog</description><generator>Hugo -- 0.167.0</generator><language>ko-kr</language><lastBuildDate>Tue, 20 May 2025 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/grep/index.xml" rel="self" type="application/rss+xml"/><item><title>정규 표현식(BRE, ERE, PCRE) 기능 비교 및 명령어 지원 가이드</title><link>https://cdecl.github.io/devops/regexp-bre-ere-pcre/</link><pubDate>Tue, 20 May 2025 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/regexp-bre-ere-pcre/</guid><description>&lt;p&gt;정규 표현식(BRE, ERE, PCRE) 기능 비교 및 명령어 지원 가이드&lt;/p&gt;
 &lt;h2 id="1-정규-표현식이란"&gt;1. 정규 표현식이란?&lt;/h2&gt;
 &lt;p&gt;정규 표현식(Regular Expression, Regex)은 텍스트 패턴을 검색, 치환, 검증하는 데 사용되는 강력한 도구입니다.&lt;br&gt;
 POSIX 기반의 BRE(Basic Regular Expressions), ERE(Extended Regular Expressions), 그리고 Perl 호환 PCRE(Perl-Compatible Regular Expressions)는 각각 다른 기능과 지원 범위를 제공합니다.&lt;/p&gt;
@@ -122,7 +122,22 @@ POSIX 기반의 BRE(Basic Regular Expressions), ERE(Extended Regular Expressions
 &lt;h2 id="4-모범-사례"&gt;4. 모범 사례&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;
-&lt;p&gt;&lt;strong&gt;POSIX 우선&lt;/strong&gt;: 이식성을 위해 BRE/ERE 사용.&lt;/p&gt;</description></item><item><title>ripgrep, rg</title><link>https://cdecl.github.io/devops/ripgrep/</link><pubDate>Wed, 27 Jul 2022 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/ripgrep/</guid><description>&lt;p&gt;하위 디렉토리에서 정규식 패턴을 재귀적으로 검색하는 라인 지향 검색 도구&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;POSIX 우선&lt;/strong&gt;: 이식성을 위해 BRE/ERE 사용.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;grep -E &lt;span style="color:#f1fa8c"&gt;&amp;#39;a(b+|c)d&amp;#39;&lt;/span&gt; file.txt
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;PCRE 활용&lt;/strong&gt;: 복잡한 패턴은 &lt;code&gt;ripgrep&lt;/code&gt; 또는 GNU grep의 &lt;code&gt;-P&lt;/code&gt; 사용.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;rg &lt;span style="color:#f1fa8c"&gt;&amp;#39;a(?=b)c&amp;#39;&lt;/span&gt; file.txt
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;명시적 옵션&lt;/strong&gt;: 정규 표현식 유형 명시.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sed -E &lt;span style="color:#f1fa8c"&gt;&amp;#39;s/a(b+|c)d/x\1y/&amp;#39;&lt;/span&gt; file.txt
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;플랫폼 테스트&lt;/strong&gt;: GNU/Linux와 BSD/macOS에서 호환성 확인.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;echo&lt;/span&gt; &lt;span style="color:#f1fa8c"&gt;&amp;#34;abbc&amp;#34;&lt;/span&gt; | rg &lt;span style="color:#f1fa8c"&gt;&amp;#39;a(b+|c)d&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;/ul&gt;</description></item><item><title>ripgrep, rg</title><link>https://cdecl.github.io/devops/ripgrep/</link><pubDate>Wed, 27 Jul 2022 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/ripgrep/</guid><description>&lt;p&gt;하위 디렉토리에서 정규식 패턴을 재귀적으로 검색하는 라인 지향 검색 도구&lt;/p&gt;
 &lt;h2 id="ripgrep"&gt;ripgrep&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="https://github.com/BurntSushi/ripgrep"&gt;https://github.com/BurntSushi/ripgrep&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
@@ -142,4 +157,22 @@ POSIX 기반의 BRE(Basic Regular Expressions), ERE(Extended Regular Expressions
 &lt;li&gt;심볼릭 링크 연결 → &lt;code&gt;--follow&lt;/code&gt;, &lt;code&gt;-L&lt;/code&gt; 로 연결&lt;/li&gt;
 &lt;/ul&gt;
 &lt;blockquote&gt;
-&lt;p&gt;전체 필터링을 회피하기 (단계별) → &lt;code&gt;-u&lt;/code&gt; or &lt;code&gt;-uu&lt;/code&gt; or &lt;code&gt;-uuu&lt;/code&gt; (quivalent to &amp;lsquo;grep -r&amp;rsquo;)&lt;/p&gt;</description></item></channel></rss>
+&lt;p&gt;전체 필터링을 회피하기 (단계별) → &lt;code&gt;-u&lt;/code&gt; or &lt;code&gt;-uu&lt;/code&gt; or &lt;code&gt;-uuu&lt;/code&gt; (quivalent to &amp;lsquo;grep -r&amp;rsquo;)&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;수동 필터링 : glob &lt;code&gt;-g '*.toml'&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;UTF-8 이외의 텍스트 인코딩으로 파일 검색 지원&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;비슷한 타입의 파일을 묶음 검색 지원 &lt;code&gt;--type-list&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Visual Studio Code 에 탑재 됨 : &lt;a href="https://code.visualstudio.com/updates/v1_11#_text-search-improvements"&gt;https://code.visualstudio.com/updates/v1_11#_text-search-improvements&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;비슷한 다른 도구에 비해 가장 빠른 성능을 보임&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;</description></item></channel></rss>

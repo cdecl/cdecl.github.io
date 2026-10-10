@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>K3s on cdeclog</title><link>https://cdecl.github.io/tags/k3s/</link><description>Recent content in K3s on cdeclog</description><generator>Hugo -- 0.166.0</generator><language>ko-kr</language><lastBuildDate>Tue, 23 Aug 2022 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/k3s/index.xml" rel="self" type="application/rss+xml"/><item><title>K3s traefik ingress</title><link>https://cdecl.github.io/devops/k3s-traefik-ingress/</link><pubDate>Tue, 23 Aug 2022 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/k3s-traefik-ingress/</guid><description>&lt;p&gt;K3s traefik ingress 사용 서비스 테스트&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>K3s on cdeclog</title><link>https://cdecl.github.io/tags/k3s/</link><description>Recent content in K3s on cdeclog</description><generator>Hugo -- 0.167.0</generator><language>ko-kr</language><lastBuildDate>Tue, 23 Aug 2022 00:00:00 +0900</lastBuildDate><atom:link href="https://cdecl.github.io/tags/k3s/index.xml" rel="self" type="application/rss+xml"/><item><title>K3s traefik ingress</title><link>https://cdecl.github.io/devops/k3s-traefik-ingress/</link><pubDate>Tue, 23 Aug 2022 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/k3s-traefik-ingress/</guid><description>&lt;p&gt;K3s traefik ingress 사용 서비스 테스트&lt;/p&gt;
 &lt;h2 id="traefik-ingress"&gt;traefik ingress&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;traefik : &lt;a href="https://cdecl.github.io/devops/traefik-proxy/"&gt;https://cdecl.github.io/devops/traefik-proxy/&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
@@ -96,7 +96,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;port&lt;/span&gt;:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;number&lt;/span&gt;: &lt;span style="color:#bd93f9"&gt;80&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;blockquote&gt;
-&lt;p&gt;Ingress 가 Proxy 역할로 X-Forwarded-For 등이 추가됨&lt;/p&gt;</description></item><item><title>Helm chart 생성, 배포</title><link>https://cdecl.github.io/devops/helm-chart-install/</link><pubDate>Wed, 03 Nov 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/helm-chart-install/</guid><description>&lt;p&gt;&lt;code&gt;Kubernetes&lt;/code&gt; 패키지 매니저 도구인 &lt;code&gt;helm&lt;/code&gt;을 통해 &lt;code&gt;chart&lt;/code&gt; 생성 및 &lt;code&gt;Kubernetes&lt;/code&gt; 배포&lt;/p&gt;
+&lt;p&gt;Ingress 가 Proxy 역할로 X-Forwarded-For 등이 추가됨&lt;/p&gt;
+&lt;/blockquote&gt;</description></item><item><title>Helm chart 생성, 배포</title><link>https://cdecl.github.io/devops/helm-chart-install/</link><pubDate>Wed, 03 Nov 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/helm-chart-install/</guid><description>&lt;p&gt;&lt;code&gt;Kubernetes&lt;/code&gt; 패키지 매니저 도구인 &lt;code&gt;helm&lt;/code&gt;을 통해 &lt;code&gt;chart&lt;/code&gt; 생성 및 &lt;code&gt;Kubernetes&lt;/code&gt; 배포&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;K3S 환경에서 테스트&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -396,7 +397,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;mvcapp-svc-78ff4d97f9-hd9rf 1/1 Running &lt;span style="color:#bd93f9"&gt;0&lt;/span&gt; 37s
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;mvcapp-svc-78ff4d97f9-x4984 1/1 Running &lt;span style="color:#bd93f9"&gt;0&lt;/span&gt; 37s
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;blockquote&gt;
-&lt;p&gt;KS3 &lt;code&gt;export KUBECONFIG=/etc/rancher/k3s/k3s.yaml&lt;/code&gt; 세팅&lt;/p&gt;</description></item><item><title>K3S Overview</title><link>https://cdecl.github.io/devops/k3s-overview/</link><pubDate>Tue, 17 Aug 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/k3s-overview/</guid><description>&lt;p&gt;Lightweight Kubernetes : The certified Kubernetes distribution built for IoT &amp;amp; Edge computing&lt;/p&gt;
+&lt;p&gt;KS3 &lt;code&gt;export KUBECONFIG=/etc/rancher/k3s/k3s.yaml&lt;/code&gt; 세팅&lt;/p&gt;
+&lt;/blockquote&gt;</description></item><item><title>K3S Overview</title><link>https://cdecl.github.io/devops/k3s-overview/</link><pubDate>Tue, 17 Aug 2021 00:00:00 +0900</pubDate><guid>https://cdecl.github.io/devops/k3s-overview/</guid><description>&lt;p&gt;Lightweight Kubernetes : The certified Kubernetes distribution built for IoT &amp;amp; Edge computing&lt;/p&gt;
 &lt;h3 id="특징"&gt;특징&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="https://k3s.io/"&gt;https://k3s.io/&lt;/a&gt;{:target=&amp;quot;_blank&amp;quot;}&lt;/li&gt;
