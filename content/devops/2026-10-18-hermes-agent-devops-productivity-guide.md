@@ -16,17 +16,31 @@ tags:
 
 ## 1. /learn과 함께 알아야 할 필수 명령어 생태계
 
-Hermes Agent는 단순한 대화형 인터페이스를 넘어 터미널 세션의 실행 컨텍스트, 메모리, 서브 에이전트 분기, 백그라운드 데몬을 정밀하게 제어할 수 있는 슬래시 명령어들을 제공합니다. 목적별로 분류해 살펴보겠습니다.
+Hermes Agent는 단순한 질의응답 챗봇을 넘어, 터미널 세션의 실행 컨텍스트, 메모리, 서브 에이전트 분기, 백그라운드 데몬을 정밀하게 제어할 수 있는 다양한 슬래시 명령어를 제공합니다.
 
-| 학습 / 기억 / 재사용 | 품질 & 생산성 | 자동화 / 반복 | 세션 / 컨텍스트 |
+### 📊 필수 명령어 요약 (Summary Table)
+
+| 분류 | 명령어 | 핵심 기능 설명 | 대표 실행 예시 |
 | :--- | :--- | :--- | :--- |
-| `/learn` | `/init` | `/cron` | `/btw` |
-| `/refine` | `/plan` | `/loop` | `/context all` |
-| `/journey` | `/review` | `/bg` | `/sessions` |
-| `/skills` | `/branch`, `/fork` | `Quick Commands` | `/prompt` |
-| `/memory` | `/moa` | | `/bundles` |
-
-
+| **A. 학습·기억·재사용** | `/learn` | 세션에서 성공한 작업을 재사용 가능한 `SKILL.md`로 자동 변환·저장 | `/learn Turn this into a reusable skill` |
+| | `/refine` | 누적된 스킬과 메모리의 오류·개선점을 스스로 재검토하여 지식 정제 | `/refine focus on recurring debugging` |
+| | `/journey` | 스킬 및 메모리 축적 히스토리를 시각화하고 불필요한 노드 정리 | `/journey list`, `/journey edit <node>` |
+| | `/skills` | 설치된 스킬 탐색, 브라우징, 검색 및 핫 리로드 | `/skills search k8s`, `/reload-skills` |
+| | `/memory` | 에이전트의 장기 기억 쓰기 승인 게이트를 켜서 지식 오염 방지 | `/memory approval on`, `/memory pending` |
+| **B. 품질 & 생산성** | `/init` | 리포지토리 분석 후 프로젝트 지침서(`AGENTS.md`) 자동 생성 및 갱신 | `/init Focus on build, test, deploy` |
+| | `/plan` | 실제 코드 수정 전 마크다운 구현 계획 및 영향도 분석을 선행 수립 | `/plan Refactor Terraform modules` |
+| | `/review` | 독립적인 서브 에이전트로 변경 사항(diff)을 감사하고 보안 검증 | `/review Check edge cases & security` |
+| | `/branch` (`/fork`) | 기존 세션 맥락을 보존하면서 대안적 구현 방식을 실험 분기 | `/fork --here alternative-approach` |
+| | `/moa` | Mixture of Agents로 여러 관점의 트레이드오프를 병렬 비교 | `/moa Design rate-limit fallback` |
+| **C. 반복 & 자동화** | `/cron` | 주기적인 인프라 점검 및 정보 수집 작업을 정기 예약 실행 | `/cron add "every day at 9am" "..."` |
+| | `/loop` | 종료 조건 만족 시까지 일정 주기로 인프라/배포 상태를 반복 폴링 | `/loop 5m Check deployment health` |
+| | `/bg` | 대규모 모노레포 분석, 취약점 점검을 백그라운드로 비동기 위임 | `/bg Analyze flaky integration tests` |
+| | `Quick Commands` | `~/.hermes/config.yaml`에 자주 쓰는 셸 단축 명령어 등록 | `/gitstatus`, `/kpods` |
+| **D. 세션 & 컨텍스트** | `/btw` | 메인 작업 흐름을 끊지 않고 단발성 사이드 질문 격리 처리 | `/btw is this flag supported on macOS?` |
+| | `/context all` | 토큰을 과도하게 차지하는 스킬·도구·히스토리 점검 및 최적화 | `/context all` |
+| | `/sessions` / `/save` | 이전 작업 세션 복귀 및 중요 트러블슈팅 세션 영구 보관 | `/sessions`, `/save incident-postmortem` |
+| | `/prompt` | `$EDITOR`(Neovim, VS Code)를 열어 장문 요구사항을 편하게 작성 | `/prompt` |
+| | `/bundles` / `/tools` | 도메인별 스킬 일괄 로드 및 활성화된 도구 목록 확인 | `/bundles`, `/tools` |
 
 ---
 
@@ -34,184 +48,105 @@ Hermes Agent는 단순한 대화형 인터페이스를 넘어 터미널 세션�
 
 에이전트가 시간이 지날수록 똑똑해지려면 새로운 스킬을 등록하는 것만큼이나 **기존 지식을 정제하고 오염된 기억을 격리하는 관리 체계**가 필수적입니다.
 
-#### 1. `/refine` — 스스로 개선점 검토 (강력 추천 ⭐)
-누적된 작업 이력과 피드백을 바탕으로 등록된 메모리나 스킬의 개선점을 에이전트가 자체적으로 검토하도록 지시합니다.
-
-```bash
-/refine
-/refine focus on recurring debugging workflows
-/refine evaluate docker build optimization skills
-```
-
-- **핵심 역할:** `/learn`이 일회성 경험을 '스킬 초안'으로 굳히는 작업이라면, `/refine`은 실전에서 여러 번 쓰이며 쌓인 엣지 케이스와 오류 로그를 반영해 지식의 완성도를 높이는 **지속적 리팩터링 도구**입니다.
-
-#### 2. `/journey` — 학습 이력 시각화 및 관리
-지금까지 에이전트가 축적해 온 스킬 생성, 수정, 메모리 등록 히스토리를 그래프/목록 형태로 시각화합니다.
-
-```bash
-/journey
-/journey list
-/journey edit <node>
-```
-
-- **활용 팁:** 오래되어 변경된 사내 배포 URL이나 더 이상 쓰지 않는 구버전 CLI 플래그가 메모리에 남아 환각을 유발할 때, 불필요한 노드를 정리(Prune)하기에 최적입니다.
-
-#### 3. `/skills` — 스킬 탐색·설치·관리
-로컬(`~/.hermes/skills/`) 및 워크스페이스에 설치된 스킬을 검색하고 제어합니다.
-
-```bash
-/skills list
-/skills browse
-/skills search <keyword>
-/reload-skills
-```
-
-- **활용 팁:** 새로운 자동화 워크플로우를 처음부터 직접 작성하기 전에 `/skills search k8s` 등으로 기존 생태계에 공개된 스킬이 있는지 먼저 탐색해 보세요. 외부 스킬 파일을 직접 복사해 넣었거나 수정한 뒤에는 `/reload-skills`로 즉시 재색인합니다.
-
-#### 4. `/memory` — 기억 쓰기 승인 관리
-에이전트가 장기 기억(Long-term memory)에 저장하려는 내용을 사람이 직접 승인할 수 있는 게이트키퍼 기능입니다.
-
-```bash
-/memory
-/memory pending
-/memory approval on
-```
-
-> 💡 **DevOps 운영 팁: 메모리 승인 게이트 활성화**  
-> 인프라를 다루는 에이전트에게 비인가 메모리 쓰기를 허용해 두면 일시적인 장애 현상이나 임시 트러블슈팅 우회로(workaround)를 '상시 표준 규칙'으로 오인해 기억해 버릴 수 있습니다. 프로덕션 환경에서는 `/memory approval on`을 켜두어 검증된 운영 지식만 장기 저장소에 안착시키는 것이 안전합니다.
+- **`/refine` (스스로 개선점 검토 ⭐):** 누적된 작업 이력과 피드백을 바탕으로 등록된 메모리나 스킬의 개선점을 에이전트가 자체 재검토합니다. 일회성 `/learn` 스킬을 지속해서 다듬는 리팩터링 도구입니다.
+  ```bash
+  /refine focus on recurring debugging workflows
+  ```
+- **`/journey` (학습 이력 시각화):** 지금까지 에이전트가 축적한 스킬 및 메모리 히스토리를 그래프로 조회하고, 변경된 URL이나 구버전 CLI 플래그 등 낡은 지식 노드를 정리(Prune)합니다.
+  ```bash
+  /journey list
+  /journey edit <node>
+  ```
+- **`/skills` (스킬 탐색·관리):** 로컬 및 워크스페이스에 설치된 스킬을 검색하고 제어합니다. 스킬 파일 수정 후에는 핫 리로드로 즉시 재색인합니다.
+  ```bash
+  /skills search k8s
+  /reload-skills
+  ```
+- **`/memory` (기억 쓰기 승인 관리):** 에이전트가 장기 기억에 저장하려는 내용을 인간이 직접 승인하는 게이트키퍼입니다. 임시 트러블슈팅 우회책이 상시 규칙으로 굳어지는 지식 오염을 방지합니다.
+  ```bash
+  /memory approval on
+  /memory pending
+  ```
 
 ---
 
 ### B. 작업 품질과 개발 생산성 (Engineering Quality)
 
-단순 일괄 실행 대신, 안전한 계획 수립과 관점의 분리를 통해 파괴적 실수를 방지하는 그룹입니다.
+단순 일괄 실행 대신, 안전한 계획 수립과 관점의 분리를 통해 파괴적 실수를 방지합니다.
 
-#### 5. `/init` — 프로젝트 규칙 자동 정리
-현재 작업 디렉토리의 구조, 빌드 시스템, 의존성을 스캔하여 에이전트 지침서인 `AGENTS.md`를 자동 생성하거나 갱신합니다.
-
-```bash
-/init
-/init Focus on build, test, and deployment conventions
-```
-
-- **역할:** 리포지토리별로 파편화된 컨벤션(예: `pnpm` vs `npm`, `pytest` 옵션, 브랜치 네이밍 규칙 등)을 에이전트의 기본 행동 양식으로 고정합니다.
-
-#### 6. `/plan` — 실행 전에 계획만 작성
-실제 파일 쓰기나 터미널 명령어 실행을 보류하고, 마크다운 형식으로 단계별 구현 계획과 영향도 분석서만 도출합니다.
-
-```bash
-/plan Refactor this Terraform module and add state migration plan
-/plan Optimize Dockerfile multi-stage build without breaking dev cache
-```
-
-- **활용 팁:** 인프라 변경(IaC), 대규모 리팩터링, DB 스키마 마이그레이션처럼 되돌리기 힘든 작업을 맡길 때 필수 관문으로 사용합니다.
-
-#### 7. `/review` — 독립적인 코드 리뷰
-현재 세션에서 코드를 작성한 관점과 완전히 분리된 별도의 검토 프롬프트/서브 에이전트로 변경 사항(diff)을 감사(Audit)합니다.
-
-```bash
-/review Check edge cases, security, and test coverage
-/review Audit IAM policy changes for least-privilege violations
-```
-
-- **효과:** 작업 에이전트 특유의 확증 편향(자신이 짠 코드의 예외 상황을 간과하는 문제)을 방지하고 보안 누락을 사전에 차단합니다.
-
-#### 8. `/branch` 또는 `/fork` — 실험용 대화 분기
-현재까지의 대화 맥락과 파일 상태를 유지한 채, 새로운 실험을 위한 가지(Branch)를 칩니다.
-
-```bash
-/branch
-/fork --here alternative-approach
-```
-
-- **활용 팁:** "A方案(라이브러리 업그레이드)과 B方案(자체 패치 구현)" 중 어떤 경로가 적합할지 기존 세션을 오염시키지 않고 나란히 검증할 수 있습니다.
-
-#### 9. `/moa` — 여러 관점으로 결과 비교 (Mixture of Agents)
-여러 에이전트 프리셋이 동일한 요청을 병렬로 분석하고 종합 의견을 제시합니다.
-
-```bash
-/moa Design a robust fallback strategy for Kubernetes ingress rate limits
-```
-
-- **활용 팁:** 아키텍처 트레이드오프 분석이나 고가용성 설계 등 정답이 하나가 아닌 고난도 엔지니어링 의사결정에 적합합니다.
+- **`/init` (프로젝트 규칙 자동 정리):** 현재 디렉토리 구조와 빌드/테스트 스크립트를 스캔하여 프로젝트 전용 지침서인 `AGENTS.md`를 자동 생성합니다.
+  ```bash
+  /init Focus on build, test, and deployment conventions
+  ```
+- **`/plan` (실행 전 계획 선행):** 파일 수정이나 명령 실행을 보류하고, 마크다운 형식으로 단계별 구현 계획과 영향도 분석서만 도출합니다. IaC나 DB 마이그레이션 필수 관문입니다.
+  ```bash
+  /plan Refactor this Terraform module and add state migration plan
+  ```
+- **`/review` (독립적인 코드 리뷰):** 코드를 작성한 에이전트의 확증 편향을 배제하고, 별도의 검토 에이전트로 변경 사항(diff)의 보안·예외 처리를 독립 감사합니다.
+  ```bash
+  /review Check edge cases, security, and test coverage
+  ```
+- **`/branch` / `/fork` (실험용 대화 분기):** 기존 작업 맥락을 유지한 채 새로운 구현 방식이나 라이브러리 교체를 실험할 수 있도록 대화를 분기합니다.
+  ```bash
+  /fork --here alternative-approach
+  ```
+- **`/moa` (Mixture of Agents 다각도 비교):** 여러 모델/에이전트 프리셋으로 동일한 요청을 병렬 처리하여 최적의 아키텍처 트레이드오프를 도출합니다.
+  ```bash
+  /moa Design a robust fallback strategy for Kubernetes ingress rate limits
+  ```
 
 ---
 
 ### C. 반복 업무와 자동화 (Automation & Background)
 
-터미널을 붙잡고 앉아 있지 않아도 에이전트가 정해진 시간이나 상태 조건에 따라 자율적으로 일하도록 위임합니다.
+터미널을 계속 주시하지 않아도 정해진 시간이나 상태 조건에 따라 비동기로 안전하게 작업을 위임합니다.
 
 | 실행 모드 | 주요 명령어 | 담당 역할 및 DevOps 활용 예시 | 특징 및 사용자 상호작용 |
 | :--- | :--- | :--- | :--- |
-| **대화형 세션**<br>*(User Focus)* | 일반 질의 | 코드 작성, 인터랙티브 디버깅, 단발성 프롬프트 질의 | 포그라운드에서 사용자와 실시간 대화 및 확인 |
-| **비동기 백그라운드**<br>*(Background)* | `/bg` | 대규모 모노레포 분석, 취약점 점검, 플래키 테스트 추적 | 별도 세션으로 격리되어 메인 대화 세션을 블로킹하지 않음 |
-| **주기적 데몬 / 폴링**<br>*(Daemon & Loop)* | `/cron`<br>`/loop` | 쿠버네티스 롤아웃 상태 감시, 매일 아침 인프라 리포트 생성 | 지정된 주기나 종료 조건 충족 시까지 자율 반복 후 결과 알림 |
+| **대화형 세션** | 일반 질의 | 코드 작성, 인터랙티브 디버깅, 단발성 프롬프트 질의 | 포그라운드 실시간 대화 및 즉시 확인 |
+| **비동기 백그라운드** | `/bg` | 대규모 모노레포 분석, 취약점 점검, 플래키 테스트 추적 | 별도 세션 격리로 메인 세션 블로킹 없음 |
+| **주기적 데몬 / 폴링** | `/cron`<br>`/loop` | 쿠버네티스 롤아웃 상태 감시, 매일 아침 인프라 리포트 생성 | 지정 주기/조건 충족 시까지 자율 반복 후 알림 |
 
-
-#### 10. `/cron` — 정기 작업 자동 실행
-주기적인 점검이나 정보 수집 작업을 cron 문법 또는 자연어로 스케줄링합니다.
-
-```bash
-/cron add "every day at 9am" "Summarize AI news"
-/cron add "*/30 * * * *" "Check staging cluster pod restart counts and alert if abnormal"
-/cron list
-```
-
-#### 11. `/loop` — 조건을 만족할 때까지 반복
-특정 조건이 충족될 때까지 지정된 간격으로 상태를 검사합니다.
-
-```bash
-/loop 5m Check whether the deployment is healthy
-/loop 1m --times 10 --until "terraform apply finishes" Check status
-/loop status
-/loop stop
-```
-
-> ⚠️ **주의:** 운영 시스템 모니터링 시에는 예상치 못한 루프 누수를 방지하기 위해 `--times`나 `--until` 조건을 함께 지정하는 것이 안전합니다.
-
-#### 12. `/bg` — 오래 걸리는 작업을 백그라운드로 격리
-대화 세션의 블로킹을 막고 별도 비동기 프로세스로 작업을 수행시킵니다.
-
-```bash
-/bg Analyze this monorepo and identify flaky integration tests
-/bg Run security vulnerability scanner against all container images
-```
-
-#### 13. Quick Commands — 나만의 단축 명령어
-`~/.hermes/config.yaml`에 자주 쓰는 셸 명령이나 에이전트 워크플로우를 짧은 슬래시 명령어로 바인딩합니다.
-
-```yaml
-# ~/.hermes/config.yaml
-quick_commands:
-  gitstatus:
-    type: exec
-    command: git status --short
-  kpods:
-    type: exec
-    command: kubectl get pods -A | grep -v -E "Running|Completed"
-  inbox:
-    type: alias
-    target: /gmail unread
-```
-
-설정 후에는 대화창에서 `/gitstatus`나 `/kpods`만 쳐도 즉시 실행됩니다.
+- **`/cron` (정기 작업 자동 예약):** 매일 반복되는 뉴스 요약이나 정기 인프라 점검을 자연어 또는 cron 표현식으로 스케줄링합니다.
+  ```bash
+  /cron add "every day at 9am" "Check staging pods restart count and alert if abnormal"
+  ```
+- **`/loop` (조건 충족 시까지 반복):** 특정 조건이 달성될 때까지 주기적으로 상태를 폴링합니다. (루프 누수 방지를 위해 `--times`나 `--until` 권장)
+  ```bash
+  /loop 1m --times 10 --until "terraform apply finishes" Check status
+  ```
+- **`/bg` (오래 걸리는 작업 백그라운드 위임):** 긴 시간이 소요되는 대규모 저장소 풀스캔, 의존성 취약점 점검을 백그라운드로 넘기고 현재 터미널에서는 다른 작업을 계속합니다.
+  ```bash
+  /bg Analyze this monorepo and identify flaky integration tests
+  ```
+- **`Quick Commands` (나만의 셸 단축 명령어):** `~/.hermes/config.yaml`에 자주 쓰는 터미널 명령어와 에이전트 작업을 바인딩하여 짧은 슬래시 명령어로 즉시 호출합니다.
+  ```yaml
+  # ~/.hermes/config.yaml
+  quick_commands:
+    gitstatus:
+      type: exec
+      command: git status --short
+    kpods:
+      type: exec
+      command: kubectl get pods -A | grep -v -E "Running|Completed"
+  ```
 
 ---
 
 ### D. 대화와 컨텍스트 효율화
 
-에이전트가 둔해지거나 엉뚱한 답을 내놓는 주원인은 대부분 **컨텍스트 오염** 때문입니다.
+에이전트의 답변 품질 저하와 환각은 대부분 **컨텍스트 오염**에서 비롯됩니다. 아래 명령어들로 세션과 토큰을 최적화할 수 있습니다.
 
-| 명령어 | 활용 팁 & DevOps 시나리오 |
+| 명령어 | 핵심 설명 및 활용 팁 |
 | :--- | :--- |
-| `/btw` | **사이드 질문:** 메인 작업 흐름을 끊지 않고 "이 CLI 플래그가 macOS BSD 호환이었나?" 같은 단발성 질문을 격리 처리 |
-| `/context all` | **토큰 누수 점검:** 현재 로드된 스킬, 툴 정의, 대화 히스토리 중 어떤 항목이 컨텍스트를 과도하게 잡아먹고 있는지 확인 |
-| `/sessions` | 작업 세션 목록을 검색하여 어제 디버깅하던 특정 이슈 세션으로 즉시 복귀 |
-| `/save` | 중요한 트러블슈팅 세션을 저장하여 향후 사후 분석(Post-mortem) 문서로 활용 |
-| `/prompt` | 터미널 입력창 대신 `$EDITOR`(Neovim, VS Code 등)를 열어 수십 줄의 상세 요구사항을 편하게 작성 |
+| `/btw` | **사이드 질문:** 메인 작업 흐름을 끊지 않고 단발성 질문(예: BSD 플래그 호환 여부)을 별도로 질의 |
+| `/context all` | **토큰 누수 점검:** 로드된 스킬, 툴 정의, 대화 히스토리 중 컨텍스트를 과도하게 점유하는 항목 확인 |
+| `/sessions` | 이전 작업 세션 목록을 검색하고 특정 트러블슈팅 세션으로 즉시 복귀 |
+| `/save` | 중요한 장애 복구 세션을 저장하여 향후 사후 분석(Post-mortem) 문서로 활용 |
+| `/prompt` | 터미널 대신 `$EDITOR`(Neovim, VS Code)를 열어 장문의 복잡한 요구사항 작성 |
 | `/suggestions` | 에이전트가 작업 중 제안한 자동화 힌트나 개선 사항을 일괄 검토 후 수락 |
-| `/bundles` | 자주 함께 쓰이는 도메인별 스킬(예: `k8s-devops`, `frontend-qa`)을 패키지로 한 번에 로드 |
-| `/reload-mcp` | MCP(Model Context Protocol) 서버 설정이나 도구 스키마를 무중단으로 리로드 |
+| `/bundles` | 자주 함께 쓰이는 도메인별 스킬(예: `k8s-devops`, `frontend-qa`)을 한 번에 로드 |
+| `/reload-mcp` | MCP(Model Context Protocol) 서버 설정 및 도구 스키마를 무중단 재로드 |
 | `/tools` | 현재 활성화된 툴 및 함수 목록과 세부 파라미터 확인 |
 
 ---
