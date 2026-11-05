@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 520" width="100%" height="100%" style="background-color: #0d1117; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <defs>
+    <linearGradient id="grad-step" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#161b22" />
+      <stop offset="100%" stop-color="#21262d" />
+    </linearGradient>
+    <linearGradient id="grad-query" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1f6feb" />
+      <stop offset="100%" stop-color="#388bfd" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#000000" flood-opacity="0.35"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#58a6ff" />
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#3fb950" />
+    </marker>
+    <marker id="arrow-orange" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#f59e0b" />
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="850" height="520" rx="12" fill="#0d1117" stroke="#30363d" stroke-width="2"/>
+
+  <!-- Title & Subtitle -->
+  <text x="425" y="32" fill="#f0f6fc" font-size="18" font-weight="bold" text-anchor="middle">LLM Wiki 5-Step Query &amp; Knowledge Feedback Pipeline</text>
+  <text x="425" y="52" fill="#8b949e" font-size="12" text-anchor="middle">Navigating Structured Concepts &amp; Re-investing Insights into the Wiki</text>
+
+  <!-- Query Ingress (Start) -->
+  <g transform="translate(250, 75)" filter="url(#shadow)">
+    <rect width="350" height="42" rx="8" fill="url(#grad-query)" stroke="#58a6ff" stroke-width="1"/>
+    <text x="175" y="26" fill="#ffffff" font-size="13" font-weight="bold" text-anchor="middle">💬 사용자 질문 인입 (User Query)</text>
+  </g>
+
+  <!-- Arrow Start -> Step 1 -->
+  <path d="M 425 117 L 425 140" stroke="#58a6ff" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Step 1: index.md -->
+  <g transform="translate(180, 145)" filter="url(#shadow)">
+    <rect width="490" height="52" rx="8" fill="url(#grad-step)" stroke="#30363d" stroke-width="1.2"/>
+    <rect x="15" y="14" width="24" height="24" rx="12" fill="#238636"/>
+    <text x="27" y="30" fill="#ffffff" font-size="12" font-weight="bold" text-anchor="middle">1</text>
+    <text x="55" y="24" fill="#58a6ff" font-size="13" font-weight="bold">① index.md 카탈로그 확인</text>
+    <text x="55" y="41" fill="#8b949e" font-size="11">전체 지식 색인에서 어떤 wiki 주제/개념 페이지가 질문과 연관되어 있는지 탐색</text>
+  </g>
+
+  <!-- Arrow Step 1 -> Step 2 -->
+  <path d="M 425 197 L 425 218" stroke="#58a6ff" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Step 2: Load wiki/ pages & link graph -->
+  <g transform="translate(180, 223)" filter="url(#shadow)">
+    <rect width="490" height="52" rx="8" fill="url(#grad-step)" stroke="#30363d" stroke-width="1.2"/>
+    <rect x="15" y="14" width="24" height="24" rx="12" fill="#238636"/>
+    <text x="27" y="30" fill="#ffffff" font-size="12" font-weight="bold" text-anchor="middle">2</text>
+    <text x="55" y="24" fill="#3fb950" font-size="13" font-weight="bold">② wiki/ 개념 및 종합 페이지 로드</text>
+    <text x="55" y="41" fill="#8b949e" font-size="11">핵심 개념 문서를 열고 내부 마크다운 상호 링크([[concept]])를 따라 맥락 확장</text>
+  </g>
+
+  <!-- Arrow Step 2 -> Step 3 -->
+  <path d="M 425 275 L 425 296" stroke="#58a6ff" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Step 3: Raw Cross-Validation -->
+  <g transform="translate(180, 301)" filter="url(#shadow)">
+    <rect width="490" height="52" rx="8" fill="url(#grad-step)" stroke="#30363d" stroke-width="1.2"/>
+    <rect x="15" y="14" width="24" height="24" rx="12" fill="#8957e5"/>
+    <text x="27" y="30" fill="#ffffff" font-size="12" font-weight="bold" text-anchor="middle">3</text>
+    <text x="55" y="24" fill="#bc8cff" font-size="13" font-weight="bold">③ 필요 시 raw/ 원본 교차 검증 (Cross-Validation)</text>
+    <text x="55" y="41" fill="#8b949e" font-size="11">구체적인 수치나 최신 로그, 과거 결정(ADR) 원문과 팩트 일치 여부 대조</text>
+  </g>
+
+  <!-- Arrow Step 3 -> Step 4 -->
+  <path d="M 425 353 L 425 374" stroke="#58a6ff" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Step 4: Answer Generation -->
+  <g transform="translate(180, 379)" filter="url(#shadow)">
+    <rect width="490" height="52" rx="8" fill="url(#grad-step)" stroke="#30363d" stroke-width="1.2"/>
+    <rect x="15" y="14" width="24" height="24" rx="12" fill="#1f6feb"/>
+    <text x="27" y="30" fill="#ffffff" font-size="12" font-weight="bold" text-anchor="middle">4</text>
+    <text x="55" y="24" fill="#58a6ff" font-size="13" font-weight="bold">④ 출처 링크가 달린 감사 가능(Auditable) 답변 생성</text>
+    <text x="55" y="41" fill="#8b949e" font-size="11">wiki 및 raw 출처 주석이 명시된 신뢰할 수 있는 최종 답변을 사용자에게 제공</text>
+  </g>
+
+  <!-- Arrow Step 4 -> Step 5 -->
+  <path d="M 425 431 L 425 450" stroke="#f59e0b" stroke-width="2" marker-end="url(#arrow-orange)"/>
+
+  <!-- Step 5: Knowledge Feedback -->
+  <g transform="translate(180, 455)" filter="url(#shadow)">
+    <rect width="490" height="48" rx="8" fill="#21262d" stroke="#f59e0b" stroke-width="1.5"/>
+    <rect x="15" y="12" width="24" height="24" rx="12" fill="#d97706"/>
+    <text x="27" y="28" fill="#ffffff" font-size="12" font-weight="bold" text-anchor="middle">5</text>
+    <text x="55" y="22" fill="#f59e0b" font-size="12" font-weight="bold">⑤ 지식 환류 (Feedback Loop)</text>
+    <text x="55" y="37" fill="#c9d1d9" font-size="10.5">답변 중 도출된 새로운 인사이트를 wiki/syntheses/ 에 새 페이지로 영구 축적</text>
+  </g>
+
+  <!-- Feedback Arc Curve (Step 5 back to Step 1 & 2) -->
+  <path d="M 670 479 C 770 479, 770 171, 675 171" fill="none" stroke="#f59e0b" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arrow-orange)"/>
+  <text x="765" y="325" fill="#f59e0b" font-size="11" font-weight="bold" text-anchor="middle" transform="rotate(90, 765, 325)">지식 복리 재환류 (Compounding Loop)</text>
+</svg>
