@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 580" width="100%" height="100%" style="background-color: #0d1117; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <defs>
+    <linearGradient id="grad-user" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1f6feb" />
+      <stop offset="100%" stop-color="#388bfd" />
+    </linearGradient>
+    <linearGradient id="grad-hermes" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8957e5" />
+      <stop offset="100%" stop-color="#a371f7" />
+    </linearGradient>
+    <linearGradient id="grad-worker1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#da3633" />
+      <stop offset="100%" stop-color="#f85149" />
+    </linearGradient>
+    <linearGradient id="grad-worker2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#d29922" />
+      <stop offset="100%" stop-color="#e3b341" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.4"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 2 L 10 5 L 0 8 z" fill="#8b949e"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="580" rx="12" fill="#0d1117" stroke="#30363d" stroke-width="2"/>
+
+  <!-- Title -->
+  <text x="400" y="35" fill="#f0f6fc" font-size="20" font-weight="bold" text-anchor="middle">Hermes &amp; Herdr Multi-Agent Orchestration Flow</text>
+  <text x="400" y="55" fill="#8b949e" font-size="13" text-anchor="middle">Natural Language Orchestration with Claude Code &amp; Codex Workers</text>
+
+  <!-- 1. Developer (User) -->
+  <g transform="translate(250, 80)" filter="url(#shadow)">
+    <rect width="300" height="50" rx="8" fill="url(#grad-user)" stroke="#58a6ff" stroke-width="1"/>
+    <text x="150" y="22" fill="#ffffff" font-size="14" font-weight="bold" text-anchor="middle">👨‍💻 Developer (User)</text>
+    <text x="150" y="38" fill="#c9d1d9" font-size="11" text-anchor="middle">Natural Language Goal &amp; Prompts</text>
+  </g>
+
+  <!-- Arrow User to Hermes -->
+  <path d="M 400 130 L 400 170" stroke="#8b949e" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="415" y="155" fill="#8b949e" font-size="11">Prompt</text>
+
+  <!-- 2. Hermes Orchestrator -->
+  <g transform="translate(200, 175)" filter="url(#shadow)">
+    <rect width="400" height="55" rx="8" fill="url(#grad-hermes)" stroke="#d2a8ff" stroke-width="1"/>
+    <text x="200" y="24" fill="#ffffff" font-size="15" font-weight="bold" text-anchor="middle">🧠 Chief Orchestrator: Hermes</text>
+    <text x="200" y="43" fill="#e2c5ff" font-size="11" text-anchor="middle">Task Decomposition &amp; Herdr CLI Control</text>
+  </g>
+
+  <!-- Arrow Hermes to Workspace Container -->
+  <path d="M 400 230 L 400 270" stroke="#8b949e" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="415" y="255" fill="#8b949e" font-size="11">split / start</text>
+
+  <!-- 3. Herdr Workspace Container Box -->
+  <g transform="translate(60, 275)" filter="url(#shadow)">
+    <rect width="680" height="235" rx="10" fill="#161b22" stroke="#30363d" stroke-width="2"/>
+    <text x="25" y="25" fill="#c9d1d9" font-size="13" font-weight="bold">🖥️ Herdr Multiplexer Runtime (Persistent PTY Panes)</text>
+
+    <!-- Worker 1: Claude Code -->
+    <g transform="translate(25, 45)">
+      <rect width="300" height="110" rx="8" fill="url(#grad-worker1)" stroke="#ff7b72" stroke-width="1"/>
+      <text x="150" y="25" fill="#ffffff" font-size="13" font-weight="bold" text-anchor="middle">⚡ Worker 1: Claude Code (claude)</text>
+      <text x="150" y="48" fill="#ffebee" font-size="11" text-anchor="middle">Role: Implementation / Refactoring / Review</text>
+      <line x1="20" y1="60" x2="280" y2="60" stroke="#ffcdd2" stroke-width="0.5" stroke-dasharray="2,2"/>
+      <text x="150" y="80" fill="#ffebee" font-size="10" text-anchor="middle">Pane: w1:p2 | Cwd: /repo</text>
+      <text x="150" y="95" fill="#ffebee" font-size="10" text-anchor="middle">State: working / idle / blocked</text>
+    </g>
+
+    <!-- Worker 2: Codex -->
+    <g transform="translate(355, 45)">
+      <rect width="300" height="110" rx="8" fill="url(#grad-worker2)" stroke="#e3b341" stroke-width="1"/>
+      <text x="150" y="25" fill="#ffffff" font-size="13" font-weight="bold" text-anchor="middle">🛠️ Worker 2: Codex (codex)</text>
+      <text x="150" y="48" fill="#fff9c4" font-size="11" text-anchor="middle">Role: Testing / Build / Log Analysis</text>
+      <line x1="20" y1="60" x2="280" y2="60" stroke="#fff9c4" stroke-width="0.5" stroke-dasharray="2,2"/>
+      <text x="150" y="80" fill="#fff9c4" font-size="10" text-anchor="middle">Pane: w1:p3 | Cwd: /repo</text>
+      <text x="150" y="95" fill="#fff9c4" font-size="10" text-anchor="middle">State: working / idle / blocked</text>
+    </g>
+
+    <!-- Shared Context banner inside container -->
+    <g transform="translate(25, 175)">
+      <rect width="630" height="40" rx="6" fill="#21262d" stroke="#30363d" stroke-width="1"/>
+      <text x="315" y="25" fill="#8b949e" font-size="11" text-anchor="middle">🔄 Shared Workspace Context: Shared Files, Git Diffs &amp; Branch State</text>
+    </g>
+  </g>
+
+  <!-- Return Arrow from Workers / Hermes back to User (side indicator) -->
+  <path d="M 120 275 C 60 275 60 105 240 105" fill="none" stroke="#58a6ff" stroke-width="1.5" stroke-dasharray="4,4" marker-end="url(#arrow)"/>
+  <text x="40" y="195" fill="#58a6ff" font-size="11">Status &amp; Results</text>
+
+</svg>
