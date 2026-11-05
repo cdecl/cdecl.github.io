@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 440" width="100%" height="100%" style="background-color: #0d1117; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <defs>
+    <linearGradient id="grad-kdf" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8957e5" />
+      <stop offset="100%" stop-color="#a371f7" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#000000" flood-opacity="0.35"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#bc8cff" />
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#3fb950" />
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="850" height="440" rx="12" fill="#0d1117" stroke="#30363d" stroke-width="2"/>
+
+  <!-- Title -->
+  <text x="425" y="32" fill="#f0f6fc" font-size="18" font-weight="bold" text-anchor="middle">Argon2id Key Derivation Function (KDF) Pipeline</text>
+  <text x="425" y="52" fill="#8b949e" font-size="12" text-anchor="middle">Transforming Human Passwords into GPU-Resistant 256-bit Cryptographic Keys</text>
+
+  <!-- Inputs Layer (Password + Salt) -->
+  <g transform="translate(130, 75)">
+    <!-- Master Password Box -->
+    <g transform="translate(0, 0)" filter="url(#shadow)">
+      <rect width="270" height="58" rx="8" fill="#161b22" stroke="#58a6ff" stroke-width="1.2"/>
+      <text x="135" y="24" fill="#58a6ff" font-size="12" font-weight="bold" text-anchor="middle">🔑 마스터 비밀번호 (Master Password)</text>
+      <text x="135" y="44" fill="#e6edf3" font-size="11" text-anchor="middle">"MyP@ssw0rd!" (사용자가 기억하는 문자열)</text>
+    </g>
+
+    <!-- Plus sign -->
+    <text x="295" y="36" fill="#f0f6fc" font-size="22" font-weight="bold" text-anchor="middle">+</text>
+
+    <!-- Salt Box -->
+    <g transform="translate(320, 0)" filter="url(#shadow)">
+      <rect width="270" height="58" rx="8" fill="#161b22" stroke="#d29922" stroke-width="1.2"/>
+      <text x="135" y="24" fill="#e3b341" font-size="12" font-weight="bold" text-anchor="middle">🧂 고유 소금값 (Cryptographic Salt)</text>
+      <text x="135" y="44" fill="#e6edf3" font-size="11" text-anchor="middle">"user@email.com" 및 무작위 엔트로피</text>
+    </g>
+  </g>
+
+  <!-- Arrow down to KDF -->
+  <path d="M 425 133 L 425 168" stroke="#bc8cff" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+  <!-- Core KDF: Argon2id Engine Block -->
+  <g transform="translate(130, 175)" filter="url(#shadow)">
+    <rect width="590" height="140" rx="10" fill="#161b22" stroke="#8957e5" stroke-width="1.8"/>
+    <rect x="20" y="14" width="550" height="32" rx="6" fill="url(#grad-kdf)"/>
+    <text x="295" y="35" fill="#ffffff" font-size="14" font-weight="bold" text-anchor="middle">⚙️ 키 유도 함수: Argon2id (Memory-Hard Function)</text>
+
+    <!-- Details Inside KDF -->
+    <g transform="translate(30, 60)">
+      <text x="0" y="18" fill="#7ee787" font-size="12" font-weight="bold">🧠 메모리 장악 (Memory-Hard):</text>
+      <text x="205" y="18" fill="#c9d1d9" font-size="12">수십~수백 MB의 RAM을 강제로 점유 → GPU 병렬 연산 원천 마비</text>
+
+      <text x="0" y="42" fill="#79c0ff" font-size="12" font-weight="bold">🔄 반복 연산 (Time Cost):</text>
+      <text x="205" y="42" fill="#c9d1d9" font-size="12">수천 회 이상의 비가역적 압축 해시 반복으로 무차별 대입 지연</text>
+
+      <text x="0" y="66" fill="#ffa657" font-size="12" font-weight="bold">🛡️ 사이드 채널 방어:</text>
+      <text x="205" y="66" fill="#c9d1d9" font-size="12">데이터 독립/의존 메모리 접근을 혼합하여 하드웨어 타이밍 공격 차단</text>
+    </g>
+  </g>
+
+  <!-- Arrow down to Key -->
+  <path d="M 425 315 L 425 348" stroke="#3fb950" stroke-width="2.5" marker-end="url(#arrow-green)"/>
+
+  <!-- Output 256-bit Key Box -->
+  <g transform="translate(180, 355)" filter="url(#shadow)">
+    <rect width="490" height="60" rx="8" fill="#21262d" stroke="#238636" stroke-width="1.5"/>
+    <text x="245" y="24" fill="#3fb950" font-size="13" font-weight="bold" text-anchor="middle">🔐 256-bit 마스터 암호화 키 (Master Encryption Key)</text>
+    <text x="245" y="44" fill="#8b949e" font-size="11" text-anchor="middle">2^256가지의 초고밀도 난수 조합 (현존 슈퍼컴퓨터로도 해독 불가)</text>
+  </g>
+</svg>

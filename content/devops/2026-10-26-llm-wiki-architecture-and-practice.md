@@ -22,15 +22,7 @@ tags:
 
 RAG와 LLM Wiki의 가장 큰 차이는 **지식의 종합(Synthesis)이 일어나는 시점**입니다.
 
-```text
-[전통적인 RAG 방식]
-원문 수집 -> 청킹 & 벡터 임베딩
-질문 발생 -> 청크 유사도 검색 -> 매번 프롬프트 안에서 새로 종합 (질문 끝나면 휘발)
-
-[LLM Wiki 방식]
-원문 수집 -> LLM이 읽고 종합(Synthesis) -> 상호 링크된 마크다운 위키 갱신 (지식 영구 누적)
-질문 발생 -> 이미 잘 정돈된 wiki 인덱스와 개념 페이지를 읽고 답변 -> 새 통찰은 위키에 재환류
-```
+![RAG vs LLM Wiki Architecture Comparison](/images/llm-wiki-vs-rag-architecture.svg)
 
 | 구분 | RAG | LLM Wiki |
 | :--- | :--- | :--- |
@@ -225,24 +217,7 @@ raw/projects/payments-v2/
 
 질의가 들어왔을 때 LLM은 다음과 같은 루프로 답변을 도출합니다.
 
-```text
-질문 인입
-  │
-  ▼
-① [index.md 확인] ─── 전체 카탈로그에서 어떤 wiki 페이지가 연관되어 있는가?
-  │
-  ▼
-② [wiki 페이지 로드] ── 관련 개념/종합 페이지를 열고 링크 관계를 따라 확장 탐색
-  │
-  ▼
-③ [필요 시 raw 교차 검증] ── 구체적 데이터나 근거 수치가 맞는지 raw 원본 대조
-  │
-  ▼
-④ [답변 생성] ────────── 반드시 wiki/raw 출처 링크가 달린 감사 가능한 답변 생성
-  │
-  ▼
-⑤ [지식 환류(Feedback)] ── 통찰력 있는 분석 답변은 wiki/syntheses/ 에 새 페이지로 영구 저장
-```
+![LLM Wiki 5-Step Query & Knowledge Feedback Pipeline](/images/llm-wiki-lifecycle-flow.svg)
 
 질문의 결과가 단순 소비로 끝나지 않고 다시 위키의 자산이 되는 **'복리 구조(Compounding Knowledge)'**가 핵심입니다.
 

@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 480" width="100%" height="100%" style="background-color: #0d1117; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <defs>
+    <linearGradient id="grad-hermes" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8957e5" />
+      <stop offset="100%" stop-color="#a371f7" />
+    </linearGradient>
+    <linearGradient id="grad-claude" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#d97706" />
+      <stop offset="100%" stop-color="#f59e0b" />
+    </linearGradient>
+    <linearGradient id="grad-codex" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2563eb" />
+      <stop offset="100%" stop-color="#3b82f6" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#000000" flood-opacity="0.4"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#58a6ff" />
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#3fb950" />
+    </marker>
+    <marker id="arrow-purple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#bc8cff" />
+    </marker>
+  </defs>
+
+  <!-- Card Background -->
+  <rect width="850" height="480" rx="12" fill="#0d1117" stroke="#30363d" stroke-width="2"/>
+
+  <!-- Title & Subtitle -->
+  <text x="425" y="34" fill="#f0f6fc" font-size="18" font-weight="bold" text-anchor="middle">Hermes &amp; Herdr: Sequential Relay Pipeline</text>
+  <text x="425" y="54" fill="#8b949e" font-size="12" text-anchor="middle">Implementation Agent (Claude Code) → Cross-Verification &amp; Test Relay (Codex)</text>
+
+  <!-- Participant Lifeline Columns -->
+  <!-- Hermes -->
+  <line x1="160" y1="125" x2="160" y2="435" stroke="#30363d" stroke-width="2" stroke-dasharray="4 4"/>
+  <!-- Claude -->
+  <line x1="425" y1="125" x2="425" y2="435" stroke="#30363d" stroke-width="2" stroke-dasharray="4 4"/>
+  <!-- Codex -->
+  <line x1="690" y1="125" x2="690" y2="435" stroke="#30363d" stroke-width="2" stroke-dasharray="4 4"/>
+
+  <!-- Participant Headers -->
+  <g transform="translate(60, 75)" filter="url(#shadow)">
+    <rect width="200" height="50" rx="8" fill="url(#grad-hermes)" stroke="#bc8cff" stroke-width="1"/>
+    <text x="100" y="22" fill="#ffffff" font-size="13" font-weight="bold" text-anchor="middle">🧠 Hermes</text>
+    <text x="100" y="38" fill="#e2d9f3" font-size="11" text-anchor="middle">Coordinator (Pane &amp; Prompt)</text>
+  </g>
+
+  <g transform="translate(325, 75)" filter="url(#shadow)">
+    <rect width="200" height="50" rx="8" fill="url(#grad-claude)" stroke="#fcd34d" stroke-width="1"/>
+    <text x="100" y="22" fill="#ffffff" font-size="13" font-weight="bold" text-anchor="middle">⚡ Claude Code</text>
+    <text x="100" y="38" fill="#fef3c7" font-size="11" text-anchor="middle">Builder (API Implementation)</text>
+  </g>
+
+  <g transform="translate(590, 75)" filter="url(#shadow)">
+    <rect width="200" height="50" rx="8" fill="url(#grad-codex)" stroke="#60a5fa" stroke-width="1"/>
+    <text x="100" y="22" fill="#ffffff" font-size="13" font-weight="bold" text-anchor="middle">🛠️ Codex</text>
+    <text x="100" y="38" fill="#dbeafe" font-size="11" text-anchor="middle">Verifier (Unit &amp; E2E Tests)</text>
+  </g>
+
+  <!-- Step 1: Hermes -> Claude (Task Dispatch) -->
+  <g transform="translate(0, 155)">
+    <line x1="160" y1="0" x2="415" y2="0" stroke="#f59e0b" stroke-width="2" marker-end="url(#arrow)"/>
+    <rect x="200" y="-18" width="180" height="22" rx="4" fill="#161b22" stroke="#d97706" stroke-width="1"/>
+    <text x="290" y="-4" fill="#f59e0b" font-size="11" font-weight="600" text-anchor="middle">1. Pane Split &amp; API 구현 지시</text>
+  </g>
+
+  <!-- Note: Claude Working -->
+  <g transform="translate(340, 185)">
+    <rect width="170" height="34" rx="6" fill="#21262d" stroke="#f59e0b" stroke-width="1"/>
+    <text x="85" y="16" fill="#f0f6fc" font-size="11" text-anchor="middle">코드 작성 및 로직 구현</text>
+    <text x="85" y="28" fill="#8b949e" font-size="10" text-anchor="middle">컴파일 및 인터페이스 검증</text>
+  </g>
+
+  <!-- Step 2: Claude -> Hermes (Completion & Diff) -->
+  <g transform="translate(0, 245)">
+    <line x1="425" y1="0" x2="170" y2="0" stroke="#3fb950" stroke-width="2" stroke-dasharray="5 3" marker-end="url(#arrow-green)"/>
+    <rect x="200" y="-18" width="180" height="22" rx="4" fill="#161b22" stroke="#238636" stroke-width="1"/>
+    <text x="290" y="-4" fill="#3fb950" font-size="11" font-weight="600" text-anchor="middle">2. 구현 완료 보고 (git diff 생성)</text>
+  </g>
+
+  <!-- Step 3: Hermes -> Codex (Verification Prompt) -->
+  <g transform="translate(0, 290)">
+    <line x1="160" y1="0" x2="680" y2="0" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrow)"/>
+    <rect x="330" y="-18" width="220" height="22" rx="4" fill="#161b22" stroke="#1d4ed8" stroke-width="1"/>
+    <text x="440" y="-4" fill="#58a6ff" font-size="11" font-weight="600" text-anchor="middle">3. Pane 생성 &amp; 교차 테스트 작성 지시</text>
+  </g>
+
+  <!-- Note: Codex Verifying -->
+  <g transform="translate(605, 320)">
+    <rect width="170" height="34" rx="6" fill="#21262d" stroke="#3b82f6" stroke-width="1"/>
+    <text x="85" y="16" fill="#f0f6fc" font-size="11" text-anchor="middle">diff 분석 후 테스트 케이스 작성</text>
+    <text x="85" y="28" fill="#8b949e" font-size="10" text-anchor="middle">pytest 실행 및 결과 저장</text>
+  </g>
+
+  <!-- Step 4: Codex -> Hermes (Verification Report) -->
+  <g transform="translate(0, 380)">
+    <line x1="690" y1="0" x2="170" y2="0" stroke="#3fb950" stroke-width="2" stroke-dasharray="5 3" marker-end="url(#arrow-green)"/>
+    <rect x="330" y="-18" width="220" height="22" rx="4" fill="#161b22" stroke="#238636" stroke-width="1"/>
+    <text x="440" y="-4" fill="#3fb950" font-size="11" font-weight="600" text-anchor="middle">4. 테스트 리포트 보고 ($OUT/verification.md)</text>
+  </g>
+
+  <!-- Step 5: Hermes Self-Check -->
+  <g transform="translate(160, 410)">
+    <path d="M 0 0 C -40 0, -40 25, -5 25" fill="none" stroke="#bc8cff" stroke-width="2" marker-end="url(#arrow-purple)"/>
+    <rect x="-135" y="7" width="125" height="20" rx="4" fill="#161b22" stroke="#8957e5" stroke-width="1"/>
+    <text x="-72" y="21" fill="#bc8cff" font-size="10" font-weight="600" text-anchor="middle">5. 최종 결과 종합 검증</text>
+  </g>
+</svg>

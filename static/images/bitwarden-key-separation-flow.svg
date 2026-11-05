@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 440" width="100%" height="100%" style="background-color: #0d1117; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <defs>
+    <linearGradient id="grad-top" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1f6feb" />
+      <stop offset="100%" stop-color="#388bfd" />
+    </linearGradient>
+    <linearGradient id="grad-auth" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#30363d" />
+      <stop offset="100%" stop-color="#21262d" />
+    </linearGradient>
+    <linearGradient id="grad-enc" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#238636" />
+      <stop offset="100%" stop-color="#2ea043" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#000000" flood-opacity="0.35"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#58a6ff" />
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#3fb950" />
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="850" height="440" rx="12" fill="#0d1117" stroke="#30363d" stroke-width="2"/>
+
+  <!-- Title & Subtitle -->
+  <text x="425" y="32" fill="#f0f6fc" font-size="18" font-weight="bold" text-anchor="middle">Bitwarden의 키 분리 마법 (Key Separation Architecture)</text>
+  <text x="425" y="52" fill="#8b949e" font-size="12" text-anchor="middle">Separating Authentication Hash from Local Symmetric Encryption Key</text>
+
+  <!-- Step 1: Master Password & Master Key -->
+  <g transform="translate(285, 75)" filter="url(#shadow)">
+    <rect width="280" height="45" rx="8" fill="url(#grad-top)" stroke="#58a6ff" stroke-width="1"/>
+    <text x="140" y="27" fill="#ffffff" font-size="13" font-weight="bold" text-anchor="middle">🔑 마스터 비밀번호 (사용자 입력)</text>
+  </g>
+
+  <!-- Arrow down to Master Key -->
+  <path d="M 425 120 L 425 145" stroke="#bc8cff" stroke-width="2" marker-end="url(#arrow)"/>
+  <rect x="360" y="125" width="130" height="18" rx="4" fill="#161b22" stroke="#8957e5" stroke-width="0.8"/>
+  <text x="425" y="137" fill="#bc8cff" font-size="10" font-weight="bold" text-anchor="middle">Argon2id 연산</text>
+
+  <!-- Master Key Box -->
+  <g transform="translate(265, 150)" filter="url(#shadow)">
+    <rect width="320" height="45" rx="8" fill="#161b22" stroke="#8957e5" stroke-width="1.5"/>
+    <text x="160" y="27" fill="#bc8cff" font-size="13" font-weight="bold" text-anchor="middle">🔐 마스터 키 (Master Key: 256-bit)</text>
+  </g>
+
+  <!-- Split Fork Paths -->
+  <!-- Left Path: Auth Hash -->
+  <path d="M 360 195 L 360 215 L 210 215 L 210 240" fill="none" stroke="#58a6ff" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Right Path: Encryption Key -->
+  <path d="M 490 195 L 490 215 L 640 215 L 640 240" fill="none" stroke="#3fb950" stroke-width="2" marker-end="url(#arrow-green)"/>
+
+  <!-- Left Branch: Authentication Path -->
+  <g transform="translate(40, 245)">
+    <!-- Intermediate hashing -->
+    <rect x="50" y="0" width="240" height="30" rx="6" fill="#21262d" stroke="#30363d" stroke-width="1"/>
+    <text x="170" y="19" fill="#8b949e" font-size="11" font-weight="bold" text-anchor="middle">한 번 더 해싱 (PBKDF2/SHA-256)</text>
+
+    <!-- Arrow down -->
+    <path d="M 170 30 L 170 50" stroke="#58a6ff" stroke-width="2" marker-end="url(#arrow)"/>
+
+    <!-- Final Auth Hash Node -->
+    <g transform="translate(0, 55)" filter="url(#shadow)">
+      <rect width="340" height="95" rx="8" fill="#161b22" stroke="#58a6ff" stroke-width="1.2"/>
+      <text x="170" y="26" fill="#58a6ff" font-size="13" font-weight="bold" text-anchor="middle">마스터 패스워드 해시 (Auth Hash)</text>
+      <text x="170" y="48" fill="#c9d1d9" font-size="11" text-anchor="middle">서버로 전송되어 오직 로그인 검증에만 사용</text>
+      <text x="170" y="66" fill="#79c0ff" font-size="11" text-anchor="middle">(서버는 이 해시로 금고 데이터를 절대 풀 수 없음!)</text>
+      <text x="170" y="82" fill="#8b949e" font-size="10" text-anchor="middle">SRP/API 통신 엔드포인트</text>
+    </g>
+  </g>
+
+  <!-- Right Branch: Symmetric Encryption Path -->
+  <g transform="translate(470, 245)">
+    <!-- Intermediate expansion -->
+    <rect x="50" y="0" width="240" height="30" rx="6" fill="#21262d" stroke="#238636" stroke-width="1"/>
+    <text x="170" y="19" fill="#3fb950" font-size="11" font-weight="bold" text-anchor="middle">암호화 키로 확장 (HKDF Stretch)</text>
+
+    <!-- Arrow down -->
+    <path d="M 170 30 L 170 50" stroke="#3fb950" stroke-width="2" marker-end="url(#arrow-green)"/>
+
+    <!-- Final Enc Key Node -->
+    <g transform="translate(0, 55)" filter="url(#shadow)">
+      <rect width="340" height="95" rx="8" fill="#161b22" stroke="#238636" stroke-width="1.5"/>
+      <text x="170" y="26" fill="#3fb950" font-size="13" font-weight="bold" text-anchor="middle">대칭 암호화 키 (AES-CBC/GCM Key)</text>
+      <text x="170" y="48" fill="#aff5b4" font-size="11" text-anchor="middle">내 단말기 로컬 메모리(RAM)에만 안전 상주</text>
+      <text x="170" y="66" fill="#ffffff" font-size="11" font-weight="bold" text-anchor="middle">실제 개인 데이터(비밀번호/노트)를 복호화</text>
+      <text x="170" y="82" fill="#7ee787" font-size="10" text-anchor="middle">⚠️ 서버는 이 키를 절대 구경도 할 수 없음!</text>
+    </g>
+  </g>
+
+  <!-- Bottom Core Principle Banner -->
+  <g transform="translate(100, 410)">
+    <text x="325" y="12" fill="#8b949e" font-size="11" text-anchor="middle">📌 핵심: 서버 인증용 해시와 데이터 복호화용 암호키를 완전히 격리하여 서버 해킹 시에도 데이터 누출을 원천 방지합니다.</text>
+  </g>
+</svg>

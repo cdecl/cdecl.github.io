@@ -179,21 +179,7 @@ summarizer에게 backend.md와 tester.md를 읽고 공통 원인과 우선순위
 
 단순 병렬 처리가 아니라, 한 에이전트의 산출물이 완료된 후 이를 입력으로 받아 다른 에이전트가 검증하는 **순차 릴레이(Sequential Relay)** 패턴입니다. 구현 에이전트가 작성한 코드에 대한 편향을 제거하기 위해 검증은 별도의 에이전트(Codex)가 전담합니다.
 
-```mermaid
-sequenceDiagram
-    autonumber
-    participant Hermes as 🧠 Hermes (Coordinator)
-    participant Claude as ⚡ Claude Code (builder)
-    participant Codex as 🛠️ Codex (verifier)
-    
-    Hermes->>Claude: Pane 분할 & 신규 API 구현 지시
-    Note over Claude: 코드 작성 및 컴파일 완료
-    Claude-->>Hermes: 작업 완료 보고 (git diff 생성)
-    Hermes->>Codex: Pane 분할 & 최신 변경점 기반 검증 테스트 작성/실행 지시
-    Note over Codex: 단위/통합 테스트 작성 및 실행
-    Codex-->>Hermes: 테스트 성공/실패 리포트 (verification.md)
-    Hermes->>Hermes: 결과 검증 및 후속 조치 판정
-```
+![Sequential Relay Pipeline: Claude to Codex](/images/hermes-herdr-relay-pipeline.svg)
 
 ### CLI
 
@@ -241,18 +227,7 @@ verifier 작업이 끝나면 verification.md를 확인해서 모든 테스트가
 
 운영 환경이나 스테이징에서 에러가 폭증할 때 유용한 패턴입니다. 로그를 역추적해 장애 원인을 규명(RCA)하는 에이전트와, 그 분석 결과를 기반으로 방어 로직 패치를 적용하는 에이전트를 긴밀하게 연계합니다.
 
-```mermaid
-flowchart LR
-    subgraph Log_Analysis ["1단계: 로그 트라이아지"]
-        Codex_SRE["Codex (triager)<br/>에러 로그 파싱 & 원인 규명"] -->|RCA 분석서 생성| RCA_Doc["📄 $OUT/rca.md<br/>원인/재현 페이로드/제안"]
-    end
-    
-    subgraph Hotfix_Patch ["2단계: 핫픽스 적용"]
-        RCA_Doc -->|입력 주입| Claude_Dev["Claude Code (fixer)<br/>방어 코드 패치 & 컴파일"]
-    end
-    
-    Claude_Dev --> Patch_Report["📋 최종 패치 리포트 보고"]
-```
+![Real-time Incident Triage and Emergency Hotfix Workflow](/images/hermes-herdr-incident-triage.svg)
 
 ### CLI
 

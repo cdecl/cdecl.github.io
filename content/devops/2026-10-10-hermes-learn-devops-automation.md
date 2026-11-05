@@ -49,28 +49,7 @@ Hermes Agent는 이 세 가지 원칙을 온전히 구현한 스킬 시스템을
 
 Hermes Agent의 `/learn` 명령어는 방금 끝마친 작업이나 제공된 지침을 분석하여, **재사용 가능한 표준 스킬(`SKILL.md`)**로 자동 변환·저장해 주는 기능입니다.
 
-```
-+-------------------------------------------------------------------------+
-|                              학습 소스 (Input)                           |
-|  - 방금 성공적으로 완료한 복합 업무 세션 대화                            |
-|  - 사용자가 작성한 단계별 업무 매뉴얼 / 메모                             |
-|  - 특정 작업 절차가 담긴 마크다운 문서나 웹 URL                          |
-+-------------------------------------------------------------------------+
-                                    │
-                                    ▼
-+-------------------------------------------------------------------------+
-|                            Hermes /learn 실행                           |
-|  1. 작업 목적과 핵심 트리거(When to Use) 추출                           |
-|  2. 도구(browser, terminal, file_write 등) 호출 순서 및 파라미터 정형화  |
-|  3. agentskills.io 오픈 표준 YAML 프런트매터 구성                       |
-+-------------------------------------------------------------------------+
-                                    │
-                                    ▼ (skill_manage 내부 도구 연동)
-+-------------------------------------------------------------------------+
-|                  ~/.hermes/skills/<skill-name>/SKILL.md                 |
-|  - 평문 마크다운으로 저장되어 언제든 열람, 수정, Git 관리가 가능한 파일    |
-+-------------------------------------------------------------------------+
-```
+![Hermes Learn Pipeline Overview](/images/hermes-learn-pipeline.svg)
 
 ### 2.1 `/learn` 실행 예시
 세션 중에 원하는 작업을 마치거나 지침을 전달한 뒤 간결하게 명령할 수 있습니다:
@@ -88,20 +67,7 @@ Hermes는 전체 세션의 도구 사용 이력(`browser_search`, `read_url`, `w
 
 스킬이 20개, 50개로 늘어나면 프롬프트 토큰이 금방 고갈되지 않을까요? Hermes는 **점진적 공개(Progressive Disclosure)** 설계를 통해 이 문제를 해결합니다.
 
-```
-[1단계: 일상 대화 시]
-시스템 프롬프트에는 스킬 메타데이터 인덱스(이름과 요약 설명)만 로드됨 (매우 가벼운 토큰 소비)
-- daily-tech-digest: Search tech news sources, filter top updates, and write a digest.
-- pdf-invoice-parser: Extract structured data from PDF receipts and append to CSV.
-- git-pr-summarizer: Analyze changes across git branches and draft release notes.
-
-                  │
-                  ▼ 사용자 입력: "오늘자 주요 AI 뉴스 브리핑 파일 만들어줘"
-                  │
-[2단계: 관련 스킬 식별 시]
-에이전트가 'daily-tech-digest'의 설명과 사용자 요청의 일치성을 판단
--> 해당 스킬의 전체 지침서(SKILL.md) 및 보조 스크립트를 온디맨드로 동적 로드하여 정밀 수행!
-```
+![Hermes Skill Progressive Disclosure Architecture](/images/hermes-learn-progressive-disclosure.svg)
 
 이 구조 덕분에 에이전트는 수백 가지의 복잡한 스킬을 보유하고 있어도 평소에는 날렵하게 동작하며, 필요한 순간에만 전문가 수준의 세부 행동 지침을 활성화합니다.
 
