@@ -26,25 +26,7 @@ Herdr는 복수의 AI 코딩 에이전트를 안정적으로 실행, 모니터�
 
 기존 멀티플렉서가 단순히 화면을 여러 패널(Pane)로 쪼개고 PTY(의사 터미널) 바이트 스트림을 전송하는 수준에 머물렀다면, Herdr는 내부에 <strong>에이전트 생명주기 감지 엔진(Agent Lifecycle Engine)</strong>과 <strong>로컬 소켓 IPC API</strong>를 내장하고 있습니다. 이를 통해 에이전트가 사람의 개입을 기다리고 있을 때 즉각 알림을 보내고, 심지어 에이전트가 다른 에이전트의 패널을 프로그래밍 방식으로 제어할 수 있도록 지원합니다.
 
-```text
-[전통적인 Tmux 환경]
-+------------------------------------------------------+
-| tmux server (블라인드 바이트 스트림 전달)               |
-|  - Pane 1: bash (Claude Code 실행 중 - 상태 모름)      |
-|  - Pane 2: bash (Codex 실행 중 - 프롬프트 대기 중?)     |
-|  - Pane 3: bash (테스트 실행 중 - 끝났는지 모름)        |
-+------------------------------------------------------+
- * 엔지니어가 각 창을 일일이 눌러보며 상태를 눈으로 확인해야 함
-
-[Herdr 환경]
-+------------------------------------------------------+
-| Herdr Server & Daemon (Agent Runtime & Socket API)   |
-|  - Pane 1: [Claude Code] ⚡ Working (토큰 생성 중)     |
-|  - Pane 2: [Codex]       ⏸️ Blocked (사용자 승인 대기) -> OS 알림 발송 |
-|  - Pane 3: [Unit Test]   ✅ Done (성공 종료)           |
-+------------------------------------------------------+
- * Socket API를 통해 에이전트가 상호 소통하거나 새 창을 직접 스폰 가능
-```
+![Traditional Tmux vs Agent-Aware Herdr Architecture](/images/herdr-vs-tmux-architecture.svg)
 
 ---
 

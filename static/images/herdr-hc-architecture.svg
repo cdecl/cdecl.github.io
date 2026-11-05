@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520" width="100%" height="100%" style="background-color: #0d1117; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <defs>
+    <linearGradient id="grad-user" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1f6feb" />
+      <stop offset="100%" stop-color="#388bfd" />
+    </linearGradient>
+    <linearGradient id="grad-client" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#238636" />
+      <stop offset="100%" stop-color="#2ea043" />
+    </linearGradient>
+    <linearGradient id="grad-core" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8957e5" />
+      <stop offset="100%" stop-color="#a371f7" />
+    </linearGradient>
+    <linearGradient id="grad-pane" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#da3633" />
+      <stop offset="100%" stop-color="#f85149" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="520" rx="12" fill="#0d1117" stroke="#30363d" stroke-width="2"/>
+
+  <!-- Title -->
+  <text x="400" y="35" fill="#f0f6fc" font-size="20" font-weight="bold" text-anchor="middle">Herdr &amp; HC Architecture Overview</text>
+  <text x="400" y="55" fill="#8b949e" font-size="13" text-anchor="middle">Agent-Aware Terminal Multiplexer &amp; Core Control Flow</text>
+
+  <!-- 1. Top Layer: User / Scripts / AI Agents -->
+  <g transform="translate(150, 80)" filter="url(#shadow)">
+    <rect width="500" height="55" rx="8" fill="url(#grad-user)" stroke="#58a6ff" stroke-width="1"/>
+    <text x="250" y="25" fill="#ffffff" font-size="15" font-weight="bold" text-anchor="middle">Users / Scripts / AI Agents</text>
+    <text x="250" y="43" fill="#c9d1d9" font-size="12" text-anchor="middle">Interactive Input, Orchestration Scripts, Autonomous Agents</text>
+  </g>
+
+  <!-- Arrows Top to Middle -->
+  <path d="M 325 135 L 325 170" stroke="#8b949e" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M 475 135 L 475 170" stroke="#8b949e" stroke-width="2"/>
+
+  <!-- 2. Middle Layer: Clients (TUI vs HC CLI) -->
+  <!-- TUI Client -->
+  <g transform="translate(100, 175)" filter="url(#shadow)">
+    <rect width="270" height="70" rx="8" fill="url(#grad-client)" stroke="#56d364" stroke-width="1"/>
+    <text x="135" y="26" fill="#ffffff" font-size="14" font-weight="bold" text-anchor="middle">herdr (TUI Client)</text>
+    <text x="135" y="45" fill="#e6edf3" font-size="12" text-anchor="middle">Interactive Multiplexer UI / Ovis App</text>
+    <text x="135" y="60" fill="#aff5b4" font-size="11" text-anchor="middle">Visual Workspace &amp; Pane Management</text>
+  </g>
+
+  <!-- HC CLI Client -->
+  <g transform="translate(430, 175)" filter="url(#shadow)">
+    <rect width="270" height="70" rx="8" fill="url(#grad-client)" stroke="#56d364" stroke-width="1"/>
+    <text x="135" y="26" fill="#ffffff" font-size="14" font-weight="bold" text-anchor="middle">hc (Herdr Core CLI)</text>
+    <text x="135" y="45" fill="#e6edf3" font-size="12" text-anchor="middle">Headless Control &amp; Automation Tool</text>
+    <text x="135" y="60" fill="#aff5b4" font-size="11" text-anchor="middle">run, ls, attach, send, wait, read</text>
+  </g>
+
+  <!-- Arrows Middle to IPC -->
+  <path d="M 235 245 L 235 285" stroke="#8b949e" stroke-width="2"/>
+  <path d="M 565 245 L 565 285" stroke="#8b949e" stroke-width="2"/>
+
+  <!-- 3. IPC / Protocol Layer -->
+  <g transform="translate(150, 290)" filter="url(#shadow)">
+    <rect width="500" height="40" rx="6" fill="#21262d" stroke="#f0883e" stroke-width="1.5"/>
+    <text x="250" y="25" fill="#ffa657" font-size="13" font-weight="bold" text-anchor="middle">Local Socket / IPC (OpenRPC Protocol)</text>
+  </g>
+
+  <!-- Arrow IPC to Core -->
+  <path d="M 400 330 L 400 365" stroke="#8b949e" stroke-width="2"/>
+
+  <!-- 4. Core Daemon Layer -->
+  <g transform="translate(150, 370)" filter="url(#shadow)">
+    <rect width="500" height="65" rx="8" fill="url(#grad-core)" stroke="#d2a8ff" stroke-width="1"/>
+    <text x="250" y="24" fill="#ffffff" font-size="14" font-weight="bold" text-anchor="middle">herdr-core Daemon (Engine)</text>
+    <text x="250" y="43" fill="#e2c5ff" font-size="11" text-anchor="middle">PTY Persistence • Agent Lifecycle State Machine (OSC 7501)</text>
+    <text x="250" y="58" fill="#e2c5ff" font-size="11" text-anchor="middle">Screen Buffer &amp; Event Streaming (SSE / NDJSON)</text>
+  </g>
+
+  <!-- Arrows Core to Panes -->
+  <path d="M 270 435 L 200 465" stroke="#8b949e" stroke-width="1.5"/>
+  <path d="M 400 435 L 400 465" stroke="#8b949e" stroke-width="1.5"/>
+  <path d="M 530 435 L 600 465" stroke="#8b949e" stroke-width="1.5"/>
+
+  <!-- 5. Bottom Layer: Panes / Agents -->
+  <g transform="translate(100, 470)">
+    <rect width="180" height="36" rx="6" fill="url(#grad-pane)" stroke="#ff7b72" stroke-width="1"/>
+    <text x="90" y="23" fill="#ffffff" font-size="12" font-weight="bold" text-anchor="middle">Pane: Claude Code</text>
+  </g>
+  <g transform="translate(310, 470)">
+    <rect width="180" height="36" rx="6" fill="url(#grad-pane)" stroke="#ff7b72" stroke-width="1"/>
+    <text x="90" y="23" fill="#ffffff" font-size="12" font-weight="bold" text-anchor="middle">Pane: Codex Agent</text>
+  </g>
+  <g transform="translate(520, 470)">
+    <rect width="180" height="36" rx="6" fill="url(#grad-pane)" stroke="#ff7b72" stroke-width="1"/>
+    <text x="90" y="23" fill="#ffffff" font-size="12" font-weight="bold" text-anchor="middle">Pane: Build / Test</text>
+  </g>
+
+</svg>

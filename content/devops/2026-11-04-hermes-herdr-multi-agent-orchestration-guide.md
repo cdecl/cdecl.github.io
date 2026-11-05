@@ -18,18 +18,7 @@ tags:
 
 이 글에서는 **Hermes Agent**를 총괄 오케스트레이터로 두고, 실제 코딩과 테스트를 수행하는 작업자로 **Claude Code(`claude`)**와 **Codex(`codex`)**를 배치하여 Herdr 환경에서 자연어로 멀티 에이전트를 지휘하는 실전 시나리오 5가지를 정리합니다. 복잡한 CLI 절차를 나열하지 않고 사람에게 일을 맡기듯 지시하는 자연어 프롬프트와, 그 이면에서 Hermes가 Herdr를 제어하는 내부 동작 방식을 함께 살펴봅니다.
 
-```mermaid
-flowchart TD
-    User["👨‍💻 개발자 (자연어 목표 지시)"] -->|자연어 프롬프트| Hermes["🧠 총괄 오케스트레이터: Hermes"]
-    
-    subgraph Herdr_Workspace ["🖥️ Herdr 멀티플렉서 런타임"]
-        Hermes -->|herdr pane split / start| Worker1["⚡ 작업자 1: Claude Code (claude)<br/>구현 / 리팩터링 / 리뷰"]
-        Hermes -->|herdr pane split / start| Worker2["🛠️ 작업자 2: Codex (codex)<br/>테스트 / 빌드 / 로그 분석"]
-        Worker1 <-->|공유 파일 / git diff| Worker2
-    end
-    
-    Hermes -->|상태 모니터링 & 결과 집약| User
-```
+![Hermes & Herdr Multi-Agent Orchestration Flow](/images/hermes-herdr-orchestration.svg)
 
 ---
 
