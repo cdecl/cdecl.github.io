@@ -1,0 +1,160 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 580" width="100%" height="100%" style="background-color: #0d1117; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <defs>
+    <linearGradient id="grad-client" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1f6feb" />
+      <stop offset="100%" stop-color="#388bfd" />
+    </linearGradient>
+    <linearGradient id="grad-server" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#238636" />
+      <stop offset="100%" stop-color="#2ea043" />
+    </linearGradient>
+    <linearGradient id="grad-derp" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8957e5" />
+      <stop offset="100%" stop-color="#a371f7" />
+    </linearGradient>
+    <linearGradient id="grad-p2p" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#d29922" />
+      <stop offset="100%" stop-color="#e3b341" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.5"/>
+    </filter>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#58a6ff" />
+    </marker>
+    <marker id="arrow-purple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#bc8cff" />
+    </marker>
+    <marker id="arrow-orange" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#f0883e" />
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#3fb950" />
+    </marker>
+  </defs>
+
+  <!-- Container Box -->
+  <rect width="880" height="580" rx="14" fill="#0d1117" stroke="#30363d" stroke-width="2"/>
+
+  <!-- Title & Subtitle -->
+  <text x="440" y="38" fill="#f0f6fc" font-size="20" font-weight="bold" text-anchor="middle">Tailcat P2P 통신 매커니즘 &amp; 연결 라이프사이클</text>
+  <text x="440" y="60" fill="#8b949e" font-size="13" text-anchor="middle">No-Control-Plane WireGuard Tunneling (magicsock + DERP + NAT Traversal)</text>
+
+  <!-- Step 0: Out-of-band Address Exchange (Top center) -->
+  <g transform="translate(240, 85)" filter="url(#shadow)">
+    <rect width="400" height="48" rx="8" fill="#161b22" stroke="#e3b341" stroke-width="1.5" stroke-dasharray="4 3"/>
+    <text x="200" y="22" fill="#e3b341" font-size="12" font-weight="bold" text-anchor="middle">① Out-of-band 메타데이터 교환 (Chat / DNS TXT / Console)</text>
+    <text x="200" y="38" fill="#8b949e" font-size="11" text-anchor="middle">서버의 일회성 Tailcat 주소 전달: tc1a2b3c4d5e... (WireGuard 공개키 포함)</text>
+  </g>
+
+  <!-- Left: Client Side -->
+  <g transform="translate(40, 155)" filter="url(#shadow)">
+    <!-- Outer Box -->
+    <rect width="250" height="375" rx="10" fill="#161b22" stroke="#30363d" stroke-width="1.5"/>
+    <rect width="250" height="38" rx="10" fill="url(#grad-client)"/>
+    <rect y="28" width="250" height="10" fill="#1f6feb"/>
+    <text x="125" y="24" fill="#ffffff" font-size="14" font-weight="bold" text-anchor="middle">Client Workstation (로컬)</text>
+
+    <!-- Content Blocks -->
+    <!-- App Layer -->
+    <rect x="15" y="55" width="220" height="58" rx="6" fill="#21262d" stroke="#30363d" stroke-width="1"/>
+    <text x="25" y="75" fill="#58a6ff" font-size="12" font-weight="bold">Local App / Terminal</text>
+    <text x="25" y="93" fill="#8b949e" font-size="11">SSH Client (`ssh -p 2222 localhost`)</text>
+    <text x="25" y="106" fill="#8b949e" font-size="10">또는 stdin / ProxyCommand</text>
+
+    <!-- Client Tailcat Process -->
+    <rect x="15" y="125" width="220" height="150" rx="6" fill="#1f242c" stroke="#58a6ff" stroke-width="1.5"/>
+    <text x="25" y="145" fill="#f0f6fc" font-size="12" font-weight="bold">Tailcat User-space Engine</text>
+    
+    <rect x="25" y="155" width="200" height="32" rx="4" fill="#0d1117" stroke="#30363d"/>
+    <text x="35" y="174" fill="#79c0ff" font-size="11">1. `tailcat forward 2222:22 tc...`</text>
+
+    <rect x="25" y="195" width="200" height="32" rx="4" fill="#0d1117" stroke="#30363d"/>
+    <text x="35" y="214" fill="#aff5b4" font-size="11">2. WireGuard 암호화 계층</text>
+
+    <rect x="25" y="235" width="200" height="32" rx="4" fill="#0d1117" stroke="#30363d"/>
+    <text x="35" y="254" fill="#d2a8ff" font-size="11">3. `magicsock` (다중 경로 핸들러)</text>
+
+    <!-- Network Info -->
+    <rect x="15" y="290" width="220" height="65" rx="6" fill="#21262d" stroke="#30363d"/>
+    <text x="25" y="310" fill="#8b949e" font-size="11">NAT / 방화벽 내부 (공인 IP 없음)</text>
+    <text x="25" y="328" fill="#8b949e" font-size="11">Root 권한 불필요 (Userspace)</text>
+    <text x="25" y="344" fill="#3fb950" font-size="10">✔ 커널 TUN/TAP 드라이버 미사용</text>
+  </g>
+
+  <!-- Right: Server Side -->
+  <g transform="translate(590, 155)" filter="url(#shadow)">
+    <!-- Outer Box -->
+    <rect width="250" height="375" rx="10" fill="#161b22" stroke="#30363d" stroke-width="1.5"/>
+    <rect width="250" height="38" rx="10" fill="url(#grad-server)"/>
+    <rect y="28" width="250" height="10" fill="#238636"/>
+    <text x="125" y="24" fill="#ffffff" font-size="14" font-weight="bold" text-anchor="middle">Target Server (원격 호스트)</text>
+
+    <!-- Server Tailcat Process -->
+    <rect x="15" y="55" width="220" height="150" rx="6" fill="#1c2420" stroke="#3fb950" stroke-width="1.5"/>
+    <text x="25" y="75" fill="#f0f6fc" font-size="12" font-weight="bold">Tailcat User-space Engine</text>
+
+    <rect x="25" y="85" width="200" height="32" rx="4" fill="#0d1117" stroke="#30363d"/>
+    <text x="35" y="104" fill="#aff5b4" font-size="11">1. `tailcat serve 22 --allow=...`</text>
+
+    <rect x="25" y="125" width="200" height="32" rx="4" fill="#0d1117" stroke="#30363d"/>
+    <text x="35" y="144" fill="#79c0ff" font-size="11">2. WireGuard 복호화 및 인증 검증</text>
+
+    <rect x="25" y="165" width="200" height="32" rx="4" fill="#0d1117" stroke="#30363d"/>
+    <text x="35" y="184" fill="#d2a8ff" font-size="11">3. `magicsock` (STUN &amp; 홀펀칭)</text>
+
+    <!-- Target Service: SSHD -->
+    <rect x="15" y="215" width="220" height="65" rx="6" fill="#21262d" stroke="#30363d" stroke-width="1"/>
+    <text x="25" y="235" fill="#3fb950" font-size="12" font-weight="bold">Target Service (Localhost)</text>
+    <text x="25" y="253" fill="#f0f6fc" font-size="11">System `sshd` Daemon (Port 22)</text>
+    <text x="25" y="268" fill="#8b949e" font-size="10">오직 127.0.0.1 루프백에서만 대기 가능</text>
+
+    <!-- Network Info -->
+    <rect x="15" y="290" width="220" height="65" rx="6" fill="#21262d" stroke="#30363d"/>
+    <text x="25" y="310" fill="#8b949e" font-size="11">클라우드/홈랩/폐쇄망 (NAT 내부)</text>
+    <text x="25" y="328" fill="#8b949e" font-size="11">공유기 포트포워딩 설정 불필요</text>
+    <text x="25" y="344" fill="#3fb950" font-size="10">✔ 외부 공인 IP 노출 차단</text>
+  </g>
+
+  <!-- Center Layer 1: DERP Relay Server (Initial Fallback) -->
+  <g transform="translate(340, 195)" filter="url(#shadow)">
+    <rect width="200" height="85" rx="8" fill="#161b22" stroke="#8957e5" stroke-width="1.5"/>
+    <rect width="200" height="24" rx="8" fill="url(#grad-derp)"/>
+    <rect y="16" width="200" height="8" fill="#8957e5"/>
+    <text x="100" y="17" fill="#ffffff" font-size="12" font-weight="bold" text-anchor="middle">DERP Relay Server</text>
+    <text x="100" y="44" fill="#e6edf3" font-size="11" text-anchor="middle">HTTPS / WSS (TCP 443)</text>
+    <text x="100" y="60" fill="#bc8cff" font-size="10" text-anchor="middle">② 초기 랑데부 및 중계 터널</text>
+    <text x="100" y="74" fill="#8b949e" font-size="9" text-anchor="middle">(Tailscale 공용 DERP or 사설 DERP)</text>
+  </g>
+
+  <!-- Relay Paths (Purple Dashed) -->
+  <path d="M 290 235 L 340 235" stroke="#bc8cff" stroke-width="2" stroke-dasharray="4 3" marker-end="url(#arrow-purple)"/>
+  <path d="M 540 235 L 590 235" stroke="#bc8cff" stroke-width="2" stroke-dasharray="4 3" marker-start="url(#arrow-purple)"/>
+
+  <!-- Center Layer 2: NAT Traversal & Hole Punching -->
+  <g transform="translate(340, 315)">
+    <rect width="200" height="50" rx="6" fill="#21262d" stroke="#d29922" stroke-width="1"/>
+    <text x="100" y="22" fill="#e3b341" font-size="11" font-weight="bold" text-anchor="middle">③ STUN &amp; 홀펀칭 프로빙</text>
+    <text x="100" y="38" fill="#8b949e" font-size="10" text-anchor="middle">magicsock UDP 엔드포인트 탐색</text>
+  </g>
+
+  <!-- Center Layer 3: Direct P2P WireGuard Tunnel -->
+  <g transform="translate(315, 395)" filter="url(#shadow)">
+    <rect width="250" height="75" rx="8" fill="#161b22" stroke="#f0883e" stroke-width="2"/>
+    <text x="125" y="24" fill="#f0883e" font-size="12" font-weight="bold" text-anchor="middle">④ 직접 P2P WireGuard 터널링</text>
+    <text x="125" y="44" fill="#58a6ff" font-size="11" font-weight="bold" text-anchor="middle">Direct UDP Socket (High Throughput)</text>
+    <text x="125" y="60" fill="#3fb950" font-size="10" text-anchor="middle">최저 지연 시간 &amp; 무중단 트래픽 전달</text>
+  </g>
+
+  <!-- Direct P2P Connecting Arrows -->
+  <path d="M 290 432 L 315 432" stroke="#f0883e" stroke-width="3" marker-end="url(#arrow-orange)"/>
+  <path d="M 565 432 L 590 432" stroke="#f0883e" stroke-width="3" marker-start="url(#arrow-orange)"/>
+
+  <!-- Bottom Legend / Note -->
+  <g transform="translate(40, 545)">
+    <circle cx="10" cy="5" r="4" fill="#bc8cff"/>
+    <text x="20" y="9" fill="#8b949e" font-size="11">DERP Relay: NAT 홀펀칭 전 또는 대칭형 NAT 환경에서의 암호화 패킷 안전 중계</text>
+    <circle cx="490" cy="5" r="4" fill="#f0883e"/>
+    <text x="500" y="9" fill="#8b949e" font-size="11">Direct P2P: 홀펀칭 성공 시 DERP 중계 없이 직접 UDP 전송으로 자동 전환</text>
+  </g>
+</svg>
